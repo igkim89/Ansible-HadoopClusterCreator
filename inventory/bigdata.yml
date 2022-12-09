@@ -1,0 +1,28 @@
+bigdata:
+  hosts:
+    igkim-01:
+    igkim-02:
+    igkim-03:
+  children:
+    zookeeper:
+      hosts:
+        igkim-01:
+          myid: 1
+        igkim-02:
+          myid: 2
+        igkim-03:
+          myid: 3
+    hadoop:
+      hosts:
+        igkim-01:
+        igkim-02:
+        igkim-03:
+      namenode:
+        hosts:
+          igkim-01:
+          igkim-02:
+      datanode:
+        hosts:
+          igkim-01:
+          igkim-02:
+          igkim-03:

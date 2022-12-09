@@ -1,0 +1,11 @@
+- hosts: bigdata
+  remote_user: igkim
+  become: no
+  tasks:
+  - name: delete-bigdata
+    file:
+      path: /opt/bigdata/{{ item }}
+      state: absent
+    with_items:
+    - 
+    - hadoop

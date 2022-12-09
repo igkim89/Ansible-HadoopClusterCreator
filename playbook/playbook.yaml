@@ -1,0 +1,8 @@
+- name: play01
+  hosts: bigdata
+  tasks:
+    - name: ping
+      ansible.builtin.ping:
+    - name: hello world
+      ansible.builtin.command:
+        cmd: touch /home/igkim/hey
