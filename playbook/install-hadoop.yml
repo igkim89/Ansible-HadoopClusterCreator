@@ -1,0 +1,33 @@
+- hosts: hadoop
+  remote_user: igkim
+  become: no
+  tasks:
+  - name: Copy installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.hadoop }}"
+      dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
+  - name: Unzip
+    shell: "tar xfz {{ bigdata_home }}/{{ installer.hadoop }} -C {{ bigdata_home }}/"
+  - name: Delete installer
+    file:
+      path: "{{ bigdata_home }}/{{ installer.hadoop }}"
+      state: absent
+  - name: Create hadoop home symbolic link
+    shell: 
+      "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }} {{ bigdata_home }}/hadoop"
+  - name: Create configuration symbolic link
+    shell:
+      "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
+  - name: 딛ㄸ디디디디버깅
+    debug:
+      msg: "dddddddddebugging~~"
+#  - name: Edit configuration
+#    lineinfile:
+#      path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+#      regexp: "^#? *{{ item.key | regex_escape() }}="
+#      line: "{{ item.key }}={{ item.value }}"
+#    with_dict:
+#      "clientPort": "{{ zookeeper.client_port }}"
+#      "dataDir": "{{ zookeeper.data_dir }}"
+#  - name: Start zookeeper server
+#    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"

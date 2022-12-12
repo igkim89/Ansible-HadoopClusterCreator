@@ -17,12 +17,13 @@ bigdata:
         igkim-01:
         igkim-02:
         igkim-03:
-      namenode:
-        hosts:
-          igkim-01:
-          igkim-02:
-      datanode:
-        hosts:
-          igkim-01:
-          igkim-02:
-          igkim-03:
+      children:
+        namenode:
+          hosts:
+            igkim-01:
+            igkim-02:
+        datanode:
+          hosts:
+            igkim-01:
+            igkim-02:
+            igkim-03:

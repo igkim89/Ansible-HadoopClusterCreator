@@ -7,5 +7,5 @@
       path: /opt/bigdata/{{ item }}
       state: absent
     with_items:
-    - 
-    - hadoop
+    - apache-zookeeper-3.6.3-bin
+    - zookeeper
