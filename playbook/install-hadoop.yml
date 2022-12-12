@@ -1,6 +1,7 @@
 - hosts: hadoop
   remote_user: igkim
   become: no
+  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
   tasks:
   - name: Copy installer
     copy:
@@ -13,14 +14,20 @@
       path: "{{ bigdata_home }}/{{ installer.hadoop }}"
       state: absent
   - name: Create hadoop home symbolic link
-    shell: 
-      "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }} {{ bigdata_home }}/hadoop"
+    file:
+      src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
+      dest: "{{ bigdata_home }}/hadoop"
+      state: link
+    #shell: "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }} {{ bigdata_home }}/hadoop"
   - name: Create configuration symbolic link
-    shell:
-      "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
-  - name: 딛ㄸ디디디디버깅
+    file:
+      src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
+      dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
+      state: link
+    #shell: "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
+  - name: 디버깅
     debug:
-      msg: "dddddddddebugging~~"
+      msg: "debugging.."
 #  - name: Edit configuration
 #    lineinfile:
 #      path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"

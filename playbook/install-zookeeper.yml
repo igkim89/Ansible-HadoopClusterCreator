@@ -1,6 +1,7 @@
 - hosts: zookeeper
   remote_user: igkim
   become: no
+  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
   tasks:
   - name: Copy installer
     copy:
@@ -13,7 +14,11 @@
       path: "{{ bigdata_home }}/{{ installer.zookeeper }}"
       state: absent
   - name: Create symbolic link
-    shell: "ln -s {{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }} {{ bigdata_home }}/zookeeper"
+    file:
+      src: "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
+      dest: "{{ bigdata_home }}/zookeeper"
+      state: link
+    #shell: "ln -s {{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }} {{ bigdata_home }}/zookeeper"
   - name: Create data directory
     file:
       path: "{{ bigdata_home }}/zookeeper/data"
