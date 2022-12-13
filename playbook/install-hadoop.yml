@@ -2,7 +2,7 @@
 
 - name: Install Hadoop cluster
   hosts: hadoop
-  remote_user: igkim
+  remote_user: "{{ remote_user }}"
   become: no
   tasks:
   - name: Copy installer
@@ -31,7 +31,7 @@
 
 - name: Install Namenode
   hosts: namenode
-  remote_user: igkim
+  remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
   become_user: root

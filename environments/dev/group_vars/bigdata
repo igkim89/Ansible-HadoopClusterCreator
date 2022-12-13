@@ -6,6 +6,8 @@
 # 개인 테스트용                            #
 ############################################
 
+# OS 사용자명
+remote_user: "bigdata"
 
 # 기본 홈 디렉토리
 bigdata_home: "/opt/bigdata"

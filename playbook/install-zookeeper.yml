@@ -1,5 +1,5 @@
 - hosts: zookeeper
-  remote_user: igkim
+  remote_user: "{{ remote_user }}"
   become: no
   tasks:
   - name: Copy installer
