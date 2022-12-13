@@ -1,7 +1,6 @@
 - hosts: zookeeper
   remote_user: igkim
   become: no
-  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
   tasks:
   - name: Copy installer
     copy:

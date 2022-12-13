@@ -4,7 +4,6 @@
   hosts: hadoop
   remote_user: igkim
   become: no
-  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
   tasks:
   - name: Copy installer
     copy:
@@ -36,7 +35,6 @@
   become: yes
   become_method: sudo
   become_user: root
-  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
   tasks:
   - name: Create Namenode directory
     become: yes

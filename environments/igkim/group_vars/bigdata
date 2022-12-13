@@ -1,6 +1,11 @@
-# 2022-12-09 
-# 데이터운영팀
-# Bigdata Cluster 구축용 Ansible 설정 파일
+############################################
+# 2022-12-09                               #
+# 데이터운영팀                             #
+# Bigdata Cluster 구축용 Ansible 설정 파일 #
+#                                          #
+# 개인 테스트용                            #
+############################################
+
 
 # 기본 홈 디렉토리
 bigdata_home: "/opt/bigdata"
@@ -20,6 +25,5 @@ zookeeper:
 
 # Hadoop 설정
 hadoop:
-  namenode_dir:
-  datanode_dir:
+  namenode_dir: "/data/nn"
 
