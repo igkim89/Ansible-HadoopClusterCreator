@@ -24,6 +24,8 @@ installer:
 zookeeper: 
   client_port: 12181
   data_dir: "/opt/bigdata/zookeeper/data"
+  internal_follower_port: 12888
+  internal_leader_port: 13888
 
 # Hadoop 설정
 hadoop:
