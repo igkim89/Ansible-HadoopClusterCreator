@@ -20,6 +20,5 @@ zookeeper:
 
 # Hadoop 설정
 hadoop:
-  namenode_dir:
-  datanode_dir:
+  namenode_dir: "/data/nn"
 

@@ -1,4 +1,7 @@
-- hosts: hadoop
+---
+
+- name: Install Hadoop cluster
+  hosts: hadoop
   remote_user: igkim
   become: no
   vars_files: /home/igkim/ansible/group_vars/bigdata.yml
@@ -18,16 +21,28 @@
       src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
       dest: "{{ bigdata_home }}/hadoop"
       state: link
-    #shell: "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }} {{ bigdata_home }}/hadoop"
   - name: Create configuration symbolic link
     file:
       src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
       dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
       state: link
-    #shell: "ln -s {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop {{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
   - name: 디버깅
     debug:
       msg: "debugging.."
+
+- name: Install Namenode
+  hosts: namenode
+  remote_user: igkim
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars_files: /home/igkim/ansible/group_vars/bigdata.yml
+  tasks:
+  - name: Create Namenode directory
+    become: yes
+    file:
+      path: "{{ hadoop.namenode_dir }}"
+      state: directory
 #  - name: Edit configuration
 #    lineinfile:
 #      path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
@@ -38,3 +53,4 @@
 #      "dataDir": "{{ zookeeper.data_dir }}"
 #  - name: Start zookeeper server
 #    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"
+
