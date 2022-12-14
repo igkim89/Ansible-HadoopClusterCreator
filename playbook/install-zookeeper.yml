@@ -35,9 +35,9 @@
       dest: "{{ bigdata_home }}/zookeeper/data/myid"
       content: |
         {{ myid }}
-  - name: 딛ㄸ디디디디버깅
+  - name: Debug myid
     debug:
-      msg: "{{ myid }} > {{ bigdata_home }}/zookeeper/data/myid"
+      msg: "{{ myid }} > {{ inventory_hostname }}:{{ bigdata_home }}/zookeeper/data/myid"
   - name: Copy configuration
     copy:
       src: "{{ bigdata_home }}/zookeeper/conf/zoo_sample.cfg"
@@ -56,9 +56,13 @@
       line: "server.{{ hostvars[item].myid }}={{ item }}:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
       insertafter: EOF
     with_items: "{{ groups['zookeeper'] }}"
-    #loop:
-      #- "server.1=igkim-01:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
-      #- "server.2=igkim-02:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
-      #- "server.3=igkim-03:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
   - name: Start zookeeper server
     shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"
+    register: start_zoo
+  - name: Debug zookeeper server
+    debug: var=start_zoo
+  - name: Get zookeeper server status
+    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh status"
+    register: status_zoo
+  - name: Debug zookeeper status
+    debug: var=status_zoo
