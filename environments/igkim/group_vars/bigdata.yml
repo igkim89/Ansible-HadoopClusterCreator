@@ -29,5 +29,10 @@ zookeeper:
 
 # Hadoop 설정
 hadoop:
-  namenode_dir: "/data/nn"
-
+  hdfs:
+    namenode_dir: "/data/nn"
+    datanode_dir: "/data/dn"
+    journalnode_dir: "data/jn"
+    nameservice: "igkim-hdfs"
+    replication_factor: 3
+    block_size: 134217728

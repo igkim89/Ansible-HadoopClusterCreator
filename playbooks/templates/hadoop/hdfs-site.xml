@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+    <property>
+        <name>dfs.nameservices</name>
+        <value>{{ hadoop.hdfs.nameservice }}</value>
+    </property>
+    <property>
+        <name>dfs.ha.namenodes.{{ hadoop.hdfs.nameservice }}</name>
+        <value>igkim-01,igkim-02</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>{{ hadoop.hdfs.namenode_dir }}</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>{{ hadoop.hdfs.datanode_dir }}</value>
+    </property>
+    <property>
+        <name>dfs.journalnode.edits.dir</name>
+        <value>{{ hadoop.hdfs.journalnode_dir }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.rpc-address.hadoop-cluster.igkim-01</name>
+        <value>igkim-01:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.rpc-address.hadoop-cluster.igkim-02</name>
+        <value>igkim-02:8020</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.hadoop-cluster.igkim-01</name>
+        <value>igkim-01:50070</value>
+    </property>
+    <property>
+        <name>dfs.namenode.http-address.hadoop-cluster.igkim-02</name>
+        <value>igkim-02:50070</value>
+    </property>
+    <property>
+        <name>dfs.namenode.shared.edits.dir</name>
+        <value>qjournal://igkim-01:8485;igkim-02:8485;igkim-03:8485/{{ hadoop.hdfs.nameservice }}</value>
+    </property>
+    <property>
+        <name>dfs.webhdfs.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.ha.fencing.methods</name>
+        <value>sshfence</value>
+    </property>
+    <property>
+        <name>dfs.ha.fencing.ssh.private-key-files</name>
+        <value>/home/{{ remote_user }}/.ssh/id_rsa</value>
+    </property>
+    <property>
+        <name>dfs.client.failover.proxy.provider.{{ hadoop.hdfs.nameservice }}</name>
+        <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    </property>
+    <property>
+        <name>dfs.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.replication</name>
+        <value>{{ hadoop.hdfs.replication_factor }}</value>
+    </property>
+    <property>
+        <name>dfs.blocksize</name>
+        <value>{{ hadoop.hdfs.block_size }}</value>
+    </property>
+    <property>
+        <name>dfs.client.use.datanode.hostname</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>fs.permissions.umask-mode</name>
+        <value>022</value>
+    </property>
+    <property>
+        <name>dfs.namenode.acls.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.client.use.legacy.blockreader</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.client.read.shortcircuit</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.client.read.shortcircuit.skip.checksum</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.client.domain.socket.data.traffic</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+        <value>true</value>
+    </property>
+</configuration>

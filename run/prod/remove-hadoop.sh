@@ -1,1 +1,1 @@
-~/.pyenv/shims/ansible-playbook -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/github/hadoop-cluster-ansible/playbook/remove-hadoop.yml
+~/.pyenv/shims/ansible-playbook -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/github/hadoop-cluster-ansible/playbooks/remove-hadoop.yml
