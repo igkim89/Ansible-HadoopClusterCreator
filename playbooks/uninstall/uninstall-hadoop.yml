@@ -1,0 +1,24 @@
+---
+
+- name: Uninstall Journalnode
+  remote_user: "{{ remote_user }}"
+  become: no
+  hosts: journalnode
+  tasks:
+  - name: Stop journalnode
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop journalnode"
+
+- name: Remove directory
+  hosts: hadoop
+  become: no
+  tasks:
+  - name: Remove directory
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
+    - "{{ bigdata_home }}/hadoop"
+    - "{{ hadoop.hdfs.namenode_dir }}"
+    - "{{ hadoop.hdfs.datanode_dir}}"
+    - "{{ hadoop.hdfs.journalnode_dir }}"

@@ -22,19 +22,19 @@
         <value>{{ hadoop.hdfs.journalnode_dir }}</value>
     </property>
     <property>
-        <name>dfs.namenode.rpc-address.hadoop-cluster.igkim-01</name>
+        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.igkim-01</name>
         <value>igkim-01:8020</value>
     </property>
     <property>
-        <name>dfs.namenode.rpc-address.hadoop-cluster.igkim-02</name>
+        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.igkim-02</name>
         <value>igkim-02:8020</value>
     </property>
     <property>
-        <name>dfs.namenode.http-address.hadoop-cluster.igkim-01</name>
+        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.igkim-01</name>
         <value>igkim-01:50070</value>
     </property>
     <property>
-        <name>dfs.namenode.http-address.hadoop-cluster.igkim-02</name>
+        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.igkim-02</name>
         <value>igkim-02:50070</value>
     </property>
     <property>

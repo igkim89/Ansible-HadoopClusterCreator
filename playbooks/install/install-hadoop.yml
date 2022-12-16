@@ -5,12 +5,25 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+  - name: Create bigdata home directory
+    become: yes
+    file:
+      dest: "{{ bigdata_home }}"
+      state: directory
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
   - name: Copy installer
     copy:
       src: "{{ installer_home }}/{{ installer.hadoop }}"
       dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
-  - name: Unzip
-    shell: "tar xfz {{ bigdata_home }}/{{ installer.hadoop }} -C {{ bigdata_home }}/"
+  - name: Unzip installer
+    unarchive:
+      src: "{{ bigdata_home }}/{{ installer.hadoop }}"
+      dest: "{{ bigdata_home }}/"
+      remote_src: true
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+    #shell: "tar xfz {{ bigdata_home }}/{{ installer.hadoop }} -C {{ bigdata_home }}/"
   - name: Delete installer
     file:
       path: "{{ bigdata_home }}/{{ installer.hadoop }}"
@@ -28,6 +41,11 @@
   - name: 디버깅
     debug:
       msg: "debugging.."
+  - name: Edit Java home
+    lineinfile:
+      path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+      line: "JAVA_HOME={{ java_home }}"
+      insertafter: EOF
 
 - name: Install Namenode
   hosts: namenode
@@ -57,6 +75,20 @@
       owner: "{{ remote_user }}"
       group: "{{ remote_user }}"
 
+- name: Install Journalnode
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: Create Journalnode directory
+    file:
+      path: "{{ hadoop.hdfs.journalnode_dir }}"
+      state: directory
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+
 - name: Add configuration files
   hosts: hadoop
   remote_user: "{{ remote_user }}"
@@ -67,3 +99,21 @@
       src: hadoop/hdfs-site.xml
       dest: "{{ bigdata_home }}/hadoop/conf/hdfs-site.xml"
       mode: u=rw,g=r,o=r
+  - name: Add core-site.xml
+    template:
+      src: hadoop/core-site.xml
+      dest: "{{ bigdata_home }}/hadoop/conf/core-site.xml"
+      mode: u=rw,g=r,o=r
+
+- name: Start Journalnode
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - name: Check journalnode jps
+    command: "/usr/bin/jps"
+    register: journalnode_jps
+    changed_when: False
+  - name: Start Journalnode
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
+    when: '"JournalNode" not in journalnode_jps.stdout'
