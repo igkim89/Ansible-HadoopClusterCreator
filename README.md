@@ -17,12 +17,24 @@ $ vim environments/igkim/group_vars/bigdata.yml
 
 #### 3.1. Zookeeper 배포
 ```
-$ run/igkim/install-zookeeper.sh
+$ run/igkim/install/install-zookeeper.sh
 ```
 
 #### 3.2. Hadoop 배포
 ```
-$ run/igkim/install-hadoop.sh
+$ run/igkim/install/install-hadoop.sh
+```
+
+### 4. 서비스 제거
+
+#### 3.1. Zookeeper 제거
+```
+$ run/igkim/uninstall/uninstall-zookeeper.sh
+```
+
+#### 3.2. Hadoop 제거
+```
+$ run/igkim/uninstall/uninstall-hadoop.sh
 ```
 
 계속 작성중..
