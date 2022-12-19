@@ -33,9 +33,18 @@ zookeeper:
 # Hadoop 설정
 hadoop:
   hdfs:
-    namenode_dir: "/data/nn"
-    datanode_dir: "/data/dn"
-    journalnode_dir: "/data/jn"
     nameservice: "igkim-hdfs"
+    
+    namenode_dir: "/data/nn"
+    namenode_rpc_port: 8020
+    namenode_http_port: 50070
+    
+    datanode_dir: "/data/dn"
+
+    journalnode_dir: "/data/jn"
+    journalnode_shared_edits_port: 8485
+
     replication_factor: 3
     block_size: 134217728
+    webhdfs_enabled: true
+    permission_umask: "022"

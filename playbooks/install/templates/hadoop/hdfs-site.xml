@@ -7,7 +7,7 @@
     </property>
     <property>
         <name>dfs.ha.namenodes.{{ hadoop.hdfs.nameservice }}</name>
-        <value>igkim-01,igkim-02</value>
+        <value>{% for nn in groups['namenode'] %}{% if nn != groups['namenode'][0] %},{% endif %}{{ nn }}{% endfor %}</value>
     </property>
     <property>
         <name>dfs.namenode.name.dir</name>
@@ -22,28 +22,29 @@
         <value>{{ hadoop.hdfs.journalnode_dir }}</value>
     </property>
     <property>
-        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.igkim-01</name>
-        <value>igkim-01:8020</value>
+        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][0] }}</name>
+        <value>{{ groups['namenode'][0] }}:{{ hadoop.hdfs.namenode_rpc_port }}</value>
     </property>
     <property>
-        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.igkim-02</name>
-        <value>igkim-02:8020</value>
+        <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][1] }}</name>
+        <value>{{ groups['namenode'][1] }}:{{ hadoop.hdfs.namenode_rpc_port }}</value>
     </property>
     <property>
-        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.igkim-01</name>
-        <value>igkim-01:50070</value>
+        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][0] }}</name>
+        <value>{{ groups['namenode'][0] }}:{{ hadoop.hdfs.namenode_http_port }}</value>
     </property>
     <property>
-        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.igkim-02</name>
-        <value>igkim-02:50070</value>
+        <name>dfs.namenode.http-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][1] }}</name>
+        <value>{{ groups['namenode'][1] }}:{{ hadoop.hdfs.namenode_http_port }}</value>
     </property>
     <property>
         <name>dfs.namenode.shared.edits.dir</name>
-        <value>qjournal://igkim-01:8485;igkim-02:8485;igkim-03:8485/{{ hadoop.hdfs.nameservice }}</value>
+        <value>qjournal://{% for jn in groups['journalnode'] %}{% if jn != groups['journalnode'][0] %};{% endif %}{{ jn }}:{{ hadoop.hdfs.journalnode_shared_edits_port }}{% endfor %}/{{ hadoop.hdfs.nameservice }}</value>
+        <description>qjournal://igkim-01:8485;igkim-02:8485;igkim-03:8485/{{ hadoop.hdfs.nameservice }}</description>
     </property>
     <property>
         <name>dfs.webhdfs.enabled</name>
-        <value>true</value>
+        <value>{{ hadoop.hdfs.webhdfs_enabled }}</value>
     </property>
     <property>
         <name>dfs.ha.fencing.methods</name>
@@ -75,7 +76,7 @@
     </property>
     <property>
         <name>fs.permissions.umask-mode</name>
-        <value>022</value>
+        <value>{{ hadoop.hdfs.permission_umask }}</value>
     </property>
     <property>
         <name>dfs.namenode.acls.enabled</name>
