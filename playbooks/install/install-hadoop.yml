@@ -44,8 +44,20 @@
   - name: Edit Java home
     lineinfile:
       path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
-      line: "JAVA_HOME={{ java_home }}"
+      regexp: "# export JAVA_HOME="
+      line: "export JAVA_HOME={{ java_home }}"
+  - name: Edit Hadoop home
+    lineinfile:
+      path: "/home/{{ remote_user }}/.bash_profile"
+      line: "{{ item }}"
       insertafter: EOF
+    with_items:
+    - "export HADOOP_HOME={{ bigdata_home }}/hadoop"
+    - "PATH=$PATH:$HADOOP_HOME/bin"
+  - name: Refresh bash_profile
+    shell: "source /home/{{ remote_user }}/.bash_profile"
+    args:
+      executable: /bin/bash
 
 - name: Install Namenode
   hosts: namenode
@@ -117,3 +129,43 @@
   - name: Start Journalnode
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
     when: '"JournalNode" not in journalnode_jps.stdout'
+  
+- name: Setup Active Namenode
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - name: Zookeeper failover controller format
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs zkfc -formatZK"
+  - name: Namenode format
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+
+- name: Start Namenode, Journalnode, ZKFC
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+
+- name: Setup Standby Namenode
+  hosts: "{{ groups['namenode'][1] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - name: Setup bootstrapStandby
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -bootstrapStandby"
+  - name: Start Standby Namenode
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
+
+- name: Start Datanode
+  hosts: datanode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - name: Check Datanode serivce
+    command: "/usr/bin/jps"
+    register: datanode_jps
+    changed_when: False
+  - name: Start Datanode
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
+    when: '"DataNode" not in datanode_jps.stdout'

@@ -10,7 +10,7 @@
 remote_user: "igkim"
 
 # Java Home 디렉토리
-java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64/jre"
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64"
 
 # 기본 홈 디렉토리
 bigdata_home: "/opt/bigdata"

@@ -1,12 +1,32 @@
 ---
 
-- name: Uninstall Journalnode
+#- name: Uninstall Journalnode
+#  hosts: journalnode
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#  - name: Stop journalnode
+#    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop journalnode"
+
+- name: Uninstall Datanode
+  hosts: datanode
   remote_user: "{{ remote_user }}"
   become: no
-  hosts: journalnode
   tasks:
-  - name: Stop journalnode
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop journalnode"
+  - name: Stop Datanode
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop datanode"
+    failed_when: False
+
+- name: Uninstall Active Namenode
+  hosts: "{{ groups['namenode'][0] }}"
+  become: no
+  tasks:
+  - name: Stop Namenode, Journalnode, ZKFC
+    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/stop-dfs.sh"
+    failed_when: False
+  - name: Remove zkfc directory
+    command: "{{ bigdata_home }}/zookeeper/bin/zkCli.sh -server {{ groups['namenode'][0] }}:{{ zookeeper.client_port }} deleteall /hadoop-ha"
+    failed_when: False
 
 - name: Remove directory
   hosts: hadoop
@@ -22,3 +42,4 @@
     - "{{ hadoop.hdfs.namenode_dir }}"
     - "{{ hadoop.hdfs.datanode_dir}}"
     - "{{ hadoop.hdfs.journalnode_dir }}"
+    failed_when: False
