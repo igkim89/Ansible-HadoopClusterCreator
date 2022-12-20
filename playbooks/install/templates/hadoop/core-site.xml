@@ -6,8 +6,12 @@
         <value>hdfs://{{ hadoop.hdfs.nameservice }}</value>
     </property>
     <property>
+        <name>fs.trash.interval</name>
+        <value>{{ hadoop.hdfs.trash_interval }}</value>
+    </property>
+    <property>
         <name>ha.zookeeper.quorum</name>
-				<value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
+        <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
     </property>
     <property>
         <name>io.compression.codecs</name>

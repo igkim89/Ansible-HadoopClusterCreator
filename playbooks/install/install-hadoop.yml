@@ -46,6 +46,13 @@
       path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
       regexp: "# export JAVA_HOME="
       line: "export JAVA_HOME={{ java_home }}"
+  - name: Edit HDFS_NAMENODE_OPTS
+    lineinfile:
+      path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+      line: "{{ item }}"
+      insertafter: EOF
+    with_items:
+    - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xmx4g"'
   - name: Edit Hadoop home
     lineinfile:
       path: "/home/{{ remote_user }}/.bash_profile"
@@ -59,42 +66,42 @@
     args:
       executable: /bin/bash
 
-- name: Install Namenode
+- name: Install NameNode
   hosts: namenode
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create Namenode directory
+  - name: Create NameNode directory
     file:
       path: "{{ hadoop.hdfs.namenode_dir }}"
       state: directory
       owner: "{{ remote_user }}"
       group: "{{ remote_user }}"
 
-- name: Install Datanode
+- name: Install DataNode
   hosts: datanode
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create Datanode directory
+  - name: Create DataNode directory
     file:
       path: "{{ hadoop.hdfs.datanode_dir}}"
       state: directory
       owner: "{{ remote_user }}"
       group: "{{ remote_user }}"
 
-- name: Install Journalnode
+- name: Install JournalNode
   hosts: journalnode
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create Journalnode directory
+  - name: Create JournalNode directory
     file:
       path: "{{ hadoop.hdfs.journalnode_dir }}"
       state: directory
@@ -116,8 +123,16 @@
       src: hadoop/core-site.xml
       dest: "{{ bigdata_home }}/hadoop/conf/core-site.xml"
       mode: u=rw,g=r,o=r
+  - name: Add Hadoop configuration files
+    template:
+      src: hadoop/{{ item }}
+      dest: "{{ bigdata_home }}/hadoop/conf/"
+      mode: 0644
+    with_items:
+    - yarn-site.xml
+    - mapred-site.xml
 
-- name: Start Journalnode
+- name: Start JournalNode
   hosts: journalnode
   remote_user: "{{ remote_user }}"
   become: no
@@ -130,42 +145,63 @@
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
     when: '"JournalNode" not in journalnode_jps.stdout'
   
-- name: Setup Active Namenode
+- name: Setup Active NameNode
   hosts: "{{ groups['namenode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
   - name: Zookeeper failover controller format
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs zkfc -formatZK"
-  - name: Namenode format
+  - name: NameNode format
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
 
-- name: Start Namenode, Journalnode, ZKFC
+- name: Start NameNode, JournalNode, ZKFC
   hosts: "{{ groups['namenode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
   - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
-- name: Setup Standby Namenode
+- name: Setup Standby NameNode
   hosts: "{{ groups['namenode'][1] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
   - name: Setup bootstrapStandby
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -bootstrapStandby"
-  - name: Start Standby Namenode
+  - name: Start Standby NameNode
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
 
-- name: Start Datanode
+- name: Start DataNode
   hosts: datanode
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Check Datanode serivce
+  - name: Check DataNode serivce
     command: "/usr/bin/jps"
     register: datanode_jps
     changed_when: False
-  - name: Start Datanode
+  - name: Start DataNode
     command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
     when: '"DataNode" not in datanode_jps.stdout'
+
+- name: Start ResourceManager
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
+
+- name: Start NodeManager
+  hosts: nodemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+
+- name: Start JobHistory Server
+  hosts: jobhistoryserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"

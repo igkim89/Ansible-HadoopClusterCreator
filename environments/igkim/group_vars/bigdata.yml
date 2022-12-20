@@ -27,24 +27,45 @@ installer:
 zookeeper: 
   client_port: 12181
   data_dir: "/opt/bigdata/zookeeper/data"
+  # 내부 통신용 포트
   internal_follower_port: 12888
   internal_leader_port: 13888
 
 # Hadoop 설정
 hadoop:
   hdfs:
+    # Namenode HA Endpoint
     nameservice: "igkim-hdfs"
-    
+    # Namenode 설정
     namenode_dir: "/data/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
-    
+    # Datanode 설정
     datanode_dir: "/data/dn"
-
+    # Journalnode 설정
     journalnode_dir: "/data/jn"
     journalnode_shared_edits_port: 8485
-
+    # HDFS 설정
     replication_factor: 3
     block_size: 134217728
     webhdfs_enabled: true
     permission_umask: "022"
+    trash_interval: 1
+  yarn:
+    # Resourcemanager HA Endpoint
+    cluster_id: "igkim-yarn"
+    # Resourcemanager 설정
+    resourcemanager_scheduler_port: 8030
+    resourcemanager_resource_tracker_port: 8031
+    resourcemanager_port: 8032
+    resourcemanager_admin_port: 8033
+    resourcemanager_webapp_port: 8088
+    resourcemanager_webapp_https_port: 8090
+    # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
+    mapreduce_framework: "yarn"
+
+    jobhistoryserver_port: 10020
+    # 사용자가 접근할 Jobhistory Webserver port
+    jobhistoryserver_http_port: 19888
+    jobhistoryserver_https_port: 19890
+    jobhistoryserver_admin_port: 10033
