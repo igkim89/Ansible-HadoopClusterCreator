@@ -30,6 +30,14 @@
         <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
     </property>
     <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <property>
         <name>yarn.resourcemanager.store.class</name>
         <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
     </property>
@@ -163,7 +171,7 @@
     </property>
     <property>
         <name>yarn.application.classpath</name>
-        <value></value>
+        <value>$HADOOP_HOME/*,$HADOOP_HOME/lib/*</value>
     </property>
     <property>
         <name>yarn.resourcemanager.scheduler.class</name>
