@@ -1,16 +1,16 @@
 ############################################
-# 2022-12-09                               #
-# 데이터운영팀                             #
-# Bigdata Cluster 구축용 Ansible 설정 파일 #
-#                                          #
-# 개발 장비용                            #
+# 2022-12-09
+# 데이터운영팀
+# Bigdata Cluster 구축용 Ansible 설정 파일
+#
+# 개발 장비용
 ############################################
 
 # OS 사용자명
 remote_user: "bigdata"
 
 # Java Home 디렉토리
-java_home:
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-11.el8.x86_64"
 
 # 기본 홈 디렉토리
 bigdata_home: "/opt/bigdata"
