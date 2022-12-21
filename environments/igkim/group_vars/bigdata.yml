@@ -22,6 +22,7 @@ installer_home: "/home/igkim/install"
 installer: 
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
+  kafka: "kafka_2.13-3.3.1.tgz"
 
 # Zookeeper 설정
 zookeeper: 
@@ -65,7 +66,13 @@ hadoop:
     mapreduce_framework: "yarn"
 
     jobhistoryserver_port: 10020
-    # 사용자가 접근할 Jobhistory Webserver port
     jobhistoryserver_http_port: 19888
     jobhistoryserver_https_port: 19890
     jobhistoryserver_admin_port: 10033
+
+# Kafka 설정
+kafka:
+  log_dir: "/data/kafka"
+  num_partition: 1
+  bootstrap_port: 19092
+  controller_port: 19093

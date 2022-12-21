@@ -1,0 +1,45 @@
+---
+
+- name: Install Kafka cluster
+  hosts: kafka
+  remote_user: "{{ remote_user}}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+    server_conf: "{{ kafka_home }}/confif/kraft/server.properties"
+  tasks:
+  - name: Create bigdata home directory
+    become: yes
+    file:
+      dest: "{{ bigdata_home }}"
+      state: directory
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+  - name: Copy installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.kafka }}"
+      dest: "{{ bigdata_home }}/{{ installer.kafka }}"
+  - name: Unzip installer
+    unarchive:
+      src: "{{ bigdata_home }}/{{ installer.kafka }}"
+      dest: "{{ bigdata_home }}/"
+      remote_src: true
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+  - name: Delete installer
+    file:
+      path: "{{ bigdata_home }}/{{ installer.kafka }}"
+      state: absent
+  - name: Create hadoop home symbolic link
+    file:
+      src: "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
+      dest: "{{ kafka_home }}"
+      state: link
+  - name: Edit Kafka server configuration node id
+    lineinfile:
+      path: "{{ server_conf }}"
+      regexp: "^#? *{{ item.key | regex_escape() }}="
+      line: "{{ item.key }}={{ item.value }}"
+    with_dict:
+      "node.id": "{{ nodeid }}"
+      "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}"
