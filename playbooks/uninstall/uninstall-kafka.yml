@@ -1,0 +1,56 @@
+---
+
+#- name: Uninstall JobHistory Server
+#  hosts: jobhistoryserver
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon stop historyserver"
+#
+#- name: Uninstall NodeManager
+#  hosts: nodemanager
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop nodemanager"
+#
+#- name: Uninstall ResourceManager
+#  hosts: resourcemanager
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop resourcemanager"
+#
+#- name: Uninstall DataNode
+#  hosts: datanode
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#  - name: Stop DataNode
+#    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop datanode"
+#    failed_when: False
+#
+#- name: Uninstall Active NameNode
+#  hosts: "{{ groups['namenode'][0] }}"
+#  become: no
+#  tasks:
+#  - name: Stop NameNode, JournalNode, ZKFC
+#    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/stop-dfs.sh"
+#    failed_when: False
+#  - name: Remove ZKFC directory
+#    command: "{{ bigdata_home }}/zookeeper/bin/zkCli.sh -server {{ groups['namenode'][0] }}:{{ zookeeper.client_port }} deleteall /hadoop-ha"
+#    failed_when: False
+
+- name: Remove directory
+  hosts: kafka
+  become: no
+  tasks:
+  - name: Remove directory
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
+    - "{{ bigdata_home }}/kafka"
+    - "{{ kafka.log_dir }}"
+    failed_when: False

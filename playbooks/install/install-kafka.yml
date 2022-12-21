@@ -42,4 +42,4 @@
       line: "{{ item.key }}={{ item.value }}"
     with_dict:
       "node.id": "{{ nodeid }}"
-      "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}"
+      "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
