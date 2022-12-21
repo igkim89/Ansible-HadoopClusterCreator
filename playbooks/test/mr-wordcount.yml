@@ -30,6 +30,8 @@
     with_items:
     - sample01.txt
     - sample02.txt
+    register: upload_result
+    failed_when: '"File exists" not in upload_result.stderr'
   - name: Start Job
-    command: "{{ bigdata_home }}/hadoop/bin/hadoop jar /home/{{ remote_user }}/tmp/wordcount/wordcount_example-1.0-SNAPSHOT.jar WordCount /user/{{ remote_user }}/wordcount/input /user/{{ remote_user }}/wordcount/output"
+    command: "{{ bigdata_home }}/hadoop/bin/hadoop jar /home/{{ remote_user }}/tmp/wordcount/wordcount_example-1.0-SNAPSHOT.jar WordCount /user/{{ remote_user }}/wordcount/input /user/{{ remote_user }}/wordcount/output/{{ ansible_date_time.date }}_{{ ansible_date_time.epoch }}"
 
