@@ -57,10 +57,10 @@
         <name>mapreduce.client.submit.file.replication</name>
         <value>3</value>
     </property>
-    <property>
-        <name>mapreduce.job.reduces</name>
-        <value>192</value>
-    </property>
+<!--    <property>-->
+<!--        <name>mapreduce.job.reduces</name>-->
+<!--        <value>192</value>-->
+<!--    </property>-->
     <property>
         <name>mapreduce.task.io.sort.mb</name>
         <value>256</value>
