@@ -51,6 +51,7 @@
       "node.id": "{{ nodeid }}"
       "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
       "listeners": "PLAINTEXT://{{ inventory_hostname }}:9092,CONTROLLER://{{ inventory_hostname }}:9093"
+      "log.dirs": "{{ kafka.log_dir }}"
 - name: Create Cluster ID
   hosts: "{{ groups['kafka'][0] }}"
   remote_user: "{{ remote_user }}"
