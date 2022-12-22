@@ -18,7 +18,8 @@
     kafka_home: "{{ bigdata_home }}/kafka"
   tasks:
   - name: Start Kafka cluster
-    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-stop.sh"
+    command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
+    failed_when: False
   - name: Remove directory
     file:
       path: "{{ item }}"
