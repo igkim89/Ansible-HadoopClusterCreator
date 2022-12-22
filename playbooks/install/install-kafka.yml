@@ -71,13 +71,12 @@
   vars:
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
-    kafka_uuid: "{{ cluster_uuid.stdout }}"
   tasks:
   - name: Debug uuid
     debug:
       msg: "Cluster ID는 {{ cluster_uuid.stdout }} 입니다."
   - name: Format log directory
-    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ kafka_uuid }} -c {{ server_conf }}"
+    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ hostvars['kafka'][0]['kafka_uuid']['stdout'] }} -c {{ server_conf }}"
   - name: Start Kafka cluster
     command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
 
