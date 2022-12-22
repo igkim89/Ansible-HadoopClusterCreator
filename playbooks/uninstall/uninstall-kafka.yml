@@ -37,6 +37,6 @@
       state: absent
     with_items:
     - "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
-    - "{{ kafka_home }}/"
+    - "{{ kafka_home }}"
     - "{{ kafka.log_dir }}"
     failed_when: False
