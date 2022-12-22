@@ -73,6 +73,7 @@ hadoop:
 # Kafka 설정
 kafka:
   log_dir: "/data/kafka"
+  log_retention_hour: 72
   num_partition: 1
   bootstrap_port: 19092
   controller_port: 19093
