@@ -36,7 +36,7 @@
       dest: "{{ kafka_home }}"
       state: link
   - name: Create Kafka log directory
-    become: no
+    become: yes
     file:
       dest: "{{ kafka.log_dir }}"
       state: directory
