@@ -55,7 +55,7 @@
     command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
     register: cluster_uuid
   - name: Debug uuid
-    msg: cluster_uuid
+    var: "{{ cluster_uuid }}"
   - name: Format log directory
     command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ cluster_uuid }} -c {{ server_conf }}"
   - name: Start Kafka cluster
