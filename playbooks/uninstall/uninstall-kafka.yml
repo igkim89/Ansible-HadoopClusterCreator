@@ -41,10 +41,12 @@
 #    command: "{{ bigdata_home }}/zookeeper/bin/zkCli.sh -server {{ groups['namenode'][0] }}:{{ zookeeper.client_port }} deleteall /hadoop-ha"
 #    failed_when: False
 
-- name: Remove directory
+- name: Uninstall Kafka
   hosts: kafka
   become: no
   tasks:
+  - name: Start Kafka cluster
+    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-stop.sh"
   - name: Remove directory
     file:
       path: "{{ item }}"

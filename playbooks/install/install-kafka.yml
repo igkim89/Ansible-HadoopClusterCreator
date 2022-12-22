@@ -51,3 +51,14 @@
       "node.id": "{{ nodeid }}"
       "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
       "listeners": "PLAINTEXT://{{ inventory_hostname }}:9092,CONTROLLER://{{ inventory_hostname }}:9093"
+  - name: Create Cluster ID
+    command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
+    register: cluster_uuid
+  - name: Debug uuid
+    msg: cluster_uuid
+  - name: Format log directory
+    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ cluster_uuid }} -c {{ server_conf }}"
+  - name: Start Kafka cluster
+    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh {{ server_conf }}"
+
+
