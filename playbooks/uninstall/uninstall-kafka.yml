@@ -20,6 +20,7 @@
   tasks:
     - name: Delete topic
       command: "{{ kafka_home }}/bin/kafka-topics.sh --delete --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+      failed_when: False
 
 - name: Uninstall Kafka
   hosts: kafka
