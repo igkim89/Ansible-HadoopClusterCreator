@@ -55,8 +55,18 @@
   hosts: groups['kafka'][0]
   remote_user: "{{ remote_user }}"
   become: no
-  command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
-  register: cluster_uuid
+  tasks:
+  - command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
+    register: cluster_uuid
+
+- name: Install Kafka cluster
+  hosts: kafka
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+    server_conf: "{{ kafka_home }}/config/kraft/server.properties"
+  tasks:
   - name: Debug uuid
     debug:
       msg: "Cluster ID는 {{ cluster_uuid.stdout }} 입니다."
