@@ -74,9 +74,9 @@
   tasks:
   - name: Debug uuid
     debug:
-      msg: "Cluster ID는 {{ hostvars['kafka'][0]['kafka_uuid']['stdout'] }} 입니다."
+      msg: "Cluster ID는 {{ groups['kafka'][0]['kafka_uuid']['stdout'] }} 입니다."
   - name: Format log directory
-    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ hostvars['kafka'][0]['kafka_uuid']['stdout'] }} -c {{ server_conf }}"
+    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ groups['kafka'][0]['kafka_uuid']['stdout'] }} -c {{ server_conf }}"
   - name: Start Kafka cluster
     command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
 
