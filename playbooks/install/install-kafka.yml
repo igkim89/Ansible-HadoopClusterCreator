@@ -50,9 +50,12 @@
     with_dict:
       "node.id": "{{ nodeid }}"
       "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
-      "listeners": "PLAINTEXT://{{ inventory_hostname }}:9092,CONTROLLER://{{ inventory_hostname }}:9093"
+      "listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }},CONTROLLER://{{ inventory_hostname }}:{{ kafka.controller_port }}"
       "log.dirs": "{{ kafka.log_dir }}"
       "log.retention.hours": "{{ kafka.log_retention_hour }}"
+      "num.partitions": "{{ kafka.num_partition }}"
+      "offsets.topic.replication.factor": "{{ kafka.topic_replication_factor }}"
+      "advertised.listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }}"
 - name: Create Cluster ID
   hosts: "{{ groups['kafka'][0] }}"
   remote_user: "{{ remote_user }}"
