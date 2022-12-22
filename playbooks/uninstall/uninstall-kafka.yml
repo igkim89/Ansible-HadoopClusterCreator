@@ -11,13 +11,23 @@
 #    command: "{{ bigdata_home }}/zookeeper/bin/zkCli.sh -server {{ groups['namenode'][0] }}:{{ zookeeper.client_port }} deleteall /hadoop-ha"
 #    failed_when: False
 
+- name: Delete Test Topic
+  hosts: "{{ groups['kafka'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+  tasks:
+    - name: Delete topic
+      command: "{{ kafka_home }}/bin/kafka-topics.sh --delete --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+
 - name: Uninstall Kafka
   hosts: kafka
   become: no
   vars:
     kafka_home: "{{ bigdata_home }}/kafka"
   tasks:
-  - name: Start Kafka cluster
+  - name: Stop Kafka cluster
     command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
     failed_when: False
   - name: Remove directory

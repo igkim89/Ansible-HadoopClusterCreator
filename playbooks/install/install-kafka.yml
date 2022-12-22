@@ -83,4 +83,14 @@
   - name: Start Kafka cluster
     command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
 
-
+- name: Create Test Topic
+  hosts: "{{ groups['kafka'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+  tasks:
+  - name: Create topic
+    command: "{{ kafka_home }}/bin/kafka-topics.sh --create --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+  - name: Describe topic
+    command: "{{ kafka_home }}/bin/kafka-topics.sh --describe --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
