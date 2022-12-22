@@ -79,6 +79,6 @@
   - name: Format log directory
     command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ kafka_uuid }} -c {{ server_conf }}"
   - name: Start Kafka cluster
-    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh {{ server_conf }}"
+    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
 
 
