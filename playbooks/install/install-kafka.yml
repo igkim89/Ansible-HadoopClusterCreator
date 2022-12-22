@@ -55,6 +55,9 @@
   hosts: "{{ groups['kafka'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+    server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
   - command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
     register: cluster_uuid
