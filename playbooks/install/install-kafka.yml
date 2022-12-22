@@ -6,7 +6,7 @@
   become: no
   vars:
     kafka_home: "{{ bigdata_home }}/kafka"
-    server_conf: "{{ kafka_home }}/confif/kraft/server.properties"
+    server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
   - name: Create bigdata home directory
     become: yes
@@ -35,6 +35,13 @@
       src: "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
       dest: "{{ kafka_home }}"
       state: link
+  - name: Create Kafka log directory
+    become: no
+    file:
+      dest: "{{ kafka.log_dir }}"
+      state: directory
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
   - name: Edit Kafka server configuration node id
     lineinfile:
       path: "{{ server_conf }}"
