@@ -14,3 +14,4 @@
     with_items:
     - "{{ mariadb_home }}"
     - "{{ mariadb.data_dir }}"
+    - "{{ bigdata_home }}/{{ installer.mariadb.replace('.tar.gz', '') }}"

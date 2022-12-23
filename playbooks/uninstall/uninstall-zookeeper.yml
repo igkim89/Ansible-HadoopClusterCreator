@@ -6,8 +6,8 @@
     shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
   - name: delete-bigdata
     file:
-      path: /opt/bigdata/{{ item }}
+      path: "{{ item }}"
       state: absent
     with_items:
-    - apache-zookeeper-3.6.3-bin
-    - zookeeper
+    - "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
+    - "{{ bigdata_home }}/zookeeper"
