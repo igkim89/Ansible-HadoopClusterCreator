@@ -53,6 +53,6 @@
   - name: Install MariaDB
     command: "{{ mariadb_home }}/scripts/mysql_install_db --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }}"
   - name: Start MariaDB
-    command: "/usr/bin/nohup {{ mariadb_home }}/bin/mysqld_safe --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }} &"
+    shell: "/usr/bin/nohup {{ mariadb_home }}/bin/mysqld_safe --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }}"
 
 
