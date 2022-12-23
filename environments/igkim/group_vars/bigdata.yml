@@ -23,6 +23,7 @@ installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
+  mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
 
 # Zookeeper 설정
 zookeeper: 
@@ -78,3 +79,8 @@ kafka:
   topic_replication_factor: 1
   bootstrap_port: 19092
   controller_port: 19093
+
+# MariaDB 설정
+mariadb:
+  jdbc_port: 13306
+  data_dir: /data/mariadb

@@ -30,7 +30,7 @@
     file:
       path: "{{ bigdata_home }}/{{ installer.kafka }}"
       state: absent
-  - name: Create hadoop home symbolic link
+  - name: Create kafka home symbolic link
     file:
       src: "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
       dest: "{{ kafka_home }}"
