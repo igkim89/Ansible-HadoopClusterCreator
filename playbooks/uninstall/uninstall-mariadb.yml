@@ -9,8 +9,8 @@
     command: "{{ mariadb_home }}/bin/mysqladmin shutdown --socket={{ mariadb_home }}/mysql.sock "
   - name: Remove directory
     file:
-      path: /opt/bigdata/{{ item }}
+      path: {{ item }}
       state: absent
     with_items:
-    - "{{ bigdata_home }}/mariadb"
+    - "{{ mariadb_home }}"
     - "{{ mariadb.data_dir }}"
