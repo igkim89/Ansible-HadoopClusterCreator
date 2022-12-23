@@ -6,7 +6,7 @@
     mariadb_home: "{{ bigdata_home }}/mariadb"
   tasks:
   - name: Stop MariaDB server
-    command: "{{ mariadb_home }}/bin/mysqladmin shutdown --socket={{ mariadb_home/mysql.sock }}"
+    command: "{{ mariadb_home }}/bin/mysqladmin shutdown --socket={{ mariadb_home }}/mysql.sock "
   - name: Remove directory
     file:
       path: /opt/bigdata/{{ item }}
