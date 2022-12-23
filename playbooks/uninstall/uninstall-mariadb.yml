@@ -2,9 +2,11 @@
   hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    mariadb_home: "{{ bigdata_home }}/mariadb"
   tasks:
-#  - name: Stop zookeeper server
-#    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
+  - name: Stop MariaDB server
+    command: "{{ mariadb_home }}/bin/mysqladmin shutdown --socket={{ mariadb_home/mysql.sock }}"
   - name: Remove directory
     file:
       path: /opt/bigdata/{{ item }}
