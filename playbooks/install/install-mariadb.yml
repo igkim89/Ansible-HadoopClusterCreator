@@ -77,7 +77,9 @@
       state: link
     when: not ti_result.stat.exists
   - name: Get socket dir
-    debug: msg="{{ lookup('template', 'mariadb/my.cnf') | from_yaml }}"
+    var_files:
+      - "mariadb/my.cnf"
+    debug: "{{ socket }}"
 #  - name: Secure installation
 #    expect:
 #      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user={{ remote_user }}"
