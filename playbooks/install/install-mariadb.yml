@@ -77,7 +77,7 @@
       state: link
     when: not ti_result.stat.exists
   - name: Get socket dir
-    var_files:
+    vars_files:
       - "mariadb/my.cnf"
     debug: "{{ socket }}"
 #  - name: Secure installation
