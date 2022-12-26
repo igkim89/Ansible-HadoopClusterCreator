@@ -23,7 +23,9 @@ installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
+  pyenv: "pyenv.tgz"
   mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
+
 
 # Zookeeper 설정
 zookeeper: 

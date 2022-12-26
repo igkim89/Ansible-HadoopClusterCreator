@@ -1,0 +1,38 @@
+---
+
+- name: Install pyenv
+  hosts: pyenv
+  remote_user: "{{ remote_user }}"
+  become: no
+#  vars:
+#    mariadb_home: "{{ bigdata_home }}/mariadb"
+  tasks:
+  - name: Copy installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.pyenv }}"
+      dest: "/home/{{ remote_user }}/"
+  - name: Unzip installer
+    unarchive:
+      src: "/home/{{ remote_user }}/{{ installer.pyenv }}"
+      dest: "/home/{{ remote_user }}/"
+      remote_src: true
+  - name: Install pyenv
+    command: "/home/{{ remote_user }}/pyenv-installer-master/bin/pyenv-offline-installer"
+  - name: Update PATH
+    lineinfile:
+      path: "/home/{{ remote_user }}/.bash_profile"
+      line: "{{ item }}"
+      insertafter: EOF
+    with_items:
+      - 'export PYENV_ROOT="$HOME/.pyenv"'
+      - 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
+      - 'eval "$(pyenv init -)"'
+      - 'eval "$(pyenv virtualenv-init -)"'
+  - name: Delete installer
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/home/{{ remote_user }}/{{ installer.pyenv }}"
+      - "/home/{{ remote_user }}/pyenv-installer-master"
+
