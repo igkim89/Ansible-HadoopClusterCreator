@@ -58,4 +58,5 @@
       state: present
   - name: Install Python
     command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
-
+  - name: Update Global python version
+    command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
