@@ -44,6 +44,7 @@
       src: "{{ installer_home }}/{{ installer.python }}"
       dest: "{{ pyenv_home }}/cache/"
   - name: Install yum library
+    become: true
     yum:
       name:
         - "patch"
