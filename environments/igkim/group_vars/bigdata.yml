@@ -84,3 +84,4 @@ kafka:
 mariadb:
   jdbc_port: 13306
   data_dir: /data/mariadb
+  root_pw: "1q2w#E$R"

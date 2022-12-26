@@ -76,13 +76,22 @@
       dest: "/usr/lib64/libtinfo.so.5"
       state: link
     when: not ti_result.stat.exists
-  - name: Get socket dir
-    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
-#  - name: Secure installation
-#    expect:
-#      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user={{ remote_user }}"
-#      responses:
-#        'Enter current password for root (enter for none):': "\n"
+#  - name: Get socket dir
+#    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+  - name: Secure installation
+    expect:
+      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }} --user={{ remote_user }}"
+      responses:
+        'Enter current password for root \(enter for none\):': "\n"
+        'Switch to unix_socket authentication \[Y/n\]': 'y'
+        'Change the root password? \[Y/n\]': 'y'
+        'New password:': "{{ root_pw }}"
+        'Re-enter new password:': "{{ root_pw }}"
+        'Remove anonymous users? \[Y/n\]': 'y'
+        'Disallow root login remotely?': 'y'
+        'Remove test database and access to it? \[Y/n\]': 'y'
+        'Reload privilege tables now? \[Y/n\]': 'y'
+
 
 
 
