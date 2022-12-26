@@ -43,7 +43,18 @@
     copy:
       src: "{{ installer_home }}/{{ installer.python }}"
       dest: "{{ pyenv_home }}/cache/"
+  - name: Install yum library
+    yum:
+      name:
+        - "patch"
+        - "bzip2-devel"
+        - "ncurses-devel"
+        - "readline-devel"
+        - "sqlite-devel"
+        - "openssl-devel"
+        - "libffi-devel"
+        - "@Development tools"
+      state: present
   - name: Install Python
     command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
-
 
