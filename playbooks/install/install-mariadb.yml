@@ -76,5 +76,14 @@
       dest: "/usr/lib64/libtinfo.so.5"
       state: link
     when: not ti_result.stat.exists
+  - name: Get socket dir
+    debug: "{{ lookup('template', 'mariadb/my.cnf') }}"
+#  - name: Secure installation
+#    expect:
+#      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user=igkim"
+#      responses:
+#        'Enter current password for root (enter for none):': "\n"
+
+
 
 
