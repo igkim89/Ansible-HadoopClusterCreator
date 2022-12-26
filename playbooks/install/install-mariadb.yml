@@ -77,9 +77,7 @@
       state: link
     when: not ti_result.stat.exists
   - name: Get socket dir
-    vars_files:
-      - "mariadb/my.cnf"
-    debug: "{{ socket }}"
+    debug: "{{ lookup('ansible.builtin.ini', 'socket', type='properties', file='mariadb/my.cnf') }}"
 #  - name: Secure installation
 #    expect:
 #      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user={{ remote_user }}"
