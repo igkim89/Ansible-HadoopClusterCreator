@@ -54,5 +54,25 @@
     command: "{{ mariadb_home }}/scripts/mysql_install_db --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }}"
   - name: Start MariaDB
     shell: "/usr/bin/nohup {{ mariadb_home }}/bin/mysqld_safe --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }} &"
+  - name: Check ncurses library
+    stat:
+      path: /usr/lib64/libncurses.so.5
+    register: nc_result
+  - name: Check tinfo library
+    stat:
+      path: /usr/lib64/libtinfo.so.5
+    register: ti_result
+  - name: Create ncurses symbolic link
+    file:
+      src: "/usr/lib64/libncurses.so.6"
+      dest: "/usr/lib64/libncurses.so.5"
+      state: link
+    when: not nc_result.stat.exists
+  - name: Create tinfo symbolic link
+    file:
+      src: "/usr/lib64/libtinfo.so.6"
+      dest: "/usr/lib64/libtinfo.so.5"
+      state: link
+    when: not ti_result.stat.exists
 
 
