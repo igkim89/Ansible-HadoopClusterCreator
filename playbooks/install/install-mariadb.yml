@@ -63,12 +63,14 @@
       path: /usr/lib64/libtinfo.so.5
     register: ti_result
   - name: Create ncurses symbolic link
+    become: yes
     file:
       src: "/usr/lib64/libncurses.so.6"
       dest: "/usr/lib64/libncurses.so.5"
       state: link
     when: not nc_result.stat.exists
   - name: Create tinfo symbolic link
+    become: yes
     file:
       src: "/usr/lib64/libtinfo.so.6"
       dest: "/usr/lib64/libtinfo.so.5"
