@@ -44,6 +44,6 @@
       src: "{{ installer_home }}/{{ installer.python }}"
       dest: "{{ pyenv_home }}/cache/"
   - name: Install Python
-    command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tgz', '')}}"
+    command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
 
 
