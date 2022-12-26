@@ -60,3 +60,7 @@
     command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
   - name: Update Global python version
     command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
+  - name: Install pexpect
+    pip:
+      name: pexpect
+      state: present
