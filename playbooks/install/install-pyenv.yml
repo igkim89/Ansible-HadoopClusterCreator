@@ -4,8 +4,8 @@
   hosts: pyenv
   remote_user: "{{ remote_user }}"
   become: no
-#  vars:
-#    mariadb_home: "{{ bigdata_home }}/mariadb"
+  vars:
+    pyenv_home: "/home/{{ remote_user }}/.pyenv"
   tasks:
   - name: Copy installer
     copy:
@@ -35,4 +35,15 @@
     with_items:
       - "/home/{{ remote_user }}/{{ installer.pyenv }}"
       - "/home/{{ remote_user }}/pyenv-installer-master"
+  - name: Create python directory
+    file:
+      path: "{{ pyenv_home }}/cache"
+      state: directory
+  - name: Copy python installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.python }}"
+      dest: "{{ pyenv_home }}/cache/"
+  - name: Install Python
+    command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.pyenv.replace('Python-', '').replace('.tgz', '')}}"
+
 
