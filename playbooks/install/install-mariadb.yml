@@ -80,7 +80,7 @@
     debug: "{{ lookup('template', 'mariadb/my.cnf') }}"
 #  - name: Secure installation
 #    expect:
-#      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user=igkim"
+#      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket=/mysql.sock --user={{ remote_user }}"
 #      responses:
 #        'Enter current password for root (enter for none):': "\n"
 
