@@ -35,8 +35,8 @@
       dest: "{{ hive_home }}"
       state: link
 
-- name: Install Hive Metastore
-  hosts: metastore
+- name: Create hive metastore database
+  hosts: mariadb
   remote_user: "{{ remote_user }}"
   become: no
   vars:
