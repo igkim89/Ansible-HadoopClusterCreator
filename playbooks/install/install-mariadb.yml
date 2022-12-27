@@ -88,7 +88,11 @@
         'Disallow root login remotely\?': 'y'
         'Remove test database and access to it\? \[Y/n\]': 'y'
         'Reload privilege tables now\? \[Y/n\]': 'y'
+  - name: Test MariaDB
+    command: "{{ mariadb.home_dir }}/bin/mysql -u{{ remote_user }} --socket={{ mariadb.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
+
 #  - name: Create Hive metastore databases
+#    command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE metastore; USE metastore; SOURCE {{/.sql"
 
 
 
