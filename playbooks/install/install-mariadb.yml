@@ -80,7 +80,7 @@
 #    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
     vars:
-      socket: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+      socket: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}.replace('{{ mariadb_home }}', '{{ mariadb_home }}')"
     expect:
       command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ socket }} --user={{ remote_user }}"
       responses:
