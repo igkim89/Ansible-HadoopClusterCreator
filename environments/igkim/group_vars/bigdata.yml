@@ -87,7 +87,7 @@ kafka:
 # MariaDB 설정
 mariadb:
   jdbc_port: 13306
-  home_dir: "/home/igkim/mariadb"
+  home_dir: &dir "/home/igkim/mariadb"
   data_dir: "/data/mariadb"
-  socket_dir: "{{ .Bigdata.mariadb.home_dir }}"
+  socket_dir: *dir
   root_pw: "1q2w#E$R"
