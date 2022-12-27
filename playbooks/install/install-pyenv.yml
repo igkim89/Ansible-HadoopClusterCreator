@@ -78,7 +78,7 @@
       executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
   - name: Remove pexpect tgz
     file:
-      path: {{ item }}
+      path: "{{ item }}"
       state: absent
     with_items:
       - "/home/{{ remote_user }}/pexpect.tgz"
