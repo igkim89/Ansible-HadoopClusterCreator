@@ -41,7 +41,7 @@
   - name: Create configuration file
     template:
       src: mariadb/my.cnf
-      dest: "{{ mariadb.home_dir }}/mariadb/conf/"
+      dest: "{{ mariadb.home_dir }}/conf/"
       mode: 0644
   - name: Create data directory
     file:
