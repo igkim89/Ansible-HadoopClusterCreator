@@ -76,12 +76,12 @@
       dest: "/usr/lib64/libtinfo.so.5"
       state: link
     when: not ti_result.stat.exists
-#  - name: Get socket dir
-#    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+  - name: Get socket dir
+    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
     vars:
       socket_tmp: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
-      socket_dir: "{{ socket_tmp.replace('{{ mariadb_home }}', {{ mariadb_home }} }}"
+      socket_dir: "{{ socket_tmp.replace('{{ mariadb_home }}', '{{ mariadb_home }}' }}"
     expect:
       command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ socket_dir }} --user={{ remote_user }}"
       responses:
