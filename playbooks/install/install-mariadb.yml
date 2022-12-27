@@ -7,74 +7,74 @@
   vars:
     mariadb_home_parent: "{{ mariadb.home_dir.replace('/mariadb','') }}"
   tasks:
-#  - name: Create home directory
-#    file:
-#      path: "{{ mariadb_home_parent }}"
-#      state: directory
-#  - name: Copy installer
-#    copy:
-#      src: "{{ installer_home }}/{{ installer.mariadb }}"
-#      dest: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
-#  - name: Unzip installer
-#    unarchive:
-#      src: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
-#      dest: "{{ mariadb_home_parent }}/"
-#      remote_src: true
-#      owner: "{{ remote_user }}"
-#      group: "{{ remote_user }}"
-#  - name: Delete installer
-#    file:
-#      path: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
-#      state: absent
-#  - name: Create MariaDB symbolic link
-#    file:
-#      src: "{{ mariadb_home_parent }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
-#      dest: "{{ mariadb.home_dir }}"
-#      state: link
-#  - name: Create configuration and log directory
-#    file:
-#      path: "{{ mariadb.home_dir }}/{{ item }}"
-#      state: directory
-#    with_items:
-#      - conf
-#      - logs
-#  - name: Create configuration file
-#    template:
-#      src: mariadb/my.cnf
-#      dest: "{{ mariadb.home_dir }}/conf/"
-#      mode: 0644
-#  - name: Create data directory
-#    file:
-#      path: "{{ mariadb.data_dir }}"
-#      state: directory
-#  - name: Install MariaDB
-#    command: "{{ mariadb.home_dir }}/scripts/mysql_install_db --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }}"
-#  - name: Start MariaDB
-#    shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
-#  - name: Check ncurses library
-#    stat:
-#      path: /usr/lib64/libncurses.so.5
-#    register: nc_result
-#  - name: Check tinfo library
-#    stat:
-#      path: /usr/lib64/libtinfo.so.5
-#    register: ti_result
-#  - name: Create ncurses symbolic link
-#    become: yes
-#    file:
-#      src: "/usr/lib64/libncurses.so.6"
-#      dest: "/usr/lib64/libncurses.so.5"
-#      state: link
-#    when: not nc_result.stat.exists
-#  - name: Create tinfo symbolic link
-#    become: yes
-#    file:
-#      src: "/usr/lib64/libtinfo.so.6"
-#      dest: "/usr/lib64/libtinfo.so.5"
-#      state: link
-#    when: not ti_result.stat.exists
-#  - name: Get socket dir
-#    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+  - name: Create home directory
+    file:
+      path: "{{ mariadb_home_parent }}"
+      state: directory
+  - name: Copy installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.mariadb }}"
+      dest: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
+  - name: Unzip installer
+    unarchive:
+      src: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
+      dest: "{{ mariadb_home_parent }}/"
+      remote_src: true
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+  - name: Delete installer
+    file:
+      path: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
+      state: absent
+  - name: Create MariaDB symbolic link
+    file:
+      src: "{{ mariadb_home_parent }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
+      dest: "{{ mariadb.home_dir }}"
+      state: link
+  - name: Create configuration and log directory
+    file:
+      path: "{{ mariadb.home_dir }}/{{ item }}"
+      state: directory
+    with_items:
+      - conf
+      - logs
+  - name: Create configuration file
+    template:
+      src: mariadb/my.cnf
+      dest: "{{ mariadb.home_dir }}/conf/"
+      mode: 0644
+  - name: Create data directory
+    file:
+      path: "{{ mariadb.data_dir }}"
+      state: directory
+  - name: Install MariaDB
+    command: "{{ mariadb.home_dir }}/scripts/mysql_install_db --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }}"
+  - name: Start MariaDB
+    shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
+  - name: Check ncurses library
+    stat:
+      path: /usr/lib64/libncurses.so.5
+    register: nc_result
+  - name: Check tinfo library
+    stat:
+      path: /usr/lib64/libtinfo.so.5
+    register: ti_result
+  - name: Create ncurses symbolic link
+    become: yes
+    file:
+      src: "/usr/lib64/libncurses.so.6"
+      dest: "/usr/lib64/libncurses.so.5"
+      state: link
+    when: not nc_result.stat.exists
+  - name: Create tinfo symbolic link
+    become: yes
+    file:
+      src: "/usr/lib64/libtinfo.so.6"
+      dest: "/usr/lib64/libtinfo.so.5"
+      state: link
+    when: not ti_result.stat.exists
+  - name: Get socket dir
+    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
     expect:
       command: "{{ mariadb.home_dir }}/bin/mysql_secure_installation --basedir={{ mariadb.home_dir }} --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --socket={{ mariadb.home_dir }}/mysql.sock --user={{ remote_user }}"
@@ -88,6 +88,7 @@
         'Disallow root login remotely\?': 'y'
         'Remove test database and access to it\? \[Y/n\]': 'y'
         'Reload privilege tables now\? \[Y/n\]': 'y'
+#  - name: Create Hive metastore databases
 
 
 
