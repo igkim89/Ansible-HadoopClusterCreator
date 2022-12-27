@@ -89,5 +89,5 @@ mariadb:
   jdbc_port: 13306
   home_dir: "/home/igkim/mariadb"
   data_dir: "/data/mariadb"
-  socket_dir: "{{ mariadb.home_dir }}"
+  socket_dir: "{{ .Bigdata.mariadb.home_dir }}"
   root_pw: "1q2w#E$R"
