@@ -2,17 +2,15 @@
   hosts: mariadb
   remote_user: "{{ remote_user }}"
   become: no
-  vars:
-    mariadb_home: "{{ bigdata_home }}/mariadb"
   tasks:
   - name: Stop MariaDB server
-    command: "{{ mariadb_home }}/bin/mysqladmin shutdown --socket={{ mariadb_home }}/mysql.sock "
+    command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
     failed_when: False
   - name: Remove directory
     file:
       path: "{{ item }}"
       state: absent
     with_items:
-    - "{{ mariadb_home }}"
+    - "{{ mariadb.home_dir }}"
     - "{{ mariadb.data_dir }}"
-    - "{{ bigdata_home }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
+    - "{{ mariadb.home_dir.replace('/mariadb','') }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
