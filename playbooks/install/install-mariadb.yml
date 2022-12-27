@@ -77,7 +77,7 @@
 #    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
     expect:
-      command: "{{ mariadb.home_dir }}/bin/mysql_secure_installation --basedir={{ mariadb.home_dir }} --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --socket={{ mariadb.home_dir }}.mysql.sock --user={{ remote_user }}"
+      command: "{{ mariadb.home_dir }}/bin/mysql_secure_installation --basedir={{ mariadb.home_dir }} --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --socket={{ mariadb.home_dir }}/mysql.sock --user={{ remote_user }}"
       responses:
         'Enter current password for root \(enter for none\):': "\n"
         'Switch to unix_socket authentication \[Y/n\]': 'y'
