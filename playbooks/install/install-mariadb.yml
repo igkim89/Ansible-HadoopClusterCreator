@@ -81,7 +81,7 @@
       responses:
         'Enter current password for root \(enter for none\):': "\n"
         'Switch to unix_socket authentication \[Y/n\]': 'y'
-        'Change the root password? \[Y/n\]': 'y'
+        'Change the root password? \[Y\/n\]': 'y'
         'New password:': "{{ mariadb.root_pw }}"
         'Re-enter new password:': "{{ mariadb.root_pw }}"
         'Remove anonymous users? \[Y/n\]': 'y'
