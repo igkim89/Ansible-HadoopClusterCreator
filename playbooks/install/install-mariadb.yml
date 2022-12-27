@@ -5,38 +5,35 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    mariadb_home: "{{ bigdata_home }}/mariadb"
+    mariadb_home_parent: "{{ mariadb.home_dir.replace('/mariadb','') }}"
   tasks:
-  - name: Create bigdata home directory
-    become: yes
+  - name: Create home directory
     file:
-      dest: "{{ bigdata_home }}"
+      path: "{{ mariadb_home_parent }}"
       state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
   - name: Copy installer
     copy:
       src: "{{ installer_home }}/{{ installer.mariadb }}"
-      dest: "{{ bigdata_home }}/{{ installer.mariadb }}"
+      dest: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
   - name: Unzip installer
     unarchive:
-      src: "{{ bigdata_home }}/{{ installer.mariadb }}"
-      dest: "{{ bigdata_home }}/"
+      src: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
+      dest: "{{ mariadb_home_parent }}/"
       remote_src: true
       owner: "{{ remote_user }}"
       group: "{{ remote_user }}"
   - name: Delete installer
     file:
-      path: "{{ bigdata_home }}/{{ installer.mariadb }}"
+      path: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
       state: absent
   - name: Create MariaDB symbolic link
     file:
-      src: "{{ bigdata_home }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
-      dest: "{{ mariadb_home }}"
+      src: "{{ mariadb_home_parent }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
+      dest: "{{ mariadb.home_dir }}"
       state: link
   - name: Create configuration and log directory
     file:
-      path: "{{ mariadb_home }}/{{ item }}"
+      path: "{{ mariadb.home_dir }}/{{ item }}"
       state: directory
     with_items:
       - conf
@@ -44,16 +41,16 @@
   - name: Create configuration file
     template:
       src: mariadb/my.cnf
-      dest: "{{ mariadb_home }}/conf/"
+      dest: "{{ mariadb.home_dir }}/mariadb/conf/"
       mode: 0644
   - name: Create data directory
     file:
       path: "{{ mariadb.data_dir }}"
       state: directory
   - name: Install MariaDB
-    command: "{{ mariadb_home }}/scripts/mysql_install_db --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }}"
+    command: "{{ mariadb.home_dir }}/scripts/mysql_install_db --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }}"
   - name: Start MariaDB
-    shell: "/usr/bin/nohup {{ mariadb_home }}/bin/mysqld_safe --defaults-file={{ mariadb_home }}/conf/my.cnf --user={{ remote_user }} &"
+    shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
   - name: Check ncurses library
     stat:
       path: /usr/lib64/libncurses.so.5
@@ -76,14 +73,11 @@
       dest: "/usr/lib64/libtinfo.so.5"
       state: link
     when: not ti_result.stat.exists
-  - name: Get socket dir
-    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+#  - name: Get socket dir
+#    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
-    vars:
-      socket_tmp: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
-      socket_dir: "{{ socket_tmp.replace('{{ mariadb_home }}', '{{ mariadb_home }}' }}"
     expect:
-      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ socket_dir }} --user={{ remote_user }}"
+      command: "{{ mariadb.home_dir }}/bin/mysql_secure_installation --basedir={{ mariadb.home_dir }} --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --socket={{ mariadb.home_dir }}.mysql.sock --user={{ remote_user }}"
       responses:
         'Enter current password for root \(enter for none\):': "\n"
         'Switch to unix_socket authentication \[Y/n\]': 'y'

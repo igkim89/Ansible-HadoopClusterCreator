@@ -19,7 +19,7 @@ bigdata_home: "/opt/bigdata"
 installer_home: "/home/igkim/install"
 
 # 서비스별 설치파일
-installer: 
+installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
@@ -87,5 +87,7 @@ kafka:
 # MariaDB 설정
 mariadb:
   jdbc_port: 13306
-  data_dir: /data/mariadb
+  home_dir: "/home/igkim/mariadb"
+  data_dir: "/data/mariadb"
+  socket_dir: "{{ mariadb.mariadb_home }}"
   root_pw: "1q2w#E$R"
