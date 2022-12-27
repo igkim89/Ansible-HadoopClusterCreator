@@ -1,0 +1,51 @@
+---
+
+- name: Install Hive
+  hosts: hive
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+  - name: Create bigdata home directory
+    become: yes
+    file:
+      dest: "{{ bigdata_home }}"
+      state: directory
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+  - name: Copy installer
+    copy:
+      src: "{{ installer_home }}/{{ installer.hive }}"
+      dest: "{{ bigdata_home }}/{{ installer.hive }}"
+  - name: Unzip installer
+    unarchive:
+      src: "{{ bigdata_home }}/{{ installer.hive }}"
+      dest: "{{ bigdata_home }}/"
+      remote_src: true
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
+  - name: Delete installer
+    file:
+      path: "{{ bigdata_home }}/{{ installer.mariadb }}"
+      state: absent
+  - name: Create MariaDB symbolic link
+    file:
+      src: "{{ bigdata_home }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
+      dest: "{{ hive_home }}"
+      state: link
+
+- name: Install Hive Metastore
+  hosts: metastore
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  task:
+  - name: Create Hive metastore databases
+    command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore; USE metastore; SOURCE {{ hive_home }}/scripts/metastore/upgrade/mysql/hive-schema-2.3.0.mysql.sql'"
+
+
+
+
+
