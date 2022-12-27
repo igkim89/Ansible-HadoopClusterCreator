@@ -41,7 +41,7 @@
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"
-  task:
+  tasks:
   - name: Create Hive metastore databases
     command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore; USE metastore; SOURCE {{ hive_home }}/scripts/metastore/upgrade/mysql/hive-schema-2.3.0.mysql.sql'"
 
