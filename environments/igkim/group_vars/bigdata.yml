@@ -25,6 +25,7 @@ installer:
   kafka: "kafka_2.13-3.3.1.tgz"
   pyenv: "pyenv.tgz"
   python: "Python-3.10.8.tar.gz"
+  pexpect: "pexpect.tgz"
   mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
 
 
