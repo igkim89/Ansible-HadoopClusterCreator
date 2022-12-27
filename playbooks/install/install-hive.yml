@@ -27,11 +27,11 @@
       group: "{{ remote_user }}"
   - name: Delete installer
     file:
-      path: "{{ bigdata_home }}/{{ installer.mariadb }}"
+      path: "{{ bigdata_home }}/{{ installer.hive }}"
       state: absent
   - name: Create MariaDB symbolic link
     file:
-      src: "{{ bigdata_home }}/{{ installer.mariadb.replace('.tar.gz', '') }}"
+      src: "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
       dest: "{{ hive_home }}"
       state: link
 
