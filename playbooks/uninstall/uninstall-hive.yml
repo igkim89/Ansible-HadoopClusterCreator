@@ -1,0 +1,28 @@
+---
+
+- name: Drop Hive Metastore Database
+  hosts: metastore
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Drop Database
+      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop database metastore;'"
+      failed_when: False
+
+- name: Uninstall Hive
+  hosts: hive
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+#  - name: Stop Hive Metastore
+#    command: "{{ hive_home }}/bin"
+#    failed_when: False
+  - name: Remove directory
+    file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+    - "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
+    - "{{ hive_home }}"
+    failed_when: False
