@@ -80,9 +80,10 @@
 #    debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
   - name: Secure installation
     vars:
-      socket: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}.replace('{{ mariadb_home }}', '{{ mariadb_home }}')"
+      socket_tmp: "{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
+      socket_dir: "{{ socket_tmp.replace('\{\{ mariadb_home \}\}', '{{ mariadb_home }}' }}"
     expect:
-      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ socket }} --user={{ remote_user }}"
+      command: "{{ mariadb_home }}/bin/mysql_secure_installation --basedir={{ mariadb_home }} --defaults-file={{ mariadb_home }}/conf/my.cnf --socket={{ socket_dir }} --user={{ remote_user }}"
       responses:
         'Enter current password for root \(enter for none\):': "\n"
         'Switch to unix_socket authentication \[Y/n\]': 'y'
