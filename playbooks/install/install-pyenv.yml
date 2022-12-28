@@ -7,79 +7,79 @@
   vars:
     pyenv_home: "/home/{{ remote_user }}/.pyenv"
   tasks:
-  - name: Copy installer
-    copy:
-      src: "{{ installer_home }}/{{ installer.pyenv }}"
-      dest: "/home/{{ remote_user }}/"
-  - name: Unzip installer
-    unarchive:
-      src: "/home/{{ remote_user }}/{{ installer.pyenv }}"
-      dest: "/home/{{ remote_user }}/"
-      remote_src: true
-  - name: Install pyenv
-    command: "/home/{{ remote_user }}/pyenv-installer-master/bin/pyenv-offline-installer"
-  - name: Update PATH
-    lineinfile:
-      path: "/home/{{ remote_user }}/.bash_profile"
-      line: "{{ item }}"
-      insertafter: EOF
-    with_items:
-      - 'export PYENV_ROOT="$HOME/.pyenv"'
-      - 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
-      - 'eval "$(pyenv init -)"'
-      - 'eval "$(pyenv virtualenv-init -)"'
-  - name: Delete installer
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-      - "/home/{{ remote_user }}/{{ installer.pyenv }}"
-      - "/home/{{ remote_user }}/pyenv-installer-master"
-  - name: Create python directory
-    file:
-      path: "{{ pyenv_home }}/cache"
-      state: directory
-  - name: Copy python installer
-    copy:
-      src: "{{ installer_home }}/{{ installer.python }}"
-      dest: "{{ pyenv_home }}/cache/"
-  - name: Install yum library
-    become: true
-    yum:
-      name:
-        - "patch"
-        - "bzip2-devel"
-        - "ncurses-devel"
-        - "readline-devel"
-        - "sqlite-devel"
-        - "openssl-devel"
-        - "libffi-devel"
-        - "@Development tools"
-      state: present
-  - name: Install Python
-    command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
-  - name: Update Global python version
-    command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
-  - name: Copy pexpect tgz
-    copy:
-      src: "{{ installer_home }}/{{ installer.pexpect }}"
-      dest: "/home/{{ remote_user }}/"
-  - name: Unzip installer
-    unarchive:
-      src: "/home/{{ remote_user }}/pexpect.tgz"
-      dest: "/home/{{ remote_user }}/"
-      remote_src: true
-  - name: Install pexpect
-    pip:
-      name:
-        - "/home/{{ remote_user }}/pexpect/ptyprocess-0.7.0-py2.py3-none-any.whl"
-        - "/home/{{ remote_user }}/pexpect/pexpect-4.8.0-py2.py3-none-any.whl"
-      state: present
-      executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
-  - name: Remove pexpect tgz
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-      - "/home/{{ remote_user }}/pexpect.tgz"
-      - "/home/{{ remote_user }}/pexpect"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.pyenv }}"
+        dest: "/home/{{ remote_user }}/"
+    - name: Unzip installer
+      unarchive:
+        src: "/home/{{ remote_user }}/{{ installer.pyenv }}"
+        dest: "/home/{{ remote_user }}/"
+        remote_src: true
+    - name: Install pyenv
+      command: "/home/{{ remote_user }}/pyenv-installer-master/bin/pyenv-offline-installer"
+    - name: Update PATH
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bash_profile"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - 'export PYENV_ROOT="$HOME/.pyenv"'
+        - 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"'
+        - 'eval "$(pyenv init -)"'
+        - 'eval "$(pyenv virtualenv-init -)"'
+    - name: Delete installer
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "/home/{{ remote_user }}/{{ installer.pyenv }}"
+        - "/home/{{ remote_user }}/pyenv-installer-master"
+    - name: Create python directory
+      file:
+        path: "{{ pyenv_home }}/cache"
+        state: directory
+    - name: Copy python installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.python }}"
+        dest: "{{ pyenv_home }}/cache/"
+    - name: Install yum library
+      become: true
+      yum:
+        name:
+          - "patch"
+          - "bzip2-devel"
+          - "ncurses-devel"
+          - "readline-devel"
+          - "sqlite-devel"
+          - "openssl-devel"
+          - "libffi-devel"
+          - "@Development tools"
+        state: present
+    - name: Install Python
+      command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
+    - name: Update Global python version
+      command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.gz', '')}}"
+    - name: Copy pexpect tgz
+      copy:
+        src: "{{ installer_home }}/{{ installer.pexpect }}"
+        dest: "/home/{{ remote_user }}/"
+    - name: Unzip installer
+      unarchive:
+        src: "/home/{{ remote_user }}/pexpect.tgz"
+        dest: "/home/{{ remote_user }}/"
+        remote_src: true
+    - name: Install pexpect
+      pip:
+        name:
+          - "/home/{{ remote_user }}/pexpect/ptyprocess-0.7.0-py2.py3-none-any.whl"
+          - "/home/{{ remote_user }}/pexpect/pexpect-4.8.0-py2.py3-none-any.whl"
+        state: present
+        executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
+    - name: Remove pexpect tgz
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "/home/{{ remote_user }}/pexpect.tgz"
+        - "/home/{{ remote_user }}/pexpect"

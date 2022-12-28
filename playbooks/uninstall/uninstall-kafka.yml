@@ -28,15 +28,15 @@
   vars:
     kafka_home: "{{ bigdata_home }}/kafka"
   tasks:
-  - name: Stop Kafka cluster
-    command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
-    failed_when: False
-  - name: Remove directory
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-    - "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
-    - "{{ kafka_home }}"
-    - "{{ kafka.log_dir }}"
-    failed_when: False
+    - name: Stop Kafka cluster
+      command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
+      failed_when: False
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
+        - "{{ kafka_home }}"
+        - "{{ kafka.log_dir }}"
+      failed_when: False

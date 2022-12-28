@@ -5,66 +5,66 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Create bigdata home directory
-    become: yes
-    file:
-      dest: "{{ bigdata_home }}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
-  - name: Copy installer
-    copy:
-      src: "{{ installer_home }}/{{ installer.hadoop }}"
-      dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
-  - name: Unzip installer
-    unarchive:
-      src: "{{ bigdata_home }}/{{ installer.hadoop }}"
-      dest: "{{ bigdata_home }}/"
-      remote_src: true
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
-    #shell: "tar xfz {{ bigdata_home }}/{{ installer.hadoop }} -C {{ bigdata_home }}/"
-  - name: Delete installer
-    file:
-      path: "{{ bigdata_home }}/{{ installer.hadoop }}"
-      state: absent
-  - name: Create hadoop home symbolic link
-    file:
-      src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
-      dest: "{{ bigdata_home }}/hadoop"
-      state: link
-  - name: Create configuration symbolic link
-    file:
-      src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
-      dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
-      state: link
-  - name: 디버깅
-    debug:
-      msg: "debugging.."
-  - name: Edit Java home
-    lineinfile:
-      path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
-      regexp: "# export JAVA_HOME="
-      line: "export JAVA_HOME={{ java_home }}"
-  - name: Edit HDFS_NAMENODE_OPTS
-    lineinfile:
-      path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
-      line: "{{ item }}"
-      insertafter: EOF
-    with_items:
-    - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xmx4g"'
-  - name: Edit Hadoop home
-    lineinfile:
-      path: "/home/{{ remote_user }}/.bash_profile"
-      line: "{{ item }}"
-      insertafter: EOF
-    with_items:
-    - "export HADOOP_HOME={{ bigdata_home }}/hadoop"
-    - "PATH=$PATH:$HADOOP_HOME/bin"
-  - name: Refresh bash_profile
-    shell: "source /home/{{ remote_user }}/.bash_profile"
-    args:
-      executable: /bin/bash
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.hadoop }}"
+        dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hadoop }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      #shell: "tar xfz {{ bigdata_home }}/{{ installer.hadoop }} -C {{ bigdata_home }}/"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hadoop }}"
+        state: absent
+    - name: Create hadoop home symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
+        dest: "{{ bigdata_home }}/hadoop"
+        state: link
+    - name: Create configuration symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
+        dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
+        state: link
+    - name: 디버깅
+      debug:
+        msg: "debugging.."
+    - name: Edit Java home
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+        regexp: "# export JAVA_HOME="
+        line: "export JAVA_HOME={{ java_home }}"
+    - name: Edit HDFS_NAMENODE_OPTS
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xmx4g"'
+    - name: Edit Hadoop home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bash_profile"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HADOOP_HOME={{ bigdata_home }}/hadoop"
+        - "PATH=$PATH:$HADOOP_HOME/bin"
+    - name: Refresh bash_profile
+      shell: "source /home/{{ remote_user }}/.bash_profile"
+      args:
+        executable: /bin/bash
 
 - name: Install NameNode
   hosts: namenode
@@ -73,12 +73,12 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create NameNode directory
-    file:
-      path: "{{ hadoop.hdfs.namenode_dir }}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
+    - name: Create NameNode directory
+      file:
+        path: "{{ hadoop.hdfs.namenode_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
 
 - name: Install DataNode
   hosts: datanode
@@ -87,12 +87,12 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create DataNode directory
-    file:
-      path: "{{ hadoop.hdfs.datanode_dir}}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
+    - name: Create DataNode directory
+      file:
+        path: "{{ hadoop.hdfs.datanode_dir}}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
 
 - name: Install JournalNode
   hosts: journalnode
@@ -101,107 +101,107 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: Create JournalNode directory
-    file:
-      path: "{{ hadoop.hdfs.journalnode_dir }}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
+    - name: Create JournalNode directory
+      file:
+        path: "{{ hadoop.hdfs.journalnode_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
 
 - name: Add configuration files
   hosts: hadoop
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Add hdfs-site.xml
-    template:
-      src: hadoop/hdfs-site.xml
-      dest: "{{ bigdata_home }}/hadoop/conf/hdfs-site.xml"
-      mode: u=rw,g=r,o=r
-  - name: Add core-site.xml
-    template:
-      src: hadoop/core-site.xml
-      dest: "{{ bigdata_home }}/hadoop/conf/core-site.xml"
-      mode: u=rw,g=r,o=r
-  - name: Add Hadoop configuration files
-    template:
-      src: hadoop/{{ item }}
-      dest: "{{ bigdata_home }}/hadoop/conf/"
-      mode: 0644
-    with_items:
-    - yarn-site.xml
-    - mapred-site.xml
+    - name: Add hdfs-site.xml
+      template:
+        src: hadoop/hdfs-site.xml
+        dest: "{{ bigdata_home }}/hadoop/conf/hdfs-site.xml"
+        mode: u=rw,g=r,o=r
+    - name: Add core-site.xml
+      template:
+        src: hadoop/core-site.xml
+        dest: "{{ bigdata_home }}/hadoop/conf/core-site.xml"
+        mode: u=rw,g=r,o=r
+    - name: Add Hadoop configuration files
+      template:
+        src: hadoop/{{ item }}
+        dest: "{{ bigdata_home }}/hadoop/conf/"
+        mode: 0644
+      with_items:
+        - yarn-site.xml
+        - mapred-site.xml
 
 - name: Start JournalNode
   hosts: journalnode
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Check journalnode jps
-    command: "/usr/bin/jps"
-    register: journalnode_jps
-    changed_when: False
-  - name: Start Journalnode
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
-    when: '"JournalNode" not in journalnode_jps.stdout'
-  
+    - name: Check journalnode jps
+      command: "/usr/bin/jps"
+      register: journalnode_jps
+      changed_when: False
+    - name: Start Journalnode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
+      when: '"JournalNode" not in journalnode_jps.stdout'
+
 - name: Setup Active NameNode
   hosts: "{{ groups['namenode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Zookeeper failover controller format
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs zkfc -formatZK"
-  - name: NameNode format
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+    - name: Zookeeper failover controller format
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs zkfc -formatZK"
+    - name: NameNode format
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
 
 - name: Start NameNode, JournalNode, ZKFC
   hosts: "{{ groups['namenode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
 - name: Setup Standby NameNode
   hosts: "{{ groups['namenode'][1] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Setup bootstrapStandby
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -bootstrapStandby"
-  - name: Start Standby NameNode
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
+    - name: Setup bootstrapStandby
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -bootstrapStandby"
+    - name: Start Standby NameNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
 
 - name: Start DataNode
   hosts: datanode
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Check DataNode serivce
-    command: "/usr/bin/jps"
-    register: datanode_jps
-    changed_when: False
-  - name: Start DataNode
-    command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
-    when: '"DataNode" not in datanode_jps.stdout'
+    - name: Check DataNode serivce
+      command: "/usr/bin/jps"
+      register: datanode_jps
+      changed_when: False
+    - name: Start DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
+      when: '"DataNode" not in datanode_jps.stdout'
 
 - name: Start ResourceManager
   hosts: resourcemanager
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
 
 - name: Start NodeManager
   hosts: nodemanager
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
 
 - name: Start JobHistory Server
   hosts: jobhistoryserver
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"

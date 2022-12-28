@@ -2,67 +2,67 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Create bigdata directory
-    become: yes
-    become_user: root
-    become_method: sudo
-    file:
-      path: "{{ bigdata_home }}"
-      state: directory
-      owner: "{{ remote_user }}"
-  - name: Copy installer
-    copy:
-      src: "{{ installer_home }}/{{ installer.zookeeper }}"
-      dest: "{{ bigdata_home }}/{{ installer.zookeeper }}"
-  - name: Unzip
-    shell: "tar xfz {{ bigdata_home }}/{{ installer.zookeeper }} -C {{ bigdata_home }}/"
-  - name: Delete installer
-    file:
-      path: "{{ bigdata_home }}/{{ installer.zookeeper }}"
-      state: absent
-  - name: Create symbolic link
-    file:
-      src: "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
-      dest: "{{ bigdata_home }}/zookeeper"
-      state: link
-    #shell: "ln -s {{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }} {{ bigdata_home }}/zookeeper"
-  - name: Create data directory
-    file:
-      path: "{{ bigdata_home }}/zookeeper/data"
-      state: directory
-  - name: Create myid
-    copy:
-      dest: "{{ bigdata_home }}/zookeeper/data/myid"
-      content: |
-        {{ myid }}
-  - name: Debug myid
-    debug:
-      msg: "{{ myid }} > {{ inventory_hostname }}:{{ bigdata_home }}/zookeeper/data/myid"
-  - name: Copy configuration
-    copy:
-      src: "{{ bigdata_home }}/zookeeper/conf/zoo_sample.cfg"
-      dest: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
-  - name: Edit configuration
-    lineinfile:
-      path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
-      regexp: "^#? *{{ item.key | regex_escape() }}="
-      line: "{{ item.key }}={{ item.value }}"
-    with_dict:
-      "clientPort": "{{ zookeeper.client_port }}"
-      "dataDir": "{{ zookeeper.data_dir }}"
-  - name: Edit configuration
-    lineinfile:
-      path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
-      line: "server.{{ hostvars[item].myid }}={{ item }}:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
-      insertafter: EOF
-    with_items: "{{ groups['zookeeper'] }}"
-  - name: Start zookeeper server
-    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"
-    register: start_zoo
-  - name: Debug zookeeper server
-    debug: var=start_zoo
-  - name: Get zookeeper server status
-    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh status"
-    register: status_zoo
-  - name: Debug zookeeper status
-    debug: var=status_zoo
+    - name: Create bigdata directory
+      become: yes
+      become_user: root
+      become_method: sudo
+      file:
+        path: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.zookeeper }}"
+        dest: "{{ bigdata_home }}/{{ installer.zookeeper }}"
+    - name: Unzip
+      shell: "tar xfz {{ bigdata_home }}/{{ installer.zookeeper }} -C {{ bigdata_home }}/"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.zookeeper }}"
+        state: absent
+    - name: Create symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
+        dest: "{{ bigdata_home }}/zookeeper"
+        state: link
+      #shell: "ln -s {{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }} {{ bigdata_home }}/zookeeper"
+    - name: Create data directory
+      file:
+        path: "{{ bigdata_home }}/zookeeper/data"
+        state: directory
+    - name: Create myid
+      copy:
+        dest: "{{ bigdata_home }}/zookeeper/data/myid"
+        content: |
+          {{ myid }}
+    - name: Debug myid
+      debug:
+        msg: "{{ myid }} > {{ inventory_hostname }}:{{ bigdata_home }}/zookeeper/data/myid"
+    - name: Copy configuration
+      copy:
+        src: "{{ bigdata_home }}/zookeeper/conf/zoo_sample.cfg"
+        dest: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+    - name: Edit configuration
+      lineinfile:
+        path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+        regexp: "^#? *{{ item.key | regex_escape() }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "clientPort": "{{ zookeeper.client_port }}"
+        "dataDir": "{{ zookeeper.data_dir }}"
+    - name: Edit configuration
+      lineinfile:
+        path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+        line: "server.{{ hostvars[item].myid }}={{ item }}:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
+        insertafter: EOF
+      with_items: "{{ groups['zookeeper'] }}"
+    - name: Start zookeeper server
+      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"
+      register: start_zoo
+    - name: Debug zookeeper server
+      debug: var=start_zoo
+    - name: Get zookeeper server status
+      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh status"
+      register: status_zoo
+    - name: Debug zookeeper status
+      debug: var=status_zoo

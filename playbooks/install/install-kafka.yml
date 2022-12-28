@@ -8,54 +8,54 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
-  - name: Create bigdata home directory
-    become: yes
-    file:
-      dest: "{{ bigdata_home }}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
-  - name: Copy installer
-    copy:
-      src: "{{ installer_home }}/{{ installer.kafka }}"
-      dest: "{{ bigdata_home }}/{{ installer.kafka }}"
-  - name: Unzip installer
-    unarchive:
-      src: "{{ bigdata_home }}/{{ installer.kafka }}"
-      dest: "{{ bigdata_home }}/"
-      remote_src: true
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
-  - name: Delete installer
-    file:
-      path: "{{ bigdata_home }}/{{ installer.kafka }}"
-      state: absent
-  - name: Create kafka home symbolic link
-    file:
-      src: "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
-      dest: "{{ kafka_home }}"
-      state: link
-  - name: Create Kafka log directory
-    become: yes
-    file:
-      dest: "{{ kafka.log_dir }}"
-      state: directory
-      owner: "{{ remote_user }}"
-      group: "{{ remote_user }}"
-  - name: Edit Kafka server configuration node id
-    lineinfile:
-      path: "{{ server_conf }}"
-      regexp: "^#? *{{ item.key | regex_escape() }}="
-      line: "{{ item.key }}={{ item.value }}"
-    with_dict:
-      "node.id": "{{ nodeid }}"
-      "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
-      "listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }},CONTROLLER://{{ inventory_hostname }}:{{ kafka.controller_port }}"
-      "log.dirs": "{{ kafka.log_dir }}"
-      "log.retention.hours": "{{ kafka.log_retention_hour }}"
-      "num.partitions": "{{ kafka.num_partition }}"
-      "offsets.topic.replication.factor": "{{ kafka.topic_replication_factor }}"
-      "advertised.listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }}"
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.kafka }}"
+        dest: "{{ bigdata_home }}/{{ installer.kafka }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.kafka }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.kafka }}"
+        state: absent
+    - name: Create kafka home symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.kafka.replace('.tgz', '') }}"
+        dest: "{{ kafka_home }}"
+        state: link
+    - name: Create Kafka log directory
+      become: yes
+      file:
+        dest: "{{ kafka.log_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Edit Kafka server configuration node id
+      lineinfile:
+        path: "{{ server_conf }}"
+        regexp: "^#? *{{ item.key | regex_escape() }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "node.id": "{{ nodeid }}"
+        "controller.quorum.voters": "{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ hostvars[k].nodeid }}@{{ k }}:{{ kafka.controller_port }}{% endfor %}"
+        "listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }},CONTROLLER://{{ inventory_hostname }}:{{ kafka.controller_port }}"
+        "log.dirs": "{{ kafka.log_dir }}"
+        "log.retention.hours": "{{ kafka.log_retention_hour }}"
+        "num.partitions": "{{ kafka.num_partition }}"
+        "offsets.topic.replication.factor": "{{ kafka.topic_replication_factor }}"
+        "advertised.listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }}"
 - name: Create Cluster ID
   hosts: "{{ groups['kafka'][0] }}"
   remote_user: "{{ remote_user }}"
@@ -64,8 +64,8 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
-  - command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
-    register: cluster_uuid
+    - command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
+      register: cluster_uuid
 
 - name: Install Kafka cluster
   hosts: kafka
@@ -75,13 +75,13 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
-  - name: Debug uuid
-    debug:
-      msg: "Cluster ID는 {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} 입니다."
-  - name: Format log directory
-    command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} -c {{ server_conf }}"
-  - name: Start Kafka cluster
-    command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
+    - name: Debug uuid
+      debug:
+        msg: "Cluster ID는 {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} 입니다."
+    - name: Format log directory
+      command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} -c {{ server_conf }}"
+    - name: Start Kafka cluster
+      command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
 
 - name: Create Test Topic
   hosts: "{{ groups['kafka'][0] }}"
@@ -90,7 +90,7 @@
   vars:
     kafka_home: "{{ bigdata_home }}/kafka"
   tasks:
-  - name: Create topic
-    command: "{{ kafka_home }}/bin/kafka-topics.sh --create --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
-  - name: Describe topic
-    command: "{{ kafka_home }}/bin/kafka-topics.sh --describe --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+    - name: Create topic
+      command: "{{ kafka_home }}/bin/kafka-topics.sh --create --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+    - name: Describe topic
+      command: "{{ kafka_home }}/bin/kafka-topics.sh --describe --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"

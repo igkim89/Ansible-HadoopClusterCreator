@@ -1,13 +1,16 @@
 ---
 
 - name: Drop Hive Metastore Database
-  hosts: metastore
+  hosts: mariadb
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Drop Database
+    - name: Drop database
       command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop database metastore;'"
       failed_when: False
+    - name: Delete user
+      command: "{{ mariadb.home_dir }}"/bin/mysql --socket="{{ mariadb.socket_dir }}"/mysql.sock -e "delete from mysql.user where User='hive' and Hosts='{{ item }}';"
+      with_items: "{{ groups['metastore'] }}"
 
 - name: Uninstall Hive
   hosts: hive
@@ -15,14 +18,14 @@
   vars:
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
-#  - name: Stop Hive Metastore
-#    command: "{{ hive_home }}/bin"
-#    failed_when: False
-  - name: Remove directory
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-    - "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
-    - "{{ hive_home }}"
-    failed_when: False
+    #  - name: Stop Hive Metastore
+    #    command: "{{ hive_home }}/bin"
+    #    failed_when: False
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
+        - "{{ hive_home }}"
+      failed_when: False

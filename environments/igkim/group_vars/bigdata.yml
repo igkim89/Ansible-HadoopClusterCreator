@@ -31,7 +31,7 @@ installer:
 
 
 # Zookeeper 설정
-zookeeper: 
+zookeeper:
   client_port: 12181
   data_dir: "/opt/bigdata/zookeeper/data"
   # 내부 통신용 포트
@@ -98,3 +98,4 @@ mariadb:
 hive:
   metastore:
     db_pw: "1q2w#E$R"
+    thrift_port: 19083

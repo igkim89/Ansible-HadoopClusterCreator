@@ -2,12 +2,12 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-  - name: Stop zookeeper server
-    shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
-  - name: delete-bigdata
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
-    - "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
-    - "{{ bigdata_home }}/zookeeper"
+    - name: Stop zookeeper server
+      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
+    - name: delete-bigdata
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.zookeeper.replace('.tar.gz', '') }}"
+        - "{{ bigdata_home }}/zookeeper"

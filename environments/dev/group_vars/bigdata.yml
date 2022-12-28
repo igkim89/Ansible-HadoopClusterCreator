@@ -19,13 +19,13 @@ bigdata_home: "/opt/bigdata"
 installer_home: "/home/bigdata/install"
 
 # 서비스별 설치파일
-installer: 
+installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
 
 # Zookeeper 설정
-zookeeper: 
+zookeeper:
   client_port: 12181
   data_dir: "/opt/bigdata/zookeeper/data"
   # 내부 통신용 포트
