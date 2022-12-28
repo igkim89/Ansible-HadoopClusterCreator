@@ -70,6 +70,7 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/hive/warehouse"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
+      failed_when: false
 #
 #- name: Add hive metastore configuration
 #  hosts: metastore
