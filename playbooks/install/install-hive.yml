@@ -64,7 +64,7 @@
     hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
     - name: Create Hive warehouse directory
-      command: {{ item }}
+      command: "{{ item }}"
       with_items:
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir /tmp"
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/hive/warehouse"
