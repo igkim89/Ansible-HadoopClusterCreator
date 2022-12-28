@@ -9,7 +9,7 @@
       command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop database metastore;'"
       failed_when: False
     - name: Delete user
-      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'delete from mysql.user where User=hive and Hosts={{ item }};'"
+      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop user \'hive\'@\'{{ item }}\';'"
       with_items: "{{ groups['metastore'] }}"
 
 - name: Uninstall Hive
