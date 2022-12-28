@@ -43,8 +43,9 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
   - name: Create Hive metastore databases
-    command: "cd {{ hive_home }}/scripts/metastore/upgrade/mysql && {{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore; USE metastore; SOURCE hive-schema-2.3.0.mysql.sql'"
-
+    command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore; USE metastore; SOURCE hive-schema-2.3.0.mysql.sql'"
+    args:
+      chdir: "{{ hive_home }}/scripts/metastore/upgrade/mysql"
 
 
 
