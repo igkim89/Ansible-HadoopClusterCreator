@@ -12,7 +12,7 @@ remote_user: "igkim"
 # Java Home 디렉토리
 java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64"
 
-# 기본 홈 디렉토리
+# Hadoop Ecosystem 디렉토리
 bigdata_home: "/opt/bigdata"
 
 # 설치파일 디렉토리
@@ -88,9 +88,9 @@ kafka:
 # MariaDB 설정
 mariadb:
   jdbc_port: 13306
-  home_dir: &dir "/home/igkim/mariadb"
+  home_dir: &maria_home_dir "/home/igkim/mariadb"
   data_dir: "/data/mariadb"
-  socket_dir: *dir
+  socket_dir: *maria_home_dir
   max_conn: 8192
   root_pw: "1q2w#E$R"
 

@@ -56,6 +56,21 @@
         chdir: "{{ mariadb.home_dir }}"
       with_items: "{{ groups['metastore'] }}"
 
+- name: Create HDFS directory
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Create Hive warehouse directory
+      command: {{ item }}
+      with_items:
+        - "{{ hadoop_home }}/bin/hdfs dfs -mkdir /tmp"
+        - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/hive/warehouse"
+        - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp"
+        - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
+
 - name: Add hive metastore configuration
   hosts: metastore
   remote_user: "{{ remote_user }}"
