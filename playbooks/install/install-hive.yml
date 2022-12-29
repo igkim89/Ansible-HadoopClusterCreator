@@ -38,6 +38,16 @@
       copy:
         src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
         dest: "{{ hive_home }}/lib/"
+    - name: Add hive-site.xml
+      template:
+        src: hive/hive-site.xml
+        dest: "{{ hive_home }}/conf/hive-site.xml"
+        mode: 0644
+    - name: Add hive-log4j2.properties
+      template:
+        src: hive/hive-log4j2.properties
+        dest: "{{ hive_home }}/conf/hive-log4j2.properties"
+        mode: 0644
 
 - name: Create hive metastore database
   hosts: mariadb
@@ -76,19 +86,6 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
-
-- name: Add hive metastore configuration
-  hosts: metastore
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hive_home: "{{ bigdata_home }}/hive"
-  tasks:
-    - name: Add hive-site.xml
-      template:
-        src: hive/hive-site.xml
-        dest: "{{ hive_home }}/conf/hive-site.xml"
-        mode: 0644
 
 - name: Init schema Metastore
   hosts: "{{ groups['metastore'][0] }}"
