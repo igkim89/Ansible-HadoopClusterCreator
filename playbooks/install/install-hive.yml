@@ -95,7 +95,7 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Init schema
-      command: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
+      shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
 
 
 
