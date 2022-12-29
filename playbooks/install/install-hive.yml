@@ -48,6 +48,18 @@
         src: hive/hive-log4j2.properties
         dest: "{{ hive_home }}/conf/hive-log4j2.properties"
         mode: 0644
+    - name: Edit Hive home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HIVE_HOME={{ bigdata_home }}/hive"
+        - "PATH=$PATH:$HIVE_HOME/bin"
+    - name: Refresh bash_profile
+      shell: "source /home/{{ remote_user }}/.bashrc"
+      args:
+        executable: /bin/bash
 
 - name: Create hive metastore database
   hosts: mariadb
