@@ -108,6 +108,31 @@
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
 
+- name: Edit HCatalog configuration
+  hosts: metastore
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Edit log path
+      lineinfile:
+        path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
+        regexp: "HCAT_LOG_DIR=${HCAT_LOG_DIR:-\"$bin\"/../var/log}"
+        line: "HCAT_LOG_DIR=${HIVE_HOME}/logs"
+    - name: Create log directory
+      file:
+        path: "{{ hive_home }}/logs"
+        state: directory
+    - name: Edit metastore port
+      lineinfile:
+        path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
+        regexp: "export METASTORE_PORT=${METASTORE_PORT:-9083}"
+        line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.thrift_port }}}"
+    - name: Start HCatalog server
+      command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh start"
+
+
 
 
 
