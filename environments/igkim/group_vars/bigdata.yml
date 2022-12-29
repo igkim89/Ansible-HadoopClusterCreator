@@ -93,6 +93,7 @@ mariadb:
   socket_dir: *maria_home_dir
   max_conn: 8192
   root_pw: "1q2w#E$R"
+  char_set: "UTF-8"
 
 # Hive 설정
 hive:
