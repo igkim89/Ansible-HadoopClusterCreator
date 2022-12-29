@@ -8,7 +8,7 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Stop HCatalog server
-      command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
+      shell: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
 
 - name: Drop Hive Metastore Database
   hosts: mariadb
