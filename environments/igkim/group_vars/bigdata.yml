@@ -99,5 +99,5 @@ mariadb:
 # Hive 설정
 hive:
   metastore:
-    db_pw: "1q2w#E$R"
+    db_pw: "ekdnrltnf"
     thrift_port: 19083
