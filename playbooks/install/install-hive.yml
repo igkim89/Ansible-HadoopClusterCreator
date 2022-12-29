@@ -90,6 +90,15 @@
         dest: "{{ hive_home }}/conf/hive-site.xml"
         mode: 0644
 
+- name: Init schema Metastore
+  hosts: "{{ groups['metastore'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hove_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Init schema
+      command: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
 
 
 
