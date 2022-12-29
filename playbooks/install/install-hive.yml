@@ -56,13 +56,12 @@
   vars:
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
-#    - name: Create Hive metastore databases
-#      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore; USE metastore; SOURCE hive-schema-2.3.0.mysql.sql;'"
-#      args:
-#        chdir: "{{ hive_home }}/scripts/metastore/upgrade/mysql"
+    - name: Create Hive metastore database
+      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'CREATE DATABASE metastore;'"
+      args:
+        chdir: "{{ mariadb.home_dir }}"
     - name: Create metastore user
       shell: |
-        bin/mysql --socket=mysql.sock -e "CREATE DATABASE metastore;"
         bin/mysql --socket=mysql.sock -e "CREATE USER 'hive'@'{{ item }}' IDENTIFIED BY '{{ hive.metastore.db_pw }}';"
         bin/mysql --socket=mysql.sock -e "REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hive'@'{{ item }}';"
         bin/mysql --socket=mysql.sock -e "GRANT ALL PRIVILEGES ON metastore.* TO 'hive'@'{{ item }}';"
