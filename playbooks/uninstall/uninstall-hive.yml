@@ -5,6 +5,8 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Stop HCatalog server
+      command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
     - name: Drop database
       command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop database metastore;'"
       failed_when: False
