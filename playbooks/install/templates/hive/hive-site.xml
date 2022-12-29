@@ -19,11 +19,11 @@
     </property>
     <property>
         <name>datanucleus.autoCreateSchema</name>
-        <value>false</value>
+        <value>true</value>
     </property>
     <property>
         <name>datanucleus.fixedDatastore</name>
-        <value>true</value>
+        <value>false</value>
     </property>
     <property>
         <name>datanucleus.autoStartMechanism</name>
