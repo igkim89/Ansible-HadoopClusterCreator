@@ -41,4 +41,8 @@
         <name>hive.server2.thrift.port</name>
         <value>10000</value>
     </property>
+    <property>
+        <name>hive.server2.thrift.max.worker.threads</name>
+        <value>1000</value>
+    </property>
 </configuration>
