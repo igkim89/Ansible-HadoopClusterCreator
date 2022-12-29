@@ -92,7 +92,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    hove_home: "{{ bigdata_home }}/hive"
+    hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Init schema
       command: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
