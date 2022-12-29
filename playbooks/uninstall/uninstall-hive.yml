@@ -11,6 +11,7 @@
     - name: Delete user
       command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e \"drop user 'hive'@'{{ item }}';\""
       with_items: "{{ groups['metastore'] }}"
+      failed_when: False
 
 - name: Uninstall Hive
   hosts: hive
