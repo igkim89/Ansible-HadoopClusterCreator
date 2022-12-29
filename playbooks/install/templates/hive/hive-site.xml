@@ -3,7 +3,7 @@
 <configuration>
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://{{ groups['mariadb'][0] }}:{{ mariadb.jdbc_port }}/metastore</value>
+        <value>jdbc:mysql://{{ groups['mariadb'][0] }}:{{ mariadb.jdbc_port }}/metastore?passwordCharacterEncoding=utf8</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
