@@ -34,6 +34,10 @@
         src: "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
         dest: "{{ hive_home }}"
         state: link
+    - name: Copy MariaDB JDBC
+      copy:
+        src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
+        dest: "{{ hive_home }}/lib/"
 
 - name: Create hive metastore database
   hosts: mariadb
