@@ -118,7 +118,7 @@
     - name: Edit log path
       lineinfile:
         path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
-        regexp: "HCAT_LOG_DIR=${HCAT_LOG_DIR:-\"$bin\"/../var/log}"
+        regexp: HCAT_LOG_DIR=${HCAT_LOG_DIR:-"$bin"/../var/log}
         line: "HCAT_LOG_DIR=${HIVE_HOME}/logs"
     - name: Create log directory
       file:
