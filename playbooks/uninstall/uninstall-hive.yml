@@ -9,6 +9,7 @@
   tasks:
     - name: Stop HCatalog server
       shell: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
+      failed_when: False
 
 - name: Drop Hive Metastore Database
   hosts: mariadb
