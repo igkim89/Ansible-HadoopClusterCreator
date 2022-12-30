@@ -28,8 +28,8 @@ installer:
   pexpect: "pexpect.tgz"
   mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
   mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
-  hive: "apache-hive-2.3.9-bin.tar.gz"
-#  hive: "apache-hive-3.1.2-bin.tar.gz"
+#  hive: "apache-hive-2.3.9-bin.tar.gz"
+  hive: "apache-hive-3.1.2-bin.tar.gz"
 
 # Zookeeper 설정
 zookeeper:
