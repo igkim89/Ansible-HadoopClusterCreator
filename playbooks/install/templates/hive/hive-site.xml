@@ -45,4 +45,8 @@
         <name>hive.server2.thrift.max.worker.threads</name>
         <value>1000</value>
     </property>
+    <property>
+        <name>hive.server2.enable.doAs</name>
+        <value>false</value>
+    </property>
 </configuration>
