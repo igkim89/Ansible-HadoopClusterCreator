@@ -6,6 +6,10 @@
         <value>jdbc:mysql://{{ groups['mariadb'][0] }}:{{ mariadb.jdbc_port }}/metastore?passwordCharacterEncoding=utf8</value>
     </property>
     <property>
+        <name>hive.execution.engine</name>
+        <value>mr</value>
+    </property>
+    <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
         <value>org.mariadb.jdbc.Driver</value>
     </property>
