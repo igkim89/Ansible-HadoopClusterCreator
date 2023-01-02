@@ -165,9 +165,9 @@
         path: "{{ hive_home }}/external_test.csv"
         state: absent
     - name: Create Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive_server2_port }} -n {{ remote_user }} -e 'create database {{ remote_user }};'"
+      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'create database {{ remote_user }};'"
     - name: Select Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive_server2_port }} -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test’;\""
+      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test’;\""
 
 
 
