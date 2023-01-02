@@ -35,7 +35,8 @@
     </property>
     <property>
         <name>hive.metastore.uris</name>
-        <value>thrift://{{ inventory_hostname }}:{{ hive.metastore.thrift_port }}</value>
+        <value>{% for ms in groups['metastore'] %}{% if ms != groups['metastore'][0] %},{% endif %}thrift://{{ ms }}:{{ hive.metastore.thrift_port }}{% endfor %}</value>
+        <description>thrift://{{ inventory_hostname }}:{{ hive.metastore.thrift_port }}</description>
     </property>
     <property>
         <name>hive.metastore.schema.verification</name>
@@ -51,6 +52,6 @@
     </property>
     <property>
         <name>hive.server2.enable.doAs</name>
-        <value>false</value>
+        <value>true</value>
     </property>
 </configuration>
