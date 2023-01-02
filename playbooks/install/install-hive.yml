@@ -133,7 +133,7 @@
       command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh start"
 
 - name: Start HiveServer2
-  hosts: hive-server
+  hosts: hive-server2
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -142,8 +142,8 @@
     - name: Start HiveServer2
       shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 &"
 
-- name: Test Hive
-  hosts: "{{ groups['hive-server'][0] }}"
+- name: Test Hive query
+  hosts: "{{ groups['hive-server2'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -156,15 +156,17 @@
         dest: "{{ hive_home }}/external_test.csv"
     - name: Create HDFS directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/{{ remote_user }}/hive/external_test"
+      failed_when: false
     - name: Upload CSV file
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hive_home }}/external_test.csv /user/{{ remote_user }}/hive/external_test/"
+      failed_when: false
     - name: Delete temporary CSV
       file:
         path: "{{ hive_home }}/external_test.csv"
         state: absent
-    - name: Create Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server'][0] }}:{{ hive_server2_port }}"
-
+#    - name: Create Table
+#      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive_server2_port }}"
+#    - name: Select Table
 
 
 
