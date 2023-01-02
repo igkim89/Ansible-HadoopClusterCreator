@@ -9,8 +9,10 @@
     - name: Find HiveServer2 Process ID
       shell: "/usr/bin/ps -ef | grep hive.service.server.HiveServer2 | grep -v grep | awk '{print $2}'"
       register: hive_server2_pid
+      failed_when: false
     - name: Kill HiveServer2 Process
       command: "/usr/bin/kill -9 {{ hive_server2_pid.stdout }}"
+      failed_when: false
 
 - name: Stop Metastore
   hosts: metastore
