@@ -100,4 +100,5 @@ mariadb:
 hive:
   metastore:
     db_pw: "bigdata123"
-    thrift_port: 19083
+    metastore_port: 19083
+    hive_server2_port: 10000
