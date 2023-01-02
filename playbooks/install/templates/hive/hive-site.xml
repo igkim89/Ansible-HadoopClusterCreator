@@ -44,7 +44,7 @@
     </property>
     <property>
         <name>hive.server2.thrift.port</name>
-        <value>{{ hive_server2_port }}</value>
+        <value>{{ hive.metastore.hive_server2_port }}</value>
     </property>
     <property>
         <name>hive.server2.thrift.max.worker.threads</name>
