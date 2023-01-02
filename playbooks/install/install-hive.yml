@@ -128,7 +128,7 @@
       lineinfile:
         path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
         search_string: "export METASTORE_PORT=${METASTORE_PORT:-9083}"
-        line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.thrift_port }}}"
+        line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.metastore_port }}}"
     - name: Start HCatalog server
       command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh start"
 

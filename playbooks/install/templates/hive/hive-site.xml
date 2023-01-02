@@ -35,7 +35,7 @@
     </property>
     <property>
         <name>hive.metastore.uris</name>
-        <value>{% for ms in groups['metastore'] %}{% if ms != groups['metastore'][0] %},{% endif %}thrift://{{ ms }}:{{ hive.metastore.thrift_port }}{% endfor %}</value>
+        <value>{% for ms in groups['metastore'] %}{% if ms != groups['metastore'][0] %},{% endif %}thrift://{{ ms }}:{{ hive.metastore.metastore_port }}{% endfor %}</value>
         <description>thrift://{{ inventory_hostname }}:{{ hive.metastore.metastore_port }}</description>
     </property>
     <property>
