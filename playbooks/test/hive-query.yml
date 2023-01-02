@@ -27,7 +27,7 @@
       register: database_list
     - name: Create Database
       command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'create database {{ remote_user }};'"
-      when: "{{ remote_user }}" not in database_list
+      when: '"{{ remote_user }}" not in database_list'
     - name: Create Table
       command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test';\""
     - name: Select Table
