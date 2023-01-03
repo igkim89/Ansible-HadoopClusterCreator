@@ -7,6 +7,7 @@
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
     hive_home: "{{ bigdata_home }}/hive"
+    zoo_quorum: "{% for zoo in groups['zo1okeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
   tasks:
     - name: Copy CSV file
       template:
@@ -23,19 +24,19 @@
         path: "{{ hive_home }}/external_test.csv"
         state: absent
     - name: Check Database
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'show databases;'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show databases;'"
       register: database_list
     - name: Create Database
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'create database {{ remote_user }};'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'create database {{ remote_user }};'"
       when: remote_user not in database_list.stdout
     - name: Check Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'show tables from {{ remote_user }};'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show tables from {{ remote_user }};'"
       register: table_list
     - name: Create Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test';\""
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test';\""
       when: '"external_test" not in table_list.stdout'
     - name: Select Table
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"{{ remote_user }}\" -e \"select id, name from {{ remote_user }}.external_test order by 1;\""
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"{{ remote_user }}\" -e \"select id, name from {{ remote_user }}.external_test order by 1;\""
       register: query_result
     - name: Hive query result
       debug:

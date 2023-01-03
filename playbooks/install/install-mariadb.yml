@@ -48,6 +48,7 @@
       file:
         path: "{{ mariadb.data_dir }}"
         state: directory
+        owner: "{{ remote_user }}"
     - name: Install MariaDB
       command: "{{ mariadb.home_dir }}/scripts/mysql_install_db --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }}"
     - name: Start MariaDB
@@ -74,8 +75,6 @@
         dest: "/usr/lib64/libtinfo.so.5"
         state: link
       when: not ti_result.stat.exists
-    - name: Get socket dir
-      debug: msg="{{ lookup('ansible.builtin.ini', 'socket', section='mysqld', file='/home/igkim/ansible/playbooks/install/templates/mariadb/my.cnf') }}"
     - name: Secure installation
       expect:
         command: "{{ mariadb.home_dir }}/bin/mysql_secure_installation --basedir={{ mariadb.home_dir }} --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --socket={{ mariadb.home_dir }}/mysql.sock --user={{ remote_user }}"

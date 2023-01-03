@@ -7,6 +7,7 @@
       command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
       failed_when: False
     - name: Remove directory
+      become: yes
       file:
         path: "{{ item }}"
         state: absent
