@@ -67,6 +67,10 @@
         <value>{{ zookeeper.client_port }}</value>
     </property>
     <property>
+        <name>hive.server2.support.dynamic.service.discovery</name>
+        <value>true</value>
+    </property>
+    <property>
         <name>hive.server2.zookeeper.namespace</name>
         <value>hiveserver2</value>
     </property>
