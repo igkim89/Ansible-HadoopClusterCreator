@@ -35,7 +35,7 @@
       command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test';\""
       when: '"external_test" not in table_list.stdout'
     - name: Select Table
-      command: "{{ hive_home }}/bin/beeline -u jdbc:hive2://{{ groups['hive-server2'][0] }}:{{ hive.metastore.hive_server2_port }} -n {{ remote_user }} -e 'select id, name from {{ remote_user }}.external_test order by 1;'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://igkim-01:12181,igkim-02:12181,igkim-03:12181/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"igkim\" -e \"select id, name from igkim.external_test order by 1;\""
       register: query_result
     - name: Hive query result
       debug:
