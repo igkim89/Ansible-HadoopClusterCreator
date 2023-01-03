@@ -33,7 +33,7 @@
       command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show tables from {{ remote_user }};'"
       register: table_list
     - name: Create Table
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e \"create external table igkim.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://igkim-hdfs/user/igkim/hive/external_test';\""
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e \"create external table {{ remote_user }}.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://{{ hadoop.hdfs.nameservice }}/user/{{ remote_user }}/hive/external_test';\""
       when: '"external_test" not in table_list.stdout'
     - name: Select Table
       command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"{{ remote_user }}\" -e \"select id, name from {{ remote_user }}.external_test order by 1;\""

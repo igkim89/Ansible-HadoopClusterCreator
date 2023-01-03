@@ -30,6 +30,7 @@ installer:
   mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
   #  hive: "apache-hive-2.3.9-bin.tar.gz"
   hive: "apache-hive-3.1.2-bin.tar.gz"
+  spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
 
 # Zookeeper 설정
 zookeeper:
@@ -103,3 +104,6 @@ hive:
     db_pw: "bigdata123"
     metastore_port: 19083
     hive_server2_port: 10000
+
+# Spark 설정
+spark:

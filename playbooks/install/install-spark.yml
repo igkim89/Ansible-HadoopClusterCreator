@@ -1,0 +1,49 @@
+---
+
+- name: Install Spark
+  hosts: spark
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.spark }}"
+        dest: "{{ bigdata_home }}/{{ installer.spark }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.spark }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.spark }}"
+        state: absent
+    - name: Create Spark symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.spark.replace('.tgz', '') }}"
+        dest: "{{ spark_home }}"
+        state: link
+    - name: Edit Spark home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export SPARK_HOME={{ spark_home }}"
+        - "PATH=$PATH:$SPARK_HOME/bin"
+    - name: Add spark-env.sh
+      template:
+        src: spark/spark-env.sh
+        dest: "{{ spark_home }}/conf/spark-env.sh"
+        mode: 0644
