@@ -6,10 +6,10 @@ Ansible을 사용한 Hadoop cluster 구축
 ## 목차
 
 * [1. 환경 구성](#1.-환경-구성)
-  * [1.1. Pyenv 설치](#1.1.-Pyenv-설치)
-  * [1.2. Python 설치](#1.2.-Python-설치)
-  * [1.3. Python 가상환경 구성](#1.3.-Python-가상환경-구성)
-  * [1.4. Ansible 설치](#1.4.-Ansible-설치)
+  * [1.1. Pyenv 설치](#1.1.-pyenv-설치)
+  * [1.2. Python 설치](#1.2.-python-설치)
+  * [1.3. Python 가상환경 구성](#1.3.-python-가상환경-구성)
+  * [1.4. Ansible 설치](#1.4.-ansible-설치)
 * [2. S/W 설치]()
 * [3. S/W 테스트]()
 * [4. S/W 제거]()
