@@ -39,6 +39,4 @@
       register: query_result
     - name: Hive query result
       debug:
-        msg:
-          - "Query: {{ query_result.cmd }}"
-          - "Result: {{ query_result.stdout_lines }}"
+        var: query_result
