@@ -54,4 +54,32 @@
         <name>hive.server2.enable.doAs</name>
         <value>true</value>
     </property>
+    <property>
+        <name>hive.support.concurrency</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.zookeeper.quorum</name>
+        <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
+    </property>
+    <property>
+        <name>hive.zookeeper.client.port</name>
+        <value>{{ zookeeper.client_port }}</value>
+    </property>
+<!--    <property>-->
+<!--        <name></name>-->
+<!--        <value></value>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name></name>-->
+<!--        <value></value>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name></name>-->
+<!--        <value></value>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name></name>-->
+<!--        <value></value>-->
+<!--    </property>-->
 </configuration>
