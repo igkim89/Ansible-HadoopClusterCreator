@@ -53,6 +53,9 @@
   hosts: hadoop
   become: no
   tasks:
+    - name: Wait
+      pause:
+        seconds: 5
     - name: Remove directory
       file:
         path: "{{ item }}"
