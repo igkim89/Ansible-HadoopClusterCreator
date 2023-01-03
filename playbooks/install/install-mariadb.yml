@@ -44,6 +44,7 @@
         dest: "{{ mariadb.home_dir }}/conf/"
         mode: 0644
     - name: Create data directory
+      become: yes
       file:
         path: "{{ mariadb.data_dir }}"
         state: directory
