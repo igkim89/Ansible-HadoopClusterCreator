@@ -66,20 +66,8 @@
         <name>hive.zookeeper.client.port</name>
         <value>{{ zookeeper.client_port }}</value>
     </property>
-<!--    <property>-->
-<!--        <name></name>-->
-<!--        <value></value>-->
-<!--    </property>-->
-<!--    <property>-->
-<!--        <name></name>-->
-<!--        <value></value>-->
-<!--    </property>-->
-<!--    <property>-->
-<!--        <name></name>-->
-<!--        <value></value>-->
-<!--    </property>-->
-<!--    <property>-->
-<!--        <name></name>-->
-<!--        <value></value>-->
-<!--    </property>-->
+    <property>
+        <name>hive.server2.zookeeper.namespace</name>
+        <value>hiveserver2</value>
+    </property>
 </configuration>
