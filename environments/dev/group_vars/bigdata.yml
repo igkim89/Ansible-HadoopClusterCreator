@@ -23,6 +23,13 @@ installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
+  pyenv: "pyenv.tgz"
+  python: "Python-3.10.8.tar.gz"
+  pexpect: "pexpect.tgz"
+  mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
+  mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
+  #  hive: "apache-hive-2.3.9-bin.tar.gz"
+  hive: "apache-hive-3.1.2-bin.tar.gz"
 
 # Zookeeper 설정
 zookeeper:
@@ -79,3 +86,20 @@ kafka:
   topic_replication_factor: 1
   bootstrap_port: 19092
   controller_port: 19093
+
+# MariaDB 설정
+mariadb:
+  jdbc_port: 13306
+  home_dir: &maria_home_dir "/home/bigdata/mariadb"
+  data_dir: "/data/mariadb"
+  socket_dir: *maria_home_dir
+  max_conn: 8192
+  root_pw: "bigdata123"
+  char_set: "utf8"
+
+# Hive 설정
+hive:
+  metastore:
+    db_pw: "bigdata123"
+    metastore_port: 19083
+    hive_server2_port: 10000
