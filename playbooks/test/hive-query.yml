@@ -7,7 +7,7 @@
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
     hive_home: "{{ bigdata_home }}/hive"
-    zoo_quorum: "{% for zoo in groups['zo1okeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
+    zoo_quorum: "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
   tasks:
     - name: Copy CSV file
       template:
