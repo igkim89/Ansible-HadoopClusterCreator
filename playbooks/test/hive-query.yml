@@ -41,4 +41,4 @@
       debug:
         msg:
           - "Query: {{ query_result.cmd }}"
-          - "Result: {{ query_result.stdout.lines }}"
+          - "Result: {{ query_result.stdout_lines }}"
