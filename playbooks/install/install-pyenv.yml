@@ -60,13 +60,13 @@
       command: "{{ pyenv_home }}/bin/pyenv install -v {{ installer.python.replace('Python-', '').replace('.tar.xz', '')}}"
     - name: Update Global python version
       command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.xz', '')}}"
-    - name: Copy pexpect txz
+    - name: Copy pexpect tgz
       copy:
         src: "{{ installer_home }}/{{ installer.pexpect }}"
         dest: "/home/{{ remote_user }}/"
     - name: Unzip installer
       unarchive:
-        src: "/home/{{ remote_user }}/pexpect.txz"
+        src: "/home/{{ remote_user }}/pexpect.tgz"
         dest: "/home/{{ remote_user }}/"
         remote_src: true
     - name: Install pexpect
@@ -76,10 +76,10 @@
           - "/home/{{ remote_user }}/pexpect/pexpect-4.8.0-py2.py3-none-any.whl"
         state: present
         executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
-    - name: Remove pexpect txz
+    - name: Remove pexpect tgz
       file:
         path: "{{ item }}"
         state: absent
       with_items:
-        - "/home/{{ remote_user }}/pexpect.txz"
+        - "/home/{{ remote_user }}/pexpect.tgz"
         - "/home/{{ remote_user }}/pexpect"
