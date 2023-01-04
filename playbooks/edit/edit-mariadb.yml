@@ -1,0 +1,12 @@
+- name: Edit MariaDB configuration files
+  hosts: mariadb
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit MariaDB configuration files
+      template:
+        src: mariadb/{{ item }}
+        dest: "{{ mariadb.home_dir }}/conf/"
+        mode: 0644
+      with_items:
+        - my.cnf

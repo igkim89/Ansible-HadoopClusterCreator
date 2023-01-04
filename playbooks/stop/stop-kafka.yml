@@ -1,0 +1,10 @@
+---
+
+- name: Stop Kafka
+  hosts: kafka
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+  tasks:
+    - name: Stop Kafka cluster
+      command: "{{ kafka_home }}/bin/kafka-server-stop.sh"

@@ -1,0 +1,12 @@
+---
+
+- name: Start Kafka
+  hosts: kafka
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+    server_conf: "{{ kafka_home }}/config/kraft/server.properties"
+  tasks:
+    - name: Start Kafka cluster
+      command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"

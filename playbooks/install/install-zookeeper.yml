@@ -1,4 +1,5 @@
-- hosts: zookeeper
+- name: Install Zookeeper
+  hosts: zookeeper
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

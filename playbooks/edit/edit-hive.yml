@@ -1,0 +1,13 @@
+- name: Edit Hive configuration files
+  hosts: hive
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit Hive configuration files
+      template:
+        src: hive/{{ item }}
+        dest: "{{ bigdata_home }}/hive/conf/"
+        mode: 0644
+      with_items:
+        - hive-site.xml
+        - hive-log4j2.properties

@@ -1,4 +1,5 @@
 ---
+
 - name: Stop HiveServer2
   hosts: hive-server2
   remote_user: "{{ remote_user }}"

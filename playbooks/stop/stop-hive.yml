@@ -1,0 +1,25 @@
+---
+
+- name: Stop HiveServer2
+  hosts: hive-server2
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    - hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Find HiveServer2 Process ID
+      shell: "/usr/bin/ps -ef | grep hive.service.server.HiveServer2 | grep -v grep | awk '{print $2}'"
+      register: hive_server2_pid
+      failed_when: false
+    - name: Kill HiveServer2 Process
+      command: "/usr/bin/kill -9 {{ hive_server2_pid.stdout }}"
+
+- name: Stop Metastore
+  hosts: metastore
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Stop HCatalog server
+      shell: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
