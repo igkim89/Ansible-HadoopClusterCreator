@@ -13,6 +13,7 @@
       failed_when: false
     - name: Kill HiveServer2 Process
       command: "/usr/bin/kill -9 {{ hive_server2_pid.stdout }}"
+      when: hive_server2_pid.stdout !=""
 
 - name: Stop Metastore
   hosts: metastore
