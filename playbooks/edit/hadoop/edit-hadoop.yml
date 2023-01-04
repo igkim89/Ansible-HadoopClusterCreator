@@ -1,0 +1,15 @@
+- name: Edit Hadoop configuration files
+  hosts: hadoop
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit Hadoop configuration files
+      template:
+        src: hadoop/{{ item }}
+        dest: "{{ bigdata_home }}/hadoop/conf/"
+        mode: 0644
+      with_items:
+        - hdfs-site.xml
+        - core-site.xml
+        - yarn-site.xml
+        - mapred-site.xml

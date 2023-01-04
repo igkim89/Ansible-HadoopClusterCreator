@@ -1,0 +1,61 @@
+- name: Start JournalNode
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check journalnode jps
+      command: "/usr/bin/jps"
+      register: journalnode_jps
+      changed_when: False
+    - name: Start Journalnode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
+      when: '"JournalNode" not in journalnode_jps.stdout'
+
+- name: Start NameNode, JournalNode, ZKFC
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+
+- name: Setup Standby NameNode
+  hosts: "{{ groups['namenode'][1] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start Standby NameNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
+
+- name: Start DataNode
+  hosts: datanode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check DataNode serivce
+      command: "/usr/bin/jps"
+      register: datanode_jps
+      changed_when: False
+    - name: Start DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
+      when: '"DataNode" not in datanode_jps.stdout'
+
+- name: Start ResourceManager
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
+
+- name: Start NodeManager
+  hosts: nodemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+
+- name: Start JobHistory Server
+  hosts: jobhistoryserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"

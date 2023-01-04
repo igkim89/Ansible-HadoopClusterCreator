@@ -141,7 +141,7 @@
         <name>yarn.scheduler.maximum-allocation-vcores</name>
         <value>1000</value>
     </property>
-    <property>ß
+    <property>
         <name>yarn.resourcemanager.amliveliness-monitor.interval-ms</name>
         <value>1000</value>
     </property>
