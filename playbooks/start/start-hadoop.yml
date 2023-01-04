@@ -18,14 +18,6 @@
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
-- name: Setup Standby NameNode
-  hosts: "{{ groups['namenode'][1] }}"
-  remote_user: "{{ remote_user }}"
-  become: no
-  tasks:
-    - name: Start Standby NameNode
-      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
-
 - name: Start DataNode
   hosts: datanode
   remote_user: "{{ remote_user }}"
