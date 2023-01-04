@@ -22,7 +22,11 @@ Ansible을 사용한 Hadoop cluster 구축
 
 Python 설치 및 버전 관리를 위해 pyenv를 사용한다.
 
-https://github.com/pyenv/pyenv-installer
+아래 링크를 참고하여 설치한다.
+
+[pyenv github](https://github.com/pyenv/pyenv-installer)
+
+[설치 가이드 블로그](https://igkim89.github.io/tech/python/2022/08/02/pyenv-offline-install/)
 
 ### Python 설치
 
