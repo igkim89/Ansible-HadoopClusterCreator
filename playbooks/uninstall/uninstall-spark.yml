@@ -1,0 +1,33 @@
+---
+
+- name: Delete log directory
+  hosts: "{{ groups['datanode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Delete Spark log directory
+      command: "{{ hadoop_home }}/bin/hdfs dfs -rm -r -f /spark-logs"
+      failed_when: False
+
+- name: Uninstall Kafka
+  hosts: kafka
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+#    - name: Stop Kafka cluster
+#      command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
+#      failed_when: False
+#    - name: Wait
+#      pause:
+#        seconds: 5
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.spark.replace('.tgz', '') }}"
+        - "{{ spark_home }}"
+      failed_when: False
