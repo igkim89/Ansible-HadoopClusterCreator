@@ -11,8 +11,8 @@
       command: "{{ hadoop_home }}/bin/hdfs dfs -rm -r -f /spark-logs"
       failed_when: False
 
-- name: Uninstall Kafka
-  hosts: kafka
+- name: Uninstall Spark
+  hosts: spark
   become: no
   vars:
     spark_home: "{{ bigdata_home }}/spark"
