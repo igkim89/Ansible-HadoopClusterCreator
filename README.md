@@ -21,7 +21,7 @@ Ansible을 사용한 Hadoop cluster 구축
 
 ### SSH Key 설정
 
-외않
+외않됌
 
 ### Pyenv 설치
 
@@ -59,6 +59,8 @@ Python 3.8.9
 ```
 
 ### Ansible 설치
+
+2.14.1
 
 ```
 
