@@ -1,0 +1,39 @@
+---
+
+- name: Uninstall JobHistory Server
+  hosts: jobhistoryserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon stop historyserver"
+
+- name: Uninstall NodeManager
+  hosts: nodemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop nodemanager"
+
+- name: Uninstall ResourceManager
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop resourcemanager"
+
+- name: Uninstall DataNode
+  hosts: datanode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Stop DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop datanode"
+      failed_when: False
+
+- name: Uninstall Active NameNode
+  hosts: "{{ groups['namenode'][0] }}"
+  become: no
+  tasks:
+    - name: Stop NameNode, JournalNode, ZKFC
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/stop-dfs.sh"
+      failed_when: False

@@ -127,7 +127,7 @@
     </property>
     <property>
         <name>yarn.scheduler.maximum-allocation-mb</name>
-        <value>158220</value>
+        <value>2048</value>
     </property>
     <property>
         <name>yarn.scheduler.minimum-allocation-vcores</name>
@@ -141,7 +141,7 @@
         <name>yarn.scheduler.maximum-allocation-vcores</name>
         <value>1000</value>
     </property>
-    <property>
+    <property>ß
         <name>yarn.resourcemanager.amliveliness-monitor.interval-ms</name>
         <value>1000</value>
     </property>
