@@ -43,7 +43,7 @@
         - "export SPARK_HOME={{ spark_home }}"
         - "PATH=$PATH:$SPARK_HOME/bin"
         - "export PYSPARK_DRIVER_PYTHON=python3"
-        - "export PYSPARK_PYTHON=python3"
+        - "export PYSPARK_PYTHON=\"~/.pyenv/shims/python\""
     - name: Add spark-env.sh
       template:
         src: spark/{{ item }}
