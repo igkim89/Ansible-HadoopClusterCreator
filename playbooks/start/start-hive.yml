@@ -19,6 +19,6 @@
   tasks:
     - name: i don't know..
       pause:
-        seconds: 5
+        seconds: 20
     - name: Start HiveServer2
       shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 &"
