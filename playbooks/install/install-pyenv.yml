@@ -20,7 +20,7 @@
       command: "/home/{{ remote_user }}/pyenv-installer-master/bin/pyenv-offline-installer"
     - name: Update PATH
       lineinfile:
-        path: "/home/{{ remote_user }}/.bash_rc"
+        path: "/home/{{ remote_user }}/.bashrc"
         line: "{{ item }}"
         insertafter: EOF
       with_items:
