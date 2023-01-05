@@ -22,4 +22,4 @@
         src: "spark/pyspark-wordcount.py"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
     - name: Start Job
-      command: "{{ bigdata_home }}/spark/bin/pyspark /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"
+      command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"
