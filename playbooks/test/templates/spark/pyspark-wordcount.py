@@ -7,4 +7,4 @@ text_file = sc.textFile("hdfs:///user/{{ remote_user }}/wordcount/input/sample01
 counts = text_file.flatMap(lambda line: line.split(" ")) \
     .map(lambda word: (word, 1)) \
     .reduceByKey(lambda a, b: a + b)
-counts.saveAsTextFile(f"hdfs:///user/{{ remote_user }}/wordcount/output/wordcount-spark-" + today_ts)
+counts.saveAsTextFile(f"hdfs:///user/{{ remote_user }}/wordcount/output/pyspark-wordcount-" + today_ts)
