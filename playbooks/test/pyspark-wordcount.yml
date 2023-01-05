@@ -6,8 +6,9 @@
   become: no
   tasks:
     - name: Create Sample directory
-      path: "/home/{{ remote_user }}/tmp/spark-wordcount"
-      state: directory
+      file:
+        path: "/home/{{ remote_user }}/tmp/spark-wordcount"
+        state: directory
     - name: Create Sample file
       template:
         src: "hadoop/{{ item }}"
