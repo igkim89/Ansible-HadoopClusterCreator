@@ -17,8 +17,8 @@
   vars:
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
-    - name: i don't know..
-      pause:
-        seconds: 20
+#    - name: i don't know..
+#      pause:
+#        seconds: 20
     - name: Start HiveServer2
-      shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 &"
+      shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 > /dev/null 2>&1 &"
