@@ -1,0 +1,24 @@
+---
+
+- name: Start PySpark Wordcount Job
+  hosts: "{{ groups['spark'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Create Sample directory
+      path: "/home/{{ remote_user }}/tmp/spark-wordcount"
+      state: directory
+    - name: Create Sample file
+      template:
+        src: "hadoop/{{ item }}"
+        dest: "/home/{{ remote_user }}/tmp/wordcount/"
+        mode: 0644
+      with_items:
+        - sample01.txt
+        - sample02.txt
+    - name: Copy Python source
+      template:
+        src: "spark/pyspark-wordcount.py"
+        dest: "/home/{{ remote_user }}/tmp/wordcount/"
+    - name: Start Job
+      command: "{{ bigdata_home }}/spark/bin/pyspark /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"

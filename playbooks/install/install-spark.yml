@@ -34,7 +34,7 @@
         src: "{{ bigdata_home }}/{{ installer.spark.replace('.tgz', '') }}"
         dest: "{{ spark_home }}"
         state: link
-    - name: Edit Spark home
+    - name: Edit Spark home and pyspark
       lineinfile:
         path: "/home/{{ remote_user }}/.bashrc"
         line: "{{ item }}"
@@ -42,6 +42,7 @@
       with_items:
         - "export SPARK_HOME={{ spark_home }}"
         - "PATH=$PATH:$SPARK_HOME/bin"
+        - "export PYSPARK_PYTHON=python"
     - name: Add spark-env.sh
       template:
         src: spark/{{ item }}
