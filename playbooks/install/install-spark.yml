@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    hive_home: "{{ bigdata_home }}/spark"
+    spark_home: "{{ bigdata_home }}/spark"
   tasks:
     - name: Create bigdata home directory
       become: yes
