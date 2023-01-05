@@ -59,12 +59,21 @@
         - spark-env.sh
         - spark-defaults.conf
 
-- name: Create log directory
-  hosts: "{{ groups['datanode'][0] }}"
+- name: Spark Preparations
+  hosts: "{{ groups['spark'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
+    spark_home: "{{ spark_home }}/spark"
   tasks:
     - name: Create Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark-logs"
+    - name: Create Spark archive directory
+      command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark/archive"
+    - name: Jar listing
+      command: "/usr/bin/ls {{ spark_home }}/jars"
+      register: jars_list
+    - name: Upload Spark jars
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ item }} /spark/archive"
+      with items: jars_list.stdout
