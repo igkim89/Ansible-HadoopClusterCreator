@@ -65,7 +65,7 @@
   become: no
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
-    spark_home: "{{ spark_home }}/spark"
+    spark_home: "{{ bigdata_home }}/spark"
   tasks:
     - name: Create Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark-logs"
