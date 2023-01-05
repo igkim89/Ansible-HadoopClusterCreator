@@ -74,6 +74,7 @@ hadoop:
     mapreduce_framework: "yarn"
 
     jobhistoryserver_port: 10020
+    # 사용자가 접근할 Jobhistory Webserver port
     jobhistoryserver_http_port: 19888
     jobhistoryserver_https_port: 19890
     jobhistoryserver_admin_port: 10033
