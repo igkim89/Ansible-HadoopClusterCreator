@@ -44,9 +44,12 @@
         - "PATH=$PATH:$SPARK_HOME/bin"
     - name: Add spark-env.sh
       template:
-        src: spark/spark-env.sh
-        dest: "{{ spark_home }}/conf/spark-env.sh"
+        src: spark/{{ item }}
+        dest: "{{ spark_home }}/conf/"
         mode: 0644
+      with_items:
+        - spark-env.sh
+        - spark-defaults.conf
 
 - name: Create log directory
   hosts: "{{ groups['datanode'][0] }}"
