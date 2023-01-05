@@ -74,4 +74,20 @@
         <name>hive.server2.zookeeper.namespace</name>
         <value>hiveserver2</value>
     </property>
+    <property>
+        <name>spark.driver.memory</name>
+        <value>536870912</value>
+    </property>
+    <property>
+        <name>spark.executor.memory</name>
+        <value>1073741824</value>
+    </property>
+    <property>
+        <name>spark.executor.cores</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>spark.dynamicAllocation.enabled</name>
+        <value>false</value>
+    </property>
 </configuration>
