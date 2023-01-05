@@ -75,5 +75,5 @@
       command: "/usr/bin/ls {{ spark_home }}/jars"
       register: jars_list
     - name: Upload Spark jars
-      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ item }} /spark/archive"
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/{{ item }} /spark/archive"
       with_items: jars_list.stdout_lines
