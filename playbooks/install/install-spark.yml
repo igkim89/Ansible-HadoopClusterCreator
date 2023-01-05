@@ -48,7 +48,7 @@
         regexp: "^#? *{{ item.key | regex_escape() }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
-        "export PYSPARK_PYTHON": "\"~/.pyenv/shims/python\""
+        "export PYSPARK_PYTHON": "\"$HOME/.pyenv/shims/python\""
 #        "export PYSPARK_DRIVER_PYTHON": python3
     - name: Add spark-env.sh
       template:
