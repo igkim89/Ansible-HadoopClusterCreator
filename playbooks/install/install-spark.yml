@@ -59,6 +59,20 @@
         - spark-env.sh
         - spark-defaults.conf
 
+- name: Setup Hive on Spark
+  hosts: hive
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ hive_home }}"
+    spark_home: "{{ spark_home }}"
+  tasks:
+    - name: Add spark-defaults.conf
+      template:
+        src: spark/spark-defaults.conf
+        dest: "{{ hive_home }}/conf/"
+        mode: 0644
+
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
   remote_user: "{{ remote_user }}"
