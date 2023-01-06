@@ -78,4 +78,8 @@
         <name>hive.metastore.warehouse.dir</name>
         <value>/user/hive/warehouse</value>
     </property>
+    <property>
+        <name>hive.exec.parallel</name>
+        <value>false</value>
+    </property>
 </configuration>
