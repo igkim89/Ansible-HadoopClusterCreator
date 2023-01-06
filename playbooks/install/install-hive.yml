@@ -105,6 +105,7 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
 
+# 왜 없어도 되지?
 #- name: Edit MariaDB configuration and restart
 #  hosts: mariadb
 #  remote_user: "{{ remote_user }}"

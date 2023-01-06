@@ -94,3 +94,5 @@
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark/archive"
     - name: Upload Spark jars
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
+
+# Spark 재시작 필요
