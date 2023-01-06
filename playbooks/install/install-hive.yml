@@ -38,16 +38,23 @@
       copy:
         src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
         dest: "{{ hive_home }}/lib/"
-    - name: Add hive-site.xml
-      template:
-        src: hive/hive-site.xml
-        dest: "{{ hive_home }}/conf/hive-site.xml"
-        mode: 0644
-    - name: Add hive-log4j2.properties
-      template:
-        src: hive/hive-log4j2.properties
-        dest: "{{ hive_home }}/conf/hive-log4j2.properties"
-        mode: 0644
+    - name: Add hive configuration
+        template:
+          src: "{{ item }}"
+          dest: "{{ hive_home }}/conf/"
+          mode: 0644
+        with_fileglob:
+          - "hive/*"
+#    - name: Add hive-site.xml
+#      template:
+#        src: hive/hive-site.xml
+#        dest: "{{ hive_home }}/conf/hive-site.xml"
+#        mode: 0644
+#    - name: Add hive-log4j2.properties
+#      template:
+#        src: hive/hive-log4j2.properties
+#        dest: "{{ hive_home }}/conf/hive-log4j2.properties"
+#        mode: 0644
     - name: Edit Hive home
       lineinfile:
         path: "/home/{{ remote_user }}/.bashrc"

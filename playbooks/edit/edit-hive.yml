@@ -5,9 +5,8 @@
   tasks:
     - name: Edit Hive configuration files
       template:
-        src: hive/{{ item }}
+        src: "{{ item }}"
         dest: "{{ bigdata_home }}/hive/conf/"
         mode: 0644
-      with_items:
-        - hive-site.xml
-        - hive-log4j2.properties
+      with_fileglob:
+        - "hive/*"

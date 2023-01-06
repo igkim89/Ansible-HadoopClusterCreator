@@ -1,0 +1,1 @@
+export SPARK_HOME={{ bigdata_home }}/spark
