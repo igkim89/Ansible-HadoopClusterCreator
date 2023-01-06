@@ -73,7 +73,7 @@
         dest: "{{ hive_home }}/conf/"
         mode: 0644
     - name: Add Spark jars
-      file:
+      copy:
         src: "{{ item }}"
         dest: "{{ hive_home }}/lib/"
         mode: 0644
