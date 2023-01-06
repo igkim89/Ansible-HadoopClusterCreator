@@ -11,3 +11,16 @@
       with_items:
         - spark-env.sh
         - spark-defaults.conf
+
+- name: Edit Spark configuration to Hive
+  hosts: hive
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit Spark configuration files to Hive
+      template:
+        src: spark/{{ item }}
+        dest: "{{ bigdata_home }}/hive/conf/"
+        mode: 0644
+      with_items:
+        - spark-defaults.conf
