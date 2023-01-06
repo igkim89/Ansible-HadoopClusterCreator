@@ -105,22 +105,22 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
 
-- name: Edit MariaDB configuration and restart
-  hosts: mariadb
-  remote_user: "{{ remote_user }}"
-  become: no
-  tasks:
-    - name: Edit configuration
-      lineinfile:
-        path: "{{ mariadb.home_dir }}/conf/my.cnf"
-        regexp: "^#? *{{ item.key | regex_escape() }}="
-        line: "{{ item.key }}={{ item.value }}"
-      with_dict:
-        - "sql_mode": "NO_BACKSLASH_ESCAPES"
-    - name: Stop MariaDB server
-      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
-    - name: Start MariaDB server
-      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
+#- name: Edit MariaDB configuration and restart
+#  hosts: mariadb
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Edit configuration
+#      lineinfile:
+#        path: "{{ mariadb.home_dir }}/conf/my.cnf"
+#        regexp: "^#? *{{ item.key | regex_escape() }}="
+#        line: "{{ item.key }}={{ item.value }}"
+#      with_dict:
+#        - "sql_mode": "NO_BACKSLASH_ESCAPES"
+#    - name: Stop MariaDB server
+#      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
+#    - name: Start MariaDB server
+#      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
 
 - name: Init schema Metastore
   hosts: "{{ groups['metastore'][0] }}"
@@ -132,22 +132,22 @@
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
 
-- name: Edit MariaDB configuration and restart
-  hosts: mariadb
-  remote_user: "{{ remote_user }}"
-  become: no
-  tasks:
-    - name: Edit configuration
-      lineinfile:
-        path: "{{ mariadb.home_dir }}/conf/my.cnf"
-        regexp: "^#? *{{ item.key | regex_escape() }}="
-        line: "{{ item.key }}={{ item.value }}"
-      with_dict:
-        - "sql_mode": "NO_BACKSLASH_ESCAPES,ANSI_QUOTES"
-    - name: Stop MariaDB server
-      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
-    - name: Start MariaDB server
-      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
+#- name: Edit MariaDB configuration and restart
+#  hosts: mariadb
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Edit configuration
+#      lineinfile:
+#        path: "{{ mariadb.home_dir }}/conf/my.cnf"
+#        regexp: "^#? *{{ item.key | regex_escape() }}="
+#        line: "{{ item.key }}={{ item.value }}"
+#      with_dict:
+#        - "sql_mode": "NO_BACKSLASH_ESCAPES,ANSI_QUOTES"
+#    - name: Stop MariaDB server
+#      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
+#    - name: Start MariaDB server
+#      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
 
 - name: Edit HCatalog configuration
   hosts: metastore
