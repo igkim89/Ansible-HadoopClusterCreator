@@ -44,7 +44,7 @@
         dest: "{{ hive_home }}/conf/"
         mode: 0644
       with_fileglob:
-          - hive/*
+          - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
 #    - name: Add hive-site.xml
 #      template:
 #        src: hive/hive-site.xml
@@ -104,6 +104,8 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
+
+
 
 - name: Init schema Metastore
   hosts: "{{ groups['metastore'][0] }}"
