@@ -9,4 +9,4 @@
         dest: "{{ bigdata_home }}/hive/conf/"
         mode: 0644
       with_fileglob:
-        - hive/*
+        - "/playbook/edit/templates/hive/*"
