@@ -113,7 +113,7 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Init schema
-      shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema --verbose"
+      shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
 
 - name: Edit HCatalog configuration
   hosts: metastore
