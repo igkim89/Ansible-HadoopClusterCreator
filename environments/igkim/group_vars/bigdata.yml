@@ -6,6 +6,9 @@
 # 개인 테스트용
 ############################################
 
+# Ansible Home 디렉토리
+ansible_home: "/home/igkim/ansible"
+
 # OS 사용자명
 remote_user: "igkim"
 

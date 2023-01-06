@@ -9,4 +9,4 @@
         dest: "{{ bigdata_home }}/hive/conf/"
         mode: 0644
       with_fileglob:
-        - "/playbooks/edit/templates/hive/*"
+        - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
