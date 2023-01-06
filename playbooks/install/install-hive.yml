@@ -29,12 +29,12 @@
       file:
         path: "{{ bigdata_home }}/{{ installer.hive }}"
         state: absent
-    - name: Create MariaDB symbolic link
+    - name: Create Hive symbolic link
       file:
         src: "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
         dest: "{{ hive_home }}"
         state: link
-    - name: Copy MariaDB JDBC
+    - name: Copy Hive JDBC
       copy:
         src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
         dest: "{{ hive_home }}/lib/"
@@ -181,7 +181,7 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Start HiveServer2
-      shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 &"
+      shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 > /dev/null 2>&1 &"
 
 
 
