@@ -94,4 +94,8 @@
         <name>spark.dynamicAllocation.enabled</name>
         <value>false</value>
     </property>
+    <property>
+        <name>spark.yarn.archive</name>
+        <value>hdfs:///spark/archive</value>
+    </property>
 </configuration>
