@@ -39,11 +39,11 @@
         src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
         dest: "{{ hive_home }}/lib/"
     - name: Add hive configuration
-        template:
-          src: "{{ item }}"
-          dest: "{{ hive_home }}/conf/"
-          mode: 0644
-        with_fileglob:
+      template:
+        src: "{{ item }}"
+        dest: "{{ hive_home }}/conf/"
+        mode: 0644
+      with_fileglob:
           - hive/*
 #    - name: Add hive-site.xml
 #      template:
