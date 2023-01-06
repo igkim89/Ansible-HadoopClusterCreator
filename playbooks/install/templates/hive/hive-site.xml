@@ -82,4 +82,8 @@
         <name>hive.exec.parallel</name>
         <value>false</value>
     </property>
+    <property>
+        <name>spark.serializer</name>
+        <value>org.apache.spark.serializer.JavaSerializer</value>
+    </property>
 </configuration>
