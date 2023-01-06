@@ -44,7 +44,7 @@
           dest: "{{ hive_home }}/conf/"
           mode: 0644
         with_fileglob:
-          - "hive/*"
+          - hive/*
 #    - name: Add hive-site.xml
 #      template:
 #        src: hive/hive-site.xml
