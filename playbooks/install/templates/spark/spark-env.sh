@@ -78,3 +78,4 @@
 
 export HADOOP_HOME="{{ bigdata_home }}/hadoop"
 export HADOOP_CONF_DIR="{{ bigdata_home }}/hadoop/conf"
+export SPARK_DIST_CLASSPATH="\$\({{ bigdata_home }}/hadoop/bin/hadoop classpath\)"
