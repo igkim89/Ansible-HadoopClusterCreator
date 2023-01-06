@@ -64,8 +64,8 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    hive_home: "{{ hive_home }}"
-    spark_home: "{{ spark_home }}"
+    hive_home: "{{ bigdata_home }}/hive"
+    spark_home: "{{ bigdata_home }}/spark"
   tasks:
     - name: Add spark-defaults.conf
       template:
