@@ -1,12 +1,15 @@
 ---
 
-- name: Delete log directory
+- name: Delete HDFS directory
   hosts: "{{ groups['datanode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
+    - name: Delete Spark archive directory
+      command: "{{ hadoop_home }}/bin/hdfs dfs -rm -r -f /spark/archive"
+      failed_when: False
     - name: Delete Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -rm -r -f /spark-logs"
       failed_when: False
