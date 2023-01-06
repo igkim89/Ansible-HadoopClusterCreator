@@ -72,6 +72,13 @@
         src: spark/spark-defaults.conf
         dest: "{{ hive_home }}/conf/"
         mode: 0644
+    - name: Add Spark jars
+      file:
+        src: "{{ item }}"
+        dest: "{{ hive_home }}/lib/"
+        mode: 0644
+      with_fileglob:
+        - "{{ installer_home }}/hive-on-spark/*"
 
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
