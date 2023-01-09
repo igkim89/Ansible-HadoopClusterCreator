@@ -86,7 +86,7 @@
         mode: 0644
     - name: kryo test
       file:
-        src: "{{ hive_home }}/lib/hive-kryo-registrator-3.1.2.jar"
+        path: "{{ hive_home }}/lib/hive-kryo-registrator-3.1.2.jar"
         state: absent
 
 - name: Spark Preparations
