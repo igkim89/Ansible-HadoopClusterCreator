@@ -7,7 +7,7 @@
 ############################################
 
 # Ansible Home 디렉토리
-ansible_home: "/home/igkim/ansible"
+ansible_home: "/home/bigdata/ansible"
 
 # OS 사용자명
 remote_user: "bigdata"
