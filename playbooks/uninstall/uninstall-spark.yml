@@ -20,12 +20,6 @@
   vars:
     spark_home: "{{ bigdata_home }}/spark"
   tasks:
-#    - name: Stop Kafka cluster
-#      command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
-#      failed_when: False
-#    - name: Wait
-#      pause:
-#        seconds: 5
     - name: Remove directory
       file:
         path: "{{ item }}"

@@ -78,7 +78,16 @@
         dest: "{{ hive_home }}/lib/"
         mode: 0644
       with_fileglob:
-        - "{{ installer_home }}/hive-on-spark/*"
+        - "{{ installer_home }}/hive-on-spark/*_2.13*"
+    - name: kryo test
+      copy:
+        src: "{{ installer_home }}/hive-on-spark/hive-kryo-registrator-4.0.0-alpha-1.jar"
+        dest: "{{ hive_home }}/lib/"
+        mode: 0644
+    - name: kryo test
+      file:
+        src: "{{ hive_home }}/lib/hive-kryo-registrator-3.1.2.jar"
+        state: absent
 
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
@@ -95,4 +104,5 @@
     - name: Upload Spark jars
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
 
-# Spark 재시작 필요
+
+# Hive, Spark 재시작 필요
