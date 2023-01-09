@@ -78,8 +78,8 @@
         dest: "{{ hive_home }}/lib/"
         mode: 0644
       with_fileglob:
-#        - "{{ installer_home }}/hive-on-spark/*2.13*"
-        - "{{ installer_home }}/hive-on-spark-2.3.4/*2.11*"
+        - "{{ installer_home }}/hive-on-spark/*2.13*"
+#        - "{{ installer_home }}/hive-on-spark-2.3.4/*2.11*"
 #    - name: kryo test
 #      copy:
 #        src: "{{ installer_home }}/hive-on-spark/hive-kryo-registrator-4.0.0-alpha-1.jar"
