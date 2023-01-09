@@ -8,3 +8,4 @@
   tasks:
     - name: Stop Kafka cluster
       command: "{{ kafka_home }}/bin/kafka-server-stop.sh"
+      failed_when: false
