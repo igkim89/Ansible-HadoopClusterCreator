@@ -146,6 +146,10 @@
         dest: "{{ tez_home }}/conf/"
       with_items:
         - tez-site.xml
+    - name: Add Hadoop library
+      copy:
+        src: "{{ installer_home }}/tez/hadoop-common-3.3.4.jar"
+        dest: "{{ tez_home }}/lib/"
 
 - name: Upload Tez library
   hosts: "{{ groups['datanode'][0] }}"
