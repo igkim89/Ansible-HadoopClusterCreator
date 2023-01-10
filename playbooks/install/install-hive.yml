@@ -119,6 +119,7 @@
     - name: Create Tez home directory
       file:
         path: "{{ bigdata_home }}/{{ installer.tez_min.replace('.tar.gz', '') }}"
+        state: directory
     - name: Unzip installer
       unarchive:
         src: "{{ bigdata_home }}/{{ installer.tez_min }}"
