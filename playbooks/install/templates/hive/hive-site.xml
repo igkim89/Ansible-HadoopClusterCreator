@@ -7,7 +7,7 @@
     </property>
     <property>
         <name>hive.execution.engine</name>
-        <value>spark</value>
+        <value>tez</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
@@ -81,5 +81,9 @@
     <property>
         <name>hive.exec.parallel</name>
         <value>false</value>
+    </property>
+    <property>
+        <name>hive.tez.container.size</name>
+        <value>4096</value>
     </property>
 </configuration>

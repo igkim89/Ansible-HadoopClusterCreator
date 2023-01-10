@@ -59,26 +59,27 @@
         - spark-env.sh
         - spark-defaults.conf
 
-- name: Setup Hive on Spark
-  hosts: hive
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hive_home: "{{ bigdata_home }}/hive"
-    spark_home: "{{ bigdata_home }}/spark"
-  tasks:
-    - name: Add spark-defaults.conf
-      template:
-        src: spark/spark-defaults.conf
-        dest: "{{ hive_home }}/conf/"
-        mode: 0644
-    - name: Add Spark jars
-      copy:
-        src: "{{ item }}"
-        dest: "{{ hive_home }}/lib/"
-        mode: 0644
-      with_fileglob:
-        - "{{ installer_home }}/hive-on-spark/*2.13*"
+# Hive&Spark 버전 호환 문제로 인해 중단
+#- name: Setup Hive on Spark
+#  hosts: hive
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hive_home: "{{ bigdata_home }}/hive"
+#    spark_home: "{{ bigdata_home }}/spark"
+#  tasks:
+#    - name: Add spark-defaults.conf
+#      template:
+#        src: spark/spark-defaults.conf
+#        dest: "{{ hive_home }}/conf/"
+#        mode: 0644
+#    - name: Add Spark jars
+#      copy:
+#        src: "{{ item }}"
+#        dest: "{{ hive_home }}/lib/"
+#        mode: 0644
+#      with_fileglob:
+#        - "{{ installer_home }}/hive-on-spark/*2.13*"
 #        - "{{ installer_home }}/hive-on-spark-2.3.4/*2.11*"
 #    - name: kryo test
 #      copy:
