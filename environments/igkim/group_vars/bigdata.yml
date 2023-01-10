@@ -35,8 +35,8 @@ installer:
   hive: "apache-hive-3.1.2-bin.tar.gz"
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
 #  spark: "spark-2.3.4-bin-hadoop2.7.tgz"
-  tez_min: "tez-0.10.3-minimal.tar.gz"
-  tez: "tez-0.10.3.tar.gz"
+  tez_min: "tez-0.10.2-minimal.tar.gz"
+  tez: "tez-0.10.2.tar.gz"
 
 # Zookeeper 설정
 zookeeper:

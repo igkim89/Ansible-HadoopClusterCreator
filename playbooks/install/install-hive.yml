@@ -116,10 +116,13 @@
       copy:
         src: "{{ installer_home }}/tez/{{ installer.tez_min }}"
         dest: "{{ bigdata_home }}/{{ installer.tez_min }}"
+    - name: Create Tez home directory
+      file:
+        path: "{{ bigdata_home }}/{{ installer.tez_min.replace('.tar.gz', '') }}"
     - name: Unzip installer
       unarchive:
         src: "{{ bigdata_home }}/{{ installer.tez_min }}"
-        dest: "{{ bigdata_home }}/"
+        dest: "{{ bigdata_home }}/{{ installer.tez_min.replace('.tar.gz', '') }}/"
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
