@@ -129,7 +129,7 @@
         state: absent
     - name: Create Tez symbolic link
       file:
-        src: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
+        src: "{{ bigdata_home }}/{{ installer.tez_min.replace('.tar.gz', '') }}"
         dest: "{{ tez_home }}"
         state: link
     - name: Create configuration directory
