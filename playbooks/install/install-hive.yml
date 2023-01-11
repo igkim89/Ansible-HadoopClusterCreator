@@ -67,6 +67,12 @@
       shell: "source /home/{{ remote_user }}/.bashrc"
       args:
         executable: /bin/bash
+    - name: Add htrace library
+      copy:
+        src: "{{ installer_home }}/tez/{{ item }}"
+        dest: "{{ hive_home }}/lib/"
+      with_items:
+        - "htrace-core4-4.1.0-incubating.jar"
 
 - name: Create hive metastore database
   hosts: mariadb
@@ -146,7 +152,7 @@
         dest: "{{ tez_home }}/conf/"
       with_items:
         - tez-site.xml
-    - name: Add Hadoop library
+    - name: Add library
       copy:
         src: "{{ installer_home }}/tez/{{ item }}"
         dest: "{{ tez_home }}/lib/"
