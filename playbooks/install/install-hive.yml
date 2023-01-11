@@ -163,7 +163,7 @@
       register: check_tez_lib
     - name: Upload library
       command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
-      when: '{{ installer.tez }} not in check_tez_lib.stdout'
+      when: '"{{ installer.tez }}" not in check_tez_lib.stdout'
 
 # ANSI_QUOTOS 없으면 Metastore에서 에러가 나긴 하는데 기능상의 에러가 아닌 테스트 중 에러로 보인다.
 #- name: Edit MariaDB configuration and restart
