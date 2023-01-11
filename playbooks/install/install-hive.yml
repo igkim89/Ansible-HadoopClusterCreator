@@ -168,7 +168,7 @@
     - name: Create library directory
       command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -mkdir -p {{ tez.lib_dir }}"
     - name: Check library
-      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -ls {{ tez.lib_dir }}/{{ installer.tez }}"
+      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -ls {{ tez.lib_dir }}"
       register: check_tez_lib
     - name: Upload library
       command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
