@@ -157,7 +157,7 @@
         src: "{{ installer_home }}/tez/{{ item }}"
         dest: "{{ tez_home }}/lib/"
       with_items:
-        - "hadoop-common-3.3.1.jar"
+        - "hadoop-common-3.3.1.jar" # 3.3.4는 왜 안될까..?
         - "htrace-core4-4.1.0-incubating.jar"
 
 - name: Upload Tez library

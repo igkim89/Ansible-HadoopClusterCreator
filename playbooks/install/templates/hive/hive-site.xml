@@ -84,6 +84,6 @@
     </property>
     <property>
         <name>hive.tez.container.size</name>
-        <value>4096</value>
+        <value>2048</value>
     </property>
 </configuration>
