@@ -148,8 +148,11 @@
         - tez-site.xml
     - name: Add Hadoop library
       copy:
-        src: "{{ installer_home }}/tez/hadoop-common-3.3.4.jar"
+        src: "{{ installer_home }}/tez/{{ item }}"
         dest: "{{ tez_home }}/lib/"
+      with_items:
+        - "hadoop-common-3.3.4.jar"
+        - "htrace-core4-4.1.0-incubating.jar"
 
 - name: Upload Tez library
   hosts: "{{ groups['datanode'][0] }}"
