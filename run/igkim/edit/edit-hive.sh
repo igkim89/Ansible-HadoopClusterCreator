@@ -5,14 +5,14 @@
 echo -n "Do you want to restart the service now? (y/n) > "
 read restart
 
-while [ $read != "Y" ] && [ $read != "y" ] && [ $read != "N" ] && [ $read != "n" ]
+while [ $restart != "Y" ] && [ $restart != "y" ] && [ $restart != "N" ] && [ $restart != "n" ]
 do
   echo "Invalid input."
   echo -n "Do you want to restart the service now? (y/n) > "
   read restart
 done
 
-if [ $read = "Y" ] || [ $read = "y" ]
+if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/stop/stop-hive.yml
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/start/start-hive.yml
