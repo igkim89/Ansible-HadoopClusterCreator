@@ -51,13 +51,13 @@ hadoop:
     # Namenode HA Endpoint
     nameservice: "kdev-hdfs"
     # Namenode 설정
-    namenode_dir: "/data/nn"
+    namenode_dir: "/disk01/dfs/nn,/disk02/dfs/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
     # Datanode 설정
-    datanode_dir: "/data/dn"
+    datanode_dir: "/disk01/dfs/dn,disk02/dfs/dn,disk03/dfs/dn,disk04/dfs/dn,disk05/dfs/dn"
     # Journalnode 설정
-    journalnode_dir: "/data/jn"
+    journalnode_dir: "/disk03/dfs/jn"
     journalnode_shared_edits_port: 8485
     # HDFS 설정
     replication_factor: 3
@@ -75,6 +75,14 @@ hadoop:
     resourcemanager_admin_port: 8033
     resourcemanager_webapp_port: 8088
     resourcemanager_webapp_https_port: 8090
+
+    scheduler_min_allocation_mb: 1024
+    scheduler_max_allocation_mb: 2048
+    scheduler_increment_allocation_mb: 512
+    scheduler_min_allocation_vcores: 1
+    scheduler_max_allocation_vcores: 2
+    scheduler_increment_allocation_vcores: 1
+
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
 

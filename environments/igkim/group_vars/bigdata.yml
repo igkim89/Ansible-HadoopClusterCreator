@@ -34,7 +34,6 @@ installer:
 #  hive: "apache-hive-2.3.9-bin.tar.gz"
   hive: "apache-hive-3.1.2-bin.tar.gz"
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
-#  spark: "spark-2.3.4-bin-hadoop2.7.tgz"
   tez_min: "tez-0.10.2-minimal.tar.gz"
   tez: "tez-0.10.2.tar.gz"
 
@@ -76,6 +75,14 @@ hadoop:
     resourcemanager_admin_port: 8033
     resourcemanager_webapp_port: 8088
     resourcemanager_webapp_https_port: 8090
+
+    scheduler_min_allocation_mb: 1024
+    scheduler_max_allocation_mb: 2048
+    scheduler_increment_allocation_mb: 512
+    scheduler_min_allocation_vcores: 1
+    scheduler_max_allocation_vcores: 2
+    scheduler_increment_allocation_vcores: 1
+
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
 
