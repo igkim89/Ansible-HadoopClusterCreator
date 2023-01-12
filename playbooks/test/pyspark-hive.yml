@@ -14,4 +14,4 @@
         src: "spark/pyspark-hive.py"
         dest: "/home/{{ remote_user }}/tmp/spark-hive/"
     - name: Start Job
-      command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
+      shell: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
