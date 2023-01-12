@@ -84,6 +84,6 @@
     </property>
     <property>
         <name>hive.tez.container.size</name>
-        <value>2048</value>
+        <value>{{ hive.tez_container_size }}</value>
     </property>
 </configuration>

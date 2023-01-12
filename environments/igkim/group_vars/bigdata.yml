@@ -110,6 +110,7 @@ hive:
     db_pw: "bigdata123"
     metastore_port: 19083
     hive_server2_port: 10000
+    tez_container_size: 2048
 
 tez:
   lib_dir: "/apps/tez/lib"
