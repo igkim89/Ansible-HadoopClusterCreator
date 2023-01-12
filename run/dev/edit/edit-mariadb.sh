@@ -7,13 +7,13 @@ NO_COLOR='\033[0m'
 
 ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/edit/edit-mariadb.yml
 
-echo -n -e "${RED_COLOR}Do you want to restart the Hive service now?${NO_COLOR} (y/n) "
+echo -n -e "${RED_COLOR}Do you want to restart the MariaDB service now?${NO_COLOR} (y/n) "
 read restart
 
 while [ $restart != "Y" ] && [ $restart != "y" ] && [ $restart != "N" ] && [ $restart != "n" ]
 do
   echo "Invalid input."
-  echo -n -e "${RED_COLOR}Do you want to restart the Hive service now?${NO_COLOR} (y/n) "
+  echo -n -e "${RED_COLOR}Do you want to restart the MariaDB service now?${NO_COLOR} (y/n) "
   read restart
 done
 
@@ -22,8 +22,8 @@ then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-mariadb.yml
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-mariadb.yml
 else
-  echo -e "${YELLOW_COLOR}Hive service was not restarted.${NO_COLOR}"
-  echo -e "${YELLOW_COLOR}Hive service restart is required to apply the changed settings.${NO_COLOR}"
+  echo -e "${YELLOW_COLOR}MariaDB service was not restarted.${NO_COLOR}"
+  echo -e "${YELLOW_COLOR}MariaDB service restart is required to apply the changed settings.${NO_COLOR}"
 fi
 
 

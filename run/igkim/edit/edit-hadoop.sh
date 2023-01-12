@@ -7,13 +7,13 @@ NO_COLOR='\033[0m'
 
 ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/edit/edit-hadoop.yml
 
-echo -n -e "${RED_COLOR}Do you want to restart the Hive service now?${NO_COLOR} (y/n) "
+echo -n -e "${RED_COLOR}Do you want to restart the Hadoop service now?${NO_COLOR} (y/n) "
 read restart
 
 while [ $restart != "Y" ] && [ $restart != "y" ] && [ $restart != "N" ] && [ $restart != "n" ]
 do
   echo "Invalid input."
-  echo -n -e "${RED_COLOR}Do you want to restart the Hive service now?${NO_COLOR} (y/n) "
+  echo -n -e "${RED_COLOR}Do you want to restart the Hadoop service now?${NO_COLOR} (y/n) "
   read restart
 done
 
@@ -22,8 +22,8 @@ then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/stop/stop-hadoop.yml
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/start/start-hadoop.yml
 else
-  echo -e "${YELLOW_COLOR}Hive service was not restarted.${NO_COLOR}"
-  echo -e "${YELLOW_COLOR}Hive service restart is required to apply the changed settings.${NO_COLOR}"
+  echo -e "${YELLOW_COLOR}Hadoop service was not restarted.${NO_COLOR}"
+  echo -e "${YELLOW_COLOR}Hadoop service restart is required to apply the changed settings.${NO_COLOR}"
 fi
 
 
