@@ -13,5 +13,10 @@
       template:
         src: "spark/pyspark-hive.py"
         dest: "/home/{{ remote_user }}/tmp/spark-hive/"
-    - name: Start Job
-      shell: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
+    - name: test export
+      shell: "export"
+      register: test_var
+    - name: debugging..
+      debug: test_var.stdout
+#    - name: Start Job
+#      shell: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
