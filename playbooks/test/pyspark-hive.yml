@@ -1,7 +1,7 @@
 ---
 
 - name: Start PySpark Hive
-  hosts: "{{ groups['spark'][0] }}"
+  hosts: "{{ groups['hive'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -13,11 +13,11 @@
       template:
         src: "spark/pyspark-hive.py"
         dest: "/home/{{ remote_user }}/tmp/spark-hive/"
-    - name: test export
-      shell: "export"
-      register: test_var
-    - name: debugging..
-      debug:
-        var: test_var
-#    - name: Start Job
-#      shell: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
+#    - name: test export
+#      shell: "export"
+#      register: test_var
+#    - name: debugging..
+#      debug:
+#        var: test_var
+    - name: Start Job
+      command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
