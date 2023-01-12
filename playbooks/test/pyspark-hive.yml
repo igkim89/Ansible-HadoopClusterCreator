@@ -17,6 +17,7 @@
       shell: "export"
       register: test_var
     - name: debugging..
-      debug: test_var.stdout
+      debug:
+        var: test_var
 #    - name: Start Job
 #      shell: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
