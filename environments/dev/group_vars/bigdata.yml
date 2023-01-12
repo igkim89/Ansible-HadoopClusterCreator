@@ -121,3 +121,17 @@ hive:
 tez:
   tez_container_size: 8192
   lib_dir: "/apps/tez/lib"
+
+spark:
+  driver_memory: "4g"
+  driver_cores: 2
+  executor_memory: "16g"
+  executor_cores: 4
+  history:
+    update_interval: "5s"
+    ui_port: 18080
+    cleaner:
+      enabled: false
+      interval: "1d"
+      max_age: "15d"
+      max_num: "Int.MaxValue"

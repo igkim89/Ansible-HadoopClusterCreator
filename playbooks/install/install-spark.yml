@@ -106,5 +106,12 @@
     - name: Upload Spark jars
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
 
-
-# Hive, Spark 재시작 필요
+- name: Start history server
+  hosts: spark-history
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Start history server
+      command: "{{ spark_home }}/sbin/start-history-server.sh"
