@@ -1,2 +1,6 @@
-{% for rs in groups['region-server'] %}{% if rs != groups['region-server'][0] %}
-{% endif %}{{ rs }}{% endfor %}
+{% for rs in groups['region-server'] %}
+{% if rs != groups['region-server'][0] %}
+
+{% endif %}
+{{ rs }}
+{% endfor %}
