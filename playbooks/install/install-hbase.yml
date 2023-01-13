@@ -40,5 +40,5 @@
         src: "hbase/{{ item }}"
         dest: "{{ hbase_home }}/conf/"
         mode: 0644
-      with_fileglob:
+      with_items:
           - "regionservers"
