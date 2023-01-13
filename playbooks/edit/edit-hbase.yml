@@ -1,0 +1,12 @@
+- name: Edit HBase configuration files
+  hosts: hbase
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit HBase configuration files
+      template:
+        src: "{{ item }}"
+        dest: "{{ bigdata_home }}/hbase/conf/"
+        mode: 0644
+      with_fileglob:
+        - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"

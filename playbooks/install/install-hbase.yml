@@ -34,11 +34,10 @@
         src: "{{ bigdata_home }}/{{ installer.hbase.replace('-bin.tar.gz', '') }}"
         dest: "{{ hbase_home }}"
         state: link
-
     - name: Add hbase configuration
       template:
-        src: "hbase/{{ item }}"
-        dest: "{{ hbase_home }}/conf/"
+        src: "{{ item }}"
+        dest: "{{ bigdata_home }}/hbase/conf/"
         mode: 0644
-      with_items:
-          - "regionservers"
+      with_fileglob:
+        - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
