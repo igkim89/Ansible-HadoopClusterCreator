@@ -1,5 +1,5 @@
 {% for hm in groups['hbase-master'] %}
-{% if rs != groups['hbase-master'][1] %}
+{% if hm != groups['hbase-master'][1] %}
 {% endif %}
-{% if rs != groups['hbase-master'][0] %}{{ hm }}{% endif %}
+{% if hm != groups['hbase-master'][0] %}{{ hm }}{% endif %}
 {% endfor %}
