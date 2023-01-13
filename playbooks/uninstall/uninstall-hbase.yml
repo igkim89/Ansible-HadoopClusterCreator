@@ -1,0 +1,16 @@
+---
+
+- name: Remove HBase directory
+  hosts: hbase
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.hive.replace('-bin.tar.gz', '') }}"
+        - "{{ hbase_home }}"
+      failed_when: False

@@ -36,6 +36,7 @@ installer:
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
   tez_min: "tez-0.10.2-minimal.tar.gz"
   tez: "tez-0.10.2.tar.gz"
+  hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
 
 # Zookeeper 설정
 zookeeper:
@@ -135,3 +136,5 @@ spark:
       interval: "1d"
       max_age: "15d"
       max_num: "Int.MaxValue"
+
+hbase:
