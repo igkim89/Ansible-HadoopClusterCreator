@@ -21,6 +21,10 @@
 -->
 <configuration>
     <property>
+        <name>hbase.cluster.distributed</name>
+        <value>true</value>
+    </property>
+    <property>
         <name>hbase.zookeeper.quorum</name>
         <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
     </property>
@@ -29,10 +33,7 @@
         <value>{{ bigdata_home }}/hbase/zoo-dir</value>
     </property>
 
-<!--    <property>-->
-<!--        <name>hbase.cluster.distributed</name>-->
-<!--        <value>false</value>-->
-<!--    </property>-->
+
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->
 <!--        <value>./tmp</value>-->
