@@ -41,3 +41,13 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+
+- name: Start HBase Master
+  hosts: "{{ groups['hbase-master'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Start master process
+      command: "{{ hbase_home }}/bin/start-hbase.sh"
