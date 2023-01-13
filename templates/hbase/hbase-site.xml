@@ -25,6 +25,10 @@
         <value>true</value>
     </property>
     <property>
+        <name>hbase.rootdir</name>
+        <value>hdfs://{{ hadoop.hdfs.nameservice }}/apps/hbase</value>
+    </property>
+    <property>
         <name>hbase.zookeeper.property.clientPort</name>
         <value>{{ zookeeper.client_port }}</value>
     </property>
