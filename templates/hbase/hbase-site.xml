@@ -29,6 +29,10 @@
         <value>hdfs://{{ hadoop.hdfs.nameservice }}/apps/hbase</value>
     </property>
     <property>
+        <name>hbase.wal.provider</name>
+        <value>filesystem</value>
+    </property>
+    <property>
         <name>hbase.zookeeper.property.clientPort</name>
         <value>{{ zookeeper.client_port }}</value>
     </property>
