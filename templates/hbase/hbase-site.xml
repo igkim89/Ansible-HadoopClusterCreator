@@ -25,8 +25,12 @@
         <value>true</value>
     </property>
     <property>
+        <name>hbase.zookeeper.property.clientPort</name>
+        <value>{{ zookeeper.client_port }}</value>
+    </property>
+    <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}</value>
+        <value>{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}{% endfor %}</value>
     </property>
     <property>
         <name>hbase.zookeeper.property.dataDir</name>

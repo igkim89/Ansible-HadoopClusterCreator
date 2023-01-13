@@ -1,5 +1,16 @@
 ---
 
+- name: Stop HBase Service
+  hosts: "{{ groups['hbase-master'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Stop HBase service
+      command: "{{ hbase_home }}/bin/stop-hbase.sh"
+      failed_when: False
+
 - name: Remove HBase directory
   hosts: hbase
   become: no

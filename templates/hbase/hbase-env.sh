@@ -20,3 +20,4 @@
 
 export HBASE_CLASSPATH=${HBASE_CLASSPATH}:$HADOOP_HOME/conf
 export HBASE_LOG_DIR={{ bigdata_home }}/hbase/logs
+export HBASE_MANAGES_ZK=false
