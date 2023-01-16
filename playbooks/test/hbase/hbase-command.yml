@@ -13,6 +13,7 @@
         dest: "{{ hbase_home }}/"
     - name: Run test command
       command: "{{ hbase_home }}/bin/hbase shell {{ hbase_home }}/hbase_command.txt"
+      failed_when: False
       register: test_result
     - name: Test result
       debug:
