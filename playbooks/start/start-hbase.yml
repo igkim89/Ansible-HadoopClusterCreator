@@ -8,4 +8,4 @@
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
     - name: Start master process
-      shell: "{{ hbase_home }}/bin/start-hbase.sh"
+      shell: "/usr/bin/nohup {{ hbase_home }}/bin/start-hbase.sh"
