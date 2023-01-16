@@ -1,6 +1,0 @@
-create '{{ remote_user }}', 'cf'
-put '{{ remote_user }}', 'row1', 'cf:a', 'value1'
-put '{{ remote_user }}', 'row2', 'cf:b', 'value2'
-put '{{ remote_user }}', 'row3', 'cf:c', 'value3'
-scan '{{ remote_user }}'
-get '{{ remote_user }}', 'row1'

@@ -50,4 +50,4 @@
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
     - name: Start master process
-      command: "{{ hbase_home }}/bin/start-hbase.sh"
+      shell: "{{ hbase_home }}/bin/start-hbase.sh"

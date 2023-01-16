@@ -9,7 +9,7 @@
   tasks:
     - name: Copy command file
       template:
-        src: hbase_command.hb
+        src: hbase_command.txt
         dest: "{{ hbase_home }}/"
     - name: Run test command
-      command: "{{ hbase_home }}/bin/hbase shell {{ hbase_home }}/hbase_command.hb"
+      command: "{{ hbase_home }}/bin/hbase shell {{ hbase_home }}/hbase_command.txt"
