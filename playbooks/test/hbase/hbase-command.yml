@@ -1,0 +1,15 @@
+---
+
+- name: Test HBase command
+  hosts: "{{ groups['hbase-master'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Copy command file
+      template:
+        src: hbase_command.hb
+        dest: "{{ hbase_home }}/"
+    - name: Run test command
+      command: "{{ hbase_home }}/bin/hbase shell {{ hbase_home }}/hbase_command.hb"

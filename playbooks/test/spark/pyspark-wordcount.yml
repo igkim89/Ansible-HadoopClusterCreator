@@ -11,7 +11,7 @@
         state: directory
     - name: Create Sample file
       template:
-        src: "hadoop/{{ item }}"
+        src: "{{ item }}"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
         mode: 0644
       with_items:
@@ -19,7 +19,7 @@
         - sample02.txt
     - name: Copy Python source
       template:
-        src: "spark/pyspark-wordcount.py"
+        src: "pyspark-wordcount.py"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"

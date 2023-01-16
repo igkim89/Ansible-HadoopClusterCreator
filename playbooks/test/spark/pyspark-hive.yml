@@ -11,13 +11,7 @@
         state: directory
     - name: Copy Python source
       template:
-        src: "spark/pyspark-hive.py"
+        src: "pyspark-hive.py"
         dest: "/home/{{ remote_user }}/tmp/spark-hive/"
-#    - name: test export
-#      shell: "export"
-#      register: test_var
-#    - name: debugging..
-#      debug:
-#        var: test_var
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"

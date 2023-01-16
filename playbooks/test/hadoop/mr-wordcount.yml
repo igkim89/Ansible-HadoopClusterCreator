@@ -13,7 +13,7 @@
         group: "{{ remote_user }}"
     - name: Create Sample file
       template:
-        src: "hadoop/{{ item }}"
+        src: "{{ item }}"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
         mode: 0644
       with_items:
@@ -21,7 +21,7 @@
         - sample02.txt
     - name: Copy JAR
       copy:
-        src: "/home/{{ remote_user }}/ansible/playbooks/test/templates/hadoop/wordcount_example-1.0-SNAPSHOT.jar"
+        src: "/home/{{ remote_user }}/ansible/playbooks/test/hadoop/templates/wordcount_example-1.0-SNAPSHOT.jar"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
     - name: Create HDFS Directory
       command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -mkdir -p /user/{{ remote_user }}/wordcount/input"

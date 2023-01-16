@@ -11,7 +11,7 @@
   tasks:
     - name: Copy CSV file
       template:
-        src: hive/external_test.csv
+        src: external_test.csv
         dest: "{{ hive_home }}/external_test.csv"
     - name: Create HDFS directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/{{ remote_user }}/hive/external_test"

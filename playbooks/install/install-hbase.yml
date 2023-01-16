@@ -42,7 +42,7 @@
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
 
-- name: Start HBase Master
+- name: Start HBase all component
   hosts: "{{ groups['hbase-master'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
