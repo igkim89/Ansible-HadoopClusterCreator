@@ -13,3 +13,7 @@
         dest: "{{ hbase_home }}/"
     - name: Run test command
       command: "{{ hbase_home }}/bin/hbase shell {{ hbase_home }}/hbase_command.txt"
+      register: test_result
+    - name: Test result
+      debug:
+        var: test_result
