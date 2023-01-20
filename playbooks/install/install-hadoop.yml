@@ -113,16 +113,6 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Add hdfs-site.xml
-      template:
-        src: hadoop/hdfs-site.xml
-        dest: "{{ bigdata_home }}/hadoop/conf/hdfs-site.xml"
-        mode: u=rw,g=r,o=r
-    - name: Add core-site.xml
-      template:
-        src: hadoop/core-site.xml
-        dest: "{{ bigdata_home }}/hadoop/conf/core-site.xml"
-        mode: u=rw,g=r,o=r
     - name: Add Hadoop configuration files
       template:
         src: hadoop/{{ item }}
@@ -131,6 +121,9 @@
       with_items:
         - yarn-site.xml
         - mapred-site.xml
+        - httpfs-site.xml
+        - hdfs-site.xml
+        - core-site.xml
 
 - name: Start JournalNode
   hosts: journalnode

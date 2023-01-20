@@ -13,3 +13,4 @@
         - core-site.xml
         - yarn-site.xml
         - mapred-site.xml
+        - httpfs-site.xml

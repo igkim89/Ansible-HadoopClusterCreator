@@ -1,0 +1,31 @@
+---
+
+- name: Install Hue
+  hosts: hue
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hue_home: "{{ bigdata_home }}/hue"
+  tasks:
+    - name: Install OS packages
+      become: yes
+      yum:
+        name:
+          - "ant"
+          - "asciidoc"
+          - "cyrus-sasl-devel"
+          - "cyrus-sasl-gssapi"
+          - "cyrus-sasl-plain"
+          -
+        state: present
+
+
+# 일단 기록부터
+# python 3.10 안되니 3.8.9 사용
+# SKIP_PYTHONDEV_CHECK=1 적용해서 테스트 스킵
+# yum install python3-distutils-extra
+# yum install python38-devel
+# pip install docutils==0.14
+# PREFIX=/home/igkim/hue make install
+
+# python library 호환성 문제로 pip install gunicorn==20.1.0 eventlet==0.30.2 설치
