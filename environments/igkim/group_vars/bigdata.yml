@@ -67,6 +67,7 @@ hadoop:
     webhdfs_enabled: true
     permission_umask: "022"
     trash_interval: 1
+    httpfs_port: 50071
   yarn:
     # Resourcemanager HA Endpoint
     cluster_id: "igkim-yarn"

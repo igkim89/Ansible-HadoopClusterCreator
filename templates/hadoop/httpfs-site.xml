@@ -21,5 +21,8 @@
         <name>httpfs.proxyuser.hue.groups</name>
         <value>*</value>
     </property>
-
+    <property>
+        <name>httpfs.http.port</name>
+        <value>{{ hadoop.hdfs.httpfs_port }}</value>
+    </property>
 </configuration>
