@@ -29,3 +29,6 @@
 # PREFIX=/home/igkim/hue make install
 
 # python library 호환성 문제로 pip install gunicorn==20.1.0 eventlet==0.30.2 설치
+
+# 다 집어치우고 docker로 함
+# image 받고 docker 깔고 rootless 설정하고 docker compose로 실행
