@@ -105,11 +105,10 @@
   tasks:
     - name: Create JournalNode directory
       file:
-        path: "{{ item }}"
+        path: "{{ hadoop.hdfs.journalnode_dir }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
-      loop: "{{ hadoop.hdfs.journalnode_dir }}"
 
 - name: Add configuration files
   hosts: hadoop

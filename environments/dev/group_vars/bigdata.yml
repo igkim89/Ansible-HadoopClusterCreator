@@ -65,9 +65,8 @@ hadoop:
       - "/disk03/dfs/dn"
       - "/disk04/dfs/dn"
       - "/disk05/dfs/dn"
-    # Journalnode 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
-    journalnode_dir:
-      - "/disk03/dfs/jn"
+    # Journalnode 설정 (단일 값만 사용 가능)
+    journalnode_dir: "/disk03/dfs/jn"
     journalnode_shared_edits_port: 8485
     # HDFS 설정
     replication_factor: 3

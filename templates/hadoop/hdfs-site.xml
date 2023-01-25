@@ -20,7 +20,7 @@
     </property>
     <property>
         <name>dfs.journalnode.edits.dir</name>
-        <value>{% for jd in hadoop.hdfs.journalnode_dir %}{% if jd != hadoop.hdfs.journalnode_dir[0] %},{% endif %}{{ jd }}{% endfor %}</value>
+        <value>{{ hadoop.hdfs.journalnode_dir }}</value>
     </property>
     <property>
         <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][0] }}</name>
