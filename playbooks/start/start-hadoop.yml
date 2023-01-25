@@ -60,7 +60,15 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+    - name: Check NameNode formatted
+      stat:
+        path: "{{ hadoop.hdfs.namenode_dir }}/current"
+      register: nn_format
+    - name: Format NameNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+      when: not nn_format.stat.exists
+    - name: Start NameNode, JournalNode, ZKFC
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
 - name: Start DataNode
   hosts: datanode
