@@ -52,17 +52,18 @@ hadoop:
   hdfs:
     # Namenode HA Endpoint
     nameservice: "igkim-hdfs"
-    # Namenode 설정
+    # Namenode 설정 (해당 값을 변경하는 경우, Namenode format 필요, 주의)
+    # (값이 1개인 경우에도 리스트 형식으로 기재)
     namenode_dir:
       - "/disk01/nn"
       - "/disk02/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
-    # Datanode 설정
+    # Datanode 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
     datanode_dir:
       - "/disk01/dn"
       - "/disk02/dn"
-    # Journalnode 설정
+    # Journalnode 설정 (단일 값만 사용 가능)
     journalnode_dir: "/disk01/jn"
     journalnode_shared_edits_port: 8485
     # HDFS 설정
