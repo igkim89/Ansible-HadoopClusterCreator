@@ -1,3 +1,45 @@
+- name: Create NameNode directory
+  hosts: namenode
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create NameNode directory
+      file:
+        path: "{{ hadoop.hdfs.namenode_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
+- name: Create DataNode directory
+  hosts: datanode
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create DataNode directory
+      file:
+        path: "{{ hadoop.hdfs.datanode_dir}}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
+- name: Create JournalNode directory
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create JournalNode directory
+      file:
+        path: "{{ hadoop.hdfs.journalnode_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
 - name: Start JournalNode
   hosts: journalnode
   remote_user: "{{ remote_user }}"
