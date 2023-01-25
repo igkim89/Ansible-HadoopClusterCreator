@@ -63,9 +63,7 @@ hadoop:
       - "/disk01/dn"
       - "/disk02/dn"
     # Journalnode 설정
-    journalnode_dir:
-      - "/disk01/jn"
-      - "/disk02/jn"
+    journalnode_dir: "/disk01/jn"
     journalnode_shared_edits_port: 8485
     # HDFS 설정
     replication_factor: 3
