@@ -57,7 +57,7 @@ hadoop:
     namenode_rpc_port: 8020
     namenode_http_port: 50070
     # Datanode 설정
-    datanode_dir: "/disk01/dfs/dn,disk02/dfs/dn,disk03/dfs/dn,disk04/dfs/dn,disk05/dfs/dn"
+    datanode_dir: "/disk01/dfs/dn,/disk02/dfs/dn,/disk03/dfs/dn,/disk04/dfs/dn,/disk05/dfs/dn"
     # Journalnode 설정
     journalnode_dir: "/disk03/dfs/jn"
     journalnode_shared_edits_port: 8485
