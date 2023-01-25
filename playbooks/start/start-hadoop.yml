@@ -60,16 +60,17 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Check NameNode formatted
-      stat:
-        path: "{{ hadoop.hdfs.namenode_dir }}/current"
-      register: nn_format
-    - name: Format NameNode
-      expect:
-        command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
-        responses:
-          '*Re-format filesystem in Storage Directory*': 'Y'
-      when: not nn_format.stat.exists
+# Namenode format을 자동으로 진행하는건 위험
+#    - name: Check NameNode formatted
+#      stat:
+#        path: "{{ hadoop.hdfs.namenode_dir }}/current"
+#      register: nn_format
+#    - name: Format NameNode
+#      expect:
+#        command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+#        responses:
+#          '*Re-format filesystem in Storage Directory*': 'Y'
+#      when: not nn_format.stat.exists
     - name: Start NameNode, JournalNode, ZKFC
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
