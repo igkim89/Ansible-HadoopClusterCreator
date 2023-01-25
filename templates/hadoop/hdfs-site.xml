@@ -12,15 +12,15 @@
     <property>
         <name>dfs.namenode.name.dir</name>
 <!--        <value>{{ hadoop.hdfs.namenode_dir }}</value>-->
-        <value>{% for nd in hadoop.namenode_dir %}{% if nd != hadoop.namenode_dir[0] %},{% endif %}{{ nd }}{% endfor %}</value>
+        <value>{% for nd in hadoop.hdfs.namenode_dir %}{% if nd != hadoop.hdfs.namenode_dir[0] %},{% endif %}{{ nd }}{% endfor %}</value>
     </property>
     <property>
         <name>dfs.datanode.data.dir</name>
-        <value>{% for dd in hadoop.datanode_dir %}{% if dd != hadoop.datanode_dir[0] %},{% endif %}{{ dd }}{% endfor %}</value>
+        <value>{% for dd in hadoop.hdfs.datanode_dir %}{% if dd != hadoop.hdfs.datanode_dir[0] %},{% endif %}{{ dd }}{% endfor %}</value>
     </property>
     <property>
         <name>dfs.journalnode.edits.dir</name>
-        <value>{% for jd in hadoop.journalnode_dir %}{% if jd != hadoop.journalnode_dir[0] %},{% endif %}{{ jd }}{% endfor %}</value>
+        <value>{% for jd in hadoop.hdfs.journalnode_dir %}{% if jd != hadoop.hdfs.journalnode_dir[0] %},{% endif %}{{ jd }}{% endfor %}</value>
     </property>
     <property>
         <name>dfs.namenode.rpc-address.{{ hadoop.hdfs.nameservice }}.{{ groups['namenode'][0] }}</name>
