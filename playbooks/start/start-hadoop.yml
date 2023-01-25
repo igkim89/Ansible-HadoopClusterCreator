@@ -65,7 +65,10 @@
         path: "{{ hadoop.hdfs.namenode_dir }}/current"
       register: nn_format
     - name: Format NameNode
-      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+      expect:
+        command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+        responses:
+          '*Re-format filesystem in Storage Directory*': 'Y'
       when: not nn_format.stat.exists
     - name: Start NameNode, JournalNode, ZKFC
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
