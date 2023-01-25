@@ -55,7 +55,7 @@ hadoop:
     # Namenode 설정
     namenode_dir:
       - "/disk01/nn"
-      - "/disk01/nn"
+      - "/disk02/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
     # Datanode 설정
@@ -63,7 +63,9 @@ hadoop:
       - "/disk01/dn"
       - "/disk02/dn"
     # Journalnode 설정
-    journalnode_dir: "/data/jn"
+    journalnode_dir:
+      - "/disk01/jn"
+      - "/disk02/jn"
     journalnode_shared_edits_port: 8485
     # HDFS 설정
     replication_factor: 3
