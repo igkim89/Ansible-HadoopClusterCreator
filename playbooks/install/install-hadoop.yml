@@ -89,7 +89,7 @@
   tasks:
     - name: Create DataNode directory
       file:
-        path: "{{ hadoop.hdfs.datanode_dir}}"
+        path: "{{ hadoop.hdfs.datanode_dir }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
