@@ -20,6 +20,7 @@ done
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-hadoop.yml
+  sleep 5s
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-hadoop.yml
 else
   echo -e "${YELLOW_COLOR}Hadoop service was not restarted.${NO_COLOR}"

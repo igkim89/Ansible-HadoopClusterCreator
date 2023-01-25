@@ -20,6 +20,7 @@ done
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/stop/stop-hive.yml
+  sleep 5s
   ~/.pyenv/shims/ansible-playbook -vv -i /home/igkim/ansible/environments/igkim/hosts.yml /home/igkim/ansible/playbooks/start/start-hive.yml
 else
   echo -e "${YELLOW_COLOR}Hive service was not restarted.${NO_COLOR}"

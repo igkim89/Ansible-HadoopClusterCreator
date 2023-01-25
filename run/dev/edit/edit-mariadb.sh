@@ -20,6 +20,7 @@ done
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-mariadb.yml
+  sleep 5s
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-mariadb.yml
 else
   echo -e "${YELLOW_COLOR}MariaDB service was not restarted.${NO_COLOR}"
