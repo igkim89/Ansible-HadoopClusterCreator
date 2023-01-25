@@ -66,7 +66,7 @@
       args:
         executable: /bin/bash
 
-- name: Install NameNode
+- name: Create NameNode directory
   hosts: namenode
   remote_user: "{{ remote_user }}"
   become: yes
@@ -75,12 +75,13 @@
   tasks:
     - name: Create NameNode directory
       file:
-        path: "{{ hadoop.hdfs.namenode_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.namenode_dir }}"
 
-- name: Install DataNode
+- name: Create DataNode directory
   hosts: datanode
   remote_user: "{{ remote_user }}"
   become: yes
@@ -89,12 +90,13 @@
   tasks:
     - name: Create DataNode directory
       file:
-        path: "{{ hadoop.hdfs.datanode_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.datanode_dir }}"
 
-- name: Install JournalNode
+- name: Create JournalNode directory
   hosts: journalnode
   remote_user: "{{ remote_user }}"
   become: yes
@@ -103,10 +105,11 @@
   tasks:
     - name: Create JournalNode directory
       file:
-        path: "{{ hadoop.hdfs.journalnode_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.journalnode_dir }}"
 
 - name: Add configuration files
   hosts: hadoop

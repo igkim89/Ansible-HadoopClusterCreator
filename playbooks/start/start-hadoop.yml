@@ -7,10 +7,11 @@
   tasks:
     - name: Create NameNode directory
       file:
-        path: "{{ hadoop.hdfs.namenode_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.namenode_dir }}"
 
 - name: Create DataNode directory
   hosts: datanode
@@ -21,10 +22,11 @@
   tasks:
     - name: Create DataNode directory
       file:
-        path: "{{ hadoop.hdfs.datanode_dir}}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.datanode_dir }}"
 
 - name: Create JournalNode directory
   hosts: journalnode
@@ -35,10 +37,11 @@
   tasks:
     - name: Create JournalNode directory
       file:
-        path: "{{ hadoop.hdfs.journalnode_dir }}"
+        path: "{{ item }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.journalnode_dir }}"
 
 - name: Start JournalNode
   hosts: journalnode
