@@ -53,11 +53,15 @@ hadoop:
     # Namenode HA Endpoint
     nameservice: "igkim-hdfs"
     # Namenode 설정
-    namenode_dir: "/data/nn"
+    namenode_dir:
+      - "/disk01/nn"
+      - "/disk01/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
     # Datanode 설정
-    datanode_dir: "/data/dn"
+    datanode_dir:
+      - "/disk01/dn"
+      - "/disk02/dn"
     # Journalnode 설정
     journalnode_dir: "/data/jn"
     journalnode_shared_edits_port: 8485
