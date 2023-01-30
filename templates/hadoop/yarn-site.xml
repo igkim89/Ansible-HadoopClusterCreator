@@ -119,27 +119,27 @@
     </property>
     <property>
         <name>yarn.scheduler.minimum-allocation-mb</name>
-        <value>1024</value>
+        <value>{{ hadoop.yarn.scheduler_min_allocation_mb }}</value>
     </property>
     <property>
         <name>yarn.scheduler.increment-allocation-mb</name>
-        <value>512</value>
+        <value>{{ hadoop.yarn.scheduler_increment_allocation_mb }}</value>
     </property>
     <property>
         <name>yarn.scheduler.maximum-allocation-mb</name>
-        <value>2048</value>
+        <value>{{ hadoop.yarn.scheduler_max_allocation_mb }}</value>
     </property>
     <property>
         <name>yarn.scheduler.minimum-allocation-vcores</name>
-        <value>1</value>
+        <value>{{ hadoop.yarn.scheduler_min_allocation_vcores }}</value>
     </property>
     <property>
         <name>yarn.scheduler.increment-allocation-vcores</name>
-        <value>322</value>
+        <value>{{ hadoop.yarn.scheduler_increment_allocation_vcores }}</value>
     </property>
     <property>
         <name>yarn.scheduler.maximum-allocation-vcores</name>
-        <value>1000</value>
+        <value>{{ hadoop.yarn.scheduler_max_allocation_vcores }}</value>
     </property>
     <property>
         <name>yarn.resourcemanager.amliveliness-monitor.interval-ms</name>
