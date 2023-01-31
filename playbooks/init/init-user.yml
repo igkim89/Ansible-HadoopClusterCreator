@@ -1,0 +1,13 @@
+---
+
+- name: Init user and group
+  hosts: bigdata
+  remote_user: "{{ remote_user }}"
+  become: yes
+  tasks:
+    - name: Add user
+      user:
+        name:
+          - data_raw
+          - data_parsed
+        group: bigdata
