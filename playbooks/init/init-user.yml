@@ -10,4 +10,4 @@
         name:
           - data_raw
           - data_parsed
-        group: bigdata
+        group: "{{ remote_user }}"
