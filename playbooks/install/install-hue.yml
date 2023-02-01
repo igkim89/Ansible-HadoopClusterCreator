@@ -1,34 +1,56 @@
 ---
 
-- name: Install Hue
+# 다 안돼서 docker로 함
+# docker repository kdev01에 구성 후 docker 설치
+# docker image 'hue-4.10.0' load
+# docker compose 실행
+
+- name: Install Hue in Docker
   hosts: hue
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    hue_home: "{{ bigdata_home }}/hue"
+    - hue_home: "{{ bigdata_home }}/hue"
   tasks:
-    - name: Install OS packages
+    - name: Create Create bigdata home directory
       become: yes
-      yum:
-        name:
-          - "ant"
-          - "asciidoc"
-          - "cyrus-sasl-devel"
-          - "cyrus-sasl-gssapi"
-          - "cyrus-sasl-plain"
-          -
-        state: present
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create Hue home directory
+      file:
+        path: "{{ bigdata_home }}/hue-4.10.0"
+        state: directory
+    - name: Create Hue home symbolic link
+      file:
+        src: "{{ bigdata_home }}/hue-4.10.0"
+        dest: "{{ hue_home }}"
+        state: link
+    - name: Create Hue bin directory
+      file:
+        path: "{{ hue_home }}/bin"
+        state: directory
+    - name: Create Hue conf directory
+      file:
+        path: "{{ hue_home }}/conf"
+        state: directory
+    - name: Create Hue logs directory
+      file:
+        path: "{{ hue_home }}/logs"
+        state: directory
+    - name: Add configuration files
+      template:
+        src: hue/{{ item.key }}
+        dest: "{{ item.value }}"
+      with_dict:
+        "docker-compose.yml": "{{ hue_home }}"
+        "db-init.sh": "{{ hue_home }}/bin"
+        "hue.ini": "{{ hue_home }}/conf"
+    - name: Create yum docker repository
+      copy:
+        -
 
 
-# 일단 기록부터
-# python 3.10 안되니 3.8.9 사용
-# SKIP_PYTHONDEV_CHECK=1 적용해서 테스트 스킵
-# yum install python3-distutils-extra
-# yum install python38-devel
-# pip install docutils==0.14
-# PREFIX=/home/igkim/hue make install
 
-# python library 호환성 문제로 pip install gunicorn==20.1.0 eventlet==0.30.2 설치
-
-# 다 집어치우고 docker로 함
-# image 받고 docker 깔고 rootless 설정하고 docker compose로 실행

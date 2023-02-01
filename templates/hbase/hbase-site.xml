@@ -37,6 +37,22 @@
         <value>hdfs://{{ hadoop.hdfs.nameservice }}/apps/hbase</value>
     </property>
     <property>
+        <name>zookeeper.znode.parent</name>
+        <value>{{ hbase.znode_parent }}</value>
+    </property>
+    <property>
+        <name>zookeeper.znode.rootserver</name>
+        <value>{{ hbase.znode_rootserver }}</value>
+    </property>
+    <property>
+        <name>zookeeper.session.timeout</name>
+        <value>{{ hbase.session_timeout }}</value>
+    </property>
+    <property>
+        <name>hbase.rpc.timeout</name>
+        <value>{{ hbase.rpc_timeout }}</value>
+    </property>
+    <property>
         <name>hbase.wal.provider</name>
         <value>filesystem</value>
     </property>
@@ -52,7 +68,34 @@
         <name>hbase.zookeeper.property.dataDir</name>
         <value>{{ bigdata_home }}/hbase/zoo-dir</value>
     </property>
-
+    <property>
+        <name>hbase.client.write.buffer</name>
+        <value>{{ hbase.client_write_buffer }}</value>
+    </property>
+    <property>
+        <name>hbase.client.pause</name>
+        <value>{{ hbase.client_pause }}</value>
+    </property>
+    <property>
+        <name>hbase.client.retries.number</name>
+        <value>{{ hbase.client_retries_number }}</value>
+    </property>
+    <property>
+        <name>hbase.client.scanner.caching</name>
+        <value>{{ hbase.client_scanner_caching }}</value>
+    </property>
+    <property>
+        <name>hbase.client.keyvalue.maxsize</name>
+        <value>{{ hbase.client_keyvalue_maxsize }}</value>
+    </property>
+    <property>
+        <name>hbase.client.primaryCallTimeout.get</name>
+        <value>{{ hbase.client_primary_call_timeout_get }}</value>
+    </property>
+    <property>
+        <name>hbase.client.primaryCallTimeout.multiget</name>
+        <value>{{ hbase.client_primary_call_timeout_multiget }}</value>
+    </property>
 
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->

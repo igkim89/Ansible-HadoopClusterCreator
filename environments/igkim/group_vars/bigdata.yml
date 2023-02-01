@@ -6,22 +6,22 @@
 # 개인 테스트용
 ############################################
 
-# Ansible Home 디렉토리
+## Ansible Home 디렉토리
 ansible_home: "/home/igkim/ansible"
 
-# OS 사용자명
+## OS 사용자명
 remote_user: "igkim"
 
-# Java Home 디렉토리
+## Java Home 디렉토리
 java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8_7.x86_64"
 
-# Hadoop Ecosystem 디렉토리
+## Hadoop Ecosystem 디렉토리
 bigdata_home: "/opt/bigdata"
 
-# 설치파일 디렉토리
+## 설치파일 디렉토리
 installer_home: "/home/igkim/install"
 
-# 서비스별 설치파일
+## 서비스별 설치파일
 installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
@@ -39,19 +39,21 @@ installer:
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
   hue: "hue-4.10.0-bin.tar.gz"
 
-# Zookeeper 설정
+## Zookeeper 설정
 zookeeper:
   client_port: 12181
   data_dir: "/opt/bigdata/zookeeper/data"
+
   # 내부 통신용 포트
   internal_follower_port: 12888
   internal_leader_port: 13888
 
-# Hadoop 설정
+## Hadoop 설정
 hadoop:
   hdfs:
     # Namenode HA Endpoint
     nameservice: "igkim-hdfs"
+
     # Namenode 설정 (해당 값을 변경하는 경우, Namenode format 필요, 주의)
     # (값이 1개인 경우에도 리스트 형식으로 기재)
     namenode_dir:
@@ -59,13 +61,16 @@ hadoop:
       - "/disk02/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
+
     # Datanode 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
     datanode_dir:
       - "/disk01/dn"
       - "/disk02/dn"
+
     # Journalnode 설정 (단일 값만 사용 가능)
     journalnode_dir: "/disk01/jn"
     journalnode_shared_edits_port: 8485
+
     # HDFS 설정
     replication_factor: 3
     block_size: 134217728
@@ -73,9 +78,11 @@ hadoop:
     permission_umask: "022"
     trash_interval: 1
     httpfs_port: 50071
+
   yarn:
     # Resourcemanager HA Endpoint
     cluster_id: "igkim-yarn"
+
     # Resourcemanager 설정
     resourcemanager_scheduler_port: 8030
     resourcemanager_resource_tracker_port: 8031
@@ -83,7 +90,6 @@ hadoop:
     resourcemanager_admin_port: 8033
     resourcemanager_webapp_port: 8088
     resourcemanager_webapp_https_port: 8090
-
     scheduler_min_allocation_mb: 1024
     scheduler_max_allocation_mb: 2048
     scheduler_increment_allocation_mb: 512
@@ -93,14 +99,14 @@ hadoop:
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
-
     jobhistoryserver_port: 10020
+
     # 사용자가 접근할 Jobhistory Webserver port
     jobhistoryserver_http_port: 19888
     jobhistoryserver_https_port: 19890
     jobhistoryserver_admin_port: 10033
 
-# Kafka 설정
+## Kafka 설정
 kafka:
   log_dir: "/data/kafka"
   log_retention_hour: 72
@@ -109,7 +115,7 @@ kafka:
   bootstrap_port: 19092
   controller_port: 19093
 
-# MariaDB 설정
+## MariaDB 설정
 mariadb:
   jdbc_port: 13306
   home_dir: &maria_home_dir "/home/igkim/mariadb"
@@ -119,17 +125,19 @@ mariadb:
   root_pw: "bigdata123"
   char_set: "utf8"
 
-# Hive 설정
+## Hive 설정
 hive:
   metastore:
     db_pw: "bigdata123"
     metastore_port: 19083
     hive_server2_port: 10000
 
+## Hive on Tez 설정
 tez:
   tez_container_size: 2048
   lib_dir: "/apps/tez/lib"
 
+## Spark 설정
 spark:
   driver_memory: "512m"
   driver_cores: 1
@@ -144,9 +152,22 @@ spark:
       max_age: "15d"
       max_num: "Int.MaxValue"
 
+## HBase 설정
 hbase:
   master_port: 60000
   master_info_port: 60001
+  znode_parent: /hbase
+  znode_rootserver: root-region-server
+  session_timeout: 60000
+  rpc_timeout: 60000
+  client_write_buffer: 2097152
+  hbase_client_pause: 100
+  client_retries_number: 35
+  client_scanner_caching: 100
+  client_keyvalue_maxsize: 10485760
+  client_primary_call_timeout_get: 10
+  client_primary_call_timeout_multiget: 10
 
+## Hue 설정
 hue:
 

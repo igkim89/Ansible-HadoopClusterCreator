@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  hue-server:
+    image: gethue/hue:4.10.0
+    hostname: hue
+    network_mode: host
+    container_name: hue-4.10.0
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./conf/hue.ini:/usr/share/hue/desktop/conf/z-hue-z.ini
