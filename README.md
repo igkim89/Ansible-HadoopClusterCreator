@@ -20,8 +20,7 @@ Ansible을 사용한 Hadoop cluster 구축
 ## 환경 구성
 
 ### SSH Key 설정
-
-외않됌
+ㅓ
 
 ### Pyenv 설치
 
