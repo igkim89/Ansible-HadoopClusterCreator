@@ -39,6 +39,7 @@ installer:
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
   hue: "hue-4.10.0-bin.tar.gz"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
+  mysql_jdbc: "mysql-connector-java-8.0.28.jar"
 
 ## Zookeeper 설정
 zookeeper:

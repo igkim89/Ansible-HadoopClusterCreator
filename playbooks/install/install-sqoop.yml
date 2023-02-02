@@ -16,7 +16,7 @@
         group: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.sqoop }}"
+        src: "{{ installer_home }}/sqoop/{{ installer.sqoop }}"
         dest: "{{ bigdata_home }}/{{ installer.sqoop }}"
     - name: Unzip installer
       unarchive:
@@ -36,7 +36,11 @@
         state: link
     - name: Copy MariaDB JDBC
       copy:
-        src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
+        src: "{{ installer_home }}/sqoop/{{ installer.mysql_jdbc }}"
+        dest: "{{ sqoop_home }}/lib/"
+    - name: Copy commons lang lib
+      copy:
+        src: "{{ installer_home }}/sqoop/commons-lang-2.6.jar"
         dest: "{{ sqoop_home }}/lib/"
     - name: Add Sqoop configuration
       template:
