@@ -161,7 +161,7 @@ hbase:
   session_timeout: 60000
   rpc_timeout: 60000
   client_write_buffer: 2097152
-  hbase_client_pause: 100
+  client_pause: 100
   client_retries_number: 35
   client_scanner_caching: 100
   client_keyvalue_maxsize: 10485760
