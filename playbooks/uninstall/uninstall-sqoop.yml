@@ -4,7 +4,7 @@
   hosts: sqoop
   become: no
   vars:
-    hive_home: "{{ bigdata_home }}/sqoop"
+    sqoop_home: "{{ bigdata_home }}/sqoop"
   tasks:
     - name: Remove directory
       file:
