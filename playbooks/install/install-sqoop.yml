@@ -1,0 +1,61 @@
+---
+
+- name: Install Sqoop
+  hosts: sqoop
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    sqoop_home: "{{ bigdata_home }}/sqoop"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/{{ installer.sqoop }}"
+        dest: "{{ bigdata_home }}/{{ installer.sqoop }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.sqoop }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.sqoop }}"
+        state: absent
+    - name: Create Sqoop symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.sqoop.replace('.tar.gz', '') }}"
+        dest: "{{ sqoop_home }}"
+        state: link
+    - name: Copy MariaDB JDBC
+      copy:
+        src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
+        dest: "{{ sqoop_home }}/lib/"
+    - name: Add Sqoop configuration
+      template:
+        src: "{{ item }}"
+        dest: "{{ sqoop_home }}/conf/"
+        mode: 0644
+      with_fileglob:
+          - "{{ ansible_home }}/playbooks/install/templates/sqoop/*"
+    - name: Edit Sqoop home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export SQOOP_HOME={{ bigdata_home }}/sqoop"
+        - "PATH=$PATH:$SQOOP_HOME/bin"
+    - name: Refresh bash_profile
+      shell: "source /home/{{ remote_user }}/.bashrc"
+      args:
+        executable: /bin/bash
+
+

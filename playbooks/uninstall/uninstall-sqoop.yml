@@ -1,0 +1,16 @@
+---
+
+- name: Uninstall Sqoop
+  hosts: sqoop
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/sqoop"
+  tasks:
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.sqoop.replace('.tar.gz', '') }}"
+        - "{{ sqoop_home }}"
+      failed_when: False
