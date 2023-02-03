@@ -87,3 +87,7 @@
             HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:$f;
           done
         insertafter: EOF
+    - name: Copy Hive common jar
+      copy:
+        src: "{{ installer_home }}/hive/hive-common-3.1.2.jar"
+        dest: "{{ sqoop_home }}/lib/"
