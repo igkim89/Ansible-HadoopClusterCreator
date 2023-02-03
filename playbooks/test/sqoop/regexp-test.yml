@@ -1,0 +1,14 @@
+---
+
+- name: Install Sqoop
+  hosts: sqoop
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    sqoop_home: "{{ bigdata_home }}/sqoop"
+  tasks:
+    - name: Unset Accumulo
+      lineinfile:
+        path: "{{ sqoop_home }}/bin/configure-sqoop"
+        regexp: "Accumulo installation.'\nfi"
+        state: absent
