@@ -64,7 +64,7 @@
     - name: Unset Accumulo
       lineinfile:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        search_string: {{ item }}
+        search_string: "{{ item }}"
         state: absent
       with_item:
         - 'echo "Warning: $ACCUMULO_HOME does not exist! Accumulo imports will fail.'
