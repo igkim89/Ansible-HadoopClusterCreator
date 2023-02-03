@@ -8,11 +8,6 @@
     sqoop_home: "{{ bigdata_home }}/sqoop"
   tasks:
     - name: Unset Accumulo
-      blockinfile:
+      replace:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        block: |
-          if [ ! -d "${ACCUMULO_HOME}" ]; then
-            echo "Warning: $ACCUMULO_HOME does not exist! Accumulo imports will fail."
-            echo 'Please set $ACCUMULO_HOME to the root of your Accumulo installation.'
-          fi
-        state: absent
+        regexp: 'if [ ! -d "${ACCUMULO_HOME}" ]; then[.*\\n*]fi'
