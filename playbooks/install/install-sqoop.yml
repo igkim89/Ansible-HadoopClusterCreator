@@ -66,7 +66,16 @@
       args:
         executable: /bin/bash
     - name: Unset Accumulo
-      lineinfile:
+      replace:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        regexp: "Accumulo installation.'\nfi"
-        state: absent
+        after: "  echo 'Please set \$ACCUMULO_HOME to the root of your Accumulo installation.'"
+        before: 'if \[ ! -d "\$\{ZOOKEEPER_HOME\}" \]; then'
+        regexp: 'fi'
+    - name: Unset Accumulo
+      replace:
+        path: "{{ sqoop_home }}/bin/configure-sqoop"
+        regexp: "{{ item }}"
+      loop:
+        - 'if \[ ! -d "\$\{ACCUMULO_HOME\}" \]; then'
+        - '  echo "Warning: \$ACCUMULO_HOME does not exist! Accumulo imports will fail."'
+        - "  echo 'Please set \$ACCUMULO_HOME to the root of your Accumulo installation.'"
