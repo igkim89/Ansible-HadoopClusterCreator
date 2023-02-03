@@ -10,4 +10,6 @@
     - name: Unset Accumulo
       replace:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        regexp: 'if \[ ! -d "\$\{ACCUMULO_HOME\}" \]; then'
+        regexp: '  echo "Warning: \$ACCUMULO_HOME does not exist! Accumulo imports will fail."'
+
+        #if \[ ! -d "\$\{ACCUMULO_HOME\}" \]; then
