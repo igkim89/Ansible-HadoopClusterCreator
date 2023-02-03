@@ -10,4 +10,4 @@
     - name: Unset Accumulo
       replace:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        regexp: 'if [ ! -d "${ACCUMULO_HOME}" ]; then[.*\\n*]fi'
+        regexp: 'if \[ ! -d "\$\{ACCUMULO_HOME}" \]; then[.*\\n*]fi'
