@@ -30,6 +30,7 @@ export HBASE_HOME={{ bigdata_home }}/hbase
 
 #Set the path to where bin/hive is available
 export HIVE_HOME={{ bigdata_home }}/hive
+export HCAT_HOME={{ bigdata_home }}/hive
 
 #Set the path for where zookeper config dir is
 export ZOOCFGDIR={{ bigdata_home }}/zookeeper/conf
