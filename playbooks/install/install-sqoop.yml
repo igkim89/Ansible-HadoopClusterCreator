@@ -79,3 +79,11 @@
         - 'if \[ ! -d "\$\{ACCUMULO_HOME\}" \]; then'
         - '  echo "Warning: \$ACCUMULO_HOME does not exist! Accumulo imports will fail."'
         - "  echo 'Please set \\$ACCUMULO_HOME to the root of your Accumulo installation.'"
+    - name: Insert Hadoop classpath
+      lineinfile:
+        path: "{{ sqoop_home }}/bin/configure-sqoop"
+        line: |
+          for f in ${HADOOP_MAPRED_HOME}/*.jar; do
+            HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:$f;
+          done
+        insertafter: EOF

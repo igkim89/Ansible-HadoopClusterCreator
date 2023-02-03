@@ -7,17 +7,11 @@
   vars:
     sqoop_home: "{{ bigdata_home }}/sqoop"
   tasks:
-    - name: Unset Accumulo
-      replace:
+    - name: Insert Hadoop classpath
+      lineinfile:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        after: "  echo 'Please set \$ACCUMULO_HOME to the root of your Accumulo installation.'"
-        before: 'if \[ ! -d "\$\{ZOOKEEPER_HOME\}" \]; then'
-        regexp: 'fi'
-    - name: Unset Accumulo
-      replace:
-        path: "{{ sqoop_home }}/bin/configure-sqoop"
-        regexp: "{{ item }}"
-      loop:
-        - 'if \[ ! -d "\$\{ACCUMULO_HOME\}" \]; then'
-        - '  echo "Warning: \$ACCUMULO_HOME does not exist! Accumulo imports will fail."'
-        - "  echo 'Please set \$ACCUMULO_HOME to the root of your Accumulo installation.'"
+        line: |
+          for f in ${HADOOP_MAPRED_HOME}/*.jar; do
+            HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:$f;
+          done
+        insertafter: EOF
