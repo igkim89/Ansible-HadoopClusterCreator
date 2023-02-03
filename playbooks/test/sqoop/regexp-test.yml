@@ -10,5 +10,5 @@
     - name: Unset Accumulo
       lineinfile:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        regexp: "Accumulo installation.'\nfi"
+        regexp: "Accumulo installation.'\\nfi"
         state: absent
