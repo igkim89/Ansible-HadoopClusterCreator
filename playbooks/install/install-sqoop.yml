@@ -34,10 +34,14 @@
         src: "{{ bigdata_home }}/{{ installer.sqoop.replace('.tar.gz', '') }}"
         dest: "{{ sqoop_home }}"
         state: link
-    - name: Copy MariaDB JDBC
+    - name: Copy JDBC
       copy:
-        src: "{{ installer_home }}/sqoop/{{ installer.mysql_jdbc }}"
+        src: "{{ installer_home }}/sqoop/{{ item }}"
         dest: "{{ sqoop_home }}/lib/"
+      with_items:
+        - "{{ installer.mysql_jdbc }}"
+        - "{{ installer.mariadb_jdbc }}"
+        - "{{ installer.ojdbc }}"
     - name: Copy commons lang lib
       copy:
         src: "{{ installer_home }}/sqoop/commons-lang-2.6.jar"

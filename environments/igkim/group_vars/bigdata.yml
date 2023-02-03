@@ -40,6 +40,7 @@ installer:
   hue: "hue-4.10.0-bin.tar.gz"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   mysql_jdbc: "mysql-connector-java-8.0.28.jar"
+  ojdbc: "ojdbc8-21.8.0.0.jar"
 
 ## Zookeeper 설정
 zookeeper:
