@@ -66,7 +66,7 @@
         path: "{{ sqoop_home }}/bin/configure-sqoop"
         search_string: "{{ item }}"
         state: absent
-      with_item:
+      with_items:
         - 'echo "Warning: $ACCUMULO_HOME does not exist! Accumulo imports will fail.'
         - "echo 'Please set $ACCUMULO_HOME to the root of your Accumulo installation.'"
 
