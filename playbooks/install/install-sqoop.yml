@@ -64,11 +64,7 @@
     - name: Unset Accumulo
       lineinfile:
         path: "{{ sqoop_home }}/bin/configure-sqoop"
-        line: |
-          if [ ! -d "${ACCUMULO_HOME}" ]; then
-            echo "Warning: $ACCUMULO_HOME does not exist! Accumulo imports will fail."
-            echo 'Please set $ACCUMULO_HOME to the root of your Accumulo installation.'
-          fi
+        regexp: 'if [ ! -d "${ACCUMULO_HOME}" ]; then*fi'
         state: absent
 
 
