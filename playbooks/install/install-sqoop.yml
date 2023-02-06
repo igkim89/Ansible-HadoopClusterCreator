@@ -36,7 +36,7 @@
         state: link
     - name: Copy JDBC
       copy:
-        src: "{{ installer_home }}/sqoop/{{ item }}"
+        src: "{{ installer_home }}/jdbc/{{ item }}"
         dest: "{{ sqoop_home }}/lib/"
       with_items:
         - "{{ installer.mysql_jdbc }}"

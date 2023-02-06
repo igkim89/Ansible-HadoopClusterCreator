@@ -13,7 +13,7 @@
         state: directory
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.mariadb }}"
+        src: "{{ installer_home }}/jdbc/{{ installer.mariadb }}"
         dest: "{{ mariadb_home_parent }}/{{ installer.mariadb }}"
     - name: Unzip installer
       unarchive:

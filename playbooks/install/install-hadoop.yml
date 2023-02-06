@@ -14,7 +14,7 @@
         group: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.hadoop }}"
+        src: "{{ installer_home }}/hadoop/{{ installer.hadoop }}"
         dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
     - name: Unzip installer
       unarchive:

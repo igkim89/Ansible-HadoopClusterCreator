@@ -23,6 +23,7 @@ installer_home: "/home/igkim/install"
 
 ## 서비스별 설치파일
 installer:
+  sshfs: "fuse-sshfs-2.8-7.el8.x86_64.rpm"
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   hadoop: "hadoop-3.3.4.tar.gz"
   kafka: "kafka_2.13-3.3.1.tgz"
@@ -37,7 +38,7 @@ installer:
   tez_min: "tez-0.10.2-minimal.tar.gz"
   tez: "tez-0.10.2.tar.gz"
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
-  hue: "hue-4.10.0-bin.tar.gz"
+  hue: "hue-4.10.3.image"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   mysql_jdbc: "mysql-connector-java-8.0.28.jar"
   ojdbc: "ojdbc8-21.8.0.0.jar"

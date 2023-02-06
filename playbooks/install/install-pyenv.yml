@@ -9,7 +9,7 @@
   tasks:
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.pyenv }}"
+        src: "{{ installer_home }}/python/{{ installer.pyenv }}"
         dest: "/home/{{ remote_user }}/"
     - name: Unzip installer
       unarchive:
@@ -41,7 +41,7 @@
         state: directory
     - name: Copy python installer
       copy:
-        src: "{{ installer_home }}/{{ installer.python }}"
+        src: "{{ installer_home }}/python/{{ installer.python }}"
         dest: "{{ pyenv_home }}/cache/"
     - name: Install yum library
       become: true
@@ -62,7 +62,7 @@
       command: "{{ pyenv_home }}/bin/pyenv global {{ installer.python.replace('Python-', '').replace('.tar.xz', '')}}"
     - name: Copy pexpect tgz
       copy:
-        src: "{{ installer_home }}/{{ installer.pexpect }}"
+        src: "{{ installer_home }}/python/{{ installer.pexpect }}"
         dest: "/home/{{ remote_user }}/"
     - name: Unzip installer
       unarchive:

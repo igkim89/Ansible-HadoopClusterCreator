@@ -17,7 +17,7 @@
         group: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.kafka }}"
+        src: "{{ installer_home }}/kafka/{{ installer.kafka }}"
         dest: "{{ bigdata_home }}/{{ installer.kafka }}"
     - name: Unzip installer
       unarchive:

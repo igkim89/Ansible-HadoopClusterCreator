@@ -1,7 +1,8 @@
 ---
 
 - name: Install Hive
-  hosts: hive
+#  client 사용을 위해 클러스터 전체 배포
+  hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -16,7 +17,7 @@
         group: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.hive }}"
+        src: "{{ installer_home }}/hive/{{ installer.hive }}"
         dest: "{{ bigdata_home }}/{{ installer.hive }}"
     - name: Unzip installer
       unarchive:
@@ -36,7 +37,7 @@
         state: link
     - name: Copy Hive JDBC
       copy:
-        src: "{{ installer_home }}/{{ installer.mariadb_jdbc }}"
+        src: "{{ installer_home }}/jdbc/{{ installer.mariadb_jdbc }}"
         dest: "{{ hive_home }}/lib/"
     - name: Add hive configuration
       template:

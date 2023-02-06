@@ -16,7 +16,7 @@
         group: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.hbase }}"
+        src: "{{ installer_home }}/hbase/{{ installer.hbase }}"
         dest: "{{ bigdata_home }}/{{ installer.hbase }}"
     - name: Unzip installer
       unarchive:

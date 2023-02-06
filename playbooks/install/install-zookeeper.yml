@@ -13,7 +13,7 @@
         owner: "{{ remote_user }}"
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/{{ installer.zookeeper }}"
+        src: "{{ installer_home }}/zookeeper/{{ installer.zookeeper }}"
         dest: "{{ bigdata_home }}/{{ installer.zookeeper }}"
     - name: Unzip
       shell: "tar xfz {{ bigdata_home }}/{{ installer.zookeeper }} -C {{ bigdata_home }}/"
