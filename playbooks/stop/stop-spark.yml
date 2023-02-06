@@ -11,4 +11,4 @@
       changed_when: False
     - name: Stop history server
       command: "{{ spark_home }}/sbin/stop-history-server.sh"
-      when: '"HistoryServer in hs_jps.stdout'
+      when: '"HistoryServer" in hs_jps.stdout'
