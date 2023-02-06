@@ -152,7 +152,7 @@ spark:
   executor_cores: 4
   history:
     update_interval: "5s"
-    ui_port: 18080
+    ui_port: 18088
     cleaner:
       enabled: false
       interval: "1d"

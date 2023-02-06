@@ -1,0 +1,9 @@
+- name: Start history server
+  hosts: spark-history
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Start history server
+      command: "{{ spark_home }}/sbin/start-history-server.sh"

@@ -1,0 +1,9 @@
+- name: Stop history server
+  hosts: spark-history
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Stop history server
+      command: "{{ spark_home }}/sbin/stop-history-server.sh"
