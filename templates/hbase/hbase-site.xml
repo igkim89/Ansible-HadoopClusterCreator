@@ -33,6 +33,14 @@
         <value>{{ hbase.master_info_port }}</value>
     </property>
     <property>
+        <name>hbase.regionserver.port</name>
+        <value>{{ hbase.region_port }}</value>
+    </property>
+    <property>
+        <name>hbase.regionserver.info.port</name>
+        <value>{{ hbase.region_info_port }}</value>
+    </property>
+    <property>
         <name>hbase.rootdir</name>
         <value>hdfs://{{ hadoop.hdfs.nameservice }}/apps/hbase</value>
     </property>
