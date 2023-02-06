@@ -8,6 +8,7 @@
     - name: Check history server in jps
       command: "/usr/bin/jps"
       register: hs_jps
+      changed_when: False
     - name: Stop history server
       command: "{{ spark_home }}/sbin/stop-history-server.sh"
-      when: '"HisstoryServer in hs_jps.stdout'
+      when: '"HistoryServer in hs_jps.stdout'
