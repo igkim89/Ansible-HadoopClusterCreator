@@ -158,8 +158,8 @@ spark:
 
 ## HBase 설정
 hbase:
-  master_port: 60000
-  master_info_port: 60001
+  master_port: 60010
+  master_info_port: 60030
   znode_parent: /hbase
   znode_rootserver: root-region-server
   session_timeout: 60000
