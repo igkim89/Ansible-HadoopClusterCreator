@@ -1,0 +1,67 @@
+---
+
+- name: Install CMAK
+  hosts: cmak
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    jdk11_home: "{{ bigdata_home }}/jdk/jdk-11"
+    cmak_home: "{{ bigdata_home }}/cmak"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create JDK directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}/jdk"
+        state: directory
+    - name: Copy JDK installer
+      copy:
+        src: "{{ installer_home }}/jdk/{{ installer.jdk11 }}"
+        dest: "{{ bigdata_home }}/jdk/{{ installer.jdk11 }}"
+    - name: Unzip JDK installer
+      unarchive:
+        src: "{{ bigdata_home }}/jdk/{{ installer.jdk11 }}"
+        dest: "{{ bigdata_home }}/jdk/"
+        remote_src: true
+    - name: Delete JDK installer
+      file:
+        path: "{{ bigdata_home }}/jdk/{{ installer.jdk11 }}"
+        state: absent
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/kafka/{{ installer.cmak }}"
+        dest: "{{ bigdata_home }}/{{ installer.cmak }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.cmak }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.cmak }}"
+        state: absent
+    - name: Create CMAK symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.cmak.replace('.zip', '') }}"
+        dest: "{{ cmak_home }}"
+        state: link
+    - name: Edit zookeeper connect uri
+      lineinfile:
+        path: "{{ cmak_home }}/conf/application.conf"
+        regexp: "^#? *{{ item.key | regex_escape() }}=^\$"
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "cmak.zkhosts": "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
+    - name: Edit java home dir
+      lineinfile:
+        path: "{{ cmak_home }}/bin/cmak"
+        regexp: "declare java_cmd*"
+        line: "declare java_cmd={{ jdk11_home }}/bin/java"
+    - name: Start CMAK
+      command: "/usr/bin/nohup {{ cmak_home }}/bin/cmak"

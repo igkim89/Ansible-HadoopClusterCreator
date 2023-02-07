@@ -42,6 +42,8 @@ installer:
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   mysql_jdbc: "mysql-connector-java-8.0.28.jar"
   ojdbc: "ojdbc8-21.8.0.0.jar"
+  jdk11: "openjdk-11_linux-x64_bin.tar.gz"
+  cmak: "cmak-3.0.0.6.zip"
 
 ## Zookeeper 설정
 zookeeper:

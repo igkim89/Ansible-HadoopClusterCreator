@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    - hive_home: "{{ bigdata_home }}/hive"
+    hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Find HiveServer2 Process ID
       shell: "/usr/bin/ps -ef | grep hive.service.server.HiveServer2 | grep -v grep | awk '{print $2}'"
