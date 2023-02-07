@@ -20,6 +20,8 @@
       file:
         dest: "{{ bigdata_home }}/jdk"
         state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
     - name: Copy JDK installer
       copy:
         src: "{{ installer_home }}/jdk/{{ installer.jdk11 }}"
@@ -54,10 +56,10 @@
     - name: Edit zookeeper connect uri
       lineinfile:
         path: "{{ cmak_home }}/conf/application.conf"
-        regexp: "^#? *{{ item.key | regex_escape() }}=^\$"
+        regexp: "^#? *{{ item.key | regex_escape() }}=[^$]"
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
-        "cmak.zkhosts": "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
+        "cmak.zkhosts": "\"{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}\""
     - name: Edit java home dir
       lineinfile:
         path: "{{ cmak_home }}/bin/cmak"

@@ -120,6 +120,7 @@ kafka:
   topic_replication_factor: 1
   bootstrap_port: 19092
   controller_port: 19093
+  jmx_port: 9999
 
 ## MariaDB 설정
 mariadb:
