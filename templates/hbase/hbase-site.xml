@@ -104,6 +104,10 @@
         <name>hbase.client.primaryCallTimeout.multiget</name>
         <value>{{ hbase.client_primary_call_timeout_multiget }}</value>
     </property>
+    <property>
+        <name>hbase.table.sanity.checks</name>
+        <value>false</value>
+    </property>
 
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->
