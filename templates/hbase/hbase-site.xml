@@ -108,6 +108,14 @@
         <name>hbase.table.sanity.checks</name>
         <value>false</value>
     </property>
+    <property>
+        <name>hbase.regionserver.thrift.http</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hbase.thrift.support.proxyuser</name>
+        <value>true</value>
+    </property>
 
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->

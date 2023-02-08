@@ -118,4 +118,12 @@
         <name>hadoop.proxyuser.httpfs.groups</name>
         <value>*</value>
     </property>
+    <property>
+        <name>hadoop.proxyuser.hbase.hosts</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.hbase.groups</name>
+        <value>*</value>
+    </property>
 </configuration>
