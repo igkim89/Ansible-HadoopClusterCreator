@@ -165,7 +165,6 @@ hbase:
   master_info_port: 60010
   region_port: 60020
   region_info_port: 60030
-  region_thrift_http
   znode_parent: /hbase
   znode_rootserver: root-region-server
   session_timeout: 60000
