@@ -42,15 +42,58 @@
         state: directory
     - name: Add configuration files
       template:
-        src: hue/{{ item.key }}
+        src: "hue/{{ item.key }}"
         dest: "{{ item.value }}"
       with_dict:
         "docker-compose.yml": "{{ hue_home }}"
-        "db-init.sh": "{{ hue_home }}/bin"
         "hue.ini": "{{ hue_home }}/conf"
-    - name: Create yum docker repository
+    - name: Update docker yum repolist
+      become: yes
       copy:
-        -
+        src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce.repo"
+        dest: "/etc/yum.repo.d/docker-ce.repo"
+    - name: Install Docker
+      become: yes
+      yum:
+        name:
+          - "docker-ce"
+          - "docker-ce-cli"
+          - "containerd.io"
+          - "docker-compose-plugin"
+    - name: Start Docker
+      become: yes
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+    - name: Copy Hue image
+      copy:
+        src: "{{ installer_home }}/hue/{{ installer.hue }}"
+        dest: "{{ hue_home }}"
+    - name: Load image
+      become: yes
+      command: "/usr/bin/docker load -i {{ hue_home }}/{{ installer.hue }}"
 
+- name: Init metadata DB
+  hosts: mariadb
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - shell: |
+      {{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'*' identified by '{{ hue.database_pw }}';"
+      {{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost' identified by '{{ hue.database_pw }}';"
 
-
+- name: Start Hue server
+  hosts: hue
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    - hue_home: "{{ bigdata_home }}/hue"
+  tasks:
+    - name: Check Hue process
+      command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
+      register: hue_ps
+      changed_when: false
+    - name: Start Hue server
+      command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml up -d"
+      when: '"hue-server" not in hue_ps.stdout'

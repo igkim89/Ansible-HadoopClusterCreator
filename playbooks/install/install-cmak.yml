@@ -1,6 +1,6 @@
 ---
 
-- name: Install CMAK
+- name: Install UI for Apache Kafka
   hosts: cmak
   remote_user: "{{ remote_user }}"
   become: no
@@ -67,3 +67,4 @@
         line: "declare java_cmd={{ jdk11_home }}/bin/java"
     - name: Start CMAK
       command: "/usr/bin/nohup {{ cmak_home }}/bin/cmak"
+    - name:

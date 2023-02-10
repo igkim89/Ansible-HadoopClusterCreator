@@ -1,0 +1,5 @@
+[Docker-ce]
+name=Docer Repo Server
+baseurl=http://172.22.5.108:12380/yum-repo/docker-ce-stable
+enabled=1
+gpgcheck=0

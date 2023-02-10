@@ -2,10 +2,10 @@ version: '3'
 
 services:
   hue-server:
-    image: gethue/hue:4.10.0
+    image: daou/hue:4.10.3
     hostname: hue
     network_mode: host
-    container_name: hue-4.10.0
+    container_name: hue-4.10.3
     ports:
       - "8888:8888"
     volumes:

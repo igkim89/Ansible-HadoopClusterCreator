@@ -179,6 +179,9 @@ hbase:
 
 ## Hue 설정
 hue:
+  database_name: hue
+  database_id: hue
+  database_pw: bigdata123
 
 ## Sqoop 설정
 sqoop:
