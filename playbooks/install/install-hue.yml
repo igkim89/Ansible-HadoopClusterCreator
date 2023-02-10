@@ -80,8 +80,10 @@
   become: no
   tasks:
     - shell: |
-      {{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'*' identified by '{{ hue.database_pw }}';"
-      {{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost' identified by '{{ hue.database_pw }}';"
+      bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'*' identified by '{{ hue.database_pw }}';"
+      bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }}; GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost' identified by '{{ hue.database_pw }}';"
+      args:
+        chdir: "{{ mariadb.home_dir }}"
 
 - name: Start Hue server
   hosts: hue
