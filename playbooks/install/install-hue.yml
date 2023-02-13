@@ -23,6 +23,8 @@
       file:
         path: "{{ bigdata_home }}/hue-4.10.0"
         state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
     - name: Create Hue home symbolic link
       file:
         src: "{{ bigdata_home }}/hue-4.10.0"
@@ -51,7 +53,7 @@
       become: yes
       copy:
         src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce.repo"
-        dest: "/etc/yum.repo.d/docker-ce.repo"
+        dest: "/etc/yum.repos.d/docker-ce.repo"
     - name: Install Docker
       become: yes
       yum:
@@ -80,10 +82,10 @@
   become: no
   tasks:
     - shell: |
-        bin/mysql --socket=mysql.sock -e "CREATE DATABASE if not exists '{{ hue.database_name }}';"
-        bin/mysql --socket=mysql.sock -e "GRANT ALL ON '{{ hue.database_name }}'.* TO '{{ hue.database_id }}'@'*' identified by '{{ hue.database_pw }}';"
         bin/mysql --socket=mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }};"
-        bin/mysql --socket=mysql.sock -e "GRANT ALL ON '{{ hue.database_name }}'.* TO '{{ hue.database_id }}'@'localhost' identified by '{{ hue.database_pw }}';"
+        bin/mysql --socket=mysql.sock -e "GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'*' identified by '{{ hue.database_pw }}';"
+        bin/mysql --socket=mysql.sock -e "CREATE DATABASE if not exists {{ hue.database_name }};"
+        bin/mysql --socket=mysql.sock -e "GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost' identified by '{{ hue.database_pw }}';"
       args:
         chdir: "{{ mariadb.home_dir }}"
 
@@ -95,7 +97,7 @@
     - hue_home: "{{ bigdata_home }}/hue"
   tasks:
     - name: Check Hue process
-      command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
+      shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
       register: hue_ps
       changed_when: false
     - name: Start Hue server

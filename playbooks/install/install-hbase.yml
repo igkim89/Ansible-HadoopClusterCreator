@@ -41,6 +41,52 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+#    - name: |
+#        Copy Hadoop 3 library]
+#        [DESCRIPTION]
+#        HBase 2.2.0 사용시 Hadoop 3.3.4 연동을 위해 라이브러리 제거
+#        HBase 2.5.2 사용시 미적용
+#        [DESCRIPTION
+#      file:
+#        path: "{{ hbase_home }}/lib/{{ item }}"
+#        state: absent
+#      with_items:
+#        - hadoop-annotations-2.8.5.jar
+#        - hadoop-auth-2.8.5.jar
+#        - hadoop-client-2.8.5.jar
+#        - hadoop-common-2.8.5.jar
+#        - hadoop-common-2.8.5-tests.jar
+#        - hadoop-distcp-2.8.5.jar
+#        - hadoop-hdfs-2.8.5.jar
+#        - hadoop-hdfs-client-2.8.5.jar
+#        - hadoop-mapreduce-client-app-2.8.5.jar
+#        - hadoop-mapreduce-client-common-2.8.5.jar
+#        - hadoop-mapreduce-client-core-2.8.5.jar
+#        - hadoop-mapreduce-client-hs-2.8.5.jar
+#        - hadoop-mapreduce-client-jobclient-2.8.5.jar
+#        - hadoop-mapreduce-client-shuffle-2.8.5.jar
+#        - hadoop-minicluster-2.8.5.jar
+#        - hadoop-yarn-api-2.8.5.jar
+#        - hadoop-yarn-client-2.8.5.jar
+#        - hadoop-yarn-common-2.8.5.jar
+#        - hadoop-yarn-server-applicationhistoryservice-2.8.5.jar
+#        - hadoop-yarn-server-common-2.8.5.jar
+#        - hadoop-yarn-server-nodemanager-2.8.5.jar
+#        - hadoop-yarn-server-resourcemanager-2.8.5.jar
+#        - hadoop-yarn-server-tests-2.8.5-tests.jar
+#        - hadoop-yarn-server-web-proxy-2.8.5.jar
+#    - name: |
+#        Copy Hadoop 3 library]
+#        [DESCRIPTION]
+#        HBase 2.2.0 사용시 Hadoop 3.3.4 연동을 위해 라이브러리 추가
+#        HBase 2.5.2 사용시 미적용
+#        [DESCRIPTION
+#      file:
+#        src: "{{ bigdata_home }}/hadoop/share/hadoop/{{ items }}"
+#        dest: "{{ hbase_home }}/lib/"
+#        state: link
+#      with_items:
+#        - hdfs/hadoop-hdfs-3.3.4.jar
 
 - name: Start HBase all component
   hosts: "{{ groups['hbase-master'][0] }}"
@@ -51,3 +97,5 @@
   tasks:
     - name: Start master process
       shell: "{{ hbase_home }}/bin/start-hbase.sh"
+
+- name: Star HBase thrift server

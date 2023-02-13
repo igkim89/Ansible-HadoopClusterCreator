@@ -1,7 +1,7 @@
 ---
 
 - name: Install Hadoop cluster
-  hosts: hadoop
+  hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -61,6 +61,7 @@
       with_items:
         - "export HADOOP_HOME={{ bigdata_home }}/hadoop"
         - "PATH=$PATH:$HADOOP_HOME/bin"
+        - "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native"
     - name: Refresh bash_profile
       shell: "source /home/{{ remote_user }}/.bashrc"
       args:

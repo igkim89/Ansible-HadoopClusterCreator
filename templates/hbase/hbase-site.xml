@@ -29,6 +29,10 @@
         <value>{{ hbase.master_port }}</value>
     </property>
     <property>
+        <name>hbase.master.ipc.address</name>
+        <value>0.0.0.0</value>
+    </property>
+    <property>
         <name>hbase.master.info.port</name>
         <value>{{ hbase.master_info_port }}</value>
     </property>
