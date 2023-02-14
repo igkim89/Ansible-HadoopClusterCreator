@@ -114,5 +114,7 @@
   tasks:
     - name: Start master process
       shell: "{{ hbase_home }}/bin/start-hbase.sh"
+    - name: Start thrift server
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"
 
-- name: Star HBase thrift server
+
