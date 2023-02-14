@@ -10,7 +10,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    - hue_home: "{{ bigdata_home }}/hue"
+    hue_home: "{{ bigdata_home }}/hue"
   tasks:
     - name: Create Create bigdata home directory
       become: yes
@@ -94,7 +94,7 @@
   remote_user: "{{ remote_user }}"
   become: yes
   vars:
-    - hue_home: "{{ bigdata_home }}/hue"
+    hue_home: "{{ bigdata_home }}/hue"
   tasks:
     - name: Check Hue process
       shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"

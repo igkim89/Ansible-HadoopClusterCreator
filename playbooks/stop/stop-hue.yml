@@ -1,0 +1,11 @@
+---
+
+- name: Uninstall Hue
+  hosts: hue
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    hue_home: "{{ bigdata_home }}/hue"
+  tasks:
+    - name: Stop Hue server
+      command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml down"
