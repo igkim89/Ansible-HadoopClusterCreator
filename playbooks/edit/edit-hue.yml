@@ -1,0 +1,19 @@
+- name: Edit Hue configuration files
+  hosts: hue
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit Hue configuration files
+      template:
+        src: "{{ item }}"
+        dest: "{{ bigdata_home }}/hue/conf/"
+        mode: 0644
+      with_fileglob:
+        - "{{ ansible_home }}/playbooks/edit/templates/hue/hue.ini"
+    - name: Edit Hue configuration files
+      template:
+        src: "{{ item }}"
+        dest: "{{ bigdata_home }}/hue/"
+        mode: 0644
+      with_fileglob:
+        - "{{ ansible_home }}/playbooks/edit/templates/hue/docker-compose.yml"
