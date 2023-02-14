@@ -100,6 +100,7 @@
       shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
       register: hue_ps
       changed_when: false
+      failed_when: false
     - name: Start Hue server
       command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml up -d"
       when: '"hue-server" not in hue_ps.stdout'
