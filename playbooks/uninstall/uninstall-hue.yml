@@ -9,6 +9,7 @@
   tasks:
     - name: Stop Hue server
       command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml down"
+      failed_when: false
     - name: Remove directory
         file:
           path: "{{ item }}"
