@@ -38,12 +38,12 @@ installer:
   tez_min: "tez-0.10.2-minimal.tar.gz"
   tez: "tez-0.10.2.tar.gz"
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
-  hue: "hue-4.10.3.image"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   mysql_jdbc: "mysql-connector-java-8.0.28.jar"
   ojdbc: "ojdbc8-21.8.0.0.jar"
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"
-  cmak: "cmak-3.0.0.6.zip"
+  hue: "hue-4.10.3.image"
+  ufk: "kafka-ui-0.5.1.amd64.image"
 
 ## Zookeeper 설정
 zookeeper:
@@ -177,11 +177,17 @@ hbase:
   client_primary_call_timeout_get: 10
   client_primary_call_timeout_multiget: 10
 
+## Sqoop 설정
+sqoop:
+
 ## Hue 설정
 hue:
+  web_port: 8888
   database_name: hue
   database_id: hue
   database_pw: bigdata123
 
-## Sqoop 설정
-sqoop:
+## UI for Apache Kafka
+ufk:
+  web_port: 9000
+  cluster_name: IGKIM_Kafka_Cluster

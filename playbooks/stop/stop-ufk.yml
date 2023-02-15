@@ -1,0 +1,12 @@
+---
+
+- name: Uninstall UFK
+  hosts: ufk
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    ufk_home: "{{ bigdata_home }}/ufk"
+  tasks:
+    - name: Stop UFK server
+      command: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml down"
+      failed_when: false

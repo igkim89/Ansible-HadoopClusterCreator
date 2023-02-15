@@ -1,0 +1,79 @@
+---
+
+- name: Install UI for Apache Kafka
+  hosts: ufk
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    ufk_home: "{{ bigdata_home }}/kafka-ui"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create UFK home directory
+      file:
+        path: "{{ bigdata_home }}/kafka-ui-0.5.1"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create UFK symbolic link
+      file:
+        src: "{{ bigdata_home }}/kafka-ui-0.5.1"
+        dest: "{{ ufk_home }}"
+        state: link
+    - name: Create UFK logs directory
+      file:
+        path: "{{ ufk_home }}/logs"
+        state: directory
+    - name: Add configuration files
+      template:
+        src: "ufk/{{ item.key }}"
+        dest: "{{ item.value }}"
+      with_dict:
+        "docker-compose.yml": "{{ ufk_home }}"
+    - name: Update docker yum repolist
+      become: yes
+      copy:
+        src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce.repo"
+        dest: "/etc/yum.repos.d/docker-ce.repo"
+    - name: Install Docker
+      become: yes
+      yum:
+        name:
+          - "docker-ce"
+          - "docker-ce-cli"
+          - "containerd.io"
+          - "docker-compose-plugin"
+    - name: Start Docker
+      become: yes
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+    - name: Copy UFK image
+      copy:
+        src: "{{ installer_home }}/ufk/{{ installer.ufk }}"
+        dest: "{{ ufk_home }}"
+    - name: Load image
+      become: yes
+      command: "/usr/bin/docker load -i {{ hue_home }}/{{ installer.hue }}"
+
+- name: Start UFK server
+  hosts: ufk
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    ufk_home: "{{ bigdata_home }}/ufk"
+  tasks:
+    - name: Check UFK process
+      shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
+      register: ufk_ps
+      changed_when: false
+      failed_when: false
+    - name: Start UFK server
+      command: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml up -d"
+      when: '"kafka-ui" not in ufk_ps.stdout'

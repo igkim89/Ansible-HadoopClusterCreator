@@ -1,0 +1,14 @@
+version: '2'
+services:
+  kafka-ui:
+    image: daou/kafka-ui:0.5.1.amd64
+    container_name: kafka-ui
+    network_mode: host
+    ports:
+      - "{{ ufk.web_port }}:{{ ufk.web_port }}"
+    restart: always
+    environment:
+      - SERVER_PORT={{ ufk.web_port }}
+      - KAFKA_CLUSTERS_0_NAME={{ ufk.cluster_name }}
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS={% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}
+      - KAFKA_CLUSTERS_0_METRICS_PORT={{ kafka.jmx_port }}

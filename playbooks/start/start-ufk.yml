@@ -1,0 +1,17 @@
+---
+
+- name: Start UFK server
+  hosts: ufk
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    ufk_home: "{{ bigdata_home }}/ufk"
+  tasks:
+    - name: Check UFK process
+      shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
+      register: ufk_ps
+      changed_when: false
+      failed_when: false
+    - name: Start UFK server
+      command: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml up -d"
+      when: '"kafka-ui" not in ufk_ps.stdout'
