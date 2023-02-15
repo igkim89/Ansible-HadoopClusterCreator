@@ -7,6 +7,6 @@ services:
     network_mode: host
     container_name: hue-4.10.3
     ports:
-      - "8888:8888"
+      - "{{ hue.web_port }}:8888"
     volumes:
       - ./conf/hue.ini:/usr/share/hue/desktop/conf/z-hue-z.ini
