@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: yes
   vars:
-    ufk_home: "{{ bigdata_home }}/ufk"
+    ufk_home: "{{ bigdata_home }}/kafka-ui"
   tasks:
     - name: Check UFK process
       shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
