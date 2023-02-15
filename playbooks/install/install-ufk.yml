@@ -60,14 +60,14 @@
         dest: "{{ ufk_home }}"
     - name: Load image
       become: yes
-      command: "/usr/bin/docker load -i {{ hue_home }}/{{ installer.hue }}"
+      command: "/usr/bin/docker load -i {{ ufk_home }}/{{ installer.ufk }}"
 
 - name: Start UFK server
   hosts: ufk
   remote_user: "{{ remote_user }}"
   become: yes
   vars:
-    ufk_home: "{{ bigdata_home }}/ufk"
+    ufk_home: "{{ bigdata_home }}/kafka-ui"
   tasks:
     - name: Check UFK process
       shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
