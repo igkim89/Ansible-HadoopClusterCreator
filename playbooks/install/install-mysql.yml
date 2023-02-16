@@ -1,0 +1,95 @@
+---
+
+- name: Install MySQL
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    mysql_home_parent: "{{ mysql.home_dir.replace('/mysql','') }}"
+  tasks:
+    - name: Create home directory
+      file:
+        path: "{{ mysql_home_parent }}"
+        state: directory
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/mysql/{{ installer.mysql }}"
+        dest: "{{ mysql_home_parent }}/{{ installer.mysql }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ mysql_home_parent }}/{{ installer.mysql }}"
+        dest: "{{ mysql_home_parent }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ mysql_home_parent }}/{{ installer.mysql }}"
+        state: absent
+    - name: Create MySQL symbolic link
+      file:
+        src: "{{ mysql_home_parent }}/{{ installer.mysql.replace('.tar.xz', '') }}"
+        dest: "{{ mysql.home_dir }}"
+        state: link
+    - name: Create configuration and log directory
+      file:
+        path: "{{ mysql.home_dir }}/{{ item }}"
+        state: directory
+      with_items:
+        - conf
+        - logs
+    - name: Create configuration file
+      template:
+        src: mysql/my.cnf
+        dest: "{{ mysql.home_dir }}/conf/"
+        mode: 0644
+    - name: Create data directory
+      become: yes
+      file:
+        path: "{{ mysql.data_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+    - name: Install MySQL
+      command: "{{ mysql.home_dir }}/scripts/mysql_install_db --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }}"
+    - name: Start MySQL
+      shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
+#    - name: Check ncurses library
+#      stat:
+#        path: /usr/lib64/libncurses.so.5
+#      register: nc_result
+#    - name: Check tinfo library
+#      stat:
+#        path: /usr/lib64/libtinfo.so.5
+#      register: ti_result
+#    - name: Create ncurses symbolic link
+#      become: yes
+#      file:
+#        src: "/usr/lib64/libncurses.so.6"
+#        dest: "/usr/lib64/libncurses.so.5"
+#        state: link
+#      when: not nc_result.stat.exists
+#    - name: Create tinfo symbolic link
+#      become: yes
+#      file:
+#        src: "/usr/lib64/libtinfo.so.6"
+#        dest: "/usr/lib64/libtinfo.so.5"
+#        state: link
+#      when: not ti_result.stat.exists
+    - name: Secure installation
+      expect:
+        command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --basedir={{ mysql.home_dir }} --defaults-file={{ mysql.home_dir }}/conf/my.cnf --socket={{ mysql.home_dir }}/mysql.sock --user={{ remote_user }}"
+        responses:
+          'Enter current password for root \(enter for none\):': "\n"
+          'Switch to unix_socket authentication \[Y/n\]': 'y'
+          'Change the root password\? \[Y\/n\]': 'y'
+          'New password:': "{{ mysql.root_pw }}"
+          'Re-enter new password:': "{{ mysql.root_pw }}"
+          'Remove anonymous users\? \[Y\/n\]': 'y'
+          'Disallow root login remotely\?': 'y'
+          'Remove test database and access to it\? \[Y/n\]': 'y'
+          'Reload privilege tables now\? \[Y/n\]': 'y'
+    - name: Test MySQL
+      command: "{{ mysql.home_dir }}/bin/mysql -u{{ remote_user }} --socket={{ mysql.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
+
+
+

@@ -32,6 +32,9 @@ installer:
   pexpect: "pexpect.tgz"
   mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
   mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
+  mysql: "mysql-8.0.32-linux-glibc2.12-x86_64.tar.xz"
+#  mysql_jdbc: "mysql-connector-java-8.0.28.jar"
+  mysql_jdbc: "mysql-connector-j-8.0.32.jar"
 #  hive: "apache-hive-2.3.9-bin.tar.gz"
   hive: "apache-hive-3.1.2-bin.tar.gz"
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
@@ -39,7 +42,6 @@ installer:
   tez: "tez-0.10.2.tar.gz"
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
-  mysql_jdbc: "mysql-connector-java-8.0.28.jar"
   ojdbc: "ojdbc8-21.8.0.0.jar"
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"
   hue: "hue-4.10.3.image"
@@ -131,6 +133,16 @@ mariadb:
   home_dir: &maria_home_dir "/home/bigdata/mariadb"
   data_dir: "/data/mariadb"
   socket_dir: *maria_home_dir
+  max_conn: 8192
+  root_pw: "bigdata123"
+  char_set: "utf8"
+
+## MySQL 설정
+mysql:
+  jdbc_port: 13307
+  home_dir: &mysql_home_dir "/home/bigdata/mysql"
+  data_dir: "/data/mysql"
+  socket_dir: *mysql_home_dir
   max_conn: 8192
   root_pw: "bigdata123"
   char_set: "utf8"
