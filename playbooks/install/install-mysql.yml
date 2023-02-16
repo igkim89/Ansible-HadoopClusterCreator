@@ -61,7 +61,7 @@
       shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
     - name: Secure installation
       expect:
-        command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --defaults-file={{ mysql.home_dir }}/conf/my.cnf"
+        command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }}"
         responses:
           'Press y|Y for Yes, any other key for No:': 'n'
           'New password:': "{{ mysql.root_pw }}"
@@ -70,3 +70,5 @@
           'Disallow root login remotely\? \(Press y|Y for Yes, any other key for No\) :': 'y'
           'Remove test database and access to it\? \(Press y|Y for Yes, any other key for No\) :': 'y'
           'Reload privilege tables now\? \(Press y|Y for Yes, any other key for No\) :': 'y'
+    - name: Test MySQL
+      command: "{{ mysql.home_dir }}/bin/mysql -u{{ remote_user }} --socket={{ mariadb.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
