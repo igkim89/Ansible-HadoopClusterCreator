@@ -4,7 +4,7 @@
   become: no
   tasks:
     - name: Stop MySQL server
-      command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -u root shutdown"
+      command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -u root -p {{ mysql.root_pw }} shutdown"
       failed_when: False
     - name: Remove directory
       become: yes
