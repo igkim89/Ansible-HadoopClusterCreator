@@ -56,7 +56,7 @@
           - "libaio"
           - "numactl"
     - name: Install MySQL
-      command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize --user={{ remote_user }}"
+      command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
     - name: Start MySQL
       shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
 #    - name: Check ncurses library
