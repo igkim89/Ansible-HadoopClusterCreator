@@ -1,7 +1,7 @@
 ---
 
-- name: Start MariaDB
-  hosts: mariadb
+- name: Start MySQL
+  hosts: mysql
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

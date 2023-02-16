@@ -1,0 +1,12 @@
+- name: Edit MySQL configuration files
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit MySQL configuration files
+      template:
+        src: mysql/{{ item }}
+        dest: "{{ mysql.home_dir }}/conf/"
+        mode: 0644
+      with_items:
+        - my.cnf
