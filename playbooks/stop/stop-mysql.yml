@@ -1,0 +1,9 @@
+---
+
+- name: Stop MariaDB
+  hosts: mariadb
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start MySQL
+      shell: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -u root shutdown"

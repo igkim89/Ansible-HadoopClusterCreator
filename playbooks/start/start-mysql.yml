@@ -1,0 +1,9 @@
+---
+
+- name: Start MariaDB
+  hosts: mariadb
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start MySQL
+      shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
