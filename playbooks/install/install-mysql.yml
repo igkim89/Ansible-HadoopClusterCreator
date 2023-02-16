@@ -59,43 +59,14 @@
       command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
     - name: Start MySQL
       shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
-#    - name: Check ncurses library
-#      stat:
-#        path: /usr/lib64/libncurses.so.5
-#      register: nc_result
-#    - name: Check tinfo library
-#      stat:
-#        path: /usr/lib64/libtinfo.so.5
-#      register: ti_result
-#    - name: Create ncurses symbolic link
-#      become: yes
-#      file:
-#        src: "/usr/lib64/libncurses.so.6"
-#        dest: "/usr/lib64/libncurses.so.5"
-#        state: link
-#      when: not nc_result.stat.exists
-#    - name: Create tinfo symbolic link
-#      become: yes
-#      file:
-#        src: "/usr/lib64/libtinfo.so.6"
-#        dest: "/usr/lib64/libtinfo.so.5"
-#        state: link
-#      when: not ti_result.stat.exists
-#    - name: Secure installation
-#      expect:
-#        command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --basedir={{ mysql.home_dir }} --defaults-file={{ mysql.home_dir }}/conf/my.cnf --socket={{ mysql.home_dir }}/mysql.sock --user={{ remote_user }}"
-#        responses:
-#          'Enter current password for root \(enter for none\):': "\n"
-#          'Switch to unix_socket authentication \[Y/n\]': 'y'
-#          'Change the root password\? \[Y\/n\]': 'y'
-#          'New password:': "{{ mysql.root_pw }}"
-#          'Re-enter new password:': "{{ mysql.root_pw }}"
-#          'Remove anonymous users\? \[Y\/n\]': 'y'
-#          'Disallow root login remotely\?': 'y'
-#          'Remove test database and access to it\? \[Y/n\]': 'y'
-#          'Reload privilege tables now\? \[Y/n\]': 'y'
-#    - name: Test MySQL
-#      command: "{{ mysql.home_dir }}/bin/mysql -u{{ remote_user }} --socket={{ mysql.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
-
-
-
+    - name: Secure installation
+      expect:
+        command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --defaults-file={{ mysql.home_dir }}/conf/my.cnf"
+        responses:
+          'Press y|Y for Yes, any other key for No:': 'n'
+          'New password:': "{{ mysql.root_pw }}"
+          'Re-enter new password:': "{{ mysql.root_pw }}"
+          'Remove anonymous users\? \(Press y|Y for Yes, any other key for No\) :': 'y'
+          'Disallow root login remotely\? \(Press y|Y for Yes, any other key for No\) :': 'y'
+          'Remove test database and access to it\? \(Press y|Y for Yes, any other key for No\) :': 'y'
+          'Reload privilege tables now\? \(Press y|Y for Yes, any other key for No\) :': 'y'
