@@ -14,4 +14,4 @@
       with_items:
         - "{{ mysql.home_dir }}"
         - "{{ mysql.data_dir }}"
-        - "{{ mysql.home_dir.replace('/mariadb','') }}/{{ installer.mariadb.replace('.tar.xz', '') }}"
+        - "{{ mysql.home_dir.replace('/mysql','') }}/{{ installer.mysql.replace('.tar.xz', '') }}"
