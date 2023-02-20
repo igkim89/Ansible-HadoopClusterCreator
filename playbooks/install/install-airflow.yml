@@ -45,7 +45,21 @@
 
 
 ## Meta Database
+- name: Setting up a MySQL Database
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Create DB, User
+      command: |
+        bin/mysql -u root -p {{ mysql.root_pw }} --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE DATABASE {{ airflow.db_name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+        bin/mysql -u root -p {{ mysql.root_pw }} --socket={{ mariadb.socket_dir }}/mysql.sock -e "CREATE USER \'{{ airflow.db_user }}\' IDENTIFIED BY \'{{ airflow.db_pw }}\';"
+        bin/mysql -u root -p {{ mysql.root_pw }} --socket={{ mariadb.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ airflow.db_name }}.* TO \'{{ airflow.db_user\';"
+      args:
+        chdir: "{{ mysql.home_dir }}"
 
 ## Scheduler H/A
 
+
 ## Redis Sentinel
+

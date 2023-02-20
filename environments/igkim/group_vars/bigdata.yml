@@ -199,7 +199,13 @@ hue:
   database_id: hue
   database_pw: bigdata123
 
-## UI for Apache Kafka
+## UI for Apache Kafka 설정
 ufk:
   web_port: 9000
   cluster_name: IGKIM_Kafka_Cluster
+
+## Airflow 설정정
+airflow:
+  db_name: airflow
+  db_user: airflow
+  db_pw: airflow123
