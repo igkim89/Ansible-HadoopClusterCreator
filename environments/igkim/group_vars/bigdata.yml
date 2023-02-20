@@ -46,6 +46,7 @@ installer:
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"
   hue: "hue-4.10.3.image"
   ufk: "kafka-ui-0.5.1.amd64.image"
+  zeppelin: "zeppelin-0.10.1-bin-all.tgz"
 
 ## Zookeeper 설정
 zookeeper:
@@ -209,3 +210,5 @@ airflow:
   db_name: airflow
   db_user: airflow
   db_pw: airflow123
+
+## Zeppelin 설정
