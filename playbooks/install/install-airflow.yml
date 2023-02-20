@@ -1,3 +1,41 @@
 ---
 
-- name:
+- name: Install Airflow
+  hosts: airflow-webserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create temporary directory
+      file:
+        dest: "/home/{{ remote_user }}/airflow-tmp"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      file:
+        src: "{{ installer_home }}/airflow/{{ item }}"
+        dest: "/home/{{ remote_user }}/airflow-tmp/"
+      with_items:
+        - "airflow_whls.tgz"
+        - "constraints-3.10.txt"
+    - name: Unzip whls
+      unarchive:
+        src: "/home/{{ remote_user }}/airflow-tmp/airflow_whls.tgz"
+        dest: "/home/{{ remote_user }}/airflow-tmp/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Install Airflow
+      pip:
+        name: "apache-airflow[celery]==2.5.1"
+        extra_args: "--no-index --find-links=file:///home/{{ remote_user }}/airflow-tmp/airflow_whls  -c /home/{{ remote_user }}/airflow-tmp/constraints-3.10.txt"
+        state: present
