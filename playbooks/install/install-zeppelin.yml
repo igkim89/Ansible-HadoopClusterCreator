@@ -31,9 +31,27 @@
         state: absent
     - name: Create Zeppelin symbolic link
       file:
-        src: "{{ bigdata_home }}/{{ installer.zeppelin.replace('.tgz', '') }}"
+        src: "{{ bigdata_home }}/{{ installer.zeppelin.replace('.tar.gz', '') }}"
         dest: "{{ zeppelin_home }}"
         state: link
+    - name: Add JDBC driver
+      copy:
+        src: "{{ installer_home }}/jdbc/{{ item }}"
+        dest: "{{ zeppelin_home }}/lib/"
+      with_items:
+        - "{{ installer.mysql_jdbc }}"
+        - "{{ installer.odjbc }}"
+    - name: Add Zeppelin configuration
+      template:
+        src: "zeppelin/{{ item }}"
+        dest: "{{ zeppelin_home }}/conf/"
+        mode: 0644
+      with_items:
+        - zeppelin-site.xml
+        - zeppelin-env.sh
+        - shiro.ini
+    - name: Start Zeppelin server
+      command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh start"
 
 
 

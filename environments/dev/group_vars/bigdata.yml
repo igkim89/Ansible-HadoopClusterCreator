@@ -46,7 +46,7 @@ installer:
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"
   hue: "hue-4.10.3.image"
   ufk: "kafka-ui-0.5.1.amd64.image"
-  zeppelin: "zeppelin-0.10.1-bin-all.tgz"
+  zeppelin: "zeppelin-0.11.0-SNAPSHOT.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
@@ -202,7 +202,7 @@ hue:
   database_id: hue
   database_pw: bigdata123
 
-## UI for Apache Kafka 설
+## UI for Apache Kafka 설정
 ufk:
   web_port: 9000
   cluster_name: DEV_Kafka_Cluster
@@ -214,3 +214,7 @@ airflow:
   db_pw: airflow123
 
 ## Zeppelin 설정
+zeppelin:
+  admin_user: bigdata
+  admin_pw: bigdata123
+  web_port: 28080
