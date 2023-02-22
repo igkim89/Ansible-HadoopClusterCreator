@@ -1,0 +1,59 @@
+---
+
+- name: Install Redis
+  hosts: redis
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create temporary directory
+      file:
+        dest: "/home/{{ remote_user }}/redis-tmp"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/redis/{{ installer.redis }}"
+        dest: "/home/{{ remote_user }}/redis-tmp/"
+    - name: Unzip installer
+      unarchive:
+        src: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis }}"
+        dest: "/home/{{ remote_user }}/redis-tmp/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis }}"
+        state: absent
+    - name: Compile redis
+      command: "/usr/bin/make"
+      args:
+        chdir: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}"
+    - name: Install redis
+      command: "/usr/bin/make install PREFIX={{ bigdata_home }}/{{ installer.redis.replace('.tar.gz', '') }}"
+      args:
+        chdir: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}"
+    - name: Create Redis symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.redis.replace('.tar.gz', '') }}"
+        dest: "{{ redis_home }}"
+        state: link
+    - name: Create conf, logs directory
+      file:
+        dest: "{{ redis_home }}/{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "conf"
+        - "logs"

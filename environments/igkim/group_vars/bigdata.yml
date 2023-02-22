@@ -47,6 +47,7 @@ installer:
   hue: "hue-4.10.3.image"
   ufk: "kafka-ui-0.5.1.amd64.image"
   zeppelin: "zeppelin-0.11.0-SNAPSHOT.tar.gz"
+  redis: "redis-7.0.8.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
@@ -216,3 +217,8 @@ zeppelin:
   admin_user: bigdata
   admin_pw: bigdata123
   web_port: 28080
+
+## Redis 설정
+redis:
+  port: 16379
+  sentinel_port: 26379
