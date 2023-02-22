@@ -104,7 +104,7 @@ export HADOOP_CONF_DIR={{ bigdata_home }}/hadoop/conf         # yarn-site.xml is
 
 ## To connect to HBase running on a cluster, either HBASE_HOME or HBASE_CONF_DIR must be set
 
-# export HBASE_HOME=                    # (require) Under which HBase scripts and configuration should be
+export HBASE_HOME={{ bigdata_home }}/hbase                    # (require) Under which HBase scripts and configuration should be
 # export HBASE_CONF_DIR=                # (optional) Alternatively, configuration directory can be set to point to the directory that has hbase-site.xml
 
 #### Zeppelin impersonation configuration
