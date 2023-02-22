@@ -57,3 +57,17 @@
       with_items:
         - "conf"
         - "logs"
+    - name: Copy configuration files
+      copy:
+        src: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}/{{ item }}"
+        dest: "{{ redis_home }}/conf/"
+      with_items:
+        - "redis.conf"
+        - "sentinel.conf"
+#    - name: Edit redis.conf
+#      lineinfile:
+#        path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
+#        search_string: "export METASTORE_PORT=${METASTORE_PORT:-9083}"
+#        line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.metastore_port }}}"
+#      with_dicts:
+#        - "aaa": "bbb"
