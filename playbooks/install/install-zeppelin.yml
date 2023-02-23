@@ -40,14 +40,14 @@
         dest: "{{ zeppelin_home }}/lib/"
       with_items:
         - "{{ installer.mysql_jdbc }}"
-        - "{{ installer.odjbc }}"
+        - "{{ installer.ojdbc }}"
     - name: Add JDBC driver
       copy:
         src: "{{ installer_home }}/jdbc/{{ item }}"
         dest: "{{ zeppelin_home }}/interpreter/spark/"
       with_items:
         - "{{ installer.mysql_jdbc }}"
-        - "{{ installer.odjbc }}"
+        - "{{ installer.ojdbc }}"
     - name: Add Zeppelin configuration
       template:
         src: "zeppelin/{{ item }}"
