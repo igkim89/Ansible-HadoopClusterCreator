@@ -79,7 +79,7 @@
 export SPARK_HOME={{ bigdata_home}}/spark       # (required) When it is defined, load it instead of Zeppelin embedded Spark libraries
 # export SPARK_SUBMIT_OPTIONS                   # (optional) extra options to pass to spark submit. eg) "--driver-memory 512M --executor-memory 1G".
 # export SPARK_APP_NAME                         # (optional) The name of spark application.
-# export SPARK_CONF_DIR                         # (optional) In the zeppelin interpreter on docker mode, Need to set the local spark conf folder path
+export SPARK_CONF_DIR={{ bigdata_home}}/spark/conf                         # (optional) In the zeppelin interpreter on docker mode, Need to set the local spark conf folder path
 
 ## Use embedded spark binaries ##
 ## without SPARK_HOME defined, Zeppelin still able to run spark interpreter process using embedded spark binaries.
@@ -104,8 +104,8 @@ export HADOOP_CONF_DIR={{ bigdata_home }}/hadoop/conf         # yarn-site.xml is
 
 ## To connect to HBase running on a cluster, either HBASE_HOME or HBASE_CONF_DIR must be set
 
-export HBASE_HOME={{ bigdata_home }}/hbase                    # (require) Under which HBase scripts and configuration should be
-# export HBASE_CONF_DIR=                # (optional) Alternatively, configuration directory can be set to point to the directory that has hbase-site.xml
+export HBASE_HOME={{ bigdata_home }}/hbase/lib                    # (require) Under which HBase scripts and configuration should be
+export HBASE_CONF_DIR={{ bigdata_home }}/hbase/conf                # (optional) Alternatively, configuration directory can be set to point to the directory that has hbase-site.xml
 
 #### Zeppelin impersonation configuration
 # export ZEPPELIN_IMPERSONATE_CMD       # Optional, when user want to run interpreter as end web user. eg) 'sudo -H -u ${ZEPPELIN_IMPERSONATE_USER} bash -c '

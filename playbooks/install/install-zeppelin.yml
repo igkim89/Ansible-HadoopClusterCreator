@@ -41,6 +41,13 @@
       with_items:
         - "{{ installer.mysql_jdbc }}"
         - "{{ installer.odjbc }}"
+    - name: Add JDBC driver
+      copy:
+        src: "{{ installer_home }}/jdbc/{{ item }}"
+        dest: "{{ zeppelin_home }}/interpreter/spark/"
+      with_items:
+        - "{{ installer.mysql_jdbc }}"
+        - "{{ installer.odjbc }}"
     - name: Add Zeppelin configuration
       template:
         src: "zeppelin/{{ item }}"
@@ -50,8 +57,9 @@
         - zeppelin-site.xml
         - zeppelin-env.sh
         - shiro.ini
+    - name: Add library
+      copy:
+        src: "{{ bigdata_home }}/hbase/lib/"
+        dest: "{{ zeppelin_home }}/interpreter/hbase/"
     - name: Start Zeppelin server
       command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh start"
-
-
-
