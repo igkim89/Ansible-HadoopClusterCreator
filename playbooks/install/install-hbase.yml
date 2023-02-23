@@ -55,7 +55,9 @@
     - name: Upload HBase library
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hbase_home }}/lib/hbase-* /spark/archive/"
     - name: Upload htrace library
-      shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hbase_home }}/lib/client-facing-thirdparty /spark/archive/"
+      shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hbase_home }}/lib/client-facing-thirdparty/* /spark/archive/"
+    - name: Upload shaded-clients library
+      shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hbase_home }}/lib/shaded-clients/* /spark/archive/"
 
 
 #    - name: |
