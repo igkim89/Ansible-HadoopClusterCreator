@@ -30,8 +30,8 @@
 # export ZEPPELIN_JMX_ENABLE                    # Enable JMX feature by defining "true"
 # export ZEPPELIN_JMX_PORT                      # Port number which JMX uses. If not set, JMX won't be enabled
 
-# export ZEPPELIN_LOG_DIR                       # Where log files are stored.  PWD by default.
-# export ZEPPELIN_PID_DIR                       # The pid files are stored. ${ZEPPELIN_HOME}/run by default.
+export ZEPPELIN_LOG_DIR=${ZEPPELIN_HOME}/logs                       # Where log files are stored.  PWD by default.
+export ZEPPELIN_PID_DIR=${ZEPPELIN_HOME}/pid                       # The pid files are stored. ${ZEPPELIN_HOME}/run by default.
 # export ZEPPELIN_WAR_TEMPDIR                   # The location of jetty temporary directory.
 # export ZEPPELIN_NOTEBOOK_DIR                  # Where notebook saved
 # export ZEPPELIN_NOTEBOOK_HOMESCREEN           # Id of notebook to be displayed in homescreen. ex) 2A94M5J1Z
@@ -78,7 +78,7 @@
 ##
 export SPARK_HOME={{ bigdata_home}}/spark       # (required) When it is defined, load it instead of Zeppelin embedded Spark libraries
 # export SPARK_SUBMIT_OPTIONS                   # (optional) extra options to pass to spark submit. eg) "--driver-memory 512M --executor-memory 1G".
-# export SPARK_APP_NAME                         # (optional) The name of spark application.
+export SPARK_APP_NAME="Spark Interpreter"                         # (optional) The name of spark application.
 export SPARK_CONF_DIR={{ bigdata_home}}/spark/conf                         # (optional) In the zeppelin interpreter on docker mode, Need to set the local spark conf folder path
 
 ## Use embedded spark binaries ##
