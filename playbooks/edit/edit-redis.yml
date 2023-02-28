@@ -14,3 +14,9 @@
         line: "{{ item.value }}"
       with_dict:
         - "^port [0-9]{1,5}$": "port {{ redis.port }}"
+    - name: Edit Redis Sentinel monitor configuration
+      lineinfile:
+        path: "{{ redis_home }}/conf/sentinel.conf"
+        regexp: "^sentinel monitor"
+        line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address]' }} {{ redis.port }} 2"
+
