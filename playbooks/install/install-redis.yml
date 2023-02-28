@@ -93,8 +93,6 @@
         regexp: "^sentinel monitor"
         line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
 
-
-
 - name: Edit Redis Slave configuration
   hosts: "{{ groups['redis'][1] }}, {{ groups['redis'][2] }}"
   remote_user: "{{ remote_user }}"
@@ -108,4 +106,16 @@
         regexp: "^replicaof*[0-9]$"
         line: "replicaof {{ groups['redis'][0] }} {{ redis.port }}"
         insertafter: "^# replicaof <masterip> <masterport>"
+
+- name: Start Redis server
+  hosts: redis
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Start Redis Master and Slave server
+      command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
+    - name: Start Redis Sentinel server
+      command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"
 
