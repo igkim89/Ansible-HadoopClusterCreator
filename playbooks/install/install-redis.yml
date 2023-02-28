@@ -71,9 +71,9 @@
         line: "{{ item.value }}"
       with_dict:
         - "^bind 127.0.0.1 -::1$": "bind 0.0.0.0"
-        - "^protected-mode yes$": "protected-mode no"
-        - "^port*[0-9]$": "port {{ redis.port }}"
-        - "^daemonize no$": "daemonize yes"
+        - "^protected-mode [a-z]{2,3}$": "protected-mode no"
+        - "^port [0-9]{1,5}$": "port {{ redis.port }}"
+        - "^daemonize [a-z]{2,3}$": "daemonize yes"
         - "^pidfile*": "pidfile {{ redis_home }}/redis.pid"
         - "^logfile*": "logfile {{ redis_home }}/logs/redis.log"
 
