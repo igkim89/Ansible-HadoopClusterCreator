@@ -18,5 +18,5 @@
       lineinfile:
         path: "{{ redis_home }}/conf/sentinel.conf"
         regexp: "^sentinel monitor"
-        line: "sentinel monitor mymaster hostvars['groups['redis'][0]']['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
+        line: "sentinel monitor mymaster {{ hostvars['groups['redis'][0]']['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
 
