@@ -40,7 +40,7 @@ installer:
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
   tez_min: "tez-0.10.2-minimal.tar.gz"
   tez: "tez-0.10.2.tar.gz"
-  hbase: "hbase-2.5.1-bin.tar.gz"
+  hbase: "hbase-2.5.1-hadoop3-bin.tar.gz"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   ojdbc: "ojdbc8-21.8.0.0.jar"
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"

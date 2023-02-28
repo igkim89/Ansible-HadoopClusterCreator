@@ -1,0 +1,16 @@
+---
+
+- name: Uninstall Redis
+  hosts: redis
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.redis.replace('.tar.gz', '') }}"
+        - "{{ redis_home }}"
+      failed_when: False
