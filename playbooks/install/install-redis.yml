@@ -72,7 +72,7 @@
       with_dict:
         - "^bind 127.0.0.1 -::1$": "bind 0.0.0.0"
         - "^protected-mode yes$": "protected-mode no"
-        - "^port [0-9]$": "port {{ redis.port }}"
+        - "^port*[0-9]$": "port {{ redis.port }}"
         - "^daemonize no$": "daemonize yes"
         - "^pidfile*": "pidfile {{ redis_home }}/redis.pid"
         - "^logfile*": "logfile {{ redis_home }}/logs/redis.log"
@@ -80,7 +80,7 @@
 
 
 - name: Edit Redis Slave configuration
-  hosts: "{{ groups['redis'][1:2] }}"
+  hosts: "{{ groups['redis'][1] }}", "{{ groups['redis'][2] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -91,5 +91,5 @@
         path: "{{ redis_home }}/conf/redis.conf"
         regexp: "^replicaof*[0-9]$"
         line: "replicaof {{ groups['redis'][0] }} {{ redis.port }}"
-        insertafter: "# replicaof <masterip> <masterport>"
+        insertafter: "^# replicaof <masterip> <masterport>"
 
