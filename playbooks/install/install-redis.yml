@@ -76,6 +76,22 @@
         - "^daemonize [a-z]{2,3}$": "daemonize yes"
         - "^pidfile*": "pidfile {{ redis_home }}/redis.pid"
         - "^logfile*": "logfile {{ redis_home }}/logs/redis.log"
+    - name: Edit Redis Sentinel configuration
+      lineinfile:
+        path: "{{ redis_home }}/conf/sentinel.conf"
+        regexp: "{{ item.key }}"
+        line: "{{ item.value }}"
+      with_dict:
+        - "^protected-mode [a-z]{2,3}$": "protected-mode no"
+        - "^port [0-9]{1,5}$": "port {{ redis.sentinel_port }}"
+        - "^daemonize [a-z]{2,3}$": "daemonize yes"
+        - "^pidfile*": "pidfile {{ redis_home }}/redis-sentinel.pid"
+        - "^logfile*": "logfile {{ redis_home }}/logs/redis-sentinel.log"
+    - name: Edit Redis Sentinel monitor configuration
+      lineinfile:
+        path: "{{ redis_home }}/conf/sentinel.conf"
+        regexp: "^sentinel monitor"
+        line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address]' }} {{ redis.port }} 2"
 
 
 
