@@ -21,7 +21,7 @@
         - "^logfile*": "logfile {{ redis_home }}/logs/redis.log"
 
 - name: Edit Redis Slave configuration
-  hosts: "{{ groups['redis'][1] }}", "{{ groups['redis'][2] }}"
+  hosts: "{{ groups['redis'][1] }}, {{ groups['redis'][2] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
