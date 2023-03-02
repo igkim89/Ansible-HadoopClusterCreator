@@ -19,17 +19,26 @@
         dest: "/home/{{ remote_user }}/airflow-tmp/"
       with_items:
         - "airflow-download.tgz"
+        - "airflow_mysql_whls.tgz"
     - name: Unzip whls
       unarchive:
-        src: "/home/{{ remote_user }}/airflow-tmp/airflow-download.tgz"
+        src: "/home/{{ remote_user }}/airflow-tmp/{{ item }}"
         dest: "/home/{{ remote_user }}/airflow-tmp/"
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      with_items:
+        - "airflow-download.tgz"
+        - "airflow_mysql_whls.tgz"
     - name: Install Airflow
       pip:
         name: "apache-airflow[celery]==2.5.1"
         extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/airflow-download/airflow_whls"
+        state: present
+    - name: Install Airflow-MySQL
+      pip:
+        name: "apache-airflow[mysql]"
+        extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/airflow_mysql_whls"
         state: present
     - name: Remove temporary directory
       file:
