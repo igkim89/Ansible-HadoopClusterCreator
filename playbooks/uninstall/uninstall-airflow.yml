@@ -22,7 +22,7 @@
       command: "pip uninstall apache-airflow[celery] -y"
 
 - name: Remove Airflow directory
-  hosts: airflow
+  hosts: airflow-webserver
   become: no
   vars:
     airflow_home: "/home/{{ remote_user }}/airflow"
