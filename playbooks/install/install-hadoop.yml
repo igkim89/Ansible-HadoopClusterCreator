@@ -52,6 +52,8 @@
         insertafter: EOF
       with_items:
         - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xmx4g"'
+        - 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native'
+        - 'export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"'
     - name: Edit Hadoop home
       lineinfile:
         path: "/home/{{ remote_user }}/.bashrc"
