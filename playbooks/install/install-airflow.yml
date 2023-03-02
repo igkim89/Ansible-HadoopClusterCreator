@@ -13,6 +13,11 @@
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+    - name: Install mysql-devel
+      become: yes
+      yum:
+        name:
+          - "mysql-devel"
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/airflow/{{ item }}"

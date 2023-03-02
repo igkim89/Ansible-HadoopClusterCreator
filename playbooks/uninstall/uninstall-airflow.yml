@@ -36,17 +36,19 @@
       with_items: "{{ groups['airflow'] }}"
 
 - name: Uninstall Airflow
-  hosts: airflow-webserver
+  hosts: airflow-webserver, airflow-scheduler, airflow-celery-worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
-    - name: Uninstall Airflow
+    - name: Uninstall Airflow-celery
       command: "pip uninstall apache-airflow[celery] -y"
+    - name: Uninstall Airflow-mysql
+        command: "pip uninstall apache-airflow[mysql] -y"
 
 - name: Remove Airflow directory
-  hosts: airflow-webserver
+  hosts: airflow-webserver, airflow-scheduler, airflow-celery-worker
   become: no
   vars:
     airflow_home: "{{ bigdata_home }}/airflow"
