@@ -11,6 +11,18 @@
       command: ""
       failed_when: False
 
+- name: Remove Setting a MySQL Database
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Drop DB, User
+      shell: |
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "DROP DATABASE {{ airflow.db_name }};"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "DROP USER '{{ airflow.db_user }}';"
+      args:
+        chdir: "{{ mysql.home_dir }}"
+
 - name: Uninstall Airflow
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
