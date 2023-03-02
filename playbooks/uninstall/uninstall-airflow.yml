@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    airflow_home: "/home/{{ remote_user }}/airflow"
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Stop Airflow webserver
       command: ""
@@ -40,7 +40,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    airflow_home: "/home/{{ remote_user }}/airflow"
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Uninstall Airflow
       command: "pip uninstall apache-airflow[celery] -y"
@@ -49,13 +49,13 @@
   hosts: airflow-webserver
   become: no
   vars:
-    airflow_home: "/home/{{ remote_user }}/airflow"
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Remove directory
       file:
         path: "{{ item }}"
         state: absent
       with_items:
-        - "/home/{{ remote_user }}/airflow"
+        - "{{ airflow_home }}"
         - "/home/{{ remote_user }}/airflow-tmp"
       failed_when: False
