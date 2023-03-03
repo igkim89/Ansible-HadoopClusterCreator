@@ -115,8 +115,10 @@
       command: "{{ item }}"
       with_items:
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir /tmp"
+        - "{{ hadoop_home }}/bin/hdfs dfs -mkdir /tmp/hive"
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/hive/warehouse"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp"
+        - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp/hive"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
 
