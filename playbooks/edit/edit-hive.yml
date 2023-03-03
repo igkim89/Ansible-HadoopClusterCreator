@@ -12,7 +12,7 @@
         - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
     - name: Test
       lineinfile:
-        path: "{{ bigdata_home }}hive/bin/hive"
+        path: "{{ bigdata_home }}/hive/bin/hive"
         line: |
           for f in ${HADOOP_HOME}/share/hadoop/*/*.jar; do
             CLASSPATH=${CLASSPATH}:$f;
