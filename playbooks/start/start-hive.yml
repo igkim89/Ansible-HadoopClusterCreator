@@ -1,6 +1,6 @@
 ---
 
-- name: Edit HCatalog configuration
+- name: Start HCatalog server
   hosts: metastore
   remote_user: "{{ remote_user }}"
   become: no

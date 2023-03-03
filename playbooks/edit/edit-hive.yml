@@ -10,3 +10,12 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
+    - name: Test
+      lineinfile:
+        path: "{{ bigdata_home }}hive/bin/hive"
+        line: |
+          for f in ${HADOOP_HOME}/share/hadoop/*/*.jar; do
+            CLASSPATH=${CLASSPATH}:$f;
+          done
+
+        insertbefore: "# add the auxillary jars such as serdes"
