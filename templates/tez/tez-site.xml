@@ -3,10 +3,10 @@
 <configuration>
     <property>
         <name>tez.lib.uris</name>
-        <value>${fs.defaultFS}{{ tez.lib_dir }}/{{ installer.tez_min }}</value>
+        <value>${fs.defaultFS}{{ tez.lib_dir }}/{{ installer.tez }}</value>
     </property>
-    <property>
-        <name>tez.use.cluster.hadoop-libs</name>
-        <value>true</value>
-    </property>
+<!--    <property>-->
+<!--        <name>tez.use.cluster.hadoop-libs</name>-->
+<!--        <value>true</value>-->
+<!--    </property>-->
 </configuration>
