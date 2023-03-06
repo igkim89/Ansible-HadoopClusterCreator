@@ -40,7 +40,7 @@
       failed_when: False
 
 - name: Uninstall Hive
-  hosts: hive
+  hosts: bigdata
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"

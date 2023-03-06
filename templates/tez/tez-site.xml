@@ -3,6 +3,6 @@
 <configuration>
     <property>
         <name>tez.lib.uris</name>
-        <value>${fs.defaultFS}{{ tez.lib_dir }}/tez-0.10.2.tar.gz</value>
+        <value>${fs.defaultFS}{{ tez.lib_dir }}/{{ installer.tez_min }}</value>
     </property>
 </configuration>
