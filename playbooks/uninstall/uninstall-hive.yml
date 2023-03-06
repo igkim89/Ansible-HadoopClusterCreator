@@ -39,7 +39,15 @@
       with_items: "{{ groups['metastore'] }}"
       failed_when: False
 
-- name: Uninstall Hive
+- name: Remove Tez library
+  hosts: "{{ groups['datanode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Remove library directory
+      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -rm -r -f {{ tez.lib_dir }}"
+
+- name: Uninstall Hive and Tez
   hosts: bigdata
   become: no
   vars:
@@ -55,4 +63,6 @@
       with_items:
         - "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
         - "{{ hive_home }}"
+        - "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
+        - "{{ bigdata_home }}/tez"
       failed_when: False
