@@ -58,6 +58,11 @@
       with_items:
         - spark-env.sh
         - spark-defaults.conf
+    - name: Hive configuration symbolic link
+      file:
+        src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
+        dest: "{{ spark_home }}/conf/"
+        state: link
 
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
