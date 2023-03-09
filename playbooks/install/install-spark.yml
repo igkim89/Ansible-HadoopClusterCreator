@@ -61,7 +61,7 @@
     - name: Hive configuration symbolic link
       file:
         src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
-        dest: "{{ spark_home }}/conf/"
+        dest: "{{ spark_home }}/conf/hive-site.xml"
         state: link
 
 - name: Spark Preparations
