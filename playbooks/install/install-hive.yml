@@ -122,68 +122,68 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
 
-- name: Install Tez
-  hosts: hive-server2,nodemanager
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    tez_home: "{{ bigdata_home }}/tez"
-  tasks:
-    - name: Copy installer
-      copy:
-        src: "{{ installer_home }}/tez/{{ installer.tez }}"
-        dest: "{{ bigdata_home }}/{{ installer.tez }}"
-    - name: Create Tez home directory
-      file:
-        path: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
-        state: directory
-    - name: Unzip installer
-      unarchive:
-        src: "{{ bigdata_home }}/{{ installer.tez }}"
-        dest: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}/"
-        remote_src: true
-        owner: "{{ remote_user }}"
-        group: "{{ remote_user }}"
-    - name: Delete installer
-      file:
-        path: "{{ bigdata_home }}/{{ installer.tez }}"
-        state: absent
-    - name: Create Tez symbolic link
-      file:
-        src: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
-        dest: "{{ tez_home }}"
-        state: link
-    - name: Create configuration directory
-      file:
-        path: "{{ tez_home }}/conf"
-        state: directory
-    - name: Add Tez configuration
-      template:
-        src: tez/{{ item }}
-        dest: "{{ tez_home }}/conf/"
-      with_items:
-        - tez-site.xml
-    - name: Add library
-      copy:
-        src: "{{ installer_home }}/tez/{{ item }}"
-        dest: "{{ tez_home }}/lib/"
-      with_items:
-        - "hadoop-common-3.3.1.jar" # 3.3.4는 왜 안될까..? snappy 변경 때문인듯..?
-        - "htrace-core4-4.1.0-incubating.jar"
+#- name: Install Tez
+#  hosts: hive-server2,nodemanager
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    tez_home: "{{ bigdata_home }}/tez"
+#  tasks:
+#    - name: Copy installer
+#      copy:
+#        src: "{{ installer_home }}/tez/{{ installer.tez }}"
+#        dest: "{{ bigdata_home }}/{{ installer.tez }}"
+#    - name: Create Tez home directory
+#      file:
+#        path: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
+#        state: directory
+#    - name: Unzip installer
+#      unarchive:
+#        src: "{{ bigdata_home }}/{{ installer.tez }}"
+#        dest: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}/"
+#        remote_src: true
+#        owner: "{{ remote_user }}"
+#        group: "{{ remote_user }}"
+#    - name: Delete installer
+#      file:
+#        path: "{{ bigdata_home }}/{{ installer.tez }}"
+#        state: absent
+#    - name: Create Tez symbolic link
+#      file:
+#        src: "{{ bigdata_home }}/{{ installer.tez.replace('.tar.gz', '') }}"
+#        dest: "{{ tez_home }}"
+#        state: link
+#    - name: Create configuration directory
+#      file:
+#        path: "{{ tez_home }}/conf"
+#        state: directory
+#    - name: Add Tez configuration
+#      template:
+#        src: tez/{{ item }}
+#        dest: "{{ tez_home }}/conf/"
+#      with_items:
+#        - tez-site.xml
+#    - name: Add library
+#      copy:
+#        src: "{{ installer_home }}/tez/{{ item }}"
+#        dest: "{{ tez_home }}/lib/"
+#      with_items:
+#        - "hadoop-common-3.3.1.jar" # 3.3.4는 왜 안될까..? snappy 변경 때문인듯..?
+#        - "htrace-core4-4.1.0-incubating.jar"
 
-- name: Upload Tez library
-  hosts: "{{ groups['datanode'][0] }}"
-  remote_user: "{{ remote_user }}"
-  become: no
-  tasks:
-    - name: Create library directory
-      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -mkdir -p {{ tez.lib_dir }}"
-    - name: Check library
-      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -ls {{ tez.lib_dir }}"
-      register: check_tez_lib
-    - name: Upload library
-      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
-      when: 'installer.tez not in check_tez_lib.stdout'
+#- name: Upload Tez library
+#  hosts: "{{ groups['datanode'][0] }}"
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Create library directory
+#      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -mkdir -p {{ tez.lib_dir }}"
+#    - name: Check library
+#      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -ls {{ tez.lib_dir }}"
+#      register: check_tez_lib
+#    - name: Upload library
+#      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
+#      when: 'installer.tez not in check_tez_lib.stdout'
 
 # ANSI_QUOTOS 없으면 Metastore에서 에러가 나긴 하는데 기능상의 에러가 아닌 테스트 중 에러로 보인다.
 #- name: Edit MariaDB configuration and restart
