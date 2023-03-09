@@ -7,7 +7,7 @@
     </property>
     <property>
         <name>hive.execution.engine</name>
-        <value>tez</value>
+        <value>spark</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
