@@ -42,11 +42,16 @@
         dest: "{{ hive_home }}/lib/"
     - name: Add hive configuration
       template:
-        src: "{{ item }}"
+        src: "hive/{{ item }}"
         dest: "{{ hive_home }}/conf/"
         mode: 0644
-      with_fileglob:
-          - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
+      with_items:
+        - "hive-env.sh"
+        - "hive-log4j2.properties"
+        - "hive-site.xml"
+#      with_fileglob:
+#          - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
+
 #    - name: Add hive-site.xml
 #      template:
 #        src: hive/hive-site.xml
