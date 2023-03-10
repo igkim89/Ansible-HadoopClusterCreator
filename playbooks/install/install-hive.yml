@@ -121,7 +121,7 @@
         dest: "{{ hive_home }}/conf/{{ item }}"
         state: link
       with_items:
-        - "spark-default.conf"
+        - "spark-defaults.conf"
 
 - name: Create hive metastore database
   hosts: mariadb
