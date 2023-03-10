@@ -155,6 +155,7 @@
   become: no
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
+    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '') }}"
   tasks:
     - name: Create Hive warehouse directory
       command: "{{ item }}"

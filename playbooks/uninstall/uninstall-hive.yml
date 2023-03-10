@@ -73,7 +73,7 @@
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
-    - name: Create Hive warehouse directory
+    - name: Remove Spark library in HDFS
       shell: "{{ item }}"
       with_items:
         - "{{ hadoop_home }}/bin/hdfs dfs -rm -r -f /hive-on-spark/archive"
