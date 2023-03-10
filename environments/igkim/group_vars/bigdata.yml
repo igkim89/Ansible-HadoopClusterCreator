@@ -158,6 +158,18 @@ hive:
     metastore_port: 19083
     hive_server2_port: 10000
   spark:
+    driver_memory: "1g"
+    driver_cores: 1
+    executor_memory: "2g"
+    executor_cores: 1
+    history:
+      update_interval: "5s"
+      ui_port: 50074
+      cleaner:
+        enabled: false
+        interval: "1d"
+        max_age: "90d"
+        max_num: "Int.MaxValue"
 
 
 ## Hive on Tez 설정
