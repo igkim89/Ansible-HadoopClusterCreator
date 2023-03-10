@@ -39,6 +39,7 @@ installer:
   mysql_jdbc: "mysql-connector-j-8.0.32.jar"
 #  hive: "apache-hive-2.3.9-bin.tar.gz"
   hive: "apache-hive-3.1.2-bin.tar.gz"
+  hive_spark: "spark-2.3.0-bin-hadoop2-without-hive.tgz"
   spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
   tez_min: "tez-0.10.1-minimal.tar.gz"
   tez: "tez-0.10.1.tar.gz"
@@ -159,6 +160,20 @@ hive:
     db_pw: "bigdata123"
     metastore_port: 19083
     hive_server2_port: 10000
+  spark:
+    driver_memory: "4g"
+    driver_cores: 2
+    executor_memory: "16g"
+    executor_cores: 4
+    history:
+      update_interval: "5s"
+      ui_port: 18088
+      cleaner:
+        enabled: false
+        interval: "1d"
+        max_age: "90d"
+        max_num: "Int.MaxValue"
+
 
 ## Hive on Tez 설정
 tez:

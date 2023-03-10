@@ -7,6 +7,7 @@
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"
+    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '') }}"
   tasks:
     - name: Create bigdata home directory
       become: yes
@@ -82,6 +83,45 @@
             CLASSPATH=${CLASSPATH}:$f;
           done
         insertbefore: "# add the auxillary jars such as serdes"
+    - name: Install Hive on Spark
+      copy:
+        src: "{{ installer_home }}/spark/{{ installer.hive_spark }}"
+        dest: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+        state: absent
+    - name: Link Spark library
+      file:
+        src: "{{ hive_spark_home }}/jars/{{ item }}"
+        dest: "{{ hive_home }}/lib/{{ item }}"
+        state: link
+      with_items:
+        - "scala-library-2.11.8.jar"
+        - "spark-core_2.11-2.3.0.jar"
+        - "spark-network-common_2.11-2.3.0.jar"
+    - name: ADD Spark configuration
+      template:
+        src: hive/{{ item }}
+        dest: "{{ hive_spark_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "spark-default.conf"
+        - "spark-env.sh"
+    - name: Link spark-default.conf
+      file:
+        src: "{{ hive_spark_home }}/conf/{{ item }}"
+        dest: "{{ hive_home }}/conf/{{ item }}"
+        state: link
+      with_items:
+        - "spark-default.conf"
 
 - name: Create hive metastore database
   hosts: mariadb
@@ -121,7 +161,19 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /tmp/hive"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
+    - name: Upload Spark library
+      command: "{{ item }}"
+      with_items:
+        - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /hive-on-spark/archive"
+        - "{{ hadoop_home }}/bin/hdfs dfs -put {{ hive_spark_home }}/jars/* /hive-on-spark/archive/"
+      failed_when: false
 
+############################################
+#  2023. 03. 10.
+#  Hadoop 3.3.4 사용시 Tez 0.10.2 연동되었으나
+#  Hadoop 3.2.4 변경 후 의존성 충돌로 인해 연동 불가
+#  Hive on Spark로 변경
+############################################
 #- name: Install Tez
 #  hosts: hive-server2,nodemanager
 #  remote_user: "{{ remote_user }}"
