@@ -113,7 +113,7 @@
         dest: "{{ hive_spark_home }}/conf/"
         mode: 0644
       with_items:
-        - "spark-default.conf"
+        - "spark-defaults.conf"
         - "spark-env.sh"
     - name: Link spark-default.conf
       file:
