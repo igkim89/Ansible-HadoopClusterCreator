@@ -168,7 +168,7 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
       failed_when: false
     - name: Upload Spark library
-      command: "{{ item }}"
+      shell: "{{ item }}"
       with_items:
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /hive-on-spark/archive"
         - "{{ hadoop_home }}/bin/hdfs dfs -put {{ hive_spark_home }}/jars/* /hive-on-spark/archive/"
