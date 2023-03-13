@@ -53,6 +53,7 @@ installer:
   ufk: "kafka-ui-0.5.1.amd64.image"
   zeppelin: "zeppelin-0.11.0-SNAPSHOT.tar.gz"
   redis: "redis-7.0.8.tar.gz"
+  R: "R-4.2.2.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:

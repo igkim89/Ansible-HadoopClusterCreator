@@ -1,0 +1,70 @@
+---
+
+- name: Install R
+  hosts: R
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    R_home: "{{ bigdata_home }}/R"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create tmp directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}/tmp"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create R home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}/{{ installer.R.replace('.tar.gz', '') }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create R symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.R.replace('.tar.gz', '') }}"
+        dest: "{{ R_home }}"
+        state: link
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/R/{{ installer.R }}"
+        dest: "{{ bigdata_home }}/tmp/{{ installer.R }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/tmp/{{ installer.R }}"
+        dest: "{{ bigdata_home }}/tmp/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/tmp/{{ installer.R }}"
+        state: absent
+    - name: Install OS Library
+      become: yes
+      yum:
+        name:
+          - "gcc-gfortran"
+          - "libX11"
+          - "libX11-devel"
+          - "libXt"
+          - "libXt-devel"
+          - "libcurl-devel"
+    - name: Compile (configure)
+      command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --prefix={{ R_home }}"
+    - name: Compile (make)
+      command: "make"
+      args:
+        chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
+    - name: Compile (make install)
+      command: "make install"
+      args:
+        chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
