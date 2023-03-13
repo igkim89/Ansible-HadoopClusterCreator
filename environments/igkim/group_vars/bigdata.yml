@@ -54,6 +54,7 @@ installer:
   zeppelin: "zeppelin-0.11.0-SNAPSHOT.tar.gz"
   redis: "redis-7.0.8.tar.gz"
   R: "R-4.2.2.tar.gz"
+  RStudio: "rstudio-server-rhel-2022.12.0-353-x86_64.rpm"
 
 ## Zookeeper 설정
 zookeeper:
