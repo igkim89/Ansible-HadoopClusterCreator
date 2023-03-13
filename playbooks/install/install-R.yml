@@ -87,6 +87,7 @@
       yum:
         name:
           - "{{ RStudio_home }}/{{ installer.RStudio }}"
+        disable_gpg_check: true
         state: present
 
 
