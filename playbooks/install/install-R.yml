@@ -60,6 +60,8 @@
           - "libcurl-devel"
     - name: Compile (configure)
       command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --prefix={{ R_home }}"
+      args:
+        chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
     - name: Compile (make)
       command: "make"
       args:
