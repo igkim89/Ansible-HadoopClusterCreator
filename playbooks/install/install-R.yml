@@ -71,17 +71,17 @@
 #      command: "make install"
 #      args:
 #        chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
-#    - name: Create RStudio home directory
-#      become: yes
-#      file:
-#        dest: "{{ RStudio_home }}"
-#        state: directory
-#        owner: "{{ remote_user }}"
-#        group: "{{ remote_user }}"
-#    - name: Copy installer
-#      copy:
-#        src: "{{ installer_home }}/R/{{ installer.RStudio }}"
-#        dest: "{{ RStudio_home }}/{{ installer.RStudio }}"
+    - name: Create RStudio home directory
+      become: yes
+      file:
+        dest: "{{ RStudio_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/R/{{ installer.RStudio }}"
+        dest: "{{ RStudio_home }}/{{ installer.RStudio }}"
     - name: Install RStudio
       become: yes
       yum:
