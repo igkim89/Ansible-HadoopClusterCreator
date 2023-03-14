@@ -71,24 +71,23 @@
       command: "make install"
       args:
         chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
-    - name: Create RStudio home directory
-      become: yes
-      file:
-        dest: "{{ RStudio_home }}"
-        state: directory
-        owner: "{{ remote_user }}"
-        group: "{{ remote_user }}"
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/R/{{ installer.RStudio }}"
-        dest: "{{ RStudio_home }}/{{ installer.RStudio }}"
+        dest: "{{ bigdata_home }}/tmp/{{ installer.RStudio }}"
     - name: Install RStudio
       become: yes
       yum:
         name:
-          - "{{ RStudio_home }}/{{ installer.RStudio }}"
+          - "{{ bigdata_home }}/tmp/{{ installer.RStudio }}"
         disable_gpg_check: true
         state: present
+    - name: Create RStudio home directory
+      become: yes
+      file:
+        src: "/usr/lib/rstudio-server"
+        dest: "{{ RStudio_home }}"
+        state: link
 
     ## 설치 완료 후 임시 디렉토리 제거
     - name: Remove tmp directory
