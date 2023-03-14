@@ -60,7 +60,7 @@
           - "libXt-devel"
           - "libcurl-devel"
     - name: Compile (configure)
-      command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --prefix={{ R_home }}"
+      command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --enable-R-shlib=yes --prefix={{ R_home }}"
       args:
         chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
     - name: Compile (make)
