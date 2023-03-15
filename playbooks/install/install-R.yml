@@ -95,6 +95,7 @@
         dest: "/usr/lib/rstudio-server/conf"
         state: link
     - name: Edit configuration file
+      become: yes
       lineinfile:
         path: "{{ RStudio_home }}/conf/rserver.conf"
         line: "rsession-which-r={{ R_home }}/bin/R"
