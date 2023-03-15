@@ -88,6 +88,18 @@
         src: "/usr/lib/rstudio-server"
         dest: "{{ RStudio_home }}"
         state: link
+    - name: Link configuration directory
+      become: yes
+      file:
+        src: "/etc/rstudio"
+        dest: "/usr/lib/rstudio-server/conf"
+        state: link
+    - name: Edit configuration file
+      lineinfile:
+        path: "{{ RStudio_home }}/conf/rserver.conf"
+        line: "rsession-which-r={{ R_home }}/bin/R"
+        insertafter: EOF
+
 
     ## 설치 완료 후 임시 디렉토리 제거
     - name: Remove tmp directory
