@@ -1,0 +1,23 @@
+- name: Edit Zookeeper configuration
+  hosts: zookeeper
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Edit configuration
+      lineinfile:
+        path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+        regexp: "^#? *{{ item.key | regex_escape() }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        - "clientPort": "{{ zookeeper.client_port }}"
+        - "dataDir": "{{ zookeeper.data_dir }}"
+    - name: Remove myid
+      replace:
+        path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+        regexp: "^server."
+    - name: Add myid
+      lineinfile:
+        path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
+        line: "server.{{ hostvars[item].myid }}={{ item }}:{{ zookeeper.internal_follower_port }}:{{ zookeeper.internal_leader_port }}"
+        insertafter: EOF
+      with_items: "{{ groups['zookeeper'] }}"
