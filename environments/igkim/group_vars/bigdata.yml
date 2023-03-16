@@ -58,12 +58,12 @@ installer:
 
 ## Zookeeper 설정
 zookeeper:
-  client_port: 12181
+  client_port: 2181
   data_dir: "/opt/bigdata/zookeeper/data"
 
   # 내부 통신용 포트
-  internal_follower_port: 12888
-  internal_leader_port: 13888
+  internal_follower_port: 2888
+  internal_leader_port: 3888
 
 ## Hadoop 설정
 hadoop:
@@ -129,8 +129,8 @@ kafka:
   log_retention_hour: 72
   num_partition: 1
   topic_replication_factor: 1
-  bootstrap_port: 19092
-  controller_port: 19093
+  bootstrap_port: 9092
+  controller_port: 9093
   jmx_port: 9999
 
 ## MariaDB 설정
@@ -145,7 +145,7 @@ mariadb:
 
 ## MySQL 설정
 mysql:
-  jdbc_port: 13307
+  jdbc_port: 3306
   home_dir: &mysql_home_dir "/opt/bigdata/mysql"
   data_dir: "/data/mysql"
   socket_dir: *mysql_home_dir
@@ -157,7 +157,7 @@ mysql:
 hive:
   metastore:
     db_pw: "bigdata123"
-    metastore_port: 19083
+    metastore_port: 9083
     hive_server2_port: 10000
   spark:
     driver_memory: "1g"
