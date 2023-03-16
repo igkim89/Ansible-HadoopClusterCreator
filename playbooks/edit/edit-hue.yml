@@ -5,15 +5,15 @@
   tasks:
     - name: Edit Hue configuration files
       template:
-        src: "{{ item }}"
+        src: "hue/{{ item }}"
         dest: "{{ bigdata_home }}/hue/conf/"
         mode: 0644
-      with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/hue/hue.ini"
+      with_items:
+        - "hue.ini"
     - name: Edit Hue configuration files
       template:
-        src: "{{ item }}"
+        src: "hue/{{ item }}"
         dest: "{{ bigdata_home }}/hue/"
         mode: 0644
       with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/hue/docker-compose.yml"
+        - "docker-compose.yml"
