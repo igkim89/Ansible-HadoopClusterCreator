@@ -25,6 +25,7 @@
       with_items:
         - "airflow-download.tgz"
         - "airflow_mysql_whls.tgz"
+        - "Redis_whls.tgz"
     - name: Unzip whls
       unarchive:
         src: "/home/{{ remote_user }}/airflow-tmp/{{ item }}"
@@ -35,6 +36,7 @@
       with_items:
         - "airflow-download.tgz"
         - "airflow_mysql_whls.tgz"
+        - "Redis_whls.tgz"
     - name: Install Airflow
       pip:
         name: "apache-airflow[celery]==2.5.1"
@@ -45,6 +47,11 @@
         name: "apache-airflow[mysql]"
         extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/airflow_mysql_whls"
         state: present
+    - name: Install Airflow-Redis
+        pip:
+          name: "Redis"
+          extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/Redis"
+          state: present
     - name: Remove temporary directory
       file:
         dest: "/home/{{ remote_user }}/airflow-tmp"
@@ -74,6 +81,11 @@
         "broker_url": "{% for r in groups['redis'] %}{% if r != groups['redis'][0] %};{% endif %}sentinel://{{ r }}:{{ redis.sentinel_port }}{% endfor %}"
         "result_backend": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "dag_dir_list_interval": "{{ airflow.dag_dir_list_interval }}"
+    - name: Edit Airflow configuration (Redis sentinel master_name)
+      lineinfile:
+        path: "{{ airflow_home }}/airflow.cfg"
+        line: "master_name = mymaster"
+        insertafter: "# visibility_timeout ="
 
 ## MetaDB create db, user
 - name: Setting up a MySQL Database
