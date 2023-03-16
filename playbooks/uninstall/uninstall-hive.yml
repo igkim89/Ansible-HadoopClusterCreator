@@ -27,15 +27,15 @@
       failed_when: False
 
 - name: Drop Hive Metastore Database
-  hosts: mariadb
+  hosts: mysql
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
     - name: Drop database
-      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e 'drop database metastore;'"
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -e 'drop database metastore;'"
       failed_when: False
     - name: Delete user
-      command: "{{ mariadb.home_dir }}/bin/mysql --socket={{ mariadb.socket_dir }}/mysql.sock -e \"drop user 'hive'@'{{ item }}';\""
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -e \"drop user 'hive'@'{{ item }}';\""
       with_items: "{{ groups['metastore'] }}"
       failed_when: False
 
