@@ -32,10 +32,10 @@
   become: no
   tasks:
     - name: Drop database
-      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -e 'drop database metastore;'"
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'drop database metastore;'"
       failed_when: False
     - name: Delete user
-      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -e \"drop user 'hive'@'{{ item }}';\""
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e \"drop user 'hive'@'{{ item }}';\""
       with_items: "{{ groups['metastore'] }}"
       failed_when: False
 
