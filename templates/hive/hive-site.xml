@@ -11,7 +11,7 @@
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
-        <value>org.mariadb.jdbc.Driver</value>
+        <value>com.mysql.cj.jdbc.Driver</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionUserName</name>
