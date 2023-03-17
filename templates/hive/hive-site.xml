@@ -3,7 +3,7 @@
 <configuration>
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://{{ groups['mariadb'][0] }}:{{ mariadb.jdbc_port }}/metastore?passwordCharacterEncoding=utf8</value>
+        <value>jdbc:mysql://{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/metastore?passwordCharacterEncoding=utf8</value>
     </property>
     <property>
         <name>hive.execution.engine</name>
