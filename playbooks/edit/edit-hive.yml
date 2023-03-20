@@ -4,7 +4,7 @@
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"
-    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '')"
+    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '') }}"
   tasks:
     - name: Edit Hive configuration files
       template:
