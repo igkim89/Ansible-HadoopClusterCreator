@@ -2,11 +2,24 @@
   hosts: hive
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '')"
   tasks:
     - name: Edit Hive configuration files
       template:
-        src: "{{ item }}"
-        dest: "{{ bigdata_home }}/hive/conf/"
+        src: "hive/{{ item }}"
+        dest: "{{ hive_home }}/conf/"
         mode: 0644
       with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/hive/*"
+        - "hive-env.sh"
+        - "hive-log4j2.properties"
+        - "hive-site.xml"
+    - name: Edit Hive on Spark configuration files
+      template:
+        src: "hive/{{ item }}"
+        dest: "{{ hive_spark_home}}/conf/"
+        mode: 0644
+      with_items:
+        - "spark-defaults.conf"
+        - "spark-env.sh"

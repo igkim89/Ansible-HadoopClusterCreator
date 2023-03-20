@@ -12,15 +12,18 @@
         - spark-env.sh
         - spark-defaults.conf
 
-- name: Edit Spark configuration to Hive
-  hosts: hive
-  remote_user: "{{ remote_user }}"
-  become: no
-  tasks:
-    - name: Edit Spark configuration files to Hive
-      template:
-        src: spark/{{ item }}
-        dest: "{{ bigdata_home }}/hive/conf/"
-        mode: 0644
-      with_items:
-        - spark-defaults.conf
+## Hive on Spark(Spark 2.3.0 사용으로 인한 제거)
+
+#- name: Edit Spark configuration to Hive
+#  hosts: hive
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Edit Spark configuration files to Hive
+#      file:
+#        src: spark/{{ item }}
+#        dest: "{{ bigdata_home }}/hive/conf/"
+#        mode: 0644
+#        state: link
+#      with_items:
+#        - spark-defaults.conf
