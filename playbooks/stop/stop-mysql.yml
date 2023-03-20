@@ -6,4 +6,4 @@
   become: no
   tasks:
     - name: Stop MySQL
-      command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -u root shutdown"
+      command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -uroot -p{{ mysql.root_pw }} shutdown"
