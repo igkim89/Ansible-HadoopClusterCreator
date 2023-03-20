@@ -16,10 +16,10 @@
         - "hive-log4j2.properties"
         - "hive-site.xml"
     - name: Edit Hive on Spark configuration files
-      template:
-        src: "hive/{{ item }}"
-        dest: "{{ hive_spark_home}}/conf/"
-        mode: 0644
+      file:
+        src: "{{ hive_spark_home }}/conf/{{ item }}"
+        dest: "{{ hive_home }}/conf/"
+        state: link
       with_items:
         - "spark-defaults.conf"
         - "spark-env.sh"
