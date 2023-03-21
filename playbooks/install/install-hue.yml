@@ -84,9 +84,9 @@
     - shell: |
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE DATABASE if not exists {{ hue.database_name }};"
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER '{{ hue.database_id }}'@'localhost' IDENTIFIED BY '{{ hue.database_pw }}';"
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost';"
+        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL PRIVILEGES ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'localhost';"
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER '{{ hue.database_id }}';"
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'{{ item }}';"
+        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL PRIVILEGES ON {{ hue.database_name }}.* TO '{{ hue.database_id }}'@'{{ item }}';"
       args:
         chdir: "{{ mysql.home_dir }}"
       with_items: "{{ groups['hue'] }}"
