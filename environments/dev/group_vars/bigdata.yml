@@ -215,8 +215,6 @@ hbase:
   client_primary_call_timeout_get: 10
   client_primary_call_timeout_multiget: 10
 
-## Sqoop 설정
-sqoop:
 
 ## Hue 설정
 hue:

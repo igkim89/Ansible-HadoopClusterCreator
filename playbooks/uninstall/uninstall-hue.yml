@@ -11,10 +11,10 @@
       command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml down"
       failed_when: false
     - name: Remove directory
-        file:
-          path: "{{ item }}"
-          state: absent
-        with_items:
-          - "{{ bigdata_home }}/hue-4.10.0"
-          - "{{ hue_home }}"
-        failed_when: False
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/hue-4.10.0"
+        - "{{ hue_home }}"
+      failed_when: False
