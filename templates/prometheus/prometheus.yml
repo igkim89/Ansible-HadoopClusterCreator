@@ -28,3 +28,7 @@ scrape_configs:
 
     static_configs:
       - targets: ["localhost:{{ prometheus.web_port }}"]
+
+  - job_name: "node-exporter"
+    static_configs:
+      - targets: ["bd-kw-dev03:9100"]

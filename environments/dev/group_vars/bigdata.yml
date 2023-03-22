@@ -56,6 +56,7 @@ installer:
   R: "R-4.2.2.tar.gz"
   RStudio: "rstudio-server-rhel-2022.12.0-353-x86_64.rpm"
   prometheus: "prometheus-2.37.6.linux-amd64.tar.gz"
+  node_exporter: "node_exporter-1.5.0.linux-amd64.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
