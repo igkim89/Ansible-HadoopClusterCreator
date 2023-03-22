@@ -1,0 +1,53 @@
+---
+
+# Configuration re-load API
+# curl -X POST http://127.0.0.1:9090/-/reload
+
+- name: Install Prometheus
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.prometheus }}"
+        dest: "{{ bigdata_home }}/{{ installer.prometheus }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.prometheus }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.prometheus }}"
+        state: absent
+    - name: Create Prometheus symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.prometheus.replace('.tar.gz', '') }}"
+        dest: "{{ prometheus_home }}"
+        state: link
+    - name: Create log directory
+      file:
+        path: "{{ bigdata_home }}/{{ installer.prometheus }}/logs"
+        state: directory
+    - name: Add Prometheus configuration
+      template:
+        src: "prometheus/{{ item }}"
+        dest: "{{ bigdata_home }}/prometheus/"
+        mode: 0644
+      with_items:
+        - "prometheus.yml"
+    - name: Start Prometheus
+      command: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web-listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1"
+
