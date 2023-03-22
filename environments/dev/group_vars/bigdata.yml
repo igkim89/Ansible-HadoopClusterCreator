@@ -255,3 +255,6 @@ redis:
 ## Prometheus 설정
 prometheus:
   web_port: 50074
+
+node_exporter:
+  port: 9100
