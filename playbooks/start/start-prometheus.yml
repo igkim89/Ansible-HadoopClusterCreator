@@ -1,0 +1,12 @@
+---
+
+- name: Start Prometheus
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Start Prometheus
+      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+

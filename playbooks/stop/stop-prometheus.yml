@@ -1,0 +1,24 @@
+---
+
+- name: Start Prometheus
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Find Prometheus process ID
+      shell: "/usr/bin/ps -ef | grep prometheus | grep -v grep | grep {{ prometheus.web_port }} | awk '{print $2}'"
+      register: prometheus_pid
+      failed_when: false
+    - name: Kill Prometheus
+      command: "/usr/bin/kill -9 {{ prometheus_pid.stdout }}"
+      when: prometheus_pid.stdout !=""
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.prometheus.replace('.tar.gz', '') }}"
+        - "{{ prometheus_home }}"
+      failed_when: False

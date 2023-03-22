@@ -49,5 +49,5 @@
       with_items:
         - "prometheus.yml"
     - name: Start Prometheus
-      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web-listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1"
+      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1"
 
