@@ -39,7 +39,7 @@
         state: link
     - name: Create log directory
       file:
-        path: "{{ bigdata_home }}/{{ installer.prometheus }}/logs"
+        path: "{{ prometheus_home }}/logs"
         state: directory
     - name: Add Prometheus configuration
       template:
