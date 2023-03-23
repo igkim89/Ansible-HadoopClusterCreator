@@ -1,0 +1,28 @@
+---
+
+## Start Webserver
+- name: Start Airflow webserver
+  hosts: airflow-webserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start Airflow webserver
+      command: "~/.pyenv/shims/airflow webserver -D"
+
+## Start Scheduler
+- name: Start Airflow scheduler
+  hosts: airflow-scheduler
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start Airflow webserver
+      command: "~/.pyenv/shims/airflow scheduler -D"
+
+## Start Celery
+- name: Start Celery flower
+  hosts: airflow-webserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start Celery flower
+      command: "~/.pyenv/shims/airflow celery flower -D"

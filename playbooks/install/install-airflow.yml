@@ -72,7 +72,7 @@
         line: "{{ item.key }} = {{ item.value }}"
       with_dict:
         "default_timezone": "Asia/Seoul"
-        "executor": "CeleryExecutor"
+        "executor": "LocalExecutor"
         "load_examples": "False"
         "sql_alchemy_conn": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "celery_logging_level": "INFO"
@@ -143,4 +143,13 @@
   tasks:
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow scheduler -D"
+
+### Start Celery
+#- name: Start Celery flower
+#  hosts: airflow-webserver
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Start Celery flower
+#      command: "~/.pyenv/shims/airflow celery flower -D"
 
