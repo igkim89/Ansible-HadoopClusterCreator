@@ -2,11 +2,13 @@
   hosts: ufk
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    ufk_home: "{{ bigdata_home }}/kafka-ui"
   tasks:
     - name: Edit UFK configuration files
       template:
-        src: "{{ item }}"
-        dest: "{{ bigdata_home }}/ufk/"
+        src: "ufk/{{ item }}"
+        dest: "{{ ufk_home }}/"
         mode: 0644
-      with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/ufk/docker-compose.yml"
+      with_items:
+        - "docker-compose.yml"
