@@ -128,26 +128,27 @@
       with_items:
         - "spark-defaults.conf"
 
-- name: Create hive metastore database
-  hosts: mysql
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hive_home: "{{ bigdata_home }}/hive"
-  tasks:
-    - name: Create Hive metastore database
-      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'CREATE DATABASE metastore;'"
-      args:
-        chdir: "{{ mysql.home_dir }}"
-    - name: Create metastore user
-      shell: |
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER 'hive'@'{{ item }}' IDENTIFIED BY '{{ hive.metastore.db_pw }}';"
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hive'@'{{ item }}';"
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL PRIVILEGES ON metastore.* TO 'hive'@'{{ item }}';"
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "FLUSH PRIVILEGES;"
-      args:
-        chdir: "{{ mysql.home_dir }}"
-      with_items: "{{ groups['metastore'] }}"
+## 임시 주석 2023.03.27
+#- name: Create hive metastore database
+#  hosts: mysql
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hive_home: "{{ bigdata_home }}/hive"
+#  tasks:
+#    - name: Create Hive metastore database
+#      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'CREATE DATABASE metastore;'"
+#      args:
+#        chdir: "{{ mysql.home_dir }}"
+#    - name: Create metastore user
+#      shell: |
+#        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER 'hive'@'{{ item }}' IDENTIFIED BY '{{ hive.metastore.db_pw }}';"
+#        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hive'@'{{ item }}';"
+#        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL PRIVILEGES ON metastore.* TO 'hive'@'{{ item }}';"
+#        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "FLUSH PRIVILEGES;"
+#      args:
+#        chdir: "{{ mysql.home_dir }}"
+#      with_items: "{{ groups['metastore'] }}"
 
 - name: Create HDFS directory
   hosts: "{{ groups['namenode'][0] }}"
@@ -243,24 +244,6 @@
 #      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
 #      when: 'installer.tez not in check_tez_lib.stdout'
 
-# ANSI_QUOTOS 없으면 Metastore에서 에러가 나긴 하는데 기능상의 에러가 아닌 테스트 중 에러로 보인다.
-#- name: Edit MariaDB configuration and restart
-#  hosts: mariadb
-#  remote_user: "{{ remote_user }}"
-#  become: no
-#  tasks:
-#    - name: Edit configuration
-#      lineinfile:
-#        path: "{{ mariadb.home_dir }}/conf/my.cnf"
-#        regexp: "^#? *{{ item.key | regex_escape() }}="
-#        line: "{{ item.key }}={{ item.value }}"
-#      with_dict:
-#        - "sql_mode": "NO_BACKSLASH_ESCAPES"
-#    - name: Stop MariaDB server
-#      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
-#    - name: Start MariaDB server
-#      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
-
 - name: Init schema Metastore
   hosts: "{{ groups['metastore'][0] }}"
   remote_user: "{{ remote_user }}"
@@ -270,23 +253,6 @@
   tasks:
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
-
-#- name: Edit MariaDB configuration and restart
-#  hosts: mariadb
-#  remote_user: "{{ remote_user }}"
-#  become: no
-#  tasks:
-#    - name: Edit configuration
-#      lineinfile:
-#        path: "{{ mariadb.home_dir }}/conf/my.cnf"
-#        regexp: "^#? *{{ item.key | regex_escape() }}="
-#        line: "{{ item.key }}={{ item.value }}"
-#      with_dict:
-#        - "sql_mode": "NO_BACKSLASH_ESCAPES,ANSI_QUOTES"
-#    - name: Stop MariaDB server
-#      command: "{{ mariadb.home_dir }}/bin/mysqladmin shutdown --socket={{ mariadb.home_dir }}/mysql.sock "
-#    - name: Start MariaDB server
-#      shell: "/usr/bin/nohup {{ mariadb.home_dir }}/bin/mysqld_safe --defaults-file={{ mariadb.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
 
 - name: Edit HCatalog configuration
   hosts: metastore
