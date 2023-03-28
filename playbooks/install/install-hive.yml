@@ -114,7 +114,7 @@
         - "spark-network-common_2.11-2.3.0.jar"
     - name: ADD Spark configuration
       template:
-        src: hive/{{ item }}
+        src: "hive/{{ item }}"
         dest: "{{ hive_spark_home }}/conf/"
         mode: 0644
       with_items:

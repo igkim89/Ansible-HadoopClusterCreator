@@ -1,7 +1,7 @@
 ---
 
 - name: Install Spark
-  hosts: spark
+  hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -63,6 +63,10 @@
         src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
         dest: "{{ spark_home }}/conf/hive-site.xml"
         state: link
+    - name: Add hive-hbase-handler
+      copy:
+        src: "{{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar"
+        dest: "{{ spark_home }}/jars/"
 
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
@@ -83,6 +87,8 @@
       with_item:
         - "{{ installer.ojdbc }}"
         - "{{ installer.mysql_jdbc }}"
+    - name: Upload hive-hbase-handler
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar /spark/archive/"
 
 - name: Start history server
   hosts: spark-history
