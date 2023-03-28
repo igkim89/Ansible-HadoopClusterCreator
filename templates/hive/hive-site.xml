@@ -82,8 +82,4 @@
         <name>hive.exec.parallel</name>
         <value>false</value>
     </property>
-    <property>
-        <name>hive.tez.container.size</name>
-        <value>{{ tez.tez_container_size }}</value>
-    </property>
 </configuration>

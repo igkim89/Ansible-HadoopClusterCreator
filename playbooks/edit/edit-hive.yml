@@ -1,5 +1,5 @@
 - name: Edit Hive configuration files
-  hosts: hive
+  hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -11,15 +11,15 @@
         src: "hive/{{ item }}"
         dest: "{{ hive_home }}/conf/"
         mode: 0644
-      with_fileglob:
+      with_items:
         - "hive-env.sh"
         - "hive-log4j2.properties"
         - "hive-site.xml"
     - name: Edit Hive on Spark configuration files
-      file:
-        src: "{{ hive_spark_home }}/conf/{{ item }}"
-        dest: "{{ hive_home }}/conf/"
-        state: link
+      template:
+        src: "hive/{{ item }}"
+        dest: "{{ hive_spark_home }}/conf/"
+        mode: 0644
       with_items:
         - "spark-defaults.conf"
         - "spark-env.sh"
