@@ -26,19 +26,19 @@
       shell: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
       failed_when: False
 
-## 임시 주석 2023.03.27
-#- name: Drop Hive Metastore Database
-#  hosts: mysql
-#  remote_user: "{{ remote_user }}"
-#  become: no
-#  tasks:
-#    - name: Drop database
-#      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'drop database metastore;'"
-#      failed_when: False
-#    - name: Delete user
-#      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e \"drop user 'hive'@'{{ item }}';\""
-#      with_items: "{{ groups['metastore'] }}"
-#      failed_when: False
+# 임시 주석 2023.03.27
+- name: Drop Hive Metastore Database
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Drop database
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'drop database metastore;'"
+      failed_when: False
+    - name: Delete user
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e \"drop user 'hive'@'{{ item }}';\""
+      with_items: "{{ groups['metastore'] }}"
+      failed_when: False
 
 - name: Uninstall Hive and Hive_Spark
   hosts: bigdata
