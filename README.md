@@ -77,7 +77,7 @@ $ pyenv activate ansible
 $ vim environments/igkim/group_vars/bigdata.yml
 ```
 
-### 서비스 배포
+## 서비스 배포 (서비스 시작 포함)
 
 ### Zookeeper 배포
 ```
@@ -89,7 +89,46 @@ $ run/igkim/install/install-zookeeper.sh
 $ run/igkim/install/install-hadoop.sh
 ```
 
-## 서비스 제거
+### MySQL 배포
+```
+$ run/igkim/install/install-mysql.sh
+```
+
+## 서비스 시작
+
+### Zookeeper 시작
+```
+$ run/igkim/start/start-zookeeper.sh
+```
+
+### Hadoop 시작
+```
+$ run/igkim/start/start-hadoop.sh
+```
+
+### MySQL 시작
+```
+$ run/igkim/start/start-mysql.sh
+```
+
+## 서비스 중지
+
+### Zookeeper 중지
+```
+$ run/igkim/stop/stop-zookeeper.sh
+```
+
+### Hadoop 중지
+```
+$ run/igkim/stop/stop-hadoop.sh
+```
+
+### MySQL 중지
+```
+$ run/igkim/stop/stop-mysql.sh
+```
+
+## 서비스 제거 (서비스 중지 포함)
 
 ### Zookeeper 제거
 ```
@@ -99,6 +138,11 @@ $ run/igkim/uninstall/uninstall-zookeeper.sh
 ### Hadoop 제거
 ```
 $ run/igkim/uninstall/uninstall-hadoop.sh
+```
+
+### MySQL 제거
+```
+$ run/igkim/uninstall/uninstall-mysql.sh
 ```
 
 계속 작성중..
