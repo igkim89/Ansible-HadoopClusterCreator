@@ -116,6 +116,7 @@
       with_items:
         - "spark-defaults.conf"
 
+# 임시 주석 2023.03.27
 - name: Create hive metastore database
   hosts: mysql
   remote_user: "{{ remote_user }}"
