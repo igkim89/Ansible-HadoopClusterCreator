@@ -4,6 +4,7 @@
   tasks:
     - name: Stop zookeeper server
       shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
+      failed_when: false
     - name: delete-bigdata
       file:
         path: "{{ item }}"
