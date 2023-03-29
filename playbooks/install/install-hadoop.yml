@@ -221,13 +221,15 @@
     - name: Create user home directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/{{ item }}"
       with_items:
+        - "{{ remote_user }}"
         - "data_raw"
         - "data_parsed"
         - "dbsync"
         - "spark_streaming"
     - name: Change owner
-      command: "{{ hadoop_home }}/bin/hdfs dfs -chown {{ item }} /user/{{ item }}"
+      command: "{{ hadoop_home }}/bin/hdfs dfs -chown {{ item }}:{{ remote_user }} /user/{{ item }}"
       with_items:
+        - "{{ remote_user }}"
         - "data_raw"
         - "data_parsed"
         - "dbsync"
