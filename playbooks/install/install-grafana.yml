@@ -1,0 +1,50 @@
+---
+
+- name: Install Grafana
+  hosts: grafana
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    grafana_home: "{{ bigdata_home }}/grafana"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/grafana/{{ installer.grafana }}"
+        dest: "{{ bigdata_home }}/{{ installer.grafana }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.grafana }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.grafana }}"
+        state: absent
+    - name: Create Grafana symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.grafana.replace('.tar.gz', '') }}"
+        dest: "{{ grafana_home }}"
+        state: link
+    - name: Create log directory
+      file:
+        path: "{{ grafana_home }}/logs"
+        state: directory
+    - name: Add Grafna configuration
+      template:
+        src: "grafana/{{ item }}"
+        dest: "{{ bigdata_home }}/grafana/"
+        mode: 0644
+      with_items:
+        - "prometheus.yml"
+    - name: Start Grafana
+      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+
