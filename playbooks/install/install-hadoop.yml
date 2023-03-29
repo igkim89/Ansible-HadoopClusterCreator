@@ -129,29 +129,6 @@
         - "hdfs-site.xml"
         - "core-site.xml"
 
-## 계정별 디렉토리 생성
-- name: Create user home directory
-  hosts: "{{ groups['namenode'][0] }}"
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hadoop_home: "{{ bigdata_home }}/hadoop"
-  tasks:
-    - name: Create user home directory
-      command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/{{ item }}"
-      with_items:
-        - "data_raw"
-        - "data_parsed"
-        - "dbsync"
-        - "spark_streaming"
-    - name: Change owner
-      command: "{{ hadoop_home }}/bin/hdfs dfs -chown {{ item }} /user/{{ item }}"
-      with_items:
-        - "data_raw"
-        - "data_parsed"
-        - "dbsync"
-        - "spark_streaming"
-
 - name: Start JournalNode
   hosts: journalnode
   remote_user: "{{ remote_user }}"
@@ -232,3 +209,26 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start httpfs"
+
+## 계정별 디렉토리 생성
+- name: Create user home directory
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Create user home directory
+      command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /user/{{ item }}"
+      with_items:
+        - "data_raw"
+        - "data_parsed"
+        - "dbsync"
+        - "spark_streaming"
+    - name: Change owner
+      command: "{{ hadoop_home }}/bin/hdfs dfs -chown {{ item }} /user/{{ item }}"
+      with_items:
+        - "data_raw"
+        - "data_parsed"
+        - "dbsync"
+        - "spark_streaming"
