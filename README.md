@@ -12,8 +12,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Python 가상환경 구성](#python-가상환경-구성)
   * [Ansible 설치](#ansible-설치)
 * **[S/W 설치]()**
-* **[S/W 테스트]()**
-* **[S/W 제거]()**
+* **[서비스 배포 (서비스 시작 포함)]()**
+* **[서비스 시작]()**
+* **[서비스 테스트]()**
+* **[서비스 중지]()**
+* **[서비스 제거]()**
 
 ---
 
@@ -74,75 +77,119 @@ $ pyenv activate ansible
 
 ### 전체 서비스 환경 설정
 ```
-$ vim environments/igkim/group_vars/bigdata.yml
+$ vim environments/dev/group_vars/bigdata.yml
 ```
 
 ## 서비스 배포 (서비스 시작 포함)
 
 ### Zookeeper 배포
 ```
-$ run/igkim/install/install-zookeeper.sh
+$ run/dev/install/install-zookeeper.sh
 ```
 
 ### Hadoop 배포
 ```
-$ run/igkim/install/install-hadoop.sh
+$ run/dev/install/install-hadoop.sh
 ```
 
 ### MySQL 배포
 ```
-$ run/igkim/install/install-mysql.sh
+$ run/dev/install/install-mysql.sh
+```
+
+### Hive 배포
+```
+$ run/dev/install/install-hive.sh
 ```
 
 ## 서비스 시작
 
 ### Zookeeper 시작
 ```
-$ run/igkim/start/start-zookeeper.sh
+$ run/dev/start/start-zookeeper.sh
 ```
 
 ### Hadoop 시작
 ```
-$ run/igkim/start/start-hadoop.sh
+$ run/dev/start/start-hadoop.sh
 ```
 
 ### MySQL 시작
 ```
-$ run/igkim/start/start-mysql.sh
+$ run/dev/start/start-mysql.sh
+```
+
+### Hive 시작
+```
+$ run/dev/start/start-hive.sh
+```
+
+## 서비스 테스트
+
+### Zookeeper 테스트
+
+Install 완료시 Server status 자동 출력
+
+### Hadoop 테스트
+
+MapReduce job 테스트
+
+```
+$ run/dev/test/hadoop/mr-wordcount.sh
+```
+
+### MySQL 테스트
+```
+$ run/dev/test/mysql/mysql-query.sh
+```
+
+### Hive 테스트
+```
+$ run/dev/test/hive/hive-query.sh
 ```
 
 ## 서비스 중지
 
 ### Zookeeper 중지
 ```
-$ run/igkim/stop/stop-zookeeper.sh
+$ run/dev/stop/stop-zookeeper.sh
 ```
 
 ### Hadoop 중지
 ```
-$ run/igkim/stop/stop-hadoop.sh
+$ run/dev/stop/stop-hadoop.sh
 ```
 
 ### MySQL 중지
 ```
-$ run/igkim/stop/stop-mysql.sh
+$ run/dev/stop/stop-mysql.sh
+```
+
+### Hive 중지
+```
+$ run/dev/stop/stop-hive.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
 
 ### Zookeeper 제거
 ```
-$ run/igkim/uninstall/uninstall-zookeeper.sh
+$ run/dev/uninstall/uninstall-zookeeper.sh
 ```
 
 ### Hadoop 제거
 ```
-$ run/igkim/uninstall/uninstall-hadoop.sh
+$ run/dev/uninstall/uninstall-hadoop.sh
 ```
 
 ### MySQL 제거
 ```
-$ run/igkim/uninstall/uninstall-mysql.sh
+$ run/dev/uninstall/uninstall-mysql.sh
+```
+
+### Hive 제거
+```
+$ run/dev/uninstall/uninstall-hive.sh
 ```
 
 계속 작성중..
