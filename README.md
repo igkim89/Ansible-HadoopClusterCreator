@@ -20,15 +20,41 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Hive 배포](#hive-배포)
   * [HBase 배포](#hbase-배포)
 * **[서비스 시작](#서비스-시작)**
+  * [Zookeeper 시작](#zookeeper-시작)
+  * [Kafka 시작](#kafka-시작)
+  * [Hadoop 시작](#hadoop-시작)
+  * [MySQL 시작](#mysql-시작)
+  * [Hive 시작](#hive-시작)
+  * [HBase 시작](#hbase-시작)
 * **[서비스 테스트](#서비스-테스트)**
+  * [Zookeeper 테스트](#zookeeper-테스트)
+  * [Kafka 테스트](#kafka-테스트)
+  * [Hadoop 테스트](#hadoop-테스트)
+  * [MySQL 테스트](#mysql-테스트)
+  * [Hive 테스트](#hive-테스트)
+  * [HBase 테스트](#hbase-테스트)
 * **[서비스 중지](#서비스-중지)**
+  * [Zookeeper 중지](#zookeeper-중지)
+  * [Kafka 중지](#kafka-중지)
+  * [Hadoop 중지](#hadoop-중지)
+  * [MySQL 중지](#mysql-중지)
+  * [Hive 중지](#hive-중지)
+  * [HBase 중지](#hbase-중지)
 * **[서비스 제거](#서비스-제거)**
+  * [Zookeeper 제거](#zookeeper-제거)
+  * [Kafka 제거](#kafka-제거)
+  * [Hadoop 제거](#hadoop-제거)
+  * [MySQL 제거](#mysql-제거)
+  * [Hive 제거](#hive-제거)
+  * [HBase 제거](#hbase-제거)
 
 ---
 
 ## 환경 구성
 
 ### SSH Key 설정
+
+작성 예정
 
 
 ### Pyenv 설치
