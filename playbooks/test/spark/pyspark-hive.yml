@@ -15,3 +15,7 @@
         dest: "/home/{{ remote_user }}/tmp/spark-hive/"
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/spark-hive/pyspark-hive.py"
+      register: job_result
+    - name: Show result
+      debug:
+        var: job_result

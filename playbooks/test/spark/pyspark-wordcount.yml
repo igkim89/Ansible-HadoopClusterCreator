@@ -23,3 +23,7 @@
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"
+      register: job_result
+    - name: Show result
+      debug:
+        var: job_result
