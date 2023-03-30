@@ -1,5 +1,8 @@
 ---
 
+- name: All nodes collector
+  hosts: bigdata
+
 # 다 안돼서 docker로 함
 # docker repository kdev01에 구성 후 docker 설치
 # docker image 'hue-4.10.0' load
@@ -11,6 +14,8 @@
   become: no
   vars:
     hue_home: "{{ bigdata_home }}/hue"
+    mysql_ip: "{{ hostvars[groups['mysql'][0]]['ansible_default_ipv4']['address'] }}"
+    nn_ip: "{{ hostvars[groups['namenode'][0]]['ansible_default_ipv4']['address'] }}"
   tasks:
     - name: Create Create bigdata home directory
       become: yes
