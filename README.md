@@ -19,6 +19,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [MySQL 배포](#mysql-배포)
   * [Hive 배포](#hive-배포)
   * [HBase 배포](#hbase-배포)
+  * [Spark 배포](#spark-배포)
+  * [UI for Apache Kafka 배포](#ui-for-apache-kafka-배포)
+  * [Hue 배포](#hue-배포)
 * **[서비스 시작](#서비스-시작)**
   * [Zookeeper 시작](#zookeeper-시작)
   * [Kafka 시작](#kafka-시작)
@@ -26,6 +29,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [MySQL 시작](#mysql-시작)
   * [Hive 시작](#hive-시작)
   * [HBase 시작](#hbase-시작)
+  * [Spark 시작](#spark-시작)
+  * [UI for Apache Kafka 시작](#ui-for-apache-kafka-시작)
+  * [Hue 시작](#hue-시작)
 * **[서비스 테스트](#서비스-테스트)**
   * [Zookeeper 테스트](#zookeeper-테스트)
   * [Kafka 테스트](#kafka-테스트)
@@ -33,6 +39,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [MySQL 테스트](#mysql-테스트)
   * [Hive 테스트](#hive-테스트)
   * [HBase 테스트](#hbase-테스트)
+  * [Spark 테스트](#spark-테스트)
+  * [UI for Apache Kafka 테스트](#ui-for-apache-kafka-테스트)
+  * [Hue 테스트](#hue-테스트)
 * **[서비스 중지](#서비스-중지)**
   * [Zookeeper 중지](#zookeeper-중지)
   * [Kafka 중지](#kafka-중지)
@@ -40,6 +49,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [MySQL 중지](#mysql-중지)
   * [Hive 중지](#hive-중지)
   * [HBase 중지](#hbase-중지)
+  * [Spark 중지](#spark-중지)
+  * [UI for Apache Kafka 중지](#ui-for-apache-kafka-중지)
+  * [Hue 중지](#hue-중지)
 * **[서비스 제거](#서비스-제거)**
   * [Zookeeper 제거](#zookeeper-제거)
   * [Kafka 제거](#kafka-제거)
@@ -47,6 +59,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [MySQL 제거](#mysql-제거)
   * [Hive 제거](#hive-제거)
   * [HBase 제거](#hbase-제거)
+  * [Spark 제거](#spark-제거)
+  * [UI for Apache Kafka 제거](#ui-for-apache-kafka-제거)
+  * [Hue 제거](#hue-제거)
 
 ---
 
@@ -144,6 +159,21 @@ $ run/dev/install/install-hive.sh
 $ run/dev/install/install-hbase.sh
 ```
 
+### Spark 배포
+```
+$ run/dev/install/install-spark.sh
+```
+
+### UI for Apache Kafka 배포
+```
+$ run/dev/install/install-ufk.sh
+```
+
+### Hue 배포
+```
+$ run/dev/install/install-hue.sh
+```
+
 ## 서비스 시작
 
 ### Zookeeper 시작
@@ -174,6 +204,21 @@ $ run/dev/start/start-hive.sh
 ### HBase 시작
 ```
 $ run/dev/start/start-hbase.sh
+```
+
+### Spark 시작
+```
+$ run/dev/start/start-spark.sh
+```
+
+### UI for Apache Kafka 시작
+```
+$ run/dev/start/start-ufk.sh
+```
+
+### Hue 시작
+```
+$ run/dev/start/start-hue.sh
 ```
 
 ## 서비스 테스트
@@ -209,6 +254,28 @@ $ run/dev/test/hive/hive-query.sh
 $ run/dev/test/hbase/hbase-command.sh
 ```
 
+### Spark 테스트
+
+Spark Wordcount 테스트
+
+```
+$ run/dev/test/spark/pyspark-wordcount.sh
+```
+
+Spark SQL 테스트
+
+```
+$ run/dev/test/spark/pyspark-hive.sh
+```
+
+### UI for Apache Kafka 테스트
+
+Web UI 접속 및 확인
+
+### Hue 테스트
+
+Web UI 접속 및 확인
+
 ## 서비스 중지
 
 ### Zookeeper 중지
@@ -239,6 +306,21 @@ $ run/dev/stop/stop-hive.sh
 ### HBase 중지
 ```
 $ run/dev/stop/stop-hbase.sh
+```
+
+### Spark 중지
+```
+$ run/dev/stop/stop-spark.sh
+```
+
+### UI for Apache Kafka 중지
+```
+$ run/dev/stop/stop-ufk.sh
+```
+
+### Hue 중지
+```
+$ run/dev/stop/stop-hue.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
@@ -273,6 +355,23 @@ $ run/dev/uninstall/uninstall-hive.sh
 $ run/dev/uninstall/uninstall-hbase.sh
 ```
 
+### Spark 제거
+```
+$ run/dev/uninstall/uninstall-spark.sh
+```
+
+### UI for Apache Kafka 제거
+```
+$ run/dev/uninstall/uninstall-ufk.sh
+```
+
+### Hue 제거
+```
+$ run/dev/uninstall/uninstall-hue.sh
+```
+
+
+
 계속 작성중..
 
 zookeeper
@@ -281,3 +380,6 @@ hadoop
 mysql
 hive
 hbase
+spark
+ufk
+hue
