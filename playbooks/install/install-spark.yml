@@ -91,8 +91,16 @@
       with_items:
         - "{{ installer.ojdbc }}"
         - "{{ installer.mysql_jdbc }}"
+      register: upload_jdbc
+      failed_when: >
+        ("File exists" not in upload_jdbc.stderr) and
+        (upload_jdbc.stderr != "")
     - name: Upload hive-hbase-handler
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar /spark/archive/"
+      register: upload_handler
+      failed_when: >
+        ("File exists" not in upload_handler.stderr) and
+        (upload_handler.stderr != "")
 
 - name: Start history server
   hosts: spark-history
