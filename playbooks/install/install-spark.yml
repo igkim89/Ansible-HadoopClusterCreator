@@ -82,6 +82,10 @@
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark/archive"
     - name: Upload Spark jars
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
+      register: upload_spark_jars
+      failed_when: >
+        ("File exists" not in upload_spark_jars.stderr) and
+        (upload_spark_jars.stderr != "")
     - name: Upload JDBC
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/jdbc/{{ item }} /spark/archive/"
       with_items:
