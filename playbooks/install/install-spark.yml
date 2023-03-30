@@ -84,7 +84,7 @@
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
     - name: Upload JDBC
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/jdbc/{{ item }} /spark/archive/"
-      with_item:
+      with_items:
         - "{{ installer.ojdbc }}"
         - "{{ installer.mysql_jdbc }}"
     - name: Upload hive-hbase-handler
