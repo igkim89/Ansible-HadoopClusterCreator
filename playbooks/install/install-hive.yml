@@ -162,6 +162,9 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /hive-on-spark/archive"
         - "{{ hadoop_home }}/bin/hdfs dfs -put {{ hive_spark_home }}/jars/* /hive-on-spark/archive/"
       failed_when: false
+    - name: Create Spark log directory
+      command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir /spark-logs"
+      failed_when: false
 
 ############################################
 #  2023. 03. 10.
