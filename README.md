@@ -129,6 +129,10 @@ $ vim environments/dev/group_vars/bigdata.yml
 
 ## 서비스 배포 (서비스 시작 포함)
 
+아래의 서비스는 Official Image가 아닌 수정된 이미지이다.
+- Hue (Timezone 수정)
+- UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
+
 ### Zookeeper 배포
 ```
 $ run/dev/install/install-zookeeper.sh
@@ -172,6 +176,11 @@ $ run/dev/install/install-ufk.sh
 ### Hue 배포
 ```
 $ run/dev/install/install-hue.sh
+```
+
+### R 배포 (RStudio 포함)
+```
+$ run/dev/install/install-R.sh
 ```
 
 ## 서비스 시작
@@ -219,6 +228,11 @@ $ run/dev/start/start-ufk.sh
 ### Hue 시작
 ```
 $ run/dev/start/start-hue.sh
+```
+
+### R 시작
+```
+$ run/dev/start/start-R.sh
 ```
 
 ## 서비스 테스트
@@ -276,6 +290,10 @@ Web UI 접속 및 확인
 
 Web UI 접속 및 확인
 
+### R 테스트
+
+RStudio Web UI 접속 및 확인
+
 ## 서비스 중지
 
 ### Zookeeper 중지
@@ -321,6 +339,11 @@ $ run/dev/stop/stop-ufk.sh
 ### Hue 중지
 ```
 $ run/dev/stop/stop-hue.sh
+```
+
+### R 중지
+```
+$ run/dev/stop/stop-R.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
@@ -370,6 +393,12 @@ $ run/dev/uninstall/uninstall-ufk.sh
 $ run/dev/uninstall/uninstall-hue.sh
 ```
 
+### R 제거
+```
+$ run/dev/uninstall/uninstall-R.sh
+```
+
+
 
 
 계속 작성중..
@@ -383,3 +412,4 @@ hbase
 spark
 ufk
 hue
+R
