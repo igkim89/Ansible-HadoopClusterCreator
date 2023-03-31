@@ -1,0 +1,30 @@
+---
+
+- name: Stop R
+  hosts: R
+  remote_user: "{{ remote_user }}"
+  become: yes
+  vars:
+    R_home: "{{ bigdata_home }}/R"
+    RStudio_home: "{{ bigdata_home }}/RStudio"
+  tasks:
+    - name: Stop R
+      command: "systemctl stop rstudio-server"
+    - name: Uninstall RStudio
+      become: yes
+      yum:
+        name:
+          - "rstudio-server.x86_64"
+        state: absent
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ R_home }}"
+        - "{{ RStudio_home }}"
+        - "{{ bigdata_home }}/{{ installer.R.replace('.tar.gz', '') }}"
+        - "/etc/rstudio"
+        - "/usr/lib/rstudio-server"
+      failed_when: false
+
