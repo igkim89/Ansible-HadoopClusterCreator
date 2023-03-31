@@ -1,0 +1,9 @@
+---
+
+- name: Stop R
+  hosts: R
+  remote_user: "{{ remote_user }}"
+  become: yes
+  tasks:
+    - name: Stop R
+      command: "systemctl stop rstudio-server"
