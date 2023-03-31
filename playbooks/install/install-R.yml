@@ -100,6 +100,9 @@
         path: "{{ RStudio_home }}/conf/rserver.conf"
         line: "rsession-which-r={{ R_home }}/bin/R"
         insertafter: EOF
+    - name: Start R
+      become: yes
+      command: "systemctl start rstudio-server"
     ## 설치 완료 후 임시 디렉토리 제거
     - name: Remove tmp directory
       file:
