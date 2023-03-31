@@ -48,10 +48,10 @@
         extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/airflow_mysql_whls"
         state: present
     - name: Install Airflow-Redis
-        pip:
-          name: "Redis"
-          extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/Redis"
-          state: present
+      pip:
+        name: "Redis"
+        extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/Redis"
+        state: present
     - name: Remove temporary directory
       file:
         dest: "/home/{{ remote_user }}/airflow-tmp"
@@ -115,10 +115,10 @@
   become: no
   tasks:
     - name: Init schema
-      command: "~/.pyenv/shims/airflow db init"
+      command: "/home/{{ remote_user }}/.pyenv/shims/airflow db init"
     - name: Create user
       expect:
-        command: "~/.pyenv/shims/airflow users create --username {{ airflow.admin_pw }} --firstname ingyeom --lastname kim --role Admin --email igkim@daou.co.kr"
+        command: "/home/{{ remote_user }}/.pyenv/shims/airflow users create --username {{ airflow.admin_id }} --firstname ingyeom --lastname kim --role Admin --email igkim@daou.co.kr"
         responses:
           'Password:': "{{ airflow.admin_pw }}"
           'Repeat for confirmation:': "{{ airflow.admin_pw }}"
