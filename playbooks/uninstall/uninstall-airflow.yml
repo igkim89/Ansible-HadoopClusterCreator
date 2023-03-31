@@ -1,6 +1,16 @@
 ---
 
-- name: Stop Airflow Service
+### Stop Celery
+#- name: Stop Celery flower
+#  hosts: airflow-webserver
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  tasks:
+#    - name: Stop Celery flower
+#      command: "~/.pyenv/shims/airflow celery flower -D"
+
+## Stop Scheduler
+- name: Stop Airflow webserver
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
@@ -8,8 +18,28 @@
     airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Stop Airflow webserver
-      command: ""
-      failed_when: False
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-webserver.pid`"
+    - name: Remove pid file
+      shell: "cat /dev/null > {{ airflow_home }}/airflow-webserver.pid"
+    - name: Kill all airflow process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep airflow | grep -v grep | awk '{print $2}')"
+
+## Stop Webserver
+- name: Stop Airflow scheduler
+  hosts: airflow-scheduler
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Stop Airflow scheduler
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-scheduler.pid`"
+    - name: Remove pid file
+      shell: "cat /dev/null > {{ airflow_home }}/airflow-scheduler.pid"
+    - name: Kill all airflow process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep airflow | grep -v grep | awk '{print $2}')"
+
+
 
 - name: Remove Setting a MySQL Database
   hosts: mysql
