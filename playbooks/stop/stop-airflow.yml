@@ -20,7 +20,7 @@
     - name: Stop Airflow webserver
       shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-webserver.pid`"
     - name: Remove pid file
-      shell: "cat /dev/null > {{ airflow_home }}/airflow-webserver.pid"
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-webserver.pid"
     - name: Kill all airflow process
       shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep airflow | grep -v grep | awk '{print $2}')"
 
@@ -35,7 +35,7 @@
     - name: Stop Airflow scheduler
       shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-scheduler.pid`"
     - name: Remove pid file
-      shell: "cat /dev/null > {{ airflow_home }}/airflow-scheduler.pid"
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-scheduler.pid"
     - name: Kill all airflow process
       shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep airflow | grep -v grep | awk '{print $2}')"
 
