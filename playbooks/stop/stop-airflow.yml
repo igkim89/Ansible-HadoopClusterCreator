@@ -10,8 +10,8 @@
 #      command: "~/.pyenv/shims/airflow celery flower -D"
 
 ## Stop Scheduler
-- name: Stop Airflow scheduler
-  hosts: airflow-scheduler
+- name: Stop Airflow webserver
+  hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -23,14 +23,14 @@
       shell: "cat /dev/null > {{ airflow_home }}/airflow-webserver.pid"
 
 ## Stop Webserver
-- name: Stop Airflow webserver
-  hosts: airflow-webserver
+- name: Stop Airflow scheduler
+  hosts: airflow-scheduler
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
-    - name: Stop Airflow webserver
+    - name: Stop Airflow scheduler
       shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-scheduler.pid`"
     - name: Remove pid file
       shell: "cat /dev/null > {{ airflow_home }}/airflow-scheduler.pid"
