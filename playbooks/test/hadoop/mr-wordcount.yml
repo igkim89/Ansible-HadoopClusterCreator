@@ -36,4 +36,7 @@
         (upload_result.stderr != "")
     - name: Start Job
       command: "{{ bigdata_home }}/hadoop/bin/hadoop jar /home/{{ remote_user }}/tmp/wordcount/wordcount_example-1.0-SNAPSHOT.jar WordCount /user/{{ remote_user }}/wordcount/input /user/{{ remote_user }}/wordcount/output/{{ ansible_date_time.date }}_{{ ansible_date_time.epoch }}"
-
+      register: job_result
+    - name: Show result
+      debug:
+        var: job_result
