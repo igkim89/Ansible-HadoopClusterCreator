@@ -7,3 +7,7 @@
   tasks:
     - name: Stop MySQL
       command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -uroot -p{{ mysql.root_pw }} shutdown"
+      register: stopper
+      failed_when: >
+        ("Check that mysqld is running" not in stopper.stderr) and
+        (stopper.stderr !="")
