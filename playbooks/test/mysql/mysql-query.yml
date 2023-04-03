@@ -21,6 +21,10 @@
       when: '"query_test" not in table_list.stdout'
     - name: Insert Table
       command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e \"insert into {{ remote_user }}.query_test values('myeonghwan Lee', 99),('gisung Lee', 38),('ingyeom Kim', 35);\""
+      register: insert_result
+      failed_when: >
+        ("Duplicate entry" not in insert_result.stderr) and
+        (insert_result.stderr != "")
     - name: Select Table
       command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'select * from {{ remote_user }}.query_test order by 2;'"
       register: query_result
