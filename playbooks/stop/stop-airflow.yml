@@ -9,7 +9,7 @@
 #    - name: Stop Celery flower
 #      command: "~/.pyenv/shims/airflow celery flower -D"
 
-## Stop Scheduler
+## Stop Webserver
 - name: Stop Airflow webserver
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
@@ -26,6 +26,7 @@
     - name: Kill airflow worker process
       shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow-webserver' | grep -v grep | awk '{print $2}')"
       failed_when: false
+
 
 ## Stop Scheduler
 - name: Stop Airflow scheduler
