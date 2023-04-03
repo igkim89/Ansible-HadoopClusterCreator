@@ -27,7 +27,7 @@
       shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow-webserver' | grep -v grep | awk '{print $2}')"
       failed_when: false
 
-## Stop Webserver
+## Stop Scheduler
 - name: Stop Airflow scheduler
   hosts: airflow-scheduler
   remote_user: "{{ remote_user }}"
