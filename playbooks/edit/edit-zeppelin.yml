@@ -1,0 +1,16 @@
+- name: Edit Zeppelin configuration
+  hosts: zeppelin
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    zeppelin_home: "{{ bigdata_home }}/zeppelin"
+  tasks:
+    - name: Edit Zeppelin configuration
+      template:
+        src: "zeppelin/{{ item }}"
+        dest: "{{ zeppelin_home }}/conf/"
+        mode: 0644
+      with_items:
+        - zeppelin-site.xml
+        - zeppelin-env.sh
+        - shiro.ini
