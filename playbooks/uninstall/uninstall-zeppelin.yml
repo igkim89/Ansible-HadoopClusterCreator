@@ -1,0 +1,19 @@
+---
+
+- name: Stop Zeppelin
+  hosts: zeppelin
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    zeppelin_home: "{{ bigdata_home }}/zeppelin"
+  tasks:
+    - name: Stop Zeppelin server
+      command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh stop"
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ zeppelin_home }}"
+        - "{{ bigdata_home }}/{{ installer.zeppelin.replace('.tar.gz', '') }}"
+      failed_when: false
