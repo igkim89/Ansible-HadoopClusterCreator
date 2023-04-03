@@ -100,7 +100,7 @@
         - "scala-library-2.11.8.jar"
         - "spark-core_2.11-2.3.0.jar"
         - "spark-network-common_2.11-2.3.0.jar"
-    - name: ADD Spark configuration
+    - name: Add Spark configuration
       template:
         src: "hive/{{ item }}"
         dest: "{{ hive_spark_home }}/conf/"
@@ -115,6 +115,11 @@
         state: link
       with_items:
         - "spark-defaults.conf"
+    - name: Add SKIP_HBASECP=true in Hive script
+      lineinfile:
+        path: "{{ hive_home }}/bin/hive"
+        regexp: "^SKIP_HBASECP=false$"
+        line: "SKIP_HBASECP=true"
 
 # 임시 주석 2023.03.27
 - name: Create hive metastore database
