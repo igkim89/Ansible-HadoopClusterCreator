@@ -24,7 +24,7 @@
       shell: "/usr/bin/rm {{ airflow_home }}/airflow-webserver.pid"
       failed_when: false
     - name: Kill airflow worker process
-      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep '[airflow-webserver]' | grep -v grep | awk '{print $2}')"
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow-webserver' | grep -v grep | awk '{print $2}')"
       failed_when: false
 
 ## Stop Webserver
