@@ -17,4 +17,4 @@
       with_items:
         - "{{ bigdata_home }}/hue-4.10.0"
         - "{{ hue_home }}"
-      failed_when: False
+      failed_when: false
