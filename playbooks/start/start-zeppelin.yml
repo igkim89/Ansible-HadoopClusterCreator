@@ -1,0 +1,11 @@
+---
+
+- name: Start Zeppelin
+  hosts: zeppelin
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    zeppelin_home: "{{ bigdata_home }}/zeppelin"
+  tasks:
+    - name: Start Zeppelin server
+      command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh start"
