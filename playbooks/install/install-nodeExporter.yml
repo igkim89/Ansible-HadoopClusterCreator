@@ -1,0 +1,35 @@
+---
+
+- name: Install NodeExporter
+  hosts: node-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.node_exporter }}"
+        dest: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+        state: absent
+    - name: Create Prometheus symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.node_exporter.replace('.tar.gz', '') }}"
+        dest: "{{ node_exporter_home }}"
+        state: link
+    - name: Create log directory
+      file:
+        path: "{{ node_exporter_home }}/logs"
+        state: directory
+    - name: Start NodeExporter
+      shell: "/usr/bin/nohup {{ node_exporter_home }}/node_exporter > {{ node_exporter_home }}/logs/node_exporter.log 2>&1 &"
