@@ -1,0 +1,17 @@
+---
+
+- name: Start Grafana
+  hosts: grafana
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    grafana_home: "{{ bigdata_home }}/grafana"
+  tasks:
+    - name: Check grafana process
+      shell: "/usr/bin/ps -ef | grep 'grafana server web' | grep -v grep"
+      register: grafana_pid
+      failed_when: false
+    - name: Start Grafana
+      shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server web --config.file={{ grafana_home }}/conf/defaults.ini > {{ grafana_home }}/logs/grafana.log 2>&1 &"
+      when: '"grafana server web" not in grafana_pid.stdout'
+

@@ -38,13 +38,14 @@
       file:
         path: "{{ grafana_home }}/logs"
         state: directory
-    - name: Add Grafna configuration
-      template:
-        src: "grafana/{{ item }}"
-        dest: "{{ bigdata_home }}/grafana/"
-        mode: 0644
-      with_items:
-        - "prometheus.yml"
+    - name: Edit Grafana configuration
+      lineinfile:
+        path: "{{ grafana_home }}/conf/defaults.ini"
+        regexp: "^{{ item.key }} = "
+        line: "{{ item.key }} = {{ item.value }}"
+      with_dict:
+        "http_port": "{{ grafana.web_port }}"
+        "admin_email": "igkim@daou.co.kr"
     - name: Start Grafana
-      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server web --config.file={{ grafana_home }}/conf/defaults.ini > {{ grafana_home }}/logs/grafana.log 2>&1 &"
 
