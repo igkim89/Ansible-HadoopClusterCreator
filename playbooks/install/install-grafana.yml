@@ -31,7 +31,7 @@
         state: absent
     - name: Create Grafana symbolic link
       file:
-        src: "{{ bigdata_home }}/{{ installer.grafana.replace('.tar.gz', '') }}"
+        src: "{{ bigdata_home }}/{{ installer.grafana.replace('.linux-amd64.tar.gz', '').replace('-enterprise', '') }}"
         dest: "{{ grafana_home }}"
         state: link
     - name: Create log directory
