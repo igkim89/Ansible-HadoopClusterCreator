@@ -1,0 +1,16 @@
+---
+
+- name: Stop NodeExporter
+  hosts: node-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Find NodeExporter process ID
+      shell: "/usr/bin/ps -ef | grep node_exporter | grep -v grep | awk '{print $2}'"
+      register: node_exporter_pid
+      failed_when: false
+    - name: Kill NodeExporter
+      command: "/usr/bin/kill -9 {{ node_exporter_pid.stdout }}"
+      when: node_exporter_pid.stdout !=""

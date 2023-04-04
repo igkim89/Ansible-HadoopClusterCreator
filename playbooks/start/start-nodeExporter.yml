@@ -1,0 +1,11 @@
+---
+
+- name: Start NodeExporter
+  hosts: node-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Start NodeExporter
+      shell: "/usr/bin/nohup {{ node_exporter_home }}/node_exporter > {{ node_exporter_home }}/logs/node_exporter.log 2>&1 &"
