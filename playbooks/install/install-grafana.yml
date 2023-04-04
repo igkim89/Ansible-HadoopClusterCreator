@@ -47,5 +47,5 @@
         "http_port": "{{ grafana.web_port }}"
         "admin_email": "igkim@daou.co.kr"
     - name: Start Grafana
-      shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server web --config.file={{ grafana_home }}/conf/defaults.ini > {{ grafana_home }}/logs/grafana.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server --config {{ grafana_home }}/conf/defaults.ini --homepath {{ grafana_home }} web > {{ grafana_home }}/logs/grafana.log 2>&1 &"
 
