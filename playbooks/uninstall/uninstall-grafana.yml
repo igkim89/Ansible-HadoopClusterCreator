@@ -8,7 +8,7 @@
     grafana_home: "{{ bigdata_home }}/grafana"
   tasks:
     - name: Check grafana process
-      shell: "/usr/bin/ps -ef | grep 'grafana server web' | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep 'grafana server' | grep -v grep | awk '{print $2}'"
       register: grafana_pid
       failed_when: false
     - name: Stop Grafana
@@ -19,7 +19,7 @@
         path: "{{ item }}"
         state: absent
       with_items:
-        - "{{ bigdata_home }}/{{ installer.grafana.replace('.tar.gz', '') }}"
+        - "{{ bigdata_home }}/{{ installer.grafana.replace('.linux-amd64.tar.gz', '').replace('-enterprise', '') }}"
         - "{{ grafana_home }}"
       failed_when: False
 
