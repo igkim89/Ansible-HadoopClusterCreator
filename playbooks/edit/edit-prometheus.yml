@@ -1,0 +1,14 @@
+- name: Edit Prometheus configuration
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Edit Prometheus configuration
+      template:
+        src: "prometheus/{{ item }}"
+        dest: "{{ bigdata_home }}/prometheus/"
+        mode: 0644
+      with_items:
+        - "prometheus.yml"
