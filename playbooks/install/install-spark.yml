@@ -63,10 +63,13 @@
         src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
         dest: "{{ spark_home }}/conf/hive-site.xml"
         state: link
-    - name: Add hive-hbase-handler
+    - name: Add hive-hbase-handler and hive-common
       copy:
-        src: "{{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar"
+        src: "{{ installer_home }}/hive/{{ item }}"
         dest: "{{ spark_home }}/jars/"
+      with_items:
+        - "hive-hbase-handler-3.1.2-v2.jar"
+        - "hive-common-2.3.9-v2.jar"
 
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
@@ -101,6 +104,16 @@
       failed_when: >
         ("File exists" not in upload_handler.stderr) and
         (upload_handler.stderr != "")
+    - name: Remove hive-common in HDFS
+      command: "{{ hadoop_home }}/bin/hdfs dfs -rm /spark/archive/hive-common-2.3.9.jar"
+      failed_when: false
+    - name: Upload hive-common
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
+      register: upload_common
+      failed_when: >
+        ("File exists" not in upload_common.stderr) and
+        (upload_common.stderr != "")
+
 
 - name: Start history server
   hosts: spark-history
