@@ -1,3 +1,9 @@
+---
+
+- name: All nodes collector
+  hosts: bigdata
+
+
 - name: Edit Hue configuration files
   hosts: hue
   remote_user: "{{ remote_user }}"
