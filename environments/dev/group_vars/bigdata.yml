@@ -166,10 +166,11 @@ hive:
     metastore_port: 9083
     hive_server2_port: 10000
   spark:
-    driver_memory: "2g"
+    driver_memory: "8g"
     driver_cores: 1
-    executor_memory: "4g"
+    executor_memory: "16g"
     executor_cores: 3
+    executor_instances: 3
     history:
       update_interval: "5s"
       ui_port: 18088
