@@ -2,18 +2,22 @@
   hosts: hue
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    hue_home: "{{ bigdata_home }}/hue"
+    mysql_ip: "{{ hostvars[groups['mysql'][0]]['ansible_default_ipv4']['address'] }}"
+    nn_ip: "{{ hostvars[groups['namenode'][0]]['ansible_default_ipv4']['address'] }}"
   tasks:
     - name: Edit Hue configuration files
       template:
         src: "hue/{{ item }}"
-        dest: "{{ bigdata_home }}/hue/conf/"
+        dest: "{{ hue_home }}/conf/"
         mode: 0644
       with_items:
         - "hue.ini"
     - name: Edit Hue configuration files
       template:
         src: "hue/{{ item }}"
-        dest: "{{ bigdata_home }}/hue/"
+        dest: "{{ hue_home }}/"
         mode: 0644
       with_fileglob:
         - "docker-compose.yml"
