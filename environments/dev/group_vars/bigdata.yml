@@ -191,6 +191,7 @@ spark:
   driver_cores: 1
   executor_memory: "4g"
   executor_cores: 3
+  hive_hbase_handler_v2: true
   history:
     update_interval: "5s"
     ui_port: 18088
