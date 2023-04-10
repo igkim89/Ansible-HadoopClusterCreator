@@ -158,10 +158,11 @@ mysql:
 
 ## Hive 설정
 hive:
+  hive_server2_port: 10000
+  webui_port: 10002
   metastore:
     db_pw: "bigdata123"
     metastore_port: 9083
-    hive_server2_port: 10000
   spark:
     driver_memory: "1g"
     driver_cores: 1

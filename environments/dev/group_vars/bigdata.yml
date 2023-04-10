@@ -165,6 +165,7 @@ hive:
     db_pw: "bigdata123"
     metastore_port: 9083
     hive_server2_port: 10000
+    webui_port: 10002
   spark:
     driver_memory: "8g"
     driver_cores: 1
