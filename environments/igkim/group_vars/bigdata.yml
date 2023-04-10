@@ -160,6 +160,7 @@ mysql:
 hive:
   hive_server2_port: 10000
   webui_port: 10002
+  heapsize: "8192m"
   metastore:
     db_pw: "bigdata123"
     metastore_port: 9083
