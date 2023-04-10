@@ -90,4 +90,16 @@
         <name>hive.server2.webui.host</name>
         <value>{{ hive.webui_port }}</value>
     </property>
+    <property>
+        <name>hive.server2.async.exec.threads</name>
+        <value>10</value>
+    </property>
+    <property>
+        <name>hive.server2.async.exec.wait.queue.size</name>
+        <value>10</value>
+    </property>
+    <property>
+        <name>hive.server2.parallel.ops.in.session</name>
+        <value>true</value>
+    </property>
 </configuration>
