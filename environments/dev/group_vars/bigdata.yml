@@ -164,6 +164,8 @@ hive:
   hive_server2_port: 10000
   webui_port: 10002
   heapsize: "8192m"
+  async_exec_threads: 10
+  async_exec_wait_queue_size: 10
   metastore:
     db_pw: "bigdata123"
     metastore_port: 9083
