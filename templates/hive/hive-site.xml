@@ -92,11 +92,11 @@
     </property>
     <property>
         <name>hive.server2.async.exec.threads</name>
-        <value>{{ async_exec_threads }}</value>
+        <value>{{ hive.async_exec_threads }}</value>
     </property>
     <property>
         <name>hive.server2.async.exec.wait.queue.size</name>
-        <value>{{ async_exec_wait_queue_size }}</value>
+        <value>{{ hive.async_exec_wait_queue_size }}</value>
     </property>
     <property>
         <name>hive.server2.parallel.ops.in.session</name>
