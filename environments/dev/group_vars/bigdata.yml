@@ -58,6 +58,8 @@ installer:
   prometheus: "prometheus-2.37.6.linux-amd64.tar.gz"
   node_exporter: "node_exporter-1.5.0.linux-amd64.tar.gz"
   grafana: "grafana-enterprise-9.4.7.linux-amd64.tar.gz"
+  solr: "solr-9.2.0.tgz"
+  ranger_admin: "ranger-2.4.1-SNAPSHOT-admin.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
@@ -271,3 +273,13 @@ node_exporter:
 ## Grafana 설정
 grafana:
   web_port: 50075
+
+## Solr 설정
+solr:
+  web_port: 6083
+  heapsize: 2g
+  data_dir: /data/solr
+
+## Ranger 설정
+ranger:
+  web_port: 50076
