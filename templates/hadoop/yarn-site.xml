@@ -106,6 +106,10 @@
         <value>{{ groups['resourcemanager'][1] }}:{{ hadoop.yarn.resourcemanager_webapp_https_port }}</value>
     </property>
     <property>
+        <name>yarn.log.server.url</name>
+        <value>{{ groups['jobhistoryserver'][0] }}:{{ hadoop.yarn.jobhistoryserver_http_port }}</value>
+    </property>
+    <property>
         <name>yarn.resourcemanager.client.thread-count</name>
         <value>50</value>
     </property>
