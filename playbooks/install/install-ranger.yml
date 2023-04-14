@@ -18,14 +18,15 @@
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
-
     - name: Copy JDBC
+      become: yes
       copy:
         src: "{{ installer_home }}/jdbc/{{ installer.mysql_jdbc }}"
         dest: "/usr/share/java/{{ installer.mysql_jdbc }}"
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
     - name: Create JDBC symbolic link
+      become: yes
       file:
         src: "/usr/share/java/{{ installer.mysql_jdbc }}"
         dest: "/usr/share/java/mysql-connector-java.jar"
@@ -154,9 +155,9 @@
         "db_root_user": "root"
         "db_root_password": "{{ mysql.root_pw }}"
         "db_host": "{{ groups['mysql'][0] }}"
-        "db_name": "{{ ranger.db_name}}"
-        "db_user": "{{ ranger.db_user}}"
-        "db_pw": "{{ ranger.db_pw}}"
+        "db_name": "{{ ranger.db_name }}"
+        "db_user": "{{ ranger.db_user }}"
+        "db_password": "{{ ranger.db_pw }}"
         "audit_store": "solr"
         "audit_solr_urls": "http://{{ groups['ranger'][0] }}:{{ solr.web_port }}/solr/ranger_audits"
         "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
