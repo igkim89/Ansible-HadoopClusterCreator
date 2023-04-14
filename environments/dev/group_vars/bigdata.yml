@@ -283,3 +283,6 @@ solr:
 ## Ranger 설정
 ranger:
   web_port: 50076
+  db_name: ranger
+  db_user: ranger
+  db_pw: bigdata123

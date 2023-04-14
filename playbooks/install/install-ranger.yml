@@ -1,5 +1,8 @@
 ---
 
+- name: All nodes collector
+  hosts: bigdata
+
 - name: Install Ranger
   hosts: ranger
   remote_user: "{{ remote_user }}"
@@ -13,6 +16,20 @@
       file:
         dest: "{{ bigdata_home }}"
         state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
+    - name: Copy JDBC
+      copy:
+        src: "{{ installer_home }}/jdbc/{{ installer.mysql_jdbc }}"
+        dest: "/usr/share/java/{{ installer.mysql_jdbc }}"
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Create JDBC symbolic link
+      file:
+        src: "/usr/share/java/{{ installer.mysql_jdbc }}"
+        dest: "/usr/share/java/mysql-connector-java.jar"
+        state: link
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
 
@@ -67,7 +84,7 @@
 #        "SOLR_DATA_HOME": "{{ solr.data_dir }}"
 #        "SOLR_IP_ALLOWLIST": "127.0.0.1, 192.168.251.186"
 
-    ## Ranger install
+
     - name: Copy Ranger installer
       copy:
         src: "{{ installer_home }}/ranger/{{ installer.ranger_admin }}"
@@ -127,6 +144,24 @@
       shell: "./start_solr.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
+
+    - name: Edit ranger install.properties
+      lineinfile:
+        path: "{{ ranger_home }}/install.properties"
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "db_root_user": "root"
+        "db_root_password": "{{ mysql.root_pw }}"
+        "db_host": "{{ groups['mysql'][0] }}"
+        "db_name": "{{ ranger.db_name}}"
+        "db_user": "{{ ranger.db_user}}"
+        "db_pw": "{{ ranger.db_pw}}"
+        "audit_store": "solr"
+        "audit_solr_urls": "http://{{ groups['ranger'][0] }}:{{ solr.web_port }}/solr/ranger_audits"
+        "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
+        "unix_user": "{{ remote_user }}"
+        "unix_group": "{{ remote_user }}"
 
 
 
