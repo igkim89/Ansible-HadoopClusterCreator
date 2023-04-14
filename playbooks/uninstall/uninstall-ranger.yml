@@ -12,17 +12,18 @@
       shell: "/usr/bin/ps -ef | grep 'ranger' | grep -v grep | awk '{print $2}'"
       register: ranger_pid
       failed_when: false
-    - name: Stop Grafana
+    - name: Stop Ranger
       shell: "/usr/bin/kill -9 {{ ranger_pid.stdout }}"
-      when: ranger_pid != ""
+      when: '"ranger" not in ranger_pid.stdout'
     - name: Check Solr process
       shell: "/usr/bin/ps -ef | grep 'solr' | grep -v grep | awk '{print $2}'"
       register: solr_pid
       failed_when: false
     - name: Stop Solr
       shell: "/usr/bin/kill -9 {{ solr_pid.stdout }}"
-      when: solr_pid != ""
+      when: '"solr" not in solr_pid.stdout'
     - name: Remove directory
+      become: yes
       file:
         path: "{{ item }}"
         state: absent
