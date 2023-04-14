@@ -85,7 +85,7 @@
         state: absent
     - name: Create Ranger symbolic link
       file:
-        src: "{{ bigdata_home }}/{{ installer.ranger.replace('.tar.gz', '') }}"
+        src: "{{ bigdata_home }}/{{ installer.ranger_admin.replace('.tar.gz', '') }}"
         dest: "{{ ranger_home }}"
         state: link
     - name: Edit Solr for audit setup
@@ -113,9 +113,10 @@
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
         "SOLR_JAVA_HOME": "{{ bigdata_home }}/jdk-11"
-        "GC_LOG_OPTS": "\"-verbose:gc -XX:+PrintGCDetails"
+        "GC_LOG_OPTS": "\"-verbose:gc -XX:+PrintGCDetails\""
     - name: Edir Solr.in.sh (2/2)
       lineinfile:
+        path: "{{ solr_home }}/ranger_audit_server/scripts/solr.in.sh"
         search_string: "{{ item }}"
         state: absent
       with_items:
