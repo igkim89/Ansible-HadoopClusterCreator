@@ -168,6 +168,9 @@ hive:
   heapsize: "8192m"
   async_exec_threads: 10
   async_exec_wait_queue_size: 10
+  idle_operation_timeout: 1h
+  idle_session_timeout: 1h
+  session_check_interval: 10m
   metastore:
     db_pw: "bigdata123"
     metastore_port: 9083

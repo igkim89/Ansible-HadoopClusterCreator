@@ -102,4 +102,16 @@
         <name>hive.server2.parallel.ops.in.session</name>
         <value>true</value>
     </property>
+    <property>
+        <name>hive.server2.idle.operation.timeout</name>
+        <value>{{ hive.idle_operation_timeout }}</value>
+    </property>
+    <property>
+        <name>hive.server2.idle.session.timeout</name>
+        <value>{{ hive.idle_session_timeout }}</value>
+    </property>
+    <property>
+        <name>hive.server2.session.check.interval</name>
+        <value>{{ hive.session_check_interval }}</value>
+    </property>
 </configuration>
