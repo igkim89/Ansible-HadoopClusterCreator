@@ -72,6 +72,13 @@
         src: "{{ bigdata_home }}/{{ installer.solr.replace('.tgz', '') }}"
         dest: "{{ solr_home }}"
         state: link
+    - name: Create Solr data directory
+      become: yes
+      file:
+        path: "{{ solr.data_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
 #    - name: Edit Solr configuration
 #      lineinfile:
 #        path: "{{ solr_home }}/bin/solr.in.sh"
@@ -153,7 +160,7 @@
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
         "db_root_user": "root"
-        "db_root_password": "{{ mysql.root_pw }}"
+        "db_root_password": "{{ mysql.root_pw }}:{{ mysql.jdbc_port }}"
         "db_host": "{{ groups['mysql'][0] }}"
         "db_name": "{{ ranger.db_name }}"
         "db_user": "{{ ranger.db_user }}"
@@ -163,6 +170,7 @@
         "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
         "unix_user": "{{ remote_user }}"
         "unix_group": "{{ remote_user }}"
+        "hadoop_conf": "{{ bigdata_home }}/hadoop/conf"
 
 
 
