@@ -116,6 +116,8 @@
   hosts: hadoop
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
     - name: Add Hadoop configuration files
       template:
@@ -128,6 +130,16 @@
         - "httpfs-site.xml"
         - "hdfs-site.xml"
         - "core-site.xml"
+    - name: Create Nodemanager log dir
+      file:
+        path: "{{ hadoop_home }}/{{ item }}"
+        state: directory
+        mode: 0775
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "logs"
+        - "logs/userlogs"
 
 - name: Start JournalNode
   hosts: journalnode
