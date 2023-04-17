@@ -9,7 +9,7 @@
     ranger_home: "{{ bigdata_home }}/ranger"
   tasks:
     - name: Check Ranger process
-      shell: "/usr/bin/ps -ef | grep 'ranger' | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep 'org.apache.ranger.server.tomcat.EmbeddedServer' | grep -v grep | awk '{print $2}'"
       register: ranger_pid
       failed_when: false
     - name: Stop Ranger
