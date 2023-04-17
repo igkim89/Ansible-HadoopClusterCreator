@@ -196,3 +196,19 @@
       with_items: "{{ groups['ranger'] }}"
 
 
+- name: Install Ranger
+  hosts: ranger
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    solr_home: "{{ bigdata_home }}/solr"
+    ranger_home: "{{ bigdata_home }}/ranger"
+  tasks:
+    - name: Setup Ranger
+      shell: "./setup.sh"
+      args:
+        chdir: "{{ ranger_home }}"
+    - name: Start Ranger server
+      shell: "./ranger-admin-services.sh start"
+      args:
+        chdir: "{{ ranger_home }}/ews"
