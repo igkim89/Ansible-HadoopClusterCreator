@@ -135,7 +135,7 @@
       shell: "./setup.sh"
       args:
         chdir: "{{ ranger_home }}/contrib/solr_for_audit_setup"
-    - name: Edir Solr.in.sh (1/2)
+    - name: Edir Solr.in.sh (1/3)
       lineinfile:
         path: "{{ solr_home }}/ranger_audit_server/scripts/solr.in.sh"
         regexp: "^{{ item.key }}="
@@ -143,7 +143,7 @@
       with_dict:
         "SOLR_JAVA_HOME": "{{ bigdata_home }}/jdk-11"
         "GC_LOG_OPTS": "\"-verbose:gc -XX:+PrintGCDetails\""
-    - name: Edir Solr.in.sh (2/2)
+    - name: Edir Solr.in.sh (2/3)
       lineinfile:
         path: "{{ solr_home }}/ranger_audit_server/scripts/solr.in.sh"
         search_string: "{{ item }}"
@@ -152,6 +152,14 @@
         - "-XX:+UseConcMarkSweepGC \\"
         - "-XX:+UseParNewGC \\"
         - "-XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime\""
+    - name: Edir Solr.in.sh (3/3)
+      lineinfile:
+        path: "{{ solr_home }}/ranger_audit_server/scripts/solr.in.sh"
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        insertafter: "^SOLR_PORT={{ ranger.solr.web_port }}"
+      with_dict:
+        "SOLR_JETTY_HOST": "0.0.0.0"
     - name: Start Solr
       shell: "./start_solr.sh"
       args:
