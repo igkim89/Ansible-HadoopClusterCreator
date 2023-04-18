@@ -281,12 +281,12 @@ grafana:
 
 ## Ranger 설정
 ranger:
-  web_port: 50076
+  web_port: 50077
   db_name: ranger
   db_user: ranger
   db_pw: bigdata123
   ## Solr 설정
   solr:
-    web_port: 6083
+    web_port: 50076
     heapsize: 2g
     data_dir: /data/solr
