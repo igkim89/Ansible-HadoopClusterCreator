@@ -160,8 +160,31 @@
         insertafter: "^SOLR_PORT={{ ranger.solr.web_port }}"
       with_dict:
         "SOLR_JETTY_HOST": "0.0.0.0"
+    - name: Edit add_ranger_audits_conf_to_zk.sh file
+      lineinfile:
+        path: "{{ solr_home }}/ranger_audit_server/scripts/add_ranger_audits_conf_to_zk.sh"
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
+    - name: Create Z-Node
+      shell: "./add_ranger_audits_conf_to_zk.sh"
+      args:
+        chdir: "{{ solr_home }}/ranger_audit_server/scripts"
     - name: Start Solr
       shell: "./start_solr.sh"
+      args:
+        chdir: "{{ solr_home }}/ranger_audit_server/scripts"
+    - name: Edit create_ranger_audits_collection.sh file
+      lineinfile:
+        path: "{{ solr_home }}/ranger_audit_server/scripts/create_ranger_audits_collection.sh"
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+        insertbefore: "^SOLR_HOST_URL"
+      with_dict:
+        "SOLR_RANGER_PORT": "{{ ranger.solr.web_port }}"
+    - name: Create Ranger audit collection
+      shell: "./create_ranger_audits_collection.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
 
@@ -180,7 +203,12 @@
         "db_password": "{{ ranger.db_pw }}"
         "audit_store": "solr"
         "audit_solr_urls": "http://localhost:{{ ranger.solr.web_port }}/solr/ranger_audits"
-        "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
+        ## 임시 Port 변경 방법
+        # $RANGER_HOME/conf/ranger-admin-site.xml
+        # ranger.service.http.port 변경
+        # $RANGER_HOME/ews/stop-ranger-admin.sh
+        # $RANGER_HOME/ews/start-ranger-admin.sh
+#        "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
         "unix_user": "{{ remote_user }}"
         "unix_group": "{{ remote_user }}"
         "hadoop_conf": "{{ bigdata_home }}/hadoop/conf"
