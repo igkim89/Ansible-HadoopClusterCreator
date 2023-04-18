@@ -195,7 +195,7 @@
     </property>
     <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
-        <value>32768</value>
+        <value>{{ hadoop.yarn.nodemanager_memory_mb }}</value>
     </property>
 
 </configuration>
