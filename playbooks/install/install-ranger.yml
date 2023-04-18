@@ -75,7 +75,7 @@
     - name: Create Solr data directory
       become: yes
       file:
-        path: "{{ solr.data_dir }}"
+        path: "{{ ranger.solr.data_dir }}"
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
@@ -87,9 +87,9 @@
 #      with_dict:
 #        "SOLR_JAVA_HOME": "{{ bigdata_home }}/jdk-11"
 #        "ZK_HOST": "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}"
-#        "SOLR_HEAP": "{{ solr.heapsize }}"
+#        "SOLR_HEAP": "{{ ranger.solr.heapsize }}"
 #        "SOLR_TIMEZONE": "Asia/Seoul"
-#        "SOLR_DATA_HOME": "{{ solr.data_dir }}"
+#        "SOLR_DATA_HOME": "{{ ranger.solr.data_dir }}"
 #        "SOLR_IP_ALLOWLIST": "127.0.0.1, 192.168.251.186"
 
 
@@ -123,10 +123,10 @@
         "SOLR_GROUP": "{{ remote_user }}"
         "SOLR_INSTALL_FOLDER": "{{ solr_home }}"
         "SOLR_RANGER_HOME": "{{ solr_home }}/ranger_audit_server"
-        "SOLR_RANGER_PORT": "{{ solr.web_port }}"
-        "SOLR_RANGER_DATA_FOLDER": "{{ solr.data_dir }}"
+        "SOLR_RANGER_PORT": "{{ ranger.solr.web_port }}"
+        "SOLR_RANGER_DATA_FOLDER": "{{ ranger.solr.data_dir }}"
         "SOLR_LOG_FOLDER": "{{ solr_home }}/logs"
-        "SOLR_MAX_MEM": "{{ solr.heapsize }}"
+        "SOLR_MAX_MEM": "{{ ranger.solr.heapsize }}"
     - name: Setup Solr
       shell: "./setup.sh"
       args:
@@ -167,7 +167,7 @@
         "db_user": "{{ ranger.db_user }}"
         "db_password": "{{ ranger.db_pw }}"
         "audit_store": "solr"
-        "audit_solr_urls": "http://{{ groups['ranger'][0] }}:{{ solr.web_port }}/solr/ranger_audits"
+        "audit_solr_urls": "http://localhost:{{ ranger.solr.web_port }}/solr/ranger_audits"
         "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
         "unix_user": "{{ remote_user }}"
         "unix_group": "{{ remote_user }}"
