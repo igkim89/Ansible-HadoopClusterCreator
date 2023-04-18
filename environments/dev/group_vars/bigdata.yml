@@ -115,12 +115,13 @@ hadoop:
     resourcemanager_webapp_port: 8088
     resourcemanager_webapp_https_port: 8090
     scheduler_min_allocation_mb: 1024
-    scheduler_max_allocation_mb: 65536
+    scheduler_max_allocation_mb: 158220
     scheduler_increment_allocation_mb: 512
     scheduler_min_allocation_vcores: 1
-    scheduler_max_allocation_vcores: 32
+    scheduler_max_allocation_vcores: 40
     scheduler_increment_allocation_vcores: 1
-    nodemanager_memory_mb: 262144
+    nodemanager_memory_mb: 158220
+    nodemanager_vcores: 40
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
