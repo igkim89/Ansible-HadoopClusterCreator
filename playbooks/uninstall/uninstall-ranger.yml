@@ -16,7 +16,7 @@
       shell: "/usr/bin/kill -9 {{ ranger_pid.stdout }}"
       when: ranger_pid.stdout != ""
     - name: Check Solr process
-      shell: "/usr/bin/ps -ef | grep 'solr' | grep -v grep | grep 'jetty.port={{ ranger.solr.web_port }}' | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep 'solr' | grep -v grep | grep '{{ solr_home }}' | grep 'start.jar' | awk '{print $2}'"
       register: solr_pid
       failed_when: false
     - name: Stop Solr
