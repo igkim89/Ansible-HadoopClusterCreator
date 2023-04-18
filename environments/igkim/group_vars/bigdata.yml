@@ -270,12 +270,14 @@ node_exporter:
 grafana:
   web_port: 50075
 
-## Solr 설정
-solr:
-  web_port: 50076
-  heapsize: 1g
-  data_dir: /data/solr
-
 ## Ranger 설정
 ranger:
   web_port: 50077
+  db_name: ranger
+    db_user: ranger
+    db_pw: ranger
+  ## Solr 설정
+  solr:
+    web_port: 50076
+    heapsize: 1g
+    data_dir: /data/solr

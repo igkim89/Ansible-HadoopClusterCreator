@@ -108,7 +108,6 @@ hadoop:
     # Resourcemanager HA Endpoint
     cluster_id: "kdev-yarn"
 
-    # Resourcemanager 설정
     resourcemanager_scheduler_port: 8030
     resourcemanager_resource_tracker_port: 8031
     resourcemanager_port: 8032
@@ -121,6 +120,7 @@ hadoop:
     scheduler_min_allocation_vcores: 1
     scheduler_max_allocation_vcores: 32
     scheduler_increment_allocation_vcores: 1
+    nodemanager_memory_mb: 262144
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
@@ -277,11 +277,6 @@ node_exporter:
 grafana:
   web_port: 50075
 
-## Solr 설정
-solr:
-  web_port: 6083
-  heapsize: 2g
-  data_dir: /data/solr
 
 ## Ranger 설정
 ranger:
@@ -289,3 +284,8 @@ ranger:
   db_name: ranger
   db_user: ranger
   db_pw: bigdata123
+  ## Solr 설정
+  solr:
+    web_port: 6083
+    heapsize: 2g
+    data_dir: /data/solr
