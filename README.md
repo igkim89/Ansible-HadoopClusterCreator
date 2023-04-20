@@ -23,8 +23,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [UI for Apache Kafka 배포](#ui-for-apache-kafka-배포)
   * [Hue 배포](#hue-배포)
   * [R 배포 (RStudio 포함)](#r-배포-(rstudio-포함))
+  * [Redis 배포](#redis-배포)
   * [Airflow 배포](#airflow-배포)
   * [Zeppelin 배포](#zeppelin-배포)
+  * [Prometheus 배포](#prometheus-배포)
+  * [Grafana 배포](#grafana-배포)
 * **[서비스 시작](#서비스-시작)**
   * [Zookeeper 시작](#zookeeper-시작)
   * [Kafka 시작](#kafka-시작)
@@ -36,8 +39,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [UI for Apache Kafka 시작](#ui-for-apache-kafka-시작)
   * [Hue 시작](#hue-시작)
   * [R 시작](#r-시작)
+  * [Redis 시작](#redis-시작)
   * [Airflow 시작](#airflow-시작)
   * [Zeppelin 시작](#zeppelin-시작)
+  * [Prometheus 시작](#prometheus-시작)
+  * [Grafana 시작](#grafana-시작)
 * **[서비스 테스트](#서비스-테스트)**
   * [Zookeeper 테스트](#zookeeper-테스트)
   * [Kafka 테스트](#kafka-테스트)
@@ -49,8 +55,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [UI for Apache Kafka 테스트](#ui-for-apache-kafka-테스트)
   * [Hue 테스트](#hue-테스트)
   * [R 테스트](#r-테스트)
+  * [Redis 테스트](#redis-테스트)
   * [Airflow 테스트](#airflow-테스트)
   * [Zeppelin 테스트](#zeppelin-테스트)
+  * [Prometheus 테스트](#prometheus-테스트)
+  * [Grafana 테스트](#grafana-테스트)
 * **[서비스 중지](#서비스-중지)**
   * [Zookeeper 중지](#zookeeper-중지)
   * [Kafka 중지](#kafka-중지)
@@ -62,8 +71,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [UI for Apache Kafka 중지](#ui-for-apache-kafka-중지)
   * [Hue 중지](#hue-중지)
   * [R 중지](#r-중지)
+  * [Redis 중지](#redis-중지)
   * [Airflow 중지](#airflow-중지)
   * [Zeppelin 중지](#zeppelin-중지)
+  * [Prometheus 중지](#prometheus-중지)
+  * [Grafana 중지](#grafana-중지)
 * **[서비스 제거](#서비스-제거)**
   * [Zookeeper 제거](#zookeeper-제거)
   * [Kafka 제거](#kafka-제거)
@@ -75,8 +87,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [UI for Apache Kafka 제거](#ui-for-apache-kafka-제거)
   * [Hue 제거](#hue-제거)
   * [R 제거](#r-제거)
+  * [Redis 제거](#redis-제거)
   * [Airflow 제거](#airflow-제거)
   * [Zeppelin 제거](#zeppelin-제거)
+  * [Prometheus 제거](#prometheus-제거)
+  * [Grafana 제거](#grafana-제거)
 
 ---
 
@@ -198,9 +213,29 @@ $ run/dev/install/install-hue.sh
 $ run/dev/install/install-R.sh
 ```
 
+### Redis 배포
+```
+$ run/dev/install/install-redis.sh
+```
+
 ### Airflow 배포
 ```
 $ run/dev/install/install-airflow.sh
+```
+
+### Zeppelin 배포
+```
+$ run/dev/install/install-zeppelin.sh
+```
+
+### Prometheus 배포
+```
+$ run/dev/install/install-prometheus.sh
+```
+
+### Grafana 배포
+```
+$ run/dev/install/install-grafana.sh
 ```
 
 ## 서비스 시작
@@ -255,9 +290,29 @@ $ run/dev/start/start-hue.sh
 $ run/dev/start/start-R.sh
 ```
 
+### Redis 시작
+```
+$ run/dev/start/start-redis.sh
+```
+
 ### Airflow 시작
 ```
 $ run/dev/start/start-airflow.sh
+```
+
+### Zeppelin 시작
+```
+$ run/dev/start/start-zeppelin.sh
+```
+
+### Prometheus 시작
+```
+$ run/dev/start/start-prometheus.sh
+```
+
+### Grafana 시작
+```
+$ run/dev/start/start-grafana.sh
 ```
 
 ## 서비스 테스트
@@ -319,7 +374,23 @@ Web UI 접속 및 확인
 
 RStudio Web UI 접속 및 확인
 
+### Redis 테스트
+
+TBD
+
 ### Airflow 테스트
+
+Web UI 접속 및 확인
+
+### Zeppelin 테스트
+
+Web UI 접속 및 확인
+
+### Prometheus 테스트
+
+Web UI 접속 및 확인
+
+### Grafana 테스트
 
 Web UI 접속 및 확인
 
@@ -375,9 +446,29 @@ $ run/dev/stop/stop-hue.sh
 $ run/dev/stop/stop-R.sh
 ```
 
+### Redis 중지
+```
+$ run/dev/stop/stop-redis.sh
+```
+
 ### Airflow 중지
 ```
 $ run/dev/stop/stop-airflow.sh
+```
+
+### Zeppelin 중지
+```
+$ run/dev/stop/stop-zeppelin.sh
+```
+
+### Prometheus 중지
+```
+$ run/dev/stop/stop-prometheus.sh
+```
+
+### Grafana 중지
+```
+$ run/dev/stop/stop-grafana.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
@@ -432,31 +523,28 @@ $ run/dev/uninstall/uninstall-hue.sh
 $ run/dev/uninstall/uninstall-R.sh
 ```
 
+### Redis 제거
+```
+$ run/dev/uninstall/uninstall-redis.sh
+```
+
 ### Airflow 제거
 ```
 $ run/dev/uninstall/uninstall-airflow.sh
 ```
 
+### Zeppelin 제거
+```
+$ run/dev/uninstall/uninstall-zeppelin.sh
+```
 
+### Prometheus 제거
+```
+$ run/dev/uninstall/uninstall-prometheus.sh
+```
 
+### Grafana 제거
+```
+$ run/dev/uninstall/uninstall-grafana.sh
+```
 
-계속 작성중..
-
-완료
-zookeeper
-kafka
-hadoop
-mysql
-hive
-hbase
-spark
-ufk
-hue
-R
-airflow
-zeppelin
-
-미완료
-prometheus
-grafana
-redis
