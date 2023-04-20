@@ -49,8 +49,9 @@
         regexp: "^#? *{{ item.key | regex_escape() }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
-        - "clientPort": "{{ zookeeper.client_port }}"
-        - "dataDir": "{{ zookeeper.data_dir }}"
+        "clientPort": "{{ zookeeper.client_port }}"
+        "dataDir": "{{ zookeeper.data_dir }}"
+        "4lw.commands.whitelist": "mntr,conf,ruok"
     - name: Edit configuration
       lineinfile:
         path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"
