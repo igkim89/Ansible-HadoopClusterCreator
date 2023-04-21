@@ -126,4 +126,12 @@
         <name>hadoop.proxyuser.hbase.groups</name>
         <value>*</value>
     </property>
+    <property>
+        <name>hadoop.security.group.mapping</name>
+        <value>org.apache.hadoop.security.ShellBasedUnixGroupsMapping</value>
+    </property>
+    <property>
+        <name>hadoop.http.logs.enabled</name>
+        <value>true</value>
+    </property>
 </configuration>

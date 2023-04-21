@@ -201,5 +201,9 @@
         <name>yarn.nodemanager.resource.cpu-vcores</name>
         <value>{{ hadoop.yarn.nodemanager_vcores }}</value>
     </property>
+    <property>
+        <name>yarn.resourcemanager.proxy-user-privileges.enabled</name>
+        <value>true</value>
+    </property>
 
 </configuration>

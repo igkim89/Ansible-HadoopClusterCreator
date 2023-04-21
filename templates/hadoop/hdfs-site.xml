@@ -103,4 +103,40 @@
         <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
         <value>true</value>
     </property>
+    <property>
+        <name>dfs.namenode.handler.count</name>
+        <value>100</value>
+    </property>
+    <property>
+        <name>dfs.namenode.service.handler.count</name>
+        <value>63</value>
+    </property>
+    <property>
+        <name>dfs.namenode.replication.work.multiplier.per.iteration</name>
+        <value>{{ hadoop.hdfs.replication_work_multiplier_per_iteration }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.replication.max-streams</name>
+        <value>{{ hadoop.hdfs.replication_max_streams_soft }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.replication.max-streams-hard-limit</name>
+        <value>{{ hadoop.hdfs.replication_max_streams_hard }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.stale.datanode.interval</name>
+        <value>{{ hadoop.hdfs.stale_interval }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.avoid.read.stale.datanode</name>
+        <value>{{ hadoop.hdfs.avoid_read_stale }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.avoid.write.stale.datanode</name>
+        <value>{{ hadoop.hdfs.avoid_write_stale }}</value>
+    </property>
+    <property>
+        <name>dfs.namenode.acls.enabled</name>
+        <value>{{ hadoop.hdfs.acls_enabled }}</value>
+    </property>
 </configuration>

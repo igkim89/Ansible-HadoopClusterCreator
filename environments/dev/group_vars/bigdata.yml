@@ -101,8 +101,36 @@ hadoop:
     block_size: 134217728
     webhdfs_enabled: true
     permission_umask: "022"
-    trash_interval: 1
+    trash_interval: 1440
     httpfs_port: 50071
+
+    # 고급 속성. 주의해서 변경하십시오. 이는 복제를 위해 DN에서 병렬로 시작할 블록 전송의 총량을 결정합니다.
+    # 이러한 명령 목록은 NN에서 DN 하트비트를 통해 전송됩니다. 실제 수는 이 승수에 클러스터의 총 라이브 노드 수를 곱하여 얻습니다.
+    # 결과 번호는 DN 하트비트당 전송을 즉시 시작할 블록 수입니다. 이 숫자는 0이 아닌 모든 양의 정수일 수 있습니다.
+    # Default value = 2
+    replication_work_multiplier_per_iteration: 10
+
+    # DataNode가 한 번에 수행하는 최대 병렬 스레드 네트워크 전송을 추가로 제한
+    # Default value soft=2 hard=4
+    replication_max_streams_soft: 20
+    replication_max_streams_hard: 40
+
+    # 데이터노드를 "오래됨"으로 표시하기 위한 기본 시간 간격(밀리초),
+    # 즉 네임노드가 이 시간 간격보다 더 오랫동안 데이터노드로부터 하트비트 메시지를 수신하지 않은 경우 데이터노드는 기본적으로 "오래됨"으로 표시되고 처리됩니다.
+    # 부실 간격은 너무 작을 수 없습니다. 그렇지 않으면 부실 상태가 너무 자주 변경될 수 있기 때문입니다.
+    # 따라서 최소 부실 간격 값(기본값은 하트비트 간격의 3배)을 설정하고 부실 간격이 최소값보다 작을 수 없음을 보장합니다.
+    # 임대/블록 복구 중에는 오래된 데이터 노드가 방지됩니다.
+    stale_interval: 30000
+
+    # 지정된 시간 간격 이상으로 네임노드가 하트비트 메시지를 수신하지 않은 "오래된" 데이터노드에서 읽지 않도록 할지 여부를 나타냅니다.
+    # 오래된 데이터 노드는 읽기 위해 반환된 노드 목록의 끝으로 이동됩니다.
+    # Default value read=false write=false
+    avoid_read_stale: true
+    avoid_write_stale: true
+
+    acls_enabled: true
+
+
 
   yarn:
     # Resourcemanager HA Endpoint
@@ -118,10 +146,10 @@ hadoop:
     scheduler_max_allocation_mb: 158220
     scheduler_increment_allocation_mb: 512
     scheduler_min_allocation_vcores: 1
-    scheduler_max_allocation_vcores: 40
+    scheduler_max_allocation_vcores: 32
     scheduler_increment_allocation_vcores: 1
     nodemanager_memory_mb: 158220
-    nodemanager_vcores: 40
+    nodemanager_vcores: 32
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
