@@ -128,7 +128,7 @@ hadoop:
     avoid_write_stale: true
 
     acls_enabled: true
-    datanode_failed_volumes_tolerated: 5
+    datanode_failed_volumes_tolerated: 2
     
 
   yarn:
