@@ -1,0 +1,16 @@
+---
+
+- name: Init ulimit
+  hosts: bigdata
+  remote_user: "{{ remote_user }}"
+  become: yes
+  tasks:
+    - name: Edit soft max locked memory
+      lineinfile:
+        path: "/etc/security/limits.conf"
+        regexp: "^{{ remote_user }}*memlock"
+        line: "{{ remote_user }} {{ item }} memlock 4194304"
+        insertbefore: "# End of file"
+      with_items:
+        - "soft"
+        - "hard"
