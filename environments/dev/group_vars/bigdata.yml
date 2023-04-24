@@ -135,6 +135,7 @@ hadoop:
     # Resourcemanager HA Endpoint
     cluster_id: "kdev-yarn"
 
+    resourcemanager_max_completed_applications: 10000
     resourcemanager_scheduler_port: 8030
     resourcemanager_resource_tracker_port: 8031
     resourcemanager_port: 8032
@@ -149,6 +150,7 @@ hadoop:
     scheduler_increment_allocation_vcores: 1
     nodemanager_memory_mb: 158220
     nodemanager_vcores: 32
+    nodemanagers_hearbeat_interval_ms: 120
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"

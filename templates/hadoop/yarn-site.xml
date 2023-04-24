@@ -10,6 +10,14 @@
         <value>*</value>
     </property>
     <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>604800</value>
+    </property>
+    <property>
         <name>yarn.resourcemanager.ha.enabled</name>
         <value>true</value>
     </property>
@@ -150,10 +158,6 @@
         <value>1000</value>
     </property>
     <property>
-        <name>yarn.am.liveness-monitor.expiry-internal-ms</name>
-        <value>600000</value>
-    </property>
-    <property>
         <name>yarn.resourcemanager.am.max-attempts</name>
         <value>2</value>
     </property>
@@ -204,6 +208,14 @@
     <property>
         <name>yarn.resourcemanager.proxy-user-privileges.enabled</name>
         <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.max-completed-applications</name>
+        <value>{{ hadoop.yarn.resourcemanager_max_completed_applications }}</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.nodemanagers.heartbeat-interval-ms</name>
+        <value>{{ hadoop.yarn.nodemanagers_hearbeat_interval_ms }}</value>
     </property>
 
 </configuration>
