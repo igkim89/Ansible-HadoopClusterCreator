@@ -6,12 +6,8 @@
         <value>10000000</value>
     </property>
     <property>
-        <name>mapreduce.job.counters.max</name>
+        <name>mapreduce.job.counters.limit</name>
         <value>120</value>
-    </property>
-    <property>
-        <name>mapreduce.job.counters.groups.max</name>
-        <value>50</value>
     </property>
     <property>
         <name>mapreduce.output.fileoutputformat.compress</name>
@@ -57,10 +53,11 @@
         <name>mapreduce.client.submit.file.replication</name>
         <value>3</value>
     </property>
-<!--    <property>-->
-<!--        <name>mapreduce.job.reduces</name>-->
-<!--        <value>192</value>-->
-<!--    </property>-->
+    <!-- mapreduce.job.reduces 임시 주석 해제 (정상 동작 여부 확인)-->
+    <property>
+        <name>mapreduce.job.reduces</name>
+        <value>192</value>
+    </property>
     <property>
         <name>mapreduce.task.io.sort.mb</name>
         <value>256</value>
@@ -72,6 +69,10 @@
     <property>
         <name>mapreduce.reduce.speculative</name>
         <value>false</value>
+    </property>
+    <property>
+        <name>mapreduce.job.reduce.slowstart.completedmaps</name>
+        <value>0.8</value>
     </property>
     <property>
         <name>mapreduce.job.reduce.slowstart.completedmaps</name>
@@ -175,6 +176,10 @@
     </property>
     <property>
         <name>mapreduce.job.redacted-properties</name>
+        <value>$LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH</value>
+    </property>
+    <property>
+        <name>mapreduce.admin.user.env</name>
         <value>$LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH</value>
     </property>
     <property>
