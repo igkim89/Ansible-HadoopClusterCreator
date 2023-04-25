@@ -22,3 +22,6 @@ export JAVA_HOME={{ java_home }}
 export HBASE_CLASSPATH=${HBASE_CLASSPATH}:$HADOOP_HOME/conf
 export HBASE_LOG_DIR={{ bigdata_home }}/hbase/logs
 export HBASE_MANAGES_ZK=false
+
+export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xmx{{ hbase.master_heapsize }}"
+export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -Xmx{{ hbase.region_heapsize }}"

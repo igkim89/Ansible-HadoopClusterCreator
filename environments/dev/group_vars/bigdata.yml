@@ -244,21 +244,52 @@ spark:
 
 ## HBase 설정
 hbase:
+  master_heapsize: 8G
+  region_heapsize: 32G
+
   master_port: 60000
   master_info_port: 60010
   region_port: 60020
   region_info_port: 60030
+
+  master_logcleaner_ttl: 60000
+
   znode_parent: /hbase
   znode_rootserver: root-region-server
+
   session_timeout: 60000
-  rpc_timeout: 60000
+  rpc_timeout: 120000
+
   client_write_buffer: 2097152
   client_pause: 100
   client_retries_number: 35
   client_scanner_caching: 100
+  client_scanner_timeout: 120000
   client_keyvalue_maxsize: 10485760
   client_primary_call_timeout_get: 10
   client_primary_call_timeout_multiget: 10
+
+  region_handler_count: 100
+  region_split_limit: 2147483647
+  region_global_memstore_size: 0.4
+  region_global_memstore_lower_limit: 0.38
+  hregion_memstore_flush_size: 536870912
+  hregion_preclose_flush_size: 5242880
+  hregion_memstore_block_multiplier: 8
+  hregion_max_filesize: 10737418240
+  #milliseconds
+  hregion_major_compaction: 604800000
+  hregion_major_compaction_jitter: 0.50
+  hregion_memstore_mslab_chunksize: 2097152
+  hregion_memstore_mslab_max_allocation: 262144
+
+  hstore_compaction_threshold: 12
+  hstore_blocking_store_files: 40
+  #seconds
+  hstore_blocking_wait_time: 90
+
+  hfile_block_size: 0.4
+
 
 
 ## Hue 설정
