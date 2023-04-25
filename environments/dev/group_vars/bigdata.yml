@@ -161,6 +161,14 @@ hadoop:
     jobhistoryserver_https_port: 19890
     jobhistoryserver_admin_port: 10033
 
+    # Nodemanager log 저장 위치 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
+    nodemanager_log_dir:
+      - "/disk01/yarn/container-logs"
+      - "/disk02/yarn/container-logs"
+      - "/disk03/yarn/container-logs"
+      - "/disk04/yarn/container-logs"
+      - "/disk05/yarn/container-logs"
+
 ## Kafka 설정
 kafka:
   log_dir: "/data/kafka"

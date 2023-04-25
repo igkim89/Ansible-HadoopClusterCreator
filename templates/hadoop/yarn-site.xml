@@ -18,6 +18,10 @@
         <value>604800</value>
     </property>
     <property>
+        <name>yarn.nodemanager.log.retain-seconds</name>
+        <value>10800</value>
+    </property>
+    <property>
         <name>yarn.resourcemanager.ha.enabled</name>
         <value>true</value>
     </property>
@@ -190,13 +194,17 @@
         <value>10000</value>
     </property>
     <property>
+        <name>yarn.nodemanager.log-dirs</name>
+        <value>{% for dir in hadoop.yarn.nodemanager_log_dir %}{% if dir != hadoop.yarn.nodemanager_log_dir[0] %},{% endif %}{{ dir }}{% endfor %}</value>
+    </property>
+    <property>
         <name>yarn.nodemanager.remote-app-log-dir</name>
         <value>/tmp/logs</value>
     </property>
-    <property>
-        <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
-        <value>logs</value>
-    </property>
+<!--    <property>-->
+<!--        <name>yarn.nodemanager.remote-app-log-dir-suffix</name>-->
+<!--        <value>logs</value>-->
+<!--    </property>-->
     <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>{{ hadoop.yarn.nodemanager_memory_mb }}</value>
