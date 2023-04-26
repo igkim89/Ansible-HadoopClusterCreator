@@ -75,10 +75,6 @@
         <value>0.8</value>
     </property>
     <property>
-        <name>mapreduce.job.reduce.slowstart.completedmaps</name>
-        <value>0.8</value>
-    </property>
-    <property>
         <name>mapreduce.jobhistory.address</name>
         <value>{{ groups['jobhistoryserver'][0] }}:{{ hadoop.yarn.jobhistoryserver_port }}</value>
     </property>
@@ -176,11 +172,11 @@
     </property>
     <property>
         <name>mapreduce.job.redacted-properties</name>
-        <value>$LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH</value>
+        <value>LD_LIBRARY_PATH={{ bigdata_home }}/hadoop/lib/native:$LD_LIBRARY_PATH:$JAVA_LIBRARY_PATH</value>
     </property>
     <property>
         <name>mapreduce.admin.user.env</name>
-        <value>$LD_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH</value>
+        <value>LD_LIBRARY_PATH={{ bigdata_home }}/hadoop/lib/native:$LD_LIBRARY_PATH:$JAVA_LIBRARY_PATH</value>
     </property>
     <property>
         <name>mapreduce.job.redacted-properties</name>
