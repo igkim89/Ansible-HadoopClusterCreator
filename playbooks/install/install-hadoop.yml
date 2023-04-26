@@ -98,6 +98,21 @@
         group: "{{ remote_user }}"
       loop: "{{ hadoop.hdfs.datanode_dir }}"
 
+- name: Create NodeManager log directory
+  hosts: nodemanager
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create DataNode directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      loop: "{{ hadoop.yarn.nodemanager_log_dir }}"
+
 - name: Create JournalNode directory
   hosts: journalnode
   remote_user: "{{ remote_user }}"
