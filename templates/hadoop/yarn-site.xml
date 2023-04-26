@@ -201,10 +201,10 @@
         <name>yarn.nodemanager.remote-app-log-dir</name>
         <value>/tmp/logs</value>
     </property>
-<!--    <property>-->
-<!--        <name>yarn.nodemanager.remote-app-log-dir-suffix</name>-->
-<!--        <value>logs</value>-->
-<!--    </property>-->
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir-suffix</name>
+        <value>logs</value>
+    </property>
     <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>{{ hadoop.yarn.nodemanager_memory_mb }}</value>
