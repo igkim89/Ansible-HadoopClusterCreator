@@ -1,0 +1,22 @@
+---
+
+- name: Start Redis server
+  hosts: redis
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Find Redis Sentinel process ID
+      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep -v grep | awk '{print $2}'"
+      register: redis_sentinel_pid
+      failed_when: false
+    - name: Start Redis Master and Slave server
+      command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
+      when: redis_sentinel_pid
+    - name: Find Redis Master and Slave process ID
+        shell: "/usr/bin/ps -ef | grep redis | grep -v grep | awk '{print $2}'"
+        register: redis_pid
+        failed_when: false
+    - name: Start Redis Sentinel server
+      command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"

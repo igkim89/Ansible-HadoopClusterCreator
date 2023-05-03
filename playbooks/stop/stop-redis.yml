@@ -1,0 +1,23 @@
+---
+
+- name: Stop Redis
+  hosts: redis
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Find Redis Sentinel process ID
+      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep -v grep | awk '{print $2}'"
+      register: redis_sentinel_pid
+      failed_when: false
+    - name: Kill Redis Sentinel
+      command: "/usr/bin/kill -9 {{ redis_sentinel_pid.stdout }}"
+      when: redis_sentinel_pid.stdout == ""
+    - name: Find Redis Master and Slave process ID
+      shell: "/usr/bin/ps -ef | grep redis | grep -v grep | awk '{print $2}'"
+      register: redis_pid
+      failed_when: false
+    - name: Kill Redis Master and Slave
+      command: "/usr/bin/kill -9 {{ redis_pid.stdout }}"
+      when: redis_pid.stdout == ""
