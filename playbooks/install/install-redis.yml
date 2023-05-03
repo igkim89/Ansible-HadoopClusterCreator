@@ -114,7 +114,7 @@
   vars:
     redis_home: "{{ bigdata_home }}/redis"
   tasks:
-    - name: Start Redis Master and Slave server
+    - name: Start Redis Server
       command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
     - name: Start Redis Sentinel server
       command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"
