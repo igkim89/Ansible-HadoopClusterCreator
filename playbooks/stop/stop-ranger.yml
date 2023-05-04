@@ -1,0 +1,23 @@
+---
+
+- name: Stop Ranger
+  hosts: ranger
+  become: no
+  vars:
+    solr_home: "{{ bigdata_home }}/solr"
+    ranger_home: "{{ bigdata_home }}/ranger"
+  tasks:
+    - name: Find Ranger server process ID
+      shell: "/usr/bin/ps -ef | grep 'org.apache.ranger.server.tomcat.EmbeddedServer' | grep -v grep | awk '{print $2}'"
+      register: ranger_pid
+      failed_when: false
+    - name: Kill Ranger server
+      command: "/usr/bin/kill -9 {{ ranger_pid.stdout }}"
+      when: ranger_pid.stdout != ""
+    - name: Find Solr server process ID
+      shell: "/usr/bin/ps -ef | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'  | grep -v grep | awk '{print $2}'"
+      register: solr_pid
+      failed_when: false
+    - name: Kill Solr server
+      command: "/usr/bin/kill -9 {{ solr_pid.stdout }}"
+      when: solr_pid.stdout != ""
