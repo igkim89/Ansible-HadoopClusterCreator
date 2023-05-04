@@ -19,7 +19,7 @@
       debug:
         msg: "Running Redis Server and Sentinel.."
       when: redis_pid.stdout != "" and redis_sentinel_pid != ""
-    - name: Set test data
+    - name: Set test datas
       command: "{{ redis_home }}/bin/redis-cli -c -p {{ redis.port }} set \"{{ item.key }}\" \"{{ item.value }}\""
       with_dict:
         "company": "Daou Technology Inc."
@@ -29,3 +29,7 @@
       with_items:
         - "company"
         - "team"
+      register: result
+    - name: Result
+      debug:
+        var: result
