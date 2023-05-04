@@ -8,14 +8,14 @@
     redis_home: "{{ bigdata_home }}/redis"
   tasks:
     - name: Find Redis Server process ID
-      shell: "/usr/bin/ps -ef | grep redis | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep redis-server | grep {{ redis.port }} | grep -v grep | awk '{print $2}'"
       register: redis_pid
       failed_when: false
     - name: Start Redis Server
       command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
       when: redis_pid == ""
     - name: Find Redis Sentinel process ID
-      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep {{ redis.sentinel_port }} | grep -v grep | awk '{print $2}'"
       register: redis_sentinel_pid
       failed_when: false
     - name: Start Redis Sentinel server
