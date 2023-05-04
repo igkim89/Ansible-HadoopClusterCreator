@@ -9,5 +9,10 @@
       command: "{{ mysql.home_dir }}/bin/mysqladmin --defaults-file={{ mysql.home_dir }}/conf/my.cnf -uroot -p{{ mysql.root_pw }} shutdown"
       register: stopper
       failed_when: >
-        ("Check that mysqld is running" not in stopper.stderr) and
+        (
+          ("Check that mysqld is running" not in stopper.stderr)
+          or
+          ("Using a password on the command line interface can be insecure." not in stopper.stderr)
+        )
+        and
         (stopper.stderr !="")
