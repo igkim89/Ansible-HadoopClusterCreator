@@ -1,0 +1,31 @@
+---
+
+- name: Test Redis command
+  hosts: "{{ groups['redis'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Find Redis Server process ID
+      shell: "/usr/bin/ps -ef | grep redis-server | grep {{ redis.port }} | grep -v grep | awk '{print $2}'"
+      register: redis_pid
+      failed_when: false
+    - name: Find Redis Sentinel process ID
+      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep {{ redis.sentinel_port }} | grep -v grep | awk '{print $2}'"
+      register: redis_sentinel_pid
+      failed_when: false
+    - name: Process status
+      debug:
+        msg: "Running Redis Server and Sentinel.."
+      when: redis_pid.stdout != "" and redis_sentinel_pid != ""
+    - name: Set test data
+      command: "{{ redis_home }}/bin/redis-cli -c -p {{ redis.port }} set \"{{ item.key }}\" \"{{ item.value }}\""
+      with_dict:
+        "company": "Daou Technology Inc."
+        "team": "Data Management team"
+    - name: Get test data
+      command: "{{ redis_home }}/bin/redis-cli -c -p {{ redis.port }} get \"{{ item }}\""
+      with_items:
+        - "company"
+        - "team"
