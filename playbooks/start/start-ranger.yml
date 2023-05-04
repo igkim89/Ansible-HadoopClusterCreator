@@ -1,0 +1,28 @@
+---
+
+- name: Start Ranger
+  hosts: ranger
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    solr_home: "{{ bigdata_home }}/solr"
+    ranger_home: "{{ bigdata_home }}/ranger"
+  tasks:
+    - name: Find Solr server process ID
+      shell: "/usr/bin/ps -ef | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'  | grep -v grep | awk '{print $2}'"
+      register: solr_pid
+      failed_when: false
+    - name: Start Solr
+      shell: "./start_solr.sh"
+      args:
+        chdir: "{{ solr_home }}/ranger_audit_server/scripts"
+      when: solr_pid.stdout == ""
+    - name: Find Ranger server process ID
+      shell: "/usr/bin/ps -ef | grep 'org.apache.ranger.server.tomcat.EmbeddedServer' | grep -v grep | awk '{print $2}'"
+      register: ranger_pid
+      failed_when: false
+    - name: Start Ranger server
+      shell: "./ranger-admin-services.sh start"
+      args:
+        chdir: "{{ ranger_home }}/ews"
+      when: ranger_pid.stdout == ""
