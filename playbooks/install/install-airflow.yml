@@ -18,6 +18,7 @@
       yum:
         name:
           - "mysql-devel"
+          - "cyrus-sasl-devel"
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/airflow/{{ item }}"
@@ -37,6 +38,7 @@
         - "airflow-download.tgz"
         - "airflow_mysql_whls.tgz"
         - "Redis_whls.tgz"
+        - "hive-operator.tgz"
     - name: Install Airflow
       pip:
         name: "apache-airflow[celery]==2.5.1"
@@ -51,6 +53,11 @@
       pip:
         name: "Redis"
         extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/Redis"
+        state: present
+    - name: Install Airflow-Hive
+      pip:
+        name: "apache-airflow-providers-apache-hive"
+        extra_args: "--no-index -f /home/{{ remote_user }}/airflow-tmp/hive-operator"
         state: present
     - name: Remove temporary directory
       file:
