@@ -198,6 +198,8 @@ mysql:
   max_conn: 8192
   root_pw: "bigdata123"
   char_set: "utf8"
+  wait_timeout: 900
+  interactive_timeout: 900
 
 ## Hive 설정
 hive:
