@@ -114,4 +114,12 @@
         <name>hive.server2.session.check.interval</name>
         <value>{{ hive.session_check_interval }}</value>
     </property>
+    <property>
+        <name>hive.txn.stats.enabled</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.stats.autogather</name>
+        <value>false</value>
+    </property>
 </configuration>
