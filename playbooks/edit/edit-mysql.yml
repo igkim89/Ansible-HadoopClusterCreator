@@ -5,7 +5,7 @@
   tasks:
     - name: Edit MySQL configuration files
       template:
-        src: mysql/{{ item }}
+        src: "mysql/{{ item }}"
         dest: "{{ mysql.home_dir }}/conf/"
         mode: 0644
       with_items:

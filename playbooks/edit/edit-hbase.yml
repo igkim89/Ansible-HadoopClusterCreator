@@ -5,8 +5,11 @@
   tasks:
     - name: Edit HBase configuration files
       template:
-        src: "{{ item }}"
+        src: "hbase/{{ item }}"
         dest: "{{ bigdata_home }}/hbase/conf/"
         mode: 0644
-      with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+      with_items:
+        - "backup-masters"
+        - "hbase-env.sh"
+        - "hbase-site.xml"
+        - "regionservers"
