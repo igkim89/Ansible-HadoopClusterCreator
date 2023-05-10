@@ -10,7 +10,7 @@
         name: "{{ item }}"
         group: "{{ remote_user }}"
       with_items:
-        - data_raw
-        - data_parsed
-        - spark_streaming
-        - dbsync
+        - "data_raw"
+        - "data_parsed"
+        - "spark_streaming"
+        - "dbsync"
