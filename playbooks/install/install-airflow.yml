@@ -102,14 +102,14 @@
   tasks:
     - name: Create DB, User
       shell: |
-        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE DATABASE {{ airflow.db_name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER '{{ airflow.db_user }}'@'localhost' IDENTIFIED BY '{{ airflow.db_pw }}';"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE DATABASE if not exists {{ airflow.db_name }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists '{{ airflow.db_user }}'@'localhost' IDENTIFIED BY '{{ airflow.db_pw }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ airflow.db_name }}.* TO '{{ airflow.db_user }}'@'localhost';"
       args:
         chdir: "{{ mysql.home_dir }}"
     - name: Create DB, User
       shell: |
-        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER '{{ airflow.db_user }}'@'{{ item }}' IDENTIFIED BY '{{ airflow.db_pw }}';"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists '{{ airflow.db_user }}'@'{{ item }}' IDENTIFIED BY '{{ airflow.db_pw }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ airflow.db_name }}.* TO '{{ airflow.db_user }}'@'{{ item }}';"
       args:
         chdir: "{{ mysql.home_dir }}"
@@ -130,6 +130,7 @@
           'Password:': "{{ airflow.admin_pw }}"
           'Repeat for confirmation:': "{{ airflow.admin_pw }}"
 
+
 ## Scheduler H/A
 
 
@@ -139,8 +140,16 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check Airflow webserver
+      shell: "/usr/bin/ps -ef | grep 'master \[airflow-webserver\]'"
+      register: webserver_result
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
+      when: "master [airflow-webserver]" not in webserver_result
+    - name: Airflow webserver status
+      debug:
+        msg: Airflow webserver already running.
+      when: "master [airflow-webserver]" in webserver_result
 
 ## Start Scheduler
 - name: Start Airflow scheduler
@@ -148,8 +157,16 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Start Airflow webserver
+    - name: Check Airflow scheduler
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
+      register: scheduler_result
+    - name: Start Airflow scheduler
       command: "~/.pyenv/shims/airflow scheduler -D"
+      when: "airflow scheduler" not in scheduler_result
+    - name: Airflow scheduler status
+      debug:
+        msg: Airflow scheduler already running.
+      when: "airflow scheduler" in scheduler_result
 
 ### Start Celery
 #- name: Start Celery flower
