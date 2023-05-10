@@ -5,8 +5,8 @@
   tasks:
     - name: Edit MariaDB configuration files
       template:
-        src: mariadb/{{ item }}
+        src: "mariadb/{{ item }}"
         dest: "{{ mariadb.home_dir }}/conf/"
         mode: 0644
       with_items:
-        - my.cnf
+        - "my.cnf"

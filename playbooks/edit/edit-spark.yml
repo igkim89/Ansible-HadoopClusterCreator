@@ -5,12 +5,12 @@
   tasks:
     - name: Edit Spark configuration files
       template:
-        src: spark/{{ item }}
+        src: "spark/{{ item }}"
         dest: "{{ bigdata_home }}/spark/conf/"
         mode: 0644
       with_items:
-        - spark-env.sh
-        - spark-defaults.conf
+        - "spark-env.sh"
+        - "spark-defaults.conf"
 
 ## Hive on Spark(Spark 2.3.0 사용으로 인한 제거)
 

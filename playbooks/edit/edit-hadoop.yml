@@ -9,8 +9,8 @@
         dest: "{{ bigdata_home }}/hadoop/conf/"
         mode: 0644
       with_items:
-        - hdfs-site.xml
-        - core-site.xml
-        - yarn-site.xml
-        - mapred-site.xml
-        - httpfs-site.xml
+        - "hdfs-site.xml"
+        - "core-site.xml"
+        - "yarn-site.xml"
+        - "mapred-site.xml"
+        - "httpfs-site.xml"

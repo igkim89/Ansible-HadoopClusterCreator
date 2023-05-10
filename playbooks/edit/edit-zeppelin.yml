@@ -11,6 +11,6 @@
         dest: "{{ zeppelin_home }}/conf/"
         mode: 0644
       with_items:
-        - zeppelin-site.xml
-        - zeppelin-env.sh
-        - shiro.ini
+        - "zeppelin-site.xml"
+        - "zeppelin-env.sh"
+        - "shiro.ini"
