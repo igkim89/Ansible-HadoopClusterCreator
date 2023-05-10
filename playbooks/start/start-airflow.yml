@@ -6,8 +6,16 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check Airflow webserver
+      shell: "/usr/bin/ps -ef | grep 'master \[airflow-webserver\]'"
+      register: webserver_result
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
+      when: "master [airflow-webserver]" not in webserver_result
+    - name: Airflow webserver status
+      debug:
+        msg: Airflow webserver already running.
+      when: "master [airflow-webserver]" in webserver_result
 
 ## Start Scheduler
 - name: Start Airflow scheduler
@@ -15,8 +23,16 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Start Airflow webserver
+    - name: Check Airflow scheduler
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
+      register: scheduler_result
+    - name: Start Airflow scheduler
       command: "~/.pyenv/shims/airflow scheduler -D"
+      when: "airflow scheduler" not in scheduler_result
+    - name: Airflow scheduler status
+      debug:
+        msg: Airflow scheduler already running.
+      when: "airflow scheduler" in scheduler_result
 
 ### Start Celery
 #- name: Start Celery flower
