@@ -6,16 +6,17 @@
   become: no
   tasks:
     - name: Set default status
-      set_fact: webserver_status = "Airflow webserver is stopped"
+      set_fact:
+        cacheable: yes
+        webserver_status: "Airflow webserver is stopped"
     - name: Check Airflow webserver
       shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
       register: webserver_result
     - name: Set status
-      set_fact: webserver_status = "Airflow webserver is running"
-      when: "master [airflow-webserver]" in webserver_result
-    - name: Airflow webserver status
-      debug:
-        msg: "{{ webserver_status }}"
+      set_fact:
+        cacheable: yes
+        webserver_status: "Airflow webserver is running"
+      when: '"master [airflow-webserver]" in webserver_result.stdout'
 
 
 - name: Airflow scheduler status
@@ -24,13 +25,24 @@
   become: no
   tasks:
     - name: Set default status
-      set_fact: scheduler_status = "Airflow scheduler is stopped"
+      set_fact:
+        cacheable: yes
+        scheduler_status: "Airflow scheduler is stopped"
     - name: Check Airflow scheduler
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
       register: scheduler_result
     - name: Set status
-      set_fact: scheduler_result = "Airflow scheduler is running."
+      set_fact:
+        cacheable: yes
+        scheduler_status: "Airflow scheduler is running."
       when: '"airflow scheduler" in scheduler_result.stdout'
-    - name: Airflow scheduler status
+
+
+- name: Show Airflow status
+  hosts: airflow-webserver, airflow-scheduler
+  tasks:
+    - name: Airflow status
       debug:
-        msg: "{{ scheduler_status }}"
+        msg:
+          - "{{ webserver_status }}"
+          - "{{ scheduler_status }}"
