@@ -1,6 +1,6 @@
 ---
 
-- name: Start Grafana
+- name: Check Grafana status
   hosts: grafana
   remote_user: "{{ remote_user }}"
   become: no
