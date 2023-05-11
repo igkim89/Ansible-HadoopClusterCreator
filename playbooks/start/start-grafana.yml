@@ -14,4 +14,8 @@
     - name: Start Grafana
       shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server --config {{ grafana_home }}/conf/defaults.ini --homepath {{ grafana_home }} web > {{ grafana_home }}/logs/grafana.log 2>&1 &"
       when: '"grafana server" not in grafana_status.stdout'
+    - name: Grafana webserver status
+      debug:
+        msg: Grafana webserver already running.
+      when: '"grafana server" in grafana_status.stdout'
 
