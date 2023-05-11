@@ -171,10 +171,26 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check already format (1/2)
+      stat:
+        path: "{{ hadoop.hdfs.namenode_dir[0] }}/current/VERSION"
+      register: version_result
+    - name: Check already format (2/2)
+      stat:
+        path: "{{ hadoop.hdfs.namenode_dir[0] }}/in_use.lock"
+      register: lock_result
     - name: Zookeeper failover controller format
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs zkfc -formatZK"
+      when: >
+        (not version_result.stat.exists)
+        and
+        (not lock_result.stat.exists)
     - name: NameNode format
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+      when: >
+        (not version_result.stat.exists)
+        and
+        (not lock_result.stat.exists)
 
 - name: Start NameNode, JournalNode, ZKFC
   hosts: "{{ groups['namenode'][0] }}"
