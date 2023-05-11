@@ -5,21 +5,23 @@
   tasks:
     - name: Check already format (1/n)
       stat:
-        path: "{{ hadoop.hdfs.namenode_dir[0] }}/current/VERSION"
+#        path: "{{ hadoop.hdfs.namenode_dir[0] }}/current/VERSION"
+        path: "/home/bigdata/igkim/a"
       register: version_result
     - name: Check already format (2/n)
       stat:
-        path: "{{ hadoop.hdfs.namenode_dir[0] }}/in_use.lock"
+#        path: "{{ hadoop.hdfs.namenode_dir[0] }}/in_use.lock"
+        path: "/home/bigdata/igkim/b"
       register: lock_result
-    - name: True
+    - name: 둘 다 없으면 실행
       debug:
-        msg: "파일이 있다 -> 포맷 안함"
+        msg: 파일이 둘 다 없으므로 포맷
       when: >
         (not version_result.stat.exists)
         and
         (not lock_result.stat.exists)
     - name: False
       debug:
-        var:
-          - version_result
-          - lock_result
+        msg:
+          - "{{ version_result }}"
+          - "{{ lock_result }}"
