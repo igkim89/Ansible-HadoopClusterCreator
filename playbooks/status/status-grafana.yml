@@ -16,7 +16,7 @@
       set_fact:
         cacheable: yes
         grafana_status: "Grafana webserver is running."
-      when: '"grafana server" not in grafana_ps.stdout'
+      when: '"grafana server" in grafana_ps.stdout'
     - name: Grafana status
       debug:
         msg:
