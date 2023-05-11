@@ -145,3 +145,65 @@
         cacheable: yes
         httpfs_status: "HttpFSServerWebServer is running."
       when: '"HttpFSServerWebServer" in httpfs_jps.stdout'
+
+- name: Show Hadoop status
+  hosts: journalnode
+  tasks:
+    - name: JournalNode status
+      debug:
+        msg:
+          - "{{ journalnode_status }}"
+
+
+- name: Show Hadoop status
+  hosts: namenode
+  tasks:
+    - name: NameNode status
+      debug:
+        msg:
+          - "{{ namenode_status }}"
+
+
+- name: Show Hadoop status
+  hosts: datanode
+  tasks:
+    - name: DataNode status
+      debug:
+        msg:
+          - "{{ datanode_status }}"
+
+
+- name: Show Hadoop status
+  hosts: resourcemanager
+  tasks:
+    - name: ResourceManager status
+      debug:
+        msg:
+          - "{{ resourcemanager_status }}"
+
+
+- name: Show Hadoop status
+  hosts: nodemanager
+  tasks:
+    - name: NodeManager status
+      debug:
+        msg:
+          - "{{ nodemanager_status }}"
+
+
+- name: Show Hadoop status
+  hosts: jobhistoryserver
+  tasks:
+    - name: JobHistoryServer status
+      debug:
+        msg:
+          - "{{ jobhistoryserver_status }}"
+
+
+- name: Show Hadoop status
+  hosts: httpfs
+  tasks:
+    - name: HttpFSServerWebServer status
+      debug:
+        msg:
+          - "{{ httpfs_status }}"
