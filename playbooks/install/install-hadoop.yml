@@ -231,7 +231,7 @@
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
 
 - name: Start httpfs
-  hosts: "{{ groups['namenode'][0] }}"
+  hosts: httpfs
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
