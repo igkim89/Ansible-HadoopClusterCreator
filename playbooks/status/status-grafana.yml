@@ -1,0 +1,23 @@
+---
+
+- name: Start Grafana
+  hosts: grafana
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        grafana_status: "Grafana webserver is stopped."
+    - name: Check grafana process
+      shell: "/usr/bin/ps -ef | grep 'grafana server web' | grep -v grep"
+      register: grafana_ps
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        grafana_status: "Grafana webserver is running."
+      when: '"grafana server web" not in grafana_status.stdout'
+    - name: Grafana status
+      debug:
+        msg:
+          - "{{ grafana_status }}"
