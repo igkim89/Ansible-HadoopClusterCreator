@@ -54,23 +54,16 @@
     - name: Start Journalnode
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
       when: '"JournalNode" not in journalnode_jps.stdout'
+    - name: Journalnode status
+      debug:
+        msg: Journalnode already running.
+      when: '"JournalNode" in journalnode_jps.stdout'
 
 - name: Start NameNode, JournalNode, ZKFC
   hosts: "{{ groups['namenode'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-# Namenode format을 자동으로 진행하는건 위험
-#    - name: Check NameNode formatted
-#      stat:
-#        path: "{{ hadoop.hdfs.namenode_dir }}/current"
-#      register: nn_format
-#    - name: Format NameNode
-#      expect:
-#        command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
-#        responses:
-#          '*Re-format filesystem in Storage Directory*': 'Y'
-#      when: not nn_format.stat.exists
     - name: Start NameNode, JournalNode, ZKFC
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
@@ -109,7 +102,7 @@
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
 
 - name: Start httpfs
-  hosts: "{{ groups['namenode'][0] }}"
+  hosts: httpfs
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
