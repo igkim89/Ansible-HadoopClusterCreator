@@ -1,0 +1,25 @@
+- name: Setup Active NameNode
+  hosts: "{{ groups['namenode'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check already format (1/n)
+      stat:
+        path: "{{ hadoop.hdfs.namenode_dir[0] }}/current/VERSION"
+      register: version_result
+    - name: Check already format (2/n)
+      stat:
+        path: "{{ hadoop.hdfs.namenode_dir[0] }}/in_use.lock"
+      register: lock_result
+    - name: True
+      debug:
+        msg: "파일이 있다 -> 포맷 안함"
+      when: >
+        (not version_result.stat.exists)
+        and
+        (not lock_result.stat.exists)
+    - name: False
+      debug:
+        var:
+          - version_result
+          - lock_result
