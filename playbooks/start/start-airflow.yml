@@ -7,15 +7,15 @@
   become: no
   tasks:
     - name: Check Airflow webserver
-      shell: "/usr/bin/ps -ef | grep 'master \[airflow-webserver\]'"
+      shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
       register: webserver_result
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
-      when: "master [airflow-webserver]" not in webserver_result
+      when: '"master [airflow-webserver]" not in webserver_result.stdout'
     - name: Airflow webserver status
       debug:
         msg: Airflow webserver already running.
-      when: "master [airflow-webserver]" in webserver_result
+      when: '"master [airflow-webserver]" in webserver_result.stdout'
 
 ## Start Scheduler
 - name: Start Airflow scheduler
@@ -28,11 +28,11 @@
       register: scheduler_result
     - name: Start Airflow scheduler
       command: "~/.pyenv/shims/airflow scheduler -D"
-      when: "airflow scheduler" not in scheduler_result
+      when: '"airflow scheduler" not in scheduler_result.stdout'
     - name: Airflow scheduler status
       debug:
         msg: Airflow scheduler already running.
-      when: "airflow scheduler" in scheduler_result
+      when: '"airflow scheduler" in scheduler_result.stdout'
 
 ### Start Celery
 #- name: Start Celery flower
