@@ -8,10 +8,10 @@
     grafana_home: "{{ bigdata_home }}/grafana"
   tasks:
     - name: Check grafana process
-      shell: "/usr/bin/ps -ef | grep 'grafana server web' | grep -v grep"
+      shell: "/usr/bin/ps -ef | grep 'grafana server' | grep -v grep"
       register: grafana_status
       failed_when: false
     - name: Start Grafana
       shell: "/usr/bin/nohup {{ grafana_home }}/bin/grafana-server --config {{ grafana_home }}/conf/defaults.ini --homepath {{ grafana_home }} web > {{ grafana_home }}/logs/grafana.log 2>&1 &"
-      when: '"grafana server web" not in grafana_status.stdout'
+      when: '"grafana server" not in grafana_status.stdout'
 

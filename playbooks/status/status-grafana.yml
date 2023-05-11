@@ -10,13 +10,13 @@
         cacheable: yes
         grafana_status: "Grafana webserver is stopped."
     - name: Check grafana process
-      shell: "/usr/bin/ps -ef | grep 'grafana server web' | grep -v grep"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'grafana server'"
       register: grafana_ps
     - name: Set status
       set_fact:
         cacheable: yes
         grafana_status: "Grafana webserver is running."
-      when: '"grafana server web" not in grafana_status.stdout'
+      when: '"grafana server" not in grafana_ps.stdout'
     - name: Grafana status
       debug:
         msg:
