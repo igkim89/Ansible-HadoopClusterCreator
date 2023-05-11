@@ -37,9 +37,6 @@
         src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
         dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
         state: link
-    - name: 디버깅
-      debug:
-        msg: "debugging.."
     - name: Edit Java home
       lineinfile:
         path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
