@@ -1,0 +1,147 @@
+- name: Check JournalNode status
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        journalnode_status: "Journalnode is stopped."
+    - name: Check JournalNode jps
+      command: "/usr/bin/jps"
+      register: journalnode_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        journalnode_status: "Journalnode is running."
+      when: '"JournalNode" in journalnode_jps.stdout'
+
+
+- name: Check NameNode status
+  hosts: namenode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        namenode_status: "NameNode is stopped."
+    - name: Check NameNode jps
+      command: "/usr/bin/jps"
+      register: namenode_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        namenode_status: "NameNode is running."
+      when: '"NameNode" in namenode_jps.stdout'
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        zkfc_status: "DFSZKFailoverController is stopped."
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        zkfc_status: "DFSZKFailoverController is running."
+      when: '"DFSZKFailoverController" in namenode_jps.stdout'
+
+
+- name: Check DataNode status
+  hosts: datanode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        datanode_status: "DataNode is stopped."
+    - name: Check DataNode jps
+      command: "/usr/bin/jps"
+      register: datanode_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        datanode_status: "DataNode is running."
+      when: '"DataNode" in datanode_jps.stdout'
+
+
+- name: Check ResourceManager status
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        resourcemanager_status: "ResourceManager is stopped."
+    - name: Check ResourceManager jps
+      command: "/usr/bin/jps"
+      register: resourcemanager_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        resourcemanager_status: "ResourceManager is running."
+      when: '"ResourceManager" in resourcemanager_jps.stdout'
+
+
+- name: Check NodeManager status
+  hosts: nodemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        nodemanager_status: "NodeManager is stopped."
+    - name: Check NodeManager jps
+      command: "/usr/bin/jps"
+      register: nodemanager_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        nodemanager_status: "NodeManager is running."
+      when: '"NodeManager" in nodemanager_jps.stdout'
+
+
+- name: Check JobHistoryServer status
+  hosts: jobhistoryserver
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        jobhistoryserver_status: "JobHistoryServer is stopped."
+    - name: Check JobHistoryServer jps
+      command: "/usr/bin/jps"
+      register: jobhistoryserver_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        jobhistoryserver_status: "JobHistoryServer is running."
+      when: '"JobHistoryServer" in jobhistoryserver_jps.stdout'
+
+
+- name: Check HttpFSServerWebServer status
+  hosts: httpfs
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        httpfs_status: "HttpFSServerWebServer is stopped."
+    - name: Check JobHistoryServer jps
+      command: "/usr/bin/jps"
+      register: httpfs_jps
+      changed_when: False
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        httpfs_status: "HttpFSServerWebServer is running."
+      when: '"HttpFSServerWebServer" in httpfs_jps.stdout'
