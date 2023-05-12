@@ -1,0 +1,56 @@
+---
+
+- name: Check HBase status
+  hosts: hbase-master
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        hmaster_status: "HBase Master is stopped."
+    - name: Check HBase master
+      shell: "/usr/bin/ps -ef | grep 'hbase.master.HMaster'"
+      register: hmaster_ps
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        hmaster_status: "HBase Master is running."
+      when: '"hbase.master.HMaster" in hmaster_ps.stdout'
+
+
+- name: Check HBase status
+  hosts: region-server
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        region_status: "HBase RegionServer is stopped."
+    - name: Check HBase regionserver
+      shell: "/usr/bin/ps -ef | grep 'hbase.regionserver.HRegionServer'"
+      register: region_ps
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        region_status: "HBase RegionServer is running."
+      when: '"hbase.regionserver.HRegionServer" in region_ps.stdout'
+
+
+- name: Show HBase status
+  hosts: hbase-master
+  tasks:
+    - name: HBase Master status
+      debug:
+        msg:
+          - "{{ hmaster_status }}"
+
+
+- name: Show HBase status
+  hosts: region-server
+  tasks:
+    - name: HBase RegionServer status
+      debug:
+        msg:
+          - "{{ region_status }}"
