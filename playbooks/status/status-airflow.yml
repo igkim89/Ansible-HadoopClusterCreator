@@ -1,6 +1,6 @@
 ---
 
-- name: Airflow webserver status
+- name: Check Airflow webserver status
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
