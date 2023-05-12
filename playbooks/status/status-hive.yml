@@ -1,0 +1,56 @@
+---
+
+- name: Check Hive status
+  hosts: hive-server2
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        hs2_status: "HiveServer2 is stopped."
+    - name: Check HiveServer2
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
+      register: hs2_ps
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        hs2_status: "HiveServer2 is running."
+      when: '"hive.service.server.HiveServer2" in hs2_ps.stdout'
+
+
+- name: Check Hive status
+  hosts: metastore
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        meta_status: "Hive Metastore is stopped."
+    - name: Check Hive Metastore
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
+      register: meta_ps
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        meta_status: "Hive Metastore is running."
+      when: '"hive.metastore.HiveMetaStore" in meta_ps.stdout'
+
+
+- name: Show Hive status
+  hosts: hive-server2
+  tasks:
+    - name: HiveServer2 status
+      debug:
+        msg:
+          - "{{ hs2_status }}"
+
+
+- name: Show Hive status
+  hosts: metastore
+  tasks:
+    - name: Hive Metastore status
+      debug:
+        msg:
+          - "{{ meta_status }}"
