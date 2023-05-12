@@ -10,7 +10,7 @@
         cacheable: yes
         hmaster_status: "HBase Master is stopped."
     - name: Check HBase master
-      shell: "/usr/bin/ps -ef | grep 'hbase.master.HMaster'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hbase.master.HMaster'"
       register: hmaster_ps
     - name: Set status
       set_fact:
@@ -29,7 +29,7 @@
         cacheable: yes
         region_status: "HBase RegionServer is stopped."
     - name: Check HBase regionserver
-      shell: "/usr/bin/ps -ef | grep 'hbase.regionserver.HRegionServer'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hbase.regionserver.HRegionServer'"
       register: region_ps
     - name: Set status
       set_fact:

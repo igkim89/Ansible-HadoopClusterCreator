@@ -10,7 +10,7 @@
         cacheable: yes
         webserver_status: "Airflow webserver is stopped."
     - name: Check Airflow webserver
-      shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'master \\[airflow-webserver\\]'"
       register: webserver_ps
     - name: Set status
       set_fact:
