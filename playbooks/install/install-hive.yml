@@ -27,6 +27,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ hive_home }}"
     - name: Delete installer
       file:
         path: "{{ bigdata_home }}/{{ installer.hive }}"
@@ -87,6 +88,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ hive_spark_home }}"
     - name: Delete installer
       file:
         path: "{{ bigdata_home }}/{{ installer.hive_spark }}"
@@ -121,7 +123,7 @@
         regexp: "^SKIP_HBASECP=false$"
         line: "SKIP_HBASECP=true"
 
-# 임시 주석 2023.03.27
+
 - name: Create hive metastore database
   hosts: mysql
   remote_user: "{{ remote_user }}"
@@ -130,12 +132,12 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Create Hive metastore database
-      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'CREATE DATABASE metastore;'"
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'CREATE DATABASE IF NOT EXISTS metastore;'"
       args:
         chdir: "{{ mysql.home_dir }}"
     - name: Create metastore user
       shell: |
-        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER 'hive'@'{{ item }}' IDENTIFIED BY '{{ hive.metastore.db_pw }}';"
+        bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "CREATE USER IF NOT EXISTS 'hive'@'{{ item }}' IDENTIFIED BY '{{ hive.metastore.db_pw }}';"
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hive'@'{{ item }}';"
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "GRANT ALL PRIVILEGES ON metastore.* TO 'hive'@'{{ item }}';"
         bin/mysql --socket=mysql.sock -uroot -p{{ mysql.root_pw }} -e "FLUSH PRIVILEGES;"
@@ -160,16 +162,25 @@
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod 777 /tmp"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod 777 /tmp/hive"
         - "{{ hadoop_home }}/bin/hdfs dfs -chmod g+w /user/hive/warehouse"
-      failed_when: false
+      register: ware_result
+      failed_when: >
+        ("File exists" not in ware_result.stderr) and
+        (ware_result.stderr != "")
     - name: Upload Spark library
       shell: "{{ item }}"
       with_items:
         - "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /hive-on-spark/archive"
         - "{{ hadoop_home }}/bin/hdfs dfs -put {{ hive_spark_home }}/jars/* /hive-on-spark/archive/"
-      failed_when: false
+      register: lib_result
+      failed_when: >
+        ("File exists" not in lib_result.stderr) and
+        (lib_result.stderr != "")
     - name: Create Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir /spark-logs"
-      failed_when: false
+      register: log_result
+      failed_when: >
+        ("File exists" not in log_result.stderr) and
+        (log_result.stderr != "")
 
 ############################################
 #  2023. 03. 10.
@@ -240,15 +251,35 @@
 #      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put {{ installer_home }}/tez/{{ installer.tez }} {{ tez.lib_dir }}/"
 #      when: 'installer.tez not in check_tez_lib.stdout'
 
+- name: Check metastore table
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check metastore table
+      command: "{{ mysql.home_dir }}/bin/mysql --socket={{ mysql.socket_dir }}/mysql.sock -uroot -p{{ mysql.root_pw }} -e 'SHOW TABLES FROM metastore;'"
+      args:
+        chdir: "{{ mysql.home_dir }}"
+      register: meta_result
+
+
 - name: Init schema Metastore
   hosts: "{{ groups['metastore'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"
+    meta_result: hostvars['mysql']['meta_result']
   tasks:
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
+      when: '"Unknown database" in meta_result.stderr'
+      failed_when: >
+        ("Unknown database" not in meta_result.stderr) and
+        (meta_result.stderr != "")
+    - name: another hostvars test
+      debug:
+        var: meta_result
 
 - name: Edit HCatalog configuration
   hosts: metastore
