@@ -244,7 +244,12 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check ResourceManager jps
+      command: "/usr/bin/jps"
+      register: rm_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
+      when: '"ResourceManager" not in rm_jps.stdout'
 
 - name: Start NodeManager
   hosts: nodemanager
