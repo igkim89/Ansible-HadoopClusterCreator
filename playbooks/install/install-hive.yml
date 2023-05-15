@@ -302,8 +302,13 @@
         path: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh"
         search_string: "export METASTORE_PORT=${METASTORE_PORT:-9083}"
         line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.metastore_port }}}"
+    - name: Check HCtalog process
+      command: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
+      register: meta_ps
+      changed_when: false
     - name: Start HCatalog server
       command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh start"
+      when: '"hive.metastore.HiveMetaStore" not in meta_ps.stdout'
 
 - name: Start HiveServer2
   hosts: hive-server2
@@ -312,8 +317,13 @@
   vars:
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
+    - name: Check HiveServer2 process
+      command: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
+      register: hs_ps
+      changed_when: false
     - name: Start HiveServer2
       shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 > /dev/null 2>&1 &"
+      when: '"hive.service.server.HiveServer2" not in hs_ps.stdout'
 
 
 
