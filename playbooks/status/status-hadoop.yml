@@ -7,7 +7,7 @@
       set_fact:
         cacheable: yes
         journalnode_status: "Journalnode is stopped."
-      c
+      no_log: true
     - name: Check JournalNode jps
       command: "/usr/bin/jps"
       register: journalnode_jps
