@@ -72,7 +72,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Check DataNode serivce
+    - name: Check DataNode jps
       command: "/usr/bin/jps"
       register: datanode_jps
       changed_when: False
@@ -85,25 +85,45 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check ResourceManager jps
+      command: "/usr/bin/jps"
+      register: rm_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start resourcemanager"
+      when: '"ResourceManager" not in rm_jps.stdout'
 
 - name: Start NodeManager
   hosts: nodemanager
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check NodeManager jps
+      command: "/usr/bin/jps"
+      register: nm_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+      when: '"NodeManager" not in nm_jps.stdout'
 
 - name: Start JobHistory Server
   hosts: jobhistoryserver
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check JobHistory Server jps
+      command: "/usr/bin/jps"
+      register: hs_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
+      when: '"JobHistoryServer" not in hs_jps.stdout'
 
 - name: Start httpfs
   hosts: httpfs
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check HttpFSServer jps
+      command: "/usr/bin/jps"
+      register: httpfs_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start httpfs"
+      when: '"HttpFSServerWebServer" not in httpfs_jps.stdout'
