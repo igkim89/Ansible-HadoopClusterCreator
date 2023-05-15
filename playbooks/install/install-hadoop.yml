@@ -158,7 +158,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Check journalnode jps
+    - name: Check JournalNode jps
       command: "/usr/bin/jps"
       register: journalnode_jps
       changed_when: False
@@ -218,8 +218,13 @@
         (not version_result.stat.exists)
         and
         (not lock_result.stat.exists)
+    - name: Check NameNode jps
+      command: "/usr/bin/jps"
+      register: namenode_jps
+      changed_when: False
     - name: Start Standby NameNode
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start namenode"
+      when: '"NameNode" not in namenode_jps.stdout'
 
 - name: Start DataNode
   hosts: datanode
