@@ -6,6 +6,13 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop httpfs"
+    - name: Check httpfs pid
+      shell: "/usr/bin/jps | grep 'HttpFSServerWebServer' | awk '{print $1}'"
+      register: httpfs_pid
+      failed_when: false
+    - name: Kill httpfs
+      command: "/usr/bin/kill -9 {{ httpfs_pid.stdout }}"
+      when: httpfs_pid.stdout != ""
 
 - name: Stop JobHistory Server
   hosts: jobhistoryserver
@@ -13,6 +20,13 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon stop historyserver"
+    - name: Check JobHistory Server pid
+      shell: "/usr/bin/jps | grep 'JobHistoryServer' | awk '{print $1}'"
+      register: hs_pid
+      failed_when: false
+    - name: Kill JobHistory Server
+      command: "/usr/bin/kill -9 {{ hs_pid.stdout }}"
+      when: hs_pid.stdout != ""
 
 - name: Stop NodeManager
   hosts: nodemanager
@@ -20,6 +34,13 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop nodemanager"
+    - name: Check NodeManager pid
+      shell: "/usr/bin/jps | grep 'NodeManager' | awk '{print $1}'"
+      register: nm_pid
+      failed_when: false
+    - name: Kill NodeManager
+      command: "/usr/bin/kill -9 {{ nm_pid.stdout }}"
+      when: nm_pid.stdout != ""
 
 - name: Stop ResourceManager
   hosts: resourcemanager
@@ -27,6 +48,13 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop resourcemanager"
+    - name: Check ResourceManager pid
+      shell: "/usr/bin/jps | grep 'ResourceManager' | awk '{print $1}'"
+      register: rm_pid
+      failed_when: false
+    - name: Kill ResourceManager
+      command: "/usr/bin/kill -9 {{ rm_pid.stdout }}"
+      when: rm_pid.stdout != ""
 
 - name: Stop DataNode
   hosts: datanode
@@ -36,6 +64,13 @@
     - name: Stop DataNode
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop datanode"
       failed_when: False
+    - name: Check DataNode pid
+      shell: "/usr/bin/jps | grep 'DataNode' | awk '{print $1}'"
+      register: dn_pid
+      failed_when: false
+    - name: Kill DataNode
+      command: "/usr/bin/kill -9 {{ dn_pid.stdout }}"
+      when: dn_pid.stdout != ""
 
 - name: Stop Active NameNode
   hosts: "{{ groups['namenode'][0] }}"
@@ -44,3 +79,36 @@
     - name: Stop NameNode, JournalNode, ZKFC
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/stop-dfs.sh"
       failed_when: False
+
+- name: Stop NameNode
+  hosts: namenode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check NameNode pid
+      shell: "/usr/bin/jps | grep 'NameNode' | awk '{print $1}'"
+      register: nn_pid
+      failed_when: false
+    - name: Kill NameNode
+      command: "/usr/bin/kill -9 {{ nn_pid.stdout }}"
+      when: nn_pid.stdout != ""
+    - name: Check ZKFC pid
+      shell: "/usr/bin/jps | grep 'DFSZKFailoverController' | awk '{print $1}'"
+      register: zkfc_pid
+      failed_when: false
+    - name: Kill ZFKC
+      command: "/usr/bin/kill -9 {{ zkfc_pid.stdout }}"
+      when: zkfc_pid.stdout != ""
+
+- name: Stop JournalNode
+  hosts: journalnode
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check JournalNode pid
+      shell: "/usr/bin/jps | grep 'JournalNode' | awk '{print $1}'"
+      register: jn_pid
+      failed_when: false
+    - name: Kill JournalNode
+      command: "/usr/bin/kill -9 {{ jn_pid.stdout }}"
+      when: jn_pid.stdout != ""
