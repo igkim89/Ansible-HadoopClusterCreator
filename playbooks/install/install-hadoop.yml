@@ -269,14 +269,24 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check JobHistory Server jps
+      command: "/usr/bin/jps"
+      register: hs_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
+      when: '"JobHistoryServer" not in hs_jps.stdout'
 
 - name: Start httpfs
   hosts: httpfs
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check HttpFSServer jps
+      command: "/usr/bin/jps"
+      register: httpfs_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start httpfs"
+      when: '"HttpFSServerWebServer" not in httpfs_jps.stdout'
 
 ## 계정별 디렉토리 생성
 - name: Create user home directory
