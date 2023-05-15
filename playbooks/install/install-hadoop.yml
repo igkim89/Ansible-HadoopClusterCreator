@@ -232,7 +232,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Check DataNode serivce
+    - name: Check DataNode jps
       command: "/usr/bin/jps"
       register: datanode_jps
       changed_when: False
