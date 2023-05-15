@@ -257,7 +257,12 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
+    - name: Check NodeManager jps
+      command: "/usr/bin/jps"
+      register: nm_jps
+      changed_when: False
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+      when: '"NodeManager" not in nm_jps.stdout'
 
 - name: Start JobHistory Server
   hosts: jobhistoryserver
