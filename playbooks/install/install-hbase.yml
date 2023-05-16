@@ -25,6 +25,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ hbase_home }}"
     - name: Delete installer
       file:
         path: "{{ bigdata_home }}/{{ installer.hbase }}"
@@ -52,6 +53,10 @@
   tasks:
     - name: Create Spark archive directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark/archive"
+      register: arc_result
+      failed_when: >
+        ("File exists" not in arc_result.stderr) and
+        (arc_result.stderr != "")
     - name: Upload HBase library
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ hbase_home }}/lib/hbase-* /spark/archive/"
       register: hb_result
@@ -128,7 +133,8 @@
   tasks:
     - name: Start master process
       shell: "{{ hbase_home }}/bin/start-hbase.sh"
-    - name: Start thrift server
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"
+## 미사용으로 인한 임시 제거
+#    - name: Start thrift server
+#      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"
 
 

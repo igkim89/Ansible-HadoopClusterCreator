@@ -9,5 +9,7 @@
   tasks:
     - name: Start master process
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/start-hbase.sh"
-    - name: Start thrift server
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"
+
+## 미사용으로 인한 임시 제거
+#    - name: Start thrift server
+#      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"

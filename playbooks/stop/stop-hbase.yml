@@ -7,9 +7,9 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-    - name: Stop HBase thrift server
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop thrift"
-      failed_when: False
+#    - name: Stop HBase thrift server
+#      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop thrift"
+#      failed_when: False
     - name: Stop HBase service
       command: "{{ hbase_home }}/bin/stop-hbase.sh"
       failed_when: False
