@@ -25,6 +25,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ spark_home }}"
     - name: Delete installer
       file:
         path: "{{ bigdata_home }}/{{ installer.spark }}"
@@ -71,6 +72,7 @@
         - "hive-hbase-handler-3.1.2-v2.jar"
         - "hive-common-2.3.9-v2.jar"
 
+
 - name: Spark Preparations
   hosts: "{{ groups['spark'][0] }}"
   remote_user: "{{ remote_user }}"
@@ -81,8 +83,16 @@
   tasks:
     - name: Create Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark-logs"
+      register: slog_result
+      failed_when: >
+        ("File exists" not in slog_result.stderr) and
+        (slog_result.stderr != "")
     - name: Create Spark archive directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark/archive"
+      register: arc_result
+      failed_when: >
+        ("File exists" not in arc_result.stderr) and
+        (arc_result.stderr != "")
     - name: Upload Spark jars
       shell: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jars/* /spark/archive/"
       register: upload_spark_jars
@@ -106,7 +116,10 @@
         (upload_handler.stderr != "")
     - name: Remove hive-common in HDFS
       command: "{{ hadoop_home }}/bin/hdfs dfs -rm /spark/archive/hive-common-2.3.9.jar"
-      failed_when: false
+      register: rm_result
+      failed_when: >
+        ("No such file or directory" not in rm_result.stderr) and
+        (rm_result.stderr != "")
     - name: Upload hive-common
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
       register: upload_common
@@ -115,12 +128,17 @@
         (upload_common.stderr != "")
 
 
-- name: Start history server
+- name: Start History server
   hosts: spark-history
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     spark_home: "{{ bigdata_home }}/spark"
   tasks:
-    - name: Start history server
+    - name: Check History server jps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer'"
+      register: hs_ps
+      failed_when: false
+    - name: Start History server
       command: "{{ spark_home }}/sbin/start-history-server.sh"
+      when: '"spark.deploy.history.HistoryServer" not in hs_ps.stdout'

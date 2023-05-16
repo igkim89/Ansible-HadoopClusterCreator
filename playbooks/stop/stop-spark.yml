@@ -5,10 +5,10 @@
   vars:
     spark_home: "{{ bigdata_home }}/spark"
   tasks:
-    - name: Check history server in jps
-      command: "/usr/bin/jps"
-      register: hs_jps
-      changed_when: False
-    - name: Stop history server
+    - name: Find History server process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer' | awk '{print $2}'"
+      register: hs_pid
+      failed_when: false
+    - name: Stop History server
       command: "{{ spark_home }}/sbin/stop-history-server.sh"
-      when: '" HistoryServer" in hs_jps.stdout'
+      when: hs_pid.stdout !=""
