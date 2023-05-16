@@ -13,4 +13,4 @@
       failed_when: false
     - name: Start NodeExporter
       shell: "/usr/bin/nohup {{ node_exporter_home }}/node_exporter > {{ node_exporter_home }}/logs/node_exporter.log 2>&1 &"
-      when: '"node_exporter" not in ne_pid'
+      when: '"node_exporter" not in ne_pid.stdout'
