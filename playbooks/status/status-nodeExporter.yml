@@ -20,7 +20,7 @@
       set_fact:
         cacheable: yes
         ne_status: "NodeExporter is running."
-      when: '"{{ node_exporter_home }}/node_exporter" in ne_ps.stdout'
+      when: 'node_exporter_home + "/node_exporter" in ne_ps.stdout'
       no_log: true
     - name: Show NodeExporter status
       debug:
