@@ -10,5 +10,5 @@
       register: hs_pid
       failed_when: false
     - name: Stop History server
-      command: "{{ spark_home }}/sbin/stop-history-server.sh"
+      shell: "/usr/bin/kill -9 {{ hs_pid.stdout }}"
       when: hs_pid.stdout !=""
