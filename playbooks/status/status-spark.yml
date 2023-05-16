@@ -1,0 +1,28 @@
+---
+
+- name: Check History server status
+  hosts: spark-history
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        hs_status: "History server is stopped."
+      no_log: true
+    - name: Check History server
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer'"
+      register: hs_ps
+      no_log: true
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        hs_status: "History server is running."
+      when: '"spark.deploy.history.HistoryServer" in hs_ps.stdout'
+      no_log: true
+    - name: Show History server status
+      debug:
+        msg:
+          - "{{ hs_status }}"
