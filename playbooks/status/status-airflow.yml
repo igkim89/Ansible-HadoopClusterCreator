@@ -9,14 +9,17 @@
       set_fact:
         cacheable: yes
         webserver_status: "Airflow webserver is stopped."
+      no_log: true
     - name: Check Airflow webserver
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'master \\[airflow-webserver\\]'"
       register: webserver_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         webserver_status: "Airflow webserver is running."
       when: '"master [airflow-webserver]" in webserver_ps.stdout'
+      no_log: true
 
 
 - name: Airflow scheduler status
@@ -28,14 +31,17 @@
       set_fact:
         cacheable: yes
         scheduler_status: "Airflow scheduler is stopped."
+      no_log: true
     - name: Check Airflow scheduler
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
       register: scheduler_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         scheduler_status: "Airflow scheduler is running."
       when: '"airflow scheduler" in scheduler_ps.stdout'
+      no_log: true
 
 
 - name: Show Airflow status

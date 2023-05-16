@@ -9,14 +9,17 @@
       set_fact:
         cacheable: yes
         hs2_status: "HiveServer2 is stopped."
+      no_log: true
     - name: Check HiveServer2
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
       register: hs2_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         hs2_status: "HiveServer2 is running."
       when: '"hive.service.server.HiveServer2" in hs2_ps.stdout'
+      no_log: true
 
 
 - name: Check Hive status
@@ -28,14 +31,17 @@
       set_fact:
         cacheable: yes
         meta_status: "Hive Metastore is stopped."
+      no_log: true
     - name: Check Hive Metastore
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
       register: meta_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         meta_status: "Hive Metastore is running."
       when: '"hive.metastore.HiveMetaStore" in meta_ps.stdout'
+      no_log: true
 
 
 - name: Show Hive status

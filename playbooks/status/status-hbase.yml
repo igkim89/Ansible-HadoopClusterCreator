@@ -9,14 +9,17 @@
       set_fact:
         cacheable: yes
         hmaster_status: "HBase Master is stopped."
+      no_log: true
     - name: Check HBase master
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hbase.master.HMaster'"
       register: hmaster_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         hmaster_status: "HBase Master is running."
       when: '"hbase.master.HMaster" in hmaster_ps.stdout'
+      no_log: true
 
 
 - name: Check HBase status
@@ -28,14 +31,17 @@
       set_fact:
         cacheable: yes
         region_status: "HBase RegionServer is stopped."
+      no_log: true
     - name: Check HBase regionserver
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hbase.regionserver.HRegionServer'"
       register: region_ps
+      no_log: true
     - name: Set status
       set_fact:
         cacheable: yes
         region_status: "HBase RegionServer is running."
       when: '"hbase.regionserver.HRegionServer" in region_ps.stdout'
+      no_log: true
 
 
 - name: Show HBase status
