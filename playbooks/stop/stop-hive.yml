@@ -8,7 +8,7 @@
     - hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Find HiveServer2 process ID
-      shell: "/usr/bin/ps -ef | grep hive.service.server.HiveServer2 | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep -v grep | 'grep hive.service.server.HiveServer2' | awk '{print $2}'"
       register: hive_server2_pid
       failed_when: false
     - name: Kill HiveServer2 process
@@ -22,5 +22,10 @@
   vars:
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
-    - name: Stop HCatalog server
-      shell: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh stop"
+    - name: Find HCtalog process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore' | awk '{print $2}'"
+      register: hive_meta_pid
+      failed_when: false
+    - name: Stop HCatalog process
+      command: "/usr/bin/kill -9 {{ hive_meta_pid.stdout }}"
+      when: hive_meta_pid.stdout !=""
