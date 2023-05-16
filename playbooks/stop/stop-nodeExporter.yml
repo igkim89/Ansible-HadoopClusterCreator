@@ -8,7 +8,7 @@
     node_exporter_home: "{{ bigdata_home }}/node_exporter"
   tasks:
     - name: Find NodeExporter process ID
-      shell: "/usr/bin/ps -ef | grep node_exporter | grep -v grep | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep node_exporter | awk '{print $2}'"
       register: node_exporter_pid
       failed_when: false
     - name: Kill NodeExporter

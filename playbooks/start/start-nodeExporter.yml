@@ -8,7 +8,7 @@
     node_exporter_home: "{{ bigdata_home }}/node_exporter"
   tasks:
     - name: Check NodeExporter PID
-      shell: "/usr/bin/ps -ef | grep node_exporter | grep -v grep"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep node_exporter"
       register: ne_pid
       failed_when: false
     - name: Start NodeExporter
