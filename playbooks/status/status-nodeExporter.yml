@@ -1,0 +1,30 @@
+---
+
+- name: Check NodeExporter status
+  hosts: node-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        ne_status: "NodeExporter is stopped."
+      no_log: true
+    - name: Check NodeExporter
+      shell: "/usr/bin/ps -ef | grep -v grep | grep '{{ node_exporter_home }}/node_exporter'"
+      register: ne_ps
+      no_log: true
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        ne_status: "NodeExporter is running."
+      when: '"{{ node_exporter_home }}/node_exporter" in ne_ps.stdout'
+      no_log: true
+    - name: Show NodeExporter status
+      debug:
+        msg:
+          - "{{ ne_status }}"
+
+
