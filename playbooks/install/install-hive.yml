@@ -261,6 +261,10 @@
       args:
         chdir: "{{ mysql.home_dir }}"
       register: meta_result
+    - name: Add host
+      add_host:
+        name: meta
+        meta_result: "{{ meta_result }}"
 
 
 - name: Init schema Metastore
@@ -269,17 +273,13 @@
   become: no
   vars:
     hive_home: "{{ bigdata_home }}/hive"
-    meta_result: hostvars['mysql']['meta_result']
+    meta_result: "{{ hostvars['meta']['meta_result'] }}"
   tasks:
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
       when: '"Unknown database" in meta_result.stderr'
-      failed_when: >
-        ("Unknown database" not in meta_result.stderr) and
-        (meta_result.stderr != "")
-    - name: another hostvars test
-      debug:
-        var: meta_result
+      failed_when: false
+
 
 - name: Edit HCatalog configuration
   hosts: metastore
@@ -303,7 +303,7 @@
         search_string: "export METASTORE_PORT=${METASTORE_PORT:-9083}"
         line: "export METASTORE_PORT=${METASTORE_PORT:-{{ hive.metastore.metastore_port }}}"
     - name: Check HCtalog process
-      command: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
       register: meta_ps
       changed_when: false
     - name: Start HCatalog server
@@ -318,7 +318,7 @@
     hive_home: "{{ bigdata_home }}/hive"
   tasks:
     - name: Check HiveServer2 process
-      command: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
       register: hs_ps
       changed_when: false
     - name: Start HiveServer2
