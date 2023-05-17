@@ -56,14 +56,18 @@
         name:
           - "libaio"
           - "numactl"
-    - name: Check already format
+    - name: Check already format (1/3)
       stat:
-        path: "{{ mysql.data_dir }}/{{ item.key }}"
-      register: "{{ item.value }}"
-      with_dict:
-        "mysql": "my_result"
-        "sys": "sys_result"
-        "performance_schema": "perf_result"
+        path: "{{ mysql.data_dir }}/mysql"
+      register: my_result
+    - name: Check already format (2/3)
+      stat:
+        path: "{{ mysql.data_dir }}/sys"
+      register: sys_result
+    - name: Check already format (3/3)
+      stat:
+        path: "{{ mysql.data_dir }}/performance_schema"
+      register: perf_result
     - name: Install MySQL
       command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
       when: >
