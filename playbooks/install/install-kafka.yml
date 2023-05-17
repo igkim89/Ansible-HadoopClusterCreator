@@ -26,6 +26,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ kafka_home }}"
     - name: Delete installer
       file:
         path: "{{ bigdata_home }}/{{ installer.kafka }}"
@@ -69,8 +70,22 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
-    - command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
+    - name: Check already format (1/2)
+      stat:
+        path: "{{ kafka.log_dir }}/bootstrap.checkpoint"
+      register: boot_result
+    - name: Check already format (2/2)
+      stat:
+        path: "{{ kafka.log_dir }}/meta.properties"
+      register: meta_result
+    - name: Create Kafka Cluster ID
+      command: "{{ kafka_home }}/bin/kafka-storage.sh random-uuid"
       register: cluster_uuid
+      when: >
+        (not boot_result.stat.exists)
+        and
+        (not meta_result.stat.exists)
+
 
 - name: Install Kafka cluster
   hosts: kafka
@@ -80,13 +95,27 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
-    - name: Debug uuid
-      debug:
-        msg: "Cluster ID는 {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} 입니다."
+#    - name: Debug uuid
+#      debug:
+#        msg: "Cluster ID는 {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} 입니다."
     - name: Format log directory
       command: "{{ kafka_home }}/bin/kafka-storage.sh format -t {{ hostvars[groups['kafka'][0]]['cluster_uuid']['stdout'] }} -c {{ server_conf }}"
+      when: hostvars[groups['kafka'][0]]['cluster_uuid'] is defined
+    - name: Check Kafka jps
+      command: "/usr/bin/jps"
+      register: kafka_jps
+      failed_when: false
+    - name: Check Kafka ps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'kafka.Kafka'"
+      register: kafka_ps
+      failed_when: false
     - name: Start Kafka cluster
       command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
+      when: >
+        ('"kafka.Kafka" not in kafka_ps.stdout')
+        and
+        ('"Kafka" not in kafka_jps.stdout')
+
 
 - name: Create Test Topic
   hosts: "{{ groups['kafka'][0] }}"
@@ -97,5 +126,10 @@
   tasks:
     - name: Create topic
       command: "{{ kafka_home }}/bin/kafka-topics.sh --create --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"
+      register: create_result
+      failed_when: >
+        ("already exists." not in create_result.stderr)
+        and
+        (create_result.stderr != "")
     - name: Describe topic
       command: "{{ kafka_home }}/bin/kafka-topics.sh --describe --topic test-topic --bootstrap-server {% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}{{ k }}:{{ kafka.bootstrap_port }}{% endfor %}"

@@ -8,5 +8,17 @@
     kafka_home: "{{ bigdata_home }}/kafka"
     server_conf: "{{ kafka_home }}/config/kraft/server.properties"
   tasks:
+    - name: Check Kafka jps
+      command: "/usr/bin/jps"
+      register: kafka_jps
+      failed_when: false
+    - name: Check Kafka ps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'kafka.Kafka'"
+      register: kafka_ps
+      failed_when: false
     - name: Start Kafka cluster
       command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
+      when: >
+        ('"kafka.Kafka" not in kafka_ps.stdout')
+        and
+        ('"Kafka" not in kafka_jps.stdout')
