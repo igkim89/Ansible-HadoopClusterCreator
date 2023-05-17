@@ -13,6 +13,7 @@
         hue_status: "Hue server is stopped."
       no_log: true
     - name: Check Hue
+      become: yes
       shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
       register: hue_ps
       no_log: true
@@ -20,7 +21,7 @@
       set_fact:
         cacheable: yes
         hue_status: "Hue server is running."
-      when: '"hue-server" in hs_ps.stdout'
+      when: '"hue-server" in hue_ps.stdout'
       no_log: true
     - name: Show Hue server status
       debug:
