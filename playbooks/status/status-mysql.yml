@@ -1,0 +1,26 @@
+---
+
+- name: Check MySQL server status
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        mysql_status: "MySQL server is stopped."
+      no_log: true
+    - name: Check MySQL server
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'mysqld' | grep 'port={{ mysql.jdbc_port }}'"
+      register: mysql_ps
+      no_log: true
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        mysql_status: "MySQL server is running."
+      when: '"mysqld" in mysql_ps.stdout'
+      no_log: true
+    - name: Show MySQL server status
+      debug:
+        msg:
+          - "{{ mysql_status }}"
