@@ -1,0 +1,35 @@
+---
+
+- name: Check Kafka Broker status
+  hosts: kafka
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kafka_home: "{{ bigdata_home }}/kafka"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        kafka_status: "Kafka Broker is stopped."
+      no_log: true
+    - name: Check Kafka Broker (1/2)
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'kafka.Kafka'"
+      register: kafka_ps
+      no_log: true
+    - name: Check Kafka Broker (2/2)
+      command: "/usr/bin/jps"
+      register: kafka_jps
+      no_log: true
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        kafka_status: "Kafka Broker is running."
+      when: >
+        ('"kafka.Kafka" in kafka_ps.stdout')
+        and
+        ('"Kafka" in kafka_jps.stdout')
+      no_log: true
+    - name: Show Kafka Broker status
+      debug:
+        msg:
+          - "{{ kafka_status }}"
