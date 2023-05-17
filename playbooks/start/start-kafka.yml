@@ -19,6 +19,6 @@
     - name: Start Kafka cluster
       command: "/usr/bin/nohup {{ kafka_home }}/bin/kafka-server-start.sh -daemon {{ server_conf }}"
       when: >
-        ('"kafka.Kafka" not in kafka_ps.stdout')
+        ("kafka.Kafka" not in kafka_ps.stdout)
         and
-        ('"Kafka" not in kafka_jps.stdout')
+        ("Kafka" not in kafka_jps.stdout)
