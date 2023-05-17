@@ -22,6 +22,7 @@
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+        creates: "{{ mysql.home_dir }}"
     - name: Delete installer
       file:
         path: "{{ mysql_home_parent }}/{{ installer.mysql }}"
@@ -55,10 +56,28 @@
         name:
           - "libaio"
           - "numactl"
+    - name: Check already format
+      stat:
+        path: "{{ mysql.data_dir }}/{{ item.key }}"
+      register: "{{ item.value }}"
+      with_dict:
+        "mysql": "my_result"
+        "sys": "sys_result"
+        "performance_schema": "perf_result"
     - name: Install MySQL
       command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
+      when: >
+        (not my_result.stat.exists)
+        and
+        (not sys_result.stat.exists)
+        and
+        (not perf_result.stat.exists)
+    - name: Check MySQL ps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'mysqld' | grep 'port={{ mysql.jdbc_port }}'"
+      register: mysql_ps
     - name: Start MySQL
       shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
+      when: '"mysqld" not in mysql_ps.stdout'
     - name: Secure installation
       expect:
         command: "{{ mysql.home_dir }}/bin/mysql_secure_installation --defaults-file={{ mysql.home_dir }}/conf/my.cnf"
@@ -70,6 +89,12 @@
           'Disallow root login remotely\? \(Press y|Y for Yes, any other key for No\) :': 'y'
           'Remove test database and access to it\? \(Press y|Y for Yes, any other key for No\) :': 'y'
           'Reload privilege tables now\? \(Press y|Y for Yes, any other key for No\) :': 'y'
+      when: >
+        (not my_result.stat.exists)
+        and
+        (not sys_result.stat.exists)
+        and
+        (not perf_result.stat.exists)
     - name: Test MySQL
       command: "{{ mysql.home_dir }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
       register: test_result
