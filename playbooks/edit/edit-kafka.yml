@@ -20,3 +20,9 @@
         "num.partitions": "{{ kafka.num_partition }}"
         "offsets.topic.replication.factor": "{{ kafka.topic_replication_factor }}"
         "advertised.listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }}"
+    - name: Edit jmx port
+      lineinfile:
+        path: "{{ kafka_home }}/bin/kafka-server-start.sh"
+        insertafter: "# limitations under the License."
+        regexp: "export JMX_PORT="
+        line: "export JMX_PORT={{ kafka.jmx_port }}"
