@@ -1,0 +1,28 @@
+---
+
+- name: Check Hue server status
+  hosts: hue
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hue_home: "{{ bigdata_home }}/hue"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        hue_status: "Hue server is stopped."
+      no_log: true
+    - name: Check Hue
+      shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
+      register: hue_ps
+      no_log: true
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        hue_status: "Hue server is running."
+      when: '"hue-server" in hs_ps.stdout'
+      no_log: true
+    - name: Show Hue server status
+      debug:
+        msg:
+          - "{{ hue_status }}"

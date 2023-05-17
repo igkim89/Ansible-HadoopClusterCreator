@@ -17,7 +17,7 @@
     mysql_ip: "{{ hostvars[groups['mysql'][0]]['ansible_default_ipv4']['address'] }}"
     nn_ip: "{{ hostvars[groups['namenode'][0]]['ansible_default_ipv4']['address'] }}"
   tasks:
-    - name: Create Create bigdata home directory
+    - name: Create bigdata home directory
       become: yes
       file:
         dest: "{{ bigdata_home }}"
@@ -106,7 +106,6 @@
     - name: Check Hue process
       shell: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml ps -a | grep hue | grep ago | grep Up"
       register: hue_ps
-      changed_when: false
       failed_when: false
     - name: Start Hue server
       command: "/usr/bin/docker compose -f {{ hue_home }}/docker-compose.yml up -d"
