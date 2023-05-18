@@ -47,10 +47,17 @@
 
 
 - name: Show Airflow status
-  hosts: airflow-webserver, airflow-scheduler
+  hosts: airflow-webserver
   tasks:
     - name: Airflow status
       debug:
         msg:
           - "{{ webserver_status }}"
+
+- name: Show Airflow status
+  hosts: airflow-scheduler
+  tasks:
+    - name: Airflow status
+      debug:
+        msg:
           - "{{ scheduler_status }}"
