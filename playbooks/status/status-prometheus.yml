@@ -1,0 +1,29 @@
+---
+
+- name: Check Prometheus server status
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        prom_status: "Prometheus server is stopped."
+      no_log: true
+    - name: Check Prometheus server
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/prometheus | grep {{ prometheus.web_port }}"
+      register: prom_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        prom_status: "Prometheus server is running."
+      when: '"prometheus" in prom_ps.stdout'
+      no_log: true
+    - name: Show Prometheus server status
+      debug:
+        msg:
+          - "{{ prom_status }}"
