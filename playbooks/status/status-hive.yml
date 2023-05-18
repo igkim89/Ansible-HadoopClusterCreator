@@ -14,6 +14,7 @@
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
       register: hs2_ps
       no_log: true
+      failed_when: false
     - name: Set status
       set_fact:
         cacheable: yes
@@ -36,6 +37,7 @@
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
       register: meta_ps
       no_log: true
+      failed_when: false
     - name: Set status
       set_fact:
         cacheable: yes

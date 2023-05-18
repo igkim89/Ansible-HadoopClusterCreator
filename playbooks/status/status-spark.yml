@@ -16,6 +16,7 @@
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer'"
       register: hs_ps
       no_log: true
+      failed_when: false
     - name: Set status
       set_fact:
         cacheable: yes

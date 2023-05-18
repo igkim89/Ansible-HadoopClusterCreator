@@ -8,6 +8,7 @@
     - name: Check MySQL ps
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'mysqld' | grep 'port={{ mysql.jdbc_port }}'"
       register: mysql_ps
+      failed_when: false
     - name: Start MySQL
       shell: "/usr/bin/nohup {{ mysql.home_dir }}/bin/mysqld_safe --defaults-file={{ mysql.home_dir }}/conf/my.cnf --user={{ remote_user }} &"
       when: '"mysqld" not in mysql_ps.stdout'

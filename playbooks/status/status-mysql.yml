@@ -14,6 +14,7 @@
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'mysqld' | grep 'port={{ mysql.jdbc_port }}'"
       register: mysql_ps
       no_log: true
+      failed_when: false
     - name: Set status
       set_fact:
         cacheable: yes
