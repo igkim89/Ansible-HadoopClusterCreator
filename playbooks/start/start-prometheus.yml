@@ -7,5 +7,10 @@
   vars:
     prometheus_home: "{{ bigdata_home }}/prometheus"
   tasks:
+    - name: Check Prometheus process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/prometheus | grep {{ prometheus.web_port }}"
+      register: prometheus_ps
+      failed_when: false
     - name: Start Prometheus
       shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+      when: '"prometheus" not in prometheus_ps.stdout'
