@@ -70,6 +70,7 @@
     ufk_home: "{{ bigdata_home }}/kafka-ui"
   tasks:
     - name: Check UFK ps
+      become: yes
       shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
       register: ufk_ps
       failed_when: false

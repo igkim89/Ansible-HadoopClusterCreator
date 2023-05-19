@@ -13,6 +13,7 @@
         ufk_status: "UI for Apache Kafka is stopped."
       no_log: true
     - name: Check UFK
+      become: yes
       shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
       register: ufk_ps
       no_log: true
@@ -21,7 +22,7 @@
       set_fact:
         cacheable: yes
         ufk_status: "UI for Apache Kafka is running."
-      when: '"kafka-ui" in hs_ps.stdout'
+      when: '"kafka-ui" in ufk_ps.stdout'
       no_log: true
     - name: Show UFK status
       debug:
