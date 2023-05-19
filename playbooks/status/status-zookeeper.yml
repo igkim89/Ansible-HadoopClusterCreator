@@ -1,0 +1,32 @@
+---
+
+- name: Check Zookeeper status
+  hosts: zookeeper
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    zeppelin_home: "{{ bigdata_home }}/zeppelin"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        zk_status: "Zookeeper is stopped."
+      no_log: true
+    - name: Check Zookeeper
+      shell: "{{ zookeeper_home }}/bin/zkServer.sh status"
+      register: zk_status
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        zk_status: "Zookeeper is running."
+      when: >
+        ("leader" in zk_result.stdout)
+        or
+        ("follower" in zk_result.stdout)
+      no_log: true
+    - name: Show Zookeeper status
+      debug:
+        msg:
+          - "{{ zk_status }}"
