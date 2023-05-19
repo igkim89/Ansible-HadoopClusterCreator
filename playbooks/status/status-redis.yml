@@ -1,0 +1,46 @@
+---
+
+- name: Check Redis status
+  hosts: redis
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    redis_home: "{{ bigdata_home }}/redis"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        redis_status: "Redis is stopped."
+      no_log: true
+    - name: Check Redis
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-server | grep {{ redis.port }}"
+      register: redis_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        redis_status: "Redis is running."
+      when: '"redis-server" in redis_ps.stdout'
+      no_log: true
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        redis_sentinel_status: "Redis Sentinel is stopped."
+      no_log: true
+    - name: Check Redis Sentinel
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-sentinel | grep {{ redis.sentinel_port }}"
+      register: redis_sentinel_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        redis_sentinel_status: "Redis Sentinel is running."
+      when: '"redis-sentinel" in redis_sentinel_ps.stdout'
+      no_log: true
+    - name: Show Redis status
+      debug:
+        msg:
+          - "{{ redis_status }}"
+          - "{{ redis_sentinel_status }}"
