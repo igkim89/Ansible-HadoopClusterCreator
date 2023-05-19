@@ -290,7 +290,7 @@
   tasks:
     - name: Check Ranger setup
       stat:
-        path: "{{ ranger_home }}/ews/webapp/WEB_INF/classes/conf"
+        path: "{{ ranger_home }}/ews/webapp/WEB-INF/classes/conf"
       register: ranger_result
       failed_when: false
     - name: Setup Ranger
@@ -306,4 +306,4 @@
       shell: "./ranger-admin-services.sh start"
       args:
         chdir: "{{ ranger_home }}/ews"
-      when: '"solr" not in ranger_ps.stdout'
+      when: '"ranger" not in ranger_ps.stdout'
