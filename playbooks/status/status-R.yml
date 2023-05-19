@@ -1,0 +1,10 @@
+---
+
+- name: Check RStudio status
+  hosts: R
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Show RStudio status
+      become: yes
+      command: "systemctl stop rstudio-server"
