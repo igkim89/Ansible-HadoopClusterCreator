@@ -207,7 +207,7 @@
       shell: "./add_ranger_audits_conf_to_zk.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"ranger_audits" not in zk_result'
+      when: '"ranger_audits" not in zk_result.stdout'
     - name: Find Solr server ps
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'"
       register: solr_ps
@@ -216,7 +216,7 @@
       shell: "./start_solr.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"solr" not in solr_ps'
+      when: '"solr" not in solr_ps.stdout'
     - name: Edit create_ranger_audits_collection.sh file
       lineinfile:
         path: "{{ solr_home }}/ranger_audit_server/scripts/create_ranger_audits_collection.sh"
@@ -229,7 +229,7 @@
       shell: "./create_ranger_audits_collection.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"ranger_audits" not in zk_result'
+      when: '"ranger_audits" not in zk_result.stdout'
 
     - name: Edit ranger install.properties
       lineinfile:
@@ -306,4 +306,4 @@
       shell: "./ranger-admin-services.sh start"
       args:
         chdir: "{{ ranger_home }}/ews"
-      when: '"solr" not in ranger_ps'
+      when: '"solr" not in ranger_ps.stdout'
