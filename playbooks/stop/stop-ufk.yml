@@ -7,6 +7,10 @@
   vars:
     ufk_home: "{{ bigdata_home }}/kafka-ui"
   tasks:
+    - name: Check UFK ps
+      shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
+      register: ufk_ps
+      failed_when: false
     - name: Stop UFK server
       command: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml down"
-      failed_when: false
+      when: '"kafka-ui" in ufk_ps.stdout'
