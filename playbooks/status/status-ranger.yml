@@ -1,0 +1,47 @@
+---
+
+- name: Check Ranger status
+  hosts: ranger
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    solr_home: "{{ bigdata_home }}/solr"
+    ranger_home: "{{ bigdata_home }}/ranger"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        solr_status: "Solr server is stopped."
+      no_log: true
+    - name: Check Solr server
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'"
+      register: solr_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        solr_status: "Solr server is running."
+      when: '"solr" in solr_ps.stdout'
+      no_log: true
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        ranger_status: "Ranger server is stopped."
+      no_log: true
+    - name: Check Ranger server
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'org.apache.ranger.server.tomcat.EmbeddedServer'"
+      register: ranger_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        ranger_status: "Ranger server is running."
+      when: '"ranger" in ranger_ps.stdout'
+      no_log: true
+    - name: Show Ranger status
+      debug:
+        msg:
+          - "{{ solr_status }}"
+          - "{{ ranger_status }}"
