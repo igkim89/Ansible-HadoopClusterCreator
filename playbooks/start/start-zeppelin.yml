@@ -7,5 +7,10 @@
   vars:
     zeppelin_home: "{{ bigdata_home }}/zeppelin"
   tasks:
+    - name: Check Zeppelin process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'zeppelin.server.ZeppelinServer'"
+      register: zep_ps
+      failed_when: false
     - name: Start Zeppelin server
       command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh start"
+      when: '"zeppelin" not in zep_ps.stdout'

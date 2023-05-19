@@ -7,5 +7,10 @@
   vars:
     zeppelin_home: "{{ bigdata_home }}/zeppelin"
   tasks:
+    - name: Find Zeppelin process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'zeppelin.server.ZeppelinServer' | awk '{print $2}'"
+      register: zep_pid
+      failed_when: false
     - name: Stop Zeppelin server
       command: "{{ zeppelin_home }}/bin/zeppelin-daemon.sh stop"
+      when: zep_pid.stdout != ""
