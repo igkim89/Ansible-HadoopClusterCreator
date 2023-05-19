@@ -2,14 +2,17 @@
   hosts: zookeeper
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    zookeeper_home: "{{ bigdata_home }}/zookeeper"
   tasks:
+    - name: Check ZooKeeper status
+      shell: "{{ zookeeper_home }}/bin/zkServer.sh status"
+      register: zk_result
     - name: Start zookeeper server
-      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh start"
-      register: start_zoo
-    - name: Debug zookeeper server
-      debug: var=start_zoo
-    - name: Get zookeeper server status
-      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh status"
-      register: status_zoo
-    - name: Debug zookeeper status
-      debug: var=status_zoo
+      shell: "{{ zookeeper_home }}/bin/zkServer.sh start"
+      when: >
+        ("leader" not in zk_result.stdout)
+        and
+        ("follower" not in zk_result.stdout)
+
+

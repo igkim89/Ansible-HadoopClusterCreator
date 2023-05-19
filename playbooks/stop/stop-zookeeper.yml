@@ -1,7 +1,16 @@
 - name: Stop Zookeeper
-  hosts: bigdata
+  hosts: zookeeper
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    zookeeper_home: "{{ bigdata_home }}/zookeeper"
   tasks:
+    - name: Check ZooKeeper status
+      shell: "{{ zookeeper_home }}/bin/zkServer.sh status"
+      register: zk_result
     - name: Stop zookeeper server
-      shell: "{{ bigdata_home }}/zookeeper/bin/zkServer.sh stop"
+      shell: "{{ zookeeper_home }}/bin/zkServer.sh stop"
+      when: >
+        ("leader"  in zk_result.stdout)
+        or
+        ("follower"  in zk_result.stdout)
