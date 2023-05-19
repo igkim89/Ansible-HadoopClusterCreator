@@ -1,0 +1,29 @@
+---
+
+- name: Check UFK status
+  hosts: ufk
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    ufk_home: "{{ bigdata_home }}/kafka-ui"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        ufk_status: "UI for Apache Kafka is stopped."
+      no_log: true
+    - name: Check UFK
+      shell: "/usr/bin/docker compose -f {{ ufk_home }}/docker-compose.yml ps -a | grep kafka-ui | grep ago | grep Up"
+      register: ufk_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        ufk_status: "UI for Apache Kafka is running."
+      when: '"kafka-ui" in hs_ps.stdout'
+      no_log: true
+    - name: Show UFK status
+      debug:
+        msg:
+          - "{{ ufk_status }}"
