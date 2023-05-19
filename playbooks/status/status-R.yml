@@ -7,4 +7,5 @@
   tasks:
     - name: Show RStudio status
       become: yes
-      command: "systemctl stop rstudio-server"
+      command: "systemctl status rstudio-server"
+      failed_when: false
