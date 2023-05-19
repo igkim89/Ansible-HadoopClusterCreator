@@ -35,14 +35,21 @@
       file:
         path: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis }}"
         state: absent
+    - name: Check Redis installed
+      stat:
+        path: "{{ redis_home }}"
+      register: redis_result
+      failed_when: false
     - name: Compile redis
       command: "/usr/bin/make"
       args:
         chdir: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}"
+      when: not redis_result.stat.exists
     - name: Install redis
       command: "/usr/bin/make install PREFIX={{ bigdata_home }}/{{ installer.redis.replace('.tar.gz', '') }}"
       args:
         chdir: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}"
+      when: not redis_result.stat.exists
     - name: Create Redis symbolic link
       file:
         src: "{{ bigdata_home }}/{{ installer.redis.replace('.tar.gz', '') }}"
@@ -114,8 +121,18 @@
   vars:
     redis_home: "{{ bigdata_home }}/redis"
   tasks:
+    - name: Check Redis Server process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-server | grep {{ redis.port }}"
+      register: redis_ps
+      failed_when: false
     - name: Start Redis Server
       command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
+      when: '"redis-server" not in redis_ps.stdout'
+    - name: Check Redis Sentinel process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-sentinel | grep {{ redis.sentinel_port }}"
+      register: redis_sentinel_ps
+      failed_when: false
     - name: Start Redis Sentinel server
       command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"
+      when: '"redis-sentinel" not in redis_ps.stdout'
 

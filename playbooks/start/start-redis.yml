@@ -7,17 +7,17 @@
   vars:
     redis_home: "{{ bigdata_home }}/redis"
   tasks:
-    - name: Find Redis Server process ID
-      shell: "/usr/bin/ps -ef | grep redis-server | grep {{ redis.port }} | grep -v grep | awk '{print $2}'"
-      register: redis_pid
+    - name: Check Redis Server process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-server | grep {{ redis.port }}"
+      register: redis_ps
       failed_when: false
     - name: Start Redis Server
       command: "{{ redis_home }}/bin/redis-server {{ redis_home }}/conf/redis.conf"
-      when: redis_pid.stdout == ""
-    - name: Find Redis Sentinel process ID
-      shell: "/usr/bin/ps -ef | grep redis-sentinel | grep {{ redis.sentinel_port }} | grep -v grep | awk '{print $2}'"
-      register: redis_sentinel_pid
+      when: '"redis-server" not in redis_ps.stdout'
+    - name: Check Redis Sentinel process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep redis-sentinel | grep {{ redis.sentinel_port }}"
+      register: redis_sentinel_ps
       failed_when: false
     - name: Start Redis Sentinel server
       command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"
-      when: redis_sentinel_pid.stdout == ""
+      when: '"redis-sentinel" not in redis_ps.stdout'
