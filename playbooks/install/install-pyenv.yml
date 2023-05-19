@@ -6,7 +6,7 @@
   become: no
   vars:
     pyenv_home: "/home/{{ remote_user }}/.pyenv"
-    python_version: "{{ installer.python.replace('Python-', '').replace('.tar.xz', '')}"
+    python_version: "{{ installer.python.replace('Python-', '').replace('.tar.xz', '') }}"
   tasks:
     - name: Copy installer
       copy:
@@ -79,13 +79,14 @@
       failed_when: false
     - name: Install Python
       command: "{{ pyenv_home }}/bin/pyenv install -v {{ python_version }}"
+      when: not py_result.stat.exists
     - name: Check global python version
       shell: "{{ pyenv_home }}/bin/pyenv global"
       register: global_result
       failed_when: false
     - name: Update Global python version
       command: "{{ pyenv_home }}/bin/pyenv global {{ python_version }}"
-      when: 'python_version not in global_result.stdout
+      when: 'python_version not in global_result.stdout'
     - name: Copy pexpect tgz
       copy:
         src: "{{ installer_home }}/python/{{ installer.pexpect }}"
