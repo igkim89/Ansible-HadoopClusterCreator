@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    zeppelin_home: "{{ bigdata_home }}/zeppelin"
+    zookeeper_home: "{{ bigdata_home }}/zookeeper"
   tasks:
     - name: Set default status
       set_fact:
@@ -22,9 +22,9 @@
         cacheable: yes
         zk_status: "Zookeeper is running."
       when: >
-        ("leader" in zk_result.stdout)
+        ("leader" in zk_status.stdout)
         or
-        ("follower" in zk_result.stdout)
+        ("follower" in zk_status.stdout)
       no_log: true
     - name: Show Zookeeper status
       debug:
