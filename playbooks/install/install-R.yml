@@ -59,18 +59,38 @@
           - "libXt"
           - "libXt-devel"
           - "libcurl-devel"
-    - name: Compile (configure)
+    - name: Check installed R (1/2)
+      stat:
+        path: "{{ R_home }}/bin"
+      register: bin_result
+    - name: Check installed R (2/2)
+      stat:
+        path: "{{ R_home }}/lib64"
+      register: lib_result
+    - name: Compile (configure) (1/3)
       command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --enable-R-shlib=yes --prefix={{ R_home }}"
       args:
         chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
-    - name: Compile (make)
+      when: >
+        (not bin_result.stat.exists)
+        and
+        (not lib_result.stat.exists)
+    - name: Compile (make) (2/3)
       command: "make"
       args:
         chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
-    - name: Compile (make install)
+      when: >
+        (not bin_result.stat.exists)
+        and
+        (not lib_result.stat.exists)
+    - name: Compile (make install) (3/3)
       command: "make install"
       args:
         chdir: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}"
+      when: >
+        (not bin_result.stat.exists)
+        and
+        (not lib_result.stat.exists)
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/R/{{ installer.RStudio }}"

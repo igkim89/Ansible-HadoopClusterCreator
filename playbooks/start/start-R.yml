@@ -1,9 +1,10 @@
 ---
 
-- name: Start R
+- name: Start RStudio
   hosts: R
   remote_user: "{{ remote_user }}"
   become: yes
   tasks:
-    - name: Start R
+    - name: Start RStudio
+      become: yes
       command: "systemctl start rstudio-server"
