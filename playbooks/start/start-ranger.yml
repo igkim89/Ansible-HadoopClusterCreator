@@ -8,21 +8,21 @@
     solr_home: "{{ bigdata_home }}/solr"
     ranger_home: "{{ bigdata_home }}/ranger"
   tasks:
-    - name: Find Solr server process ID
-      shell: "/usr/bin/ps -ef | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'  | grep -v grep | awk '{print $2}'"
-      register: solr_pid
+    - name: Check Solr server ps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'"
+      register: solr_ps
       failed_when: false
     - name: Start Solr
       shell: "./start_solr.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: solr_pid.stdout == ""
-    - name: Find Ranger server process ID
-      shell: "/usr/bin/ps -ef | grep 'org.apache.ranger.server.tomcat.EmbeddedServer' | grep -v grep | awk '{print $2}'"
-      register: ranger_pid
+      when: '"solr" not in solr_ps.stdout'
+    - name: Check Ranger server ps
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'org.apache.ranger.server.tomcat.EmbeddedServer'"
+      register: ranger_ps
       failed_when: false
     - name: Start Ranger server
       shell: "./ranger-admin-services.sh start"
       args:
         chdir: "{{ ranger_home }}/ews"
-      when: ranger_pid.stdout == ""
+      when: '"ranger" not in ranger_ps.stdout'
