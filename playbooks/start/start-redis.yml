@@ -20,4 +20,4 @@
       failed_when: false
     - name: Start Redis Sentinel server
       command: "{{ redis_home }}/bin/redis-sentinel {{ redis_home }}/conf/sentinel.conf"
-      when: '"redis-sentinel" not in redis_ps.stdout'
+      when: '"redis-sentinel" not in redis_sentinel_ps.stdout'
