@@ -11,7 +11,7 @@
     - name: Check JournalNode jps
       command: "/usr/bin/jps"
       register: journalnode_jps
-      changed_when: False
+      failed_when: false
       no_log: true
     - name: Set status
       set_fact:
@@ -34,7 +34,7 @@
     - name: Check NameNode jps
       command: "/usr/bin/jps"
       register: namenode_jps
-      changed_when: False
+      failed_when: false
       no_log: true
     - name: Set status
       set_fact:
@@ -68,7 +68,7 @@
     - name: Check DataNode jps
       command: "/usr/bin/jps"
       register: datanode_jps
-      changed_when: False
+      failed_when: false
       no_log: true
     - name: Set status
       set_fact:
@@ -91,7 +91,7 @@
     - name: Check ResourceManager jps
       command: "/usr/bin/jps"
       register: resourcemanager_jps
-      changed_when: False
+      failed_when: false
       no_log: true
     - name: Set status
       set_fact:

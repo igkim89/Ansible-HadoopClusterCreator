@@ -57,10 +57,12 @@
       stat:
         path: /usr/lib64/libncurses.so.5
       register: nc_result
+      failed_when: false
     - name: Check tinfo library
       stat:
         path: /usr/lib64/libtinfo.so.5
       register: ti_result
+      failed_when: false
     - name: Create ncurses symbolic link
       become: yes
       file:

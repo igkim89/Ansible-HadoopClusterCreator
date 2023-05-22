@@ -60,14 +60,17 @@
       stat:
         path: "{{ mysql.data_dir }}/mysql"
       register: my_result
+      failed_when: false
     - name: Check already format (2/3)
       stat:
         path: "{{ mysql.data_dir }}/sys"
       register: sys_result
+      failed_when: false
     - name: Check already format (3/3)
       stat:
         path: "{{ mysql.data_dir }}/performance_schema"
       register: perf_result
+      failed_when: false
     - name: Install MySQL
       command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
       when: >

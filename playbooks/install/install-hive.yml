@@ -261,6 +261,7 @@
       args:
         chdir: "{{ mysql.home_dir }}"
       register: meta_result
+      failed_when: false
     - name: Add host
       add_host:
         name: meta

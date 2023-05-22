@@ -63,10 +63,12 @@
       stat:
         path: "{{ R_home }}/bin"
       register: bin_result
+      failed_when: false
     - name: Check installed R (2/2)
       stat:
         path: "{{ R_home }}/lib64"
       register: lib_result
+      failed_when: false
     - name: Compile (configure) (1/3)
       command: "{{ bigdata_home }}/tmp/{{ installer.R.replace('.tar.gz', '') }}/configure --enable-R-shlib=yes --prefix={{ R_home }}"
       args:

@@ -162,7 +162,7 @@
     - name: Check JournalNode jps
       command: "/usr/bin/jps"
       register: journalnode_jps
-      changed_when: False
+      failed_when: false
     - name: Start Journalnode
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
       when: '"JournalNode" not in journalnode_jps.stdout'
