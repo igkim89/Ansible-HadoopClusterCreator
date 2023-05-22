@@ -92,6 +92,9 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Zeppelin 제거](#zeppelin-제거)
   * [Prometheus 제거](#prometheus-제거)
   * [Grafana 제거](#grafana-제거)
+* **[Scaling](#scaling)
+  * [Scale-out](#scale-out)
+  * [Scale-in](#scale-in)
 
 ---
 
@@ -548,3 +551,14 @@ $ run/dev/uninstall/uninstall-prometheus.sh
 $ run/dev/uninstall/uninstall-grafana.sh
 ```
 
+## Scaling
+
+### Scale-out
+```
+Scale-out test
+```
+
+### Scale-in
+```
+Scale-in test
+```
