@@ -74,7 +74,7 @@
 
 
 - name: Spark Preparations
-  hosts: "{{ groups['spark'][0] }}"
+  hosts: "{{ groups['worker'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:

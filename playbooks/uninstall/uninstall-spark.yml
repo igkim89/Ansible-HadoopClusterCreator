@@ -15,7 +15,7 @@
       failed_when: False
 
 - name: Uninstall Spark
-  hosts: spark
+  hosts: bigdata, worker
   become: no
   vars:
     spark_home: "{{ bigdata_home }}/spark"
