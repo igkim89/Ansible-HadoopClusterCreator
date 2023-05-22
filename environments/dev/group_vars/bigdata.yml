@@ -65,6 +65,9 @@ installer:
 zookeeper:
   client_port: 2181
   data_dir: "/opt/bigdata/zookeeper/data"
+  tick_time: 6000
+  init_limit: 10
+  sync_limit: 5
 
   # 내부 통신용 포트
   internal_follower_port: 2888

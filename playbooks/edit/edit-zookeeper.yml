@@ -9,8 +9,12 @@
         regexp: "^#? *{{ item.key | regex_escape() }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
-        - "clientPort": "{{ zookeeper.client_port }}"
-        - "dataDir": "{{ zookeeper.data_dir }}"
+        "tickTime": "{{ zookeeper.tick_time }}"
+        "initLimit": "{{ zookeeper.init_limit }}"
+        "syncLimit": "{{ zookeeper.sync_limit }}"
+        "clientPort": "{{ zookeeper.client_port }}"
+        "dataDir": "{{ zookeeper.data_dir }}"
+        "4lw.commands.whitelist": "mntr,conf,ruok"
     - name: Add myid
       lineinfile:
         path: "{{ bigdata_home }}/zookeeper/conf/zoo.cfg"

@@ -57,6 +57,9 @@
         regexp: "^#? *{{ item.key | regex_escape() }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
+        "tickTime": "{{ zookeeper.tick_time }}"
+        "initLimit": "{{ zookeeper.init_limit }}"
+        "syncLimit": "{{ zookeeper.sync_limit }}"
         "clientPort": "{{ zookeeper.client_port }}"
         "dataDir": "{{ zookeeper.data_dir }}"
         "4lw.commands.whitelist": "mntr,conf,ruok"
