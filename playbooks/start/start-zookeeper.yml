@@ -8,6 +8,7 @@
     - name: Check ZooKeeper status
       shell: "{{ zookeeper_home }}/bin/zkServer.sh status"
       register: zk_result
+      failed_when: false
     - name: Start zookeeper server
       shell: "{{ zookeeper_home }}/bin/zkServer.sh start"
       when: >
