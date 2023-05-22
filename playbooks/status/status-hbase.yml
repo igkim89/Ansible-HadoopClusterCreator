@@ -24,7 +24,7 @@
 
 
 - name: Check HBase status
-  hosts: region-server
+  hosts: region-server, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -56,7 +56,7 @@
 
 
 - name: Show HBase status
-  hosts: region-server
+  hosts: region-server, worker
   tasks:
     - name: HBase RegionServer status
       debug:
