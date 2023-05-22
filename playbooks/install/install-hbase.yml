@@ -1,7 +1,7 @@
 ---
 
 - name: Install HBase
-  hosts: hbase
+  hosts: hbase, worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:

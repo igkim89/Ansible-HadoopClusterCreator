@@ -1,7 +1,7 @@
 ---
 
 - name: Install Spark
-  hosts: bigdata
+  hosts: bigdata, worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:
