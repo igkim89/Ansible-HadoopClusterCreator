@@ -1,0 +1,66 @@
+---
+## NodeExporter
+
+- name: Stop NodeExporter
+  hosts: scale-in
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Find NodeExporter process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep node_exporter | awk '{print $2}'"
+      register: node_exporter_pid
+      failed_when: false
+    - name: Kill NodeExporter
+      command: "/usr/bin/kill -9 {{ node_exporter_pid.stdout }}"
+      when: node_exporter_pid.stdout !=""
+
+
+---
+## HBase
+
+- name: Install HBase
+  hosts: scale-in
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Stop HBase region-server
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop regionserver"
+
+
+---
+## Hadoop
+
+- name: Stop NodeManager
+  hosts: scale-in
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop nodemanager"
+    - name: Check NodeManager pid
+      shell: "/usr/bin/jps | grep 'NodeManager' | awk '{print $1}'"
+      register: nm_pid
+      failed_when: false
+    - name: Kill NodeManager
+      command: "/usr/bin/kill -9 {{ nm_pid.stdout }}"
+      when: nm_pid.stdout != ""
+
+
+- name: Stop DataNode
+  hosts: scale-in
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Stop DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop datanode"
+      failed_when: False
+    - name: Check DataNode pid
+      shell: "/usr/bin/jps | grep 'DataNode' | awk '{print $1}'"
+      register: dn_pid
+      failed_when: false
+    - name: Kill DataNode
+      command: "/usr/bin/kill -9 {{ dn_pid.stdout }}"
+      when: dn_pid.stdout != ""
