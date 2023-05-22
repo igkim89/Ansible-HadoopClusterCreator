@@ -1,0 +1,326 @@
+---
+## Hadoop
+
+- name: Install Hadoop cluster
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/hadoop/{{ installer.hadoop }}"
+        dest: "{{ bigdata_home }}/{{ installer.hadoop }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hadoop }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ bigdata_home }}/hadoop"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hadoop }}"
+        state: absent
+    - name: Create hadoop home symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
+        dest: "{{ bigdata_home }}/hadoop"
+        state: link
+    - name: Create configuration symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/etc/hadoop"
+        dest: "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}/conf"
+        state: link
+    - name: Edit Java home
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+        regexp: "# export JAVA_HOME="
+        line: "export JAVA_HOME={{ java_home }}"
+    - name: Edit HDFS_NAMENODE_OPTS
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xmx4g"'
+        - 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native'
+        - 'export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"'
+    - name: Edit Hadoop home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HADOOP_HOME={{ bigdata_home }}/hadoop"
+        - "PATH=$PATH:$HADOOP_HOME/bin"
+        - "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native"
+    - name: Refresh bash_profile
+      shell: "source /home/{{ remote_user }}/.bashrc"
+      args:
+        executable: /bin/bash
+
+
+- name: Create DataNode directory
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create DataNode directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.datanode_dir }}"
+
+
+- name: Create NodeManager log directory
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create DataNode directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      loop: "{{ hadoop.yarn.nodemanager_log_dir }}"
+
+
+- name: Add configuration files
+  hosts: hadoop
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Add Hadoop configuration files
+      template:
+        src: hadoop/{{ item }}
+        dest: "{{ bigdata_home }}/hadoop/conf/"
+        mode: 0644
+      with_items:
+        - "yarn-site.xml"
+        - "mapred-site.xml"
+        - "httpfs-site.xml"
+        - "hdfs-site.xml"
+        - "core-site.xml"
+    - name: Create Nodemanager log dir
+      file:
+        path: "{{ hadoop_home }}/{{ item }}"
+        state: directory
+        mode: 0775
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "logs"
+        - "logs/userlogs"
+
+
+- name: Start DataNode
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check DataNode jps
+      command: "/usr/bin/jps"
+      register: datanode_jps
+      failed_when: False
+    - name: Start DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
+      when: '"DataNode" not in datanode_jps.stdout'
+
+
+- name: Start NodeManager
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check NodeManager jps
+      command: "/usr/bin/jps"
+      register: nm_jps
+      failed_when: False
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+      when: '"NodeManager" not in nm_jps.stdout'
+
+
+---
+## Spark
+
+- name: Install Spark
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/spark/{{ installer.spark }}"
+        dest: "{{ bigdata_home }}/{{ installer.spark }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.spark }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ spark_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.spark }}"
+        state: absent
+    - name: Create Spark symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.spark.replace('.tgz', '') }}"
+        dest: "{{ spark_home }}"
+        state: link
+    - name: Edit Spark home and pyspark
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export SPARK_HOME={{ spark_home }}"
+        - "PATH=$PATH:$SPARK_HOME/bin"
+    - name: Edit pyspark
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        regexp: "^#? *{{ item.key | regex_escape() }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "export PYSPARK_PYTHON": "\"$HOME/.pyenv/shims/python\""
+    #        "export PYSPARK_DRIVER_PYTHON": python3
+    - name: Add spark-env.sh
+      template:
+        src: spark/{{ item }}
+        dest: "{{ spark_home }}/conf/"
+        mode: 0644
+      with_items:
+        - spark-env.sh
+        - spark-defaults.conf
+    - name: Hive configuration symbolic link
+      file:
+        src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
+        dest: "{{ spark_home }}/conf/hive-site.xml"
+        state: link
+    - name: Add hive-hbase-handler and hive-common
+      copy:
+        src: "{{ installer_home }}/hive/{{ item }}"
+        dest: "{{ spark_home }}/jars/"
+      with_items:
+        - "hive-hbase-handler-3.1.2-v2.jar"
+        - "hive-common-2.3.9-v2.jar"
+
+
+---
+## HBase
+
+- name: Install HBase
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/hbase/{{ installer.hbase }}"
+        dest: "{{ bigdata_home }}/{{ installer.hbase }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hbase }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ hbase_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hbase }}"
+        state: absent
+    - name: Create hbase symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hbase.replace('-bin.tar.gz', '') }}"
+        dest: "{{ hbase_home }}"
+        state: link
+    - name: Add hbase configuration
+      template:
+        src: "{{ item }}"
+        dest: "{{ bigdata_home }}/hbase/conf/"
+        mode: 0644
+      with_fileglob:
+        - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+    - name: Start HBase region-server
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+
+
+---
+## NodeExporter
+
+- name: Install NodeExporter
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    node_exporter_home: "{{ bigdata_home }}/node_exporter"
+  tasks:
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.node_exporter }}"
+        dest: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ node_exporter_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.node_exporter }}"
+        state: absent
+    - name: Create Prometheus symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.node_exporter.replace('.tar.gz', '') }}"
+        dest: "{{ node_exporter_home }}"
+        state: link
+    - name: Create log directory
+      file:
+        path: "{{ node_exporter_home }}/logs"
+        state: directory
+    - name: Check NodeExporter PID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep node_exporter"
+      register: ne_pid
+      failed_when: false
+    - name: Start NodeExporter
+      shell: "/usr/bin/nohup {{ node_exporter_home }}/node_exporter > {{ node_exporter_home }}/logs/node_exporter.log 2>&1 &"
+      when: '"node_exporter" not in ne_pid.stdout'
