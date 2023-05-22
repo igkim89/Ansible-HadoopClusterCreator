@@ -29,7 +29,7 @@
       when: hs_pid.stdout != ""
 
 - name: Stop NodeManager
-  hosts: nodemanager
+  hosts: nodemanager, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -57,7 +57,7 @@
       when: rm_pid.stdout != ""
 
 - name: Stop DataNode
-  hosts: datanode
+  hosts: datanode, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

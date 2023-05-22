@@ -82,7 +82,7 @@
       loop: "{{ hadoop.hdfs.namenode_dir }}"
 
 - name: Create DataNode directory
-  hosts: datanode
+  hosts: datanode, worker
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
@@ -228,7 +228,7 @@
       when: '"NameNode" not in namenode_jps.stdout'
 
 - name: Start DataNode
-  hosts: datanode
+  hosts: datanode, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -253,7 +253,7 @@
       when: '"ResourceManager" not in rm_jps.stdout'
 
 - name: Start NodeManager
-  hosts: nodemanager
+  hosts: nodemanager, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

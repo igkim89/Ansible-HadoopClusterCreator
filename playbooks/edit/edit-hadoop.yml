@@ -1,5 +1,5 @@
 - name: Edit Hadoop configuration files
-  hosts: hadoop
+  hosts: hadoop, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
