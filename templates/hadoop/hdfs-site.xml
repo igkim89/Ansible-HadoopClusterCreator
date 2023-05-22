@@ -167,4 +167,8 @@
         <name>dfs.datanode.max.locked.memory</name>
         <value>4294967296</value>
     </property>
+    <property>
+        <name>dfs.client.block.write.replace-datanode-on-failure.enable</name>
+        <value>false</value>
+    </property>
 </configuration>
