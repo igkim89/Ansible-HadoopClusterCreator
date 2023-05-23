@@ -1,6 +1,5 @@
 ---
 ## NodeExporter
-
 - name: Stop NodeExporter
   hosts: scale-in
   remote_user: "{{ remote_user }}"
@@ -17,9 +16,7 @@
       when: node_exporter_pid.stdout !=""
 
 
----
 ## HBase
-
 - name: Install HBase
   hosts: scale-in
   remote_user: "{{ remote_user }}"
@@ -31,9 +28,7 @@
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop regionserver"
 
 
----
 ## Hadoop
-
 - name: Stop NodeManager
   hosts: scale-in
   remote_user: "{{ remote_user }}"
@@ -47,7 +42,6 @@
     - name: Kill NodeManager
       command: "/usr/bin/kill -9 {{ nm_pid.stdout }}"
       when: nm_pid.stdout != ""
-
 
 - name: Stop DataNode
   hosts: scale-in
