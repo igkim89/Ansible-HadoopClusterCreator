@@ -100,7 +100,7 @@
 
 
 - name: Add configuration files
-  hosts: hadoop
+  hosts: worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:
