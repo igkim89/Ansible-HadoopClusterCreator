@@ -1,6 +1,5 @@
 ---
 ## Hadoop
-
 - name: Install Hadoop cluster
   hosts: worker
   remote_user: "{{ remote_user }}"
@@ -157,9 +156,8 @@
       when: '"NodeManager" not in nm_jps.stdout'
 
 
----
-## Spark
 
+## Spark
 - name: Install Spark
   hosts: worker
   remote_user: "{{ remote_user }}"
@@ -233,9 +231,7 @@
         - "hive-common-2.3.9-v2.jar"
 
 
----
 ## HBase
-
 - name: Install HBase
   hosts: worker
   remote_user: "{{ remote_user }}"
@@ -282,9 +278,7 @@
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
 
 
----
 ## NodeExporter
-
 - name: Install NodeExporter
   hosts: worker
   remote_user: "{{ remote_user }}"
