@@ -19,7 +19,7 @@ java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-11.el8.x86_64"
 bigdata_home: "/opt/bigdata"
 
 ## 설치파일 디렉토리
-installer_home: "/home/bigdata/install"
+installer_home: "/home/bigdata/ansible-install"
 
 ## 서비스별 설치파일
 installer:
