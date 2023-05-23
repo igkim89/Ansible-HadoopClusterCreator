@@ -156,6 +156,129 @@
       when: '"NodeManager" not in nm_jps.stdout'
 
 
+- name: Install Hive
+  #  client 사용을 위해 클러스터 전체 배포
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+    hive_spark_home: "{{ bigdata_home }}/{{ installer.hive_spark.replace('.tgz', '') }}"
+  tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/hive/{{ installer.hive }}"
+        dest: "{{ bigdata_home }}/{{ installer.hive }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hive }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ hive_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hive }}"
+        state: absent
+    - name: Create Hive symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.hive.replace('.tar.gz', '') }}"
+        dest: "{{ hive_home }}"
+        state: link
+    - name: Copy Hive JDBC
+      copy:
+        src: "{{ installer_home }}/jdbc/{{ installer.mysql_jdbc }}"
+        dest: "{{ hive_home }}/lib/"
+    - name: Add hive configuration
+      template:
+        src: "hive/{{ item }}"
+        dest: "{{ hive_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "hive-env.sh"
+        - "hive-log4j2.properties"
+        - "hive-site.xml"
+
+    - name: Edit Hive home
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HIVE_HOME={{ bigdata_home }}/hive"
+        - "PATH=$PATH:$HIVE_HOME/bin"
+    - name: Refresh bash_profile
+      shell: "source /home/{{ remote_user }}/.bashrc"
+      args:
+        executable: /bin/bash
+    - name: Add htrace library
+      copy:
+        src: "{{ installer_home }}/tez/{{ item }}"
+        dest: "{{ hive_home }}/lib/"
+      with_items:
+        - "htrace-core4-4.1.0-incubating.jar"
+    - name: Add hadoop classpath
+      lineinfile:
+        path: "{{ bigdata_home }}/hive/bin/hive"
+        line: |
+          for f in ${HADOOP_HOME}/share/hadoop/*/*.jar; do
+            CLASSPATH=${CLASSPATH}:$f;
+          done
+        insertbefore: "# add the auxillary jars such as serdes"
+    - name: Install Hive on Spark
+      copy:
+        src: "{{ installer_home }}/spark/{{ installer.hive_spark }}"
+        dest: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ hive_spark_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.hive_spark }}"
+        state: absent
+    - name: Link Spark library
+      file:
+        src: "{{ hive_spark_home }}/jars/{{ item }}"
+        dest: "{{ hive_home }}/lib/{{ item }}"
+        state: link
+      with_items:
+        - "scala-library-2.11.8.jar"
+        - "spark-core_2.11-2.3.0.jar"
+        - "spark-network-common_2.11-2.3.0.jar"
+    - name: Add Spark configuration
+      template:
+        src: "hive/{{ item }}"
+        dest: "{{ hive_spark_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "spark-defaults.conf"
+        - "spark-env.sh"
+    - name: Link spark-default.conf
+      file:
+        src: "{{ hive_spark_home }}/conf/{{ item }}"
+        dest: "{{ hive_home }}/conf/{{ item }}"
+        state: link
+      with_items:
+        - "spark-defaults.conf"
+    - name: Add SKIP_HBASECP=true in Hive script
+      lineinfile:
+        path: "{{ hive_home }}/bin/hive"
+        regexp: "^SKIP_HBASECP=false$"
+        line: "SKIP_HBASECP=true"
+
 
 ## Spark
 - name: Install Spark
