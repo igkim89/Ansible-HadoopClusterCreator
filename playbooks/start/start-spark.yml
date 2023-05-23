@@ -5,7 +5,7 @@
   vars:
     spark_home: "{{ bigdata_home }}/spark"
   tasks:
-    - name: Check History server jps
+    - name: Check History server ps
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer'"
       register: hs_ps
       failed_when: false
