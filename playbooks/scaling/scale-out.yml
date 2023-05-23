@@ -274,8 +274,13 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+    - name: Check HBase region-server jps
+      command: "/usr/bin/jps"
+      register: rs_jps
+      failed_when: false
     - name: Start HBase region-server
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+      when: '"HRegionServer" not in rs_jps.stdout'
 
 
 ## NodeExporter
