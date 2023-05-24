@@ -446,3 +446,34 @@
     - name: Start NodeExporter
       shell: "/usr/bin/nohup {{ node_exporter_home }}/node_exporter > {{ node_exporter_home }}/logs/node_exporter.log 2>&1 &"
       when: '"node_exporter" not in ne_pid.stdout'
+
+
+## Prometheus configuration 적용 및 재시작
+- name: Edit Prometheus configuration
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Edit Prometheus configuration
+      template:
+        src: "prometheus/{{ item }}"
+        dest: "{{ bigdata_home }}/prometheus/"
+        mode: 0644
+      with_items:
+        - "prometheus.yml"
+    - name: Find Prometheus process ID
+      shell: "/usr/bin/ps -ef | grep {{ prometheus_home }}/prometheus | grep -v grep | grep {{ prometheus.web_port }} | awk '{print $2}'"
+      register: prometheus_pid
+      failed_when: false
+    - name: Kill Prometheus
+      command: "/usr/bin/kill -9 {{ prometheus_pid.stdout }}"
+      when: prometheus_pid.stdout !=""
+    - name: Check Prometheus process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/prometheus | grep {{ prometheus.web_port }}"
+      register: prometheus_ps
+      failed_when: false
+    - name: Start Prometheus
+      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+      when: '"prometheus" not in prometheus_ps.stdout'

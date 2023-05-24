@@ -31,4 +31,4 @@ scrape_configs:
 
   - job_name: "node-exporter"
     static_configs:
-      - targets: [{% for ne in groups['node-exporter'] %}{% if ne != groups['node-exporter'][0] %},{% endif %}'{{ ne }}:{{ node_exporter.port }}'{% endfor %}]
+      - targets: [{% for wk in groups['worker'] %}{% if wk != groups['worker'][0] %},{% endif %}'{{ wk }}:{{ node_exporter.port }}'{% endfor %}]
