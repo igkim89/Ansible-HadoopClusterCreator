@@ -402,7 +402,7 @@
       register: rs_jps
       failed_when: false
     - name: Start HBase region-server
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+      shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
       when: '"HRegionServer" not in rs_jps.stdout'
 
 
