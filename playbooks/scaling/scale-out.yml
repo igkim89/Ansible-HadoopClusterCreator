@@ -170,6 +170,16 @@
       when: '"NodeManager" not in nm_jps.stdout'
 
 
+- name: Refresh Nodes
+  hosts: "{{ groups['namenode'][0] }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Refresh Nodes
+      command: "{{ hadoop_home }}/bin/hadoop dfsadmin -refreshNodes"
+
+
 - name: Install Hive
   #  client 사용을 위해 클러스터 전체 배포
   hosts: worker
