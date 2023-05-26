@@ -127,6 +127,10 @@
       with_items:
         - "logs"
         - "logs/userlogs"
+    - name: Remove excludes file
+      file:
+        path: "{{ hadoop_home }}/conf/excludes"
+        state: absent
     - name: Touch includes/excludes
       file:
         path: "{{ hadoop_home }}/conf/{{ item }}"
