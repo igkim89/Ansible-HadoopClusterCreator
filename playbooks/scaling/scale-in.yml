@@ -112,3 +112,34 @@
     - name: Kill DataNode
       command: "/usr/bin/kill -9 {{ dn_pid.stdout }}"
       when: dn_pid.stdout != ""
+
+
+- name: Decommission Hadoop worker
+  hosts: hadoop, worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Edit excludes file
+      shell: "echo '{{ item }}' >> {{ hadoop_home }}/conf/excludes"
+      with_items: "{{ groups['scale-in'] }}"
+
+- name: Refresh Nodes
+  hosts: "{{ groups['namenode'][0] }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Refresh Nodes
+      command: "{{ hadoop_home }}/bin/hadoop dfsadmin -refreshNodes"
+
+- name: Clear excludes
+  hosts: hadoop, worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+  tasks:
+    - name: Clear excludes file
+      shell: "echo '' > {{ hadoop_home }}/conf/excludes"

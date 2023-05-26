@@ -171,4 +171,12 @@
         <name>dfs.client.block.write.replace-datanode-on-failure.enable</name>
         <value>false</value>
     </property>
+    <property>
+        <name>dfs.hosts</name>
+        <value>{{ bigdata_home }}/hadoop/conf/includes</value>
+    </property>
+    <property>
+        <name>dfs.hosts.exclude</name>
+        <value>{{ bigdata_home }}/hadoop/conf/excludes</value>
+    </property>
 </configuration>
