@@ -153,6 +153,17 @@
       with_items:
         - "logs"
         - "logs/userlogs"
+    - name: Touch includes/excludes
+      file:
+        path: "{{ hadoop_home }}/conf/{{ item }}"
+        state: touch
+        mode: 0775
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "includes"
+        - "excludes"
+
 
 - name: Start JournalNode
   hosts: journalnode
