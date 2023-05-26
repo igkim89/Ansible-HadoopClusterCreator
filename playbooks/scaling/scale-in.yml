@@ -79,7 +79,7 @@
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
     - name: Rolling restart HBase master
-      shell: "{{ hbase_home }}/bin/rolling-restart.sh --master-only"
+      shell: "/usr/bin/nohup {{ hbase_home }}/bin/rolling-restart.sh --master-only"
 
 
 ## Hadoop
