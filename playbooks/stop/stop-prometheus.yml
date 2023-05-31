@@ -8,7 +8,7 @@
     prometheus_home: "{{ bigdata_home }}/prometheus"
   tasks:
     - name: Find Prometheus process ID
-      shell: "/usr/bin/ps -ef | grep {{ prometheus_home }}/prometheus | grep -v grep | grep {{ prometheus.web_port }} | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep {{ prometheus_home }}/bin/prometheus | grep -v grep | grep {{ prometheus.web_port }} | awk '{print $2}'"
       register: prometheus_pid
       failed_when: false
     - name: Kill Prometheus

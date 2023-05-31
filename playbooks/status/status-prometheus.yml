@@ -13,7 +13,7 @@
         prom_status: "Prometheus server is stopped."
       no_log: true
     - name: Check Prometheus server
-      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/prometheus | grep {{ prometheus.web_port }}"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/bin/prometheus | grep {{ prometheus.web_port }}"
       register: prom_ps
       no_log: true
       failed_when: false

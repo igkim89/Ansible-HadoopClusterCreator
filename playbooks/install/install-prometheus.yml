@@ -40,19 +40,37 @@
         state: link
     - name: Create log directory
       file:
-        path: "{{ prometheus_home }}/logs"
+        path: "{{ prometheus_home }}/{{ item }}"
         state: directory
+      with_items:
+        - "logs"
+        - "bin"
+        - "conf"
     - name: Add Prometheus configuration
       template:
         src: "prometheus/{{ item }}"
-        dest: "{{ bigdata_home }}/prometheus/"
+        dest: "{{ bigdata_home }}/prometheus/conf/"
         mode: 0644
       with_items:
         - "prometheus.yml"
+    - name: Copy binary files
+      copy:
+        src: "{{ prometheus_home }}/{{ item }}"
+        dest: "{{ prometheus_home }}/bin/"
+      with_items:
+        - "prometheus"
+        - "promtool"
+    - name: Remove binary files
+      file:
+        path: "{{ prometheus_home }}/{{ item }}"
+        state: absent
+      with_items:
+        - "prometheus"
+        - "promtool"
     - name: Check Prometheus process
-      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/prometheus | grep {{ prometheus.web_port }}"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/bin/prometheus | grep {{ prometheus.web_port }}"
       register: prometheus_ps
       failed_when: false
     - name: Start Prometheus
-      shell: "/usr/bin/nohup {{ prometheus_home }}/prometheus --config.file={{ prometheus_home }}/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} --web.enable-lifecycle > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ prometheus_home }}/bin/prometheus --config.file={{ prometheus_home }}/conf/prometheus.yml --web.listen-address=0.0.0.0:{{ prometheus.web_port }} --web.enable-lifecycle > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
       when: '"prometheus" not in prometheus_ps.stdout'
