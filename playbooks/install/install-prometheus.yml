@@ -49,7 +49,7 @@
     - name: Add Prometheus configuration
       template:
         src: "prometheus/{{ item }}"
-        dest: "{{ bigdata_home }}/prometheus/conf/"
+        dest: "{{ prometheus_home }}/conf/"
         mode: 0644
       with_items:
         - "prometheus.yml"
@@ -67,6 +67,11 @@
       with_items:
         - "prometheus"
         - "promtool"
+    - name: Copy reload.sh
+      template:
+        src: "prometheus/reload.sh"
+        dest: "{{ prometheus_home }}/"
+        mode: 0644
     - name: Check Prometheus process
       shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/bin/prometheus | grep {{ prometheus.web_port }}"
       register: prometheus_ps

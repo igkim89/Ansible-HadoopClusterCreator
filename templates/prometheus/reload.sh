@@ -1,0 +1,1 @@
+/usr/bin/curl -X POST http://{{ groups['prometheus'][0] }}:{{ prometheus.web_port }}/-/reload
