@@ -71,7 +71,7 @@
       template:
         src: "prometheus/reload.sh"
         dest: "{{ prometheus_home }}/"
-        mode: 0644
+        mode: 0755
     - name: Check Prometheus process
       shell: "/usr/bin/ps -ef | grep -v grep | grep {{ prometheus_home }}/bin/prometheus | grep {{ prometheus.web_port }}"
       register: prometheus_ps
