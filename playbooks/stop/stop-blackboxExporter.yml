@@ -1,0 +1,16 @@
+---
+
+- name: Stop BlackboxExporter
+  hosts: blackbox-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    blackbox_exporter_home: "{{ bigdata_home }}/blackbox_exporter"
+  tasks:
+    - name: Find BlackboxExporter process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep blackbox_exporter | grep 'address=:{{ blackbox_exporter.port }}' | awk '{print $2}'"
+      register: be_pid
+      failed_when: false
+    - name: Kill BlackboxExporter
+      command: "/usr/bin/kill -9 {{ be_pid.stdout }}"
+      when: be_pid.stdout !=""
