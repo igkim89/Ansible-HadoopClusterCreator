@@ -1,0 +1,16 @@
+---
+
+- name: Start BlackboxExporter
+  hosts: blackbox-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    blackbox_exporter_home: "{{ bigdata_home }}/blackbox_exporter"
+  tasks:
+    - name: Check BlackboxExporter PID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep blackbox_exporter | grep 'address=:{{ blackbox_exporter.port }}'"
+      register: be_pid
+      failed_when: false
+    - name: Start BlackboxExporter
+      shell: "/usr/bin/nohup {{ blackbox_exporter_home }}/blackbox_exporter --config.file={{ blackbox_exporter_home }}/conf/blackbox-exporter.yml --web.listen-address=:{{ blackbox_exporter.port }} > {{ blackbox_exporter_home }}/logs/blackbox_exporter.log 2>&1 &"
+      when: '"blackbox_exporter" not in be_pid.stdout'
