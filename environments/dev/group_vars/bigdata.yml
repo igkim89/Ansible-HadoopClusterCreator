@@ -270,7 +270,7 @@ hbase:
   znode_parent: /hbase
   znode_rootserver: root-region-server
 
-  session_timeout: 60000
+  session_timeout: 120000
   rpc_timeout: 120000
 
   client_write_buffer: 2097152
@@ -346,6 +346,10 @@ prometheus:
 ## NodeExporter 설정
 node_exporter:
   port: 9100
+
+## BlackboxExporter 설정
+blackbox_exporter:
+  port: 9115
 
 ## Grafana 설정
 grafana:
