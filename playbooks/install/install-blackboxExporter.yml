@@ -1,0 +1,61 @@
+---
+
+- name: Install BlackboxExporter
+  hosts:
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    blackbox_exporter_home: "{{ bigdata_home }}/blackbox_exporter"
+  tasks:
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.blackbox_exporter }}"
+        dest: "{{ bigdata_home }}/{{ installer.blackbox_exporter }}"
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.blackbox_exporter }}"
+        dest: "{{ bigdata_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ blackbox_exporter_home }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.blackbox_exporter }}"
+        state: absent
+    - name: Create Prometheus symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.blackbox_exporter.replace('.tar.gz', '') }}"
+        dest: "{{ blackbox_exporter_home }}"
+        state: link
+    - name: Create log directory
+      file:
+        path: "{{ blackbox_exporter_home }}/{{ item }}"
+        state: directory
+      with_items:
+        - "bin"
+        - "conf"
+        - "logs"
+    - name: Copy starter
+      copy:
+        src: "{{ blackbox_exporter_home }}/blackbox_exporter"
+        dest: "{{ blackbox_exporter_home }}/bin/"
+    - name: Remove starter
+      file:
+        path: "{{ blackbox_exporter_home }}/blackbox_exporter"
+        state: absent
+    - name: Copy config example
+      copy:
+        src: "{{ blackbox_exporter_home }}/blackbox.yml"
+        dest: "{{ blackbox_exporter_home }}/conf/blackbox-exporter.yml"
+    - name: Remove config example
+      file:
+        path: "{{ blackbox_exporter_home }}/blackbox.yml"
+        state: absent
+    - name: Check BlackboxExporter PID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep blackbox_exporter | grep 'address=:{{ blackbox_exporter.port }}'"
+      register: be_pid
+      failed_when: false
+    - name: Start BlackboxExporter
+      shell: "/usr/bin/nohup {{ blackbox_exporter_home }}/blackbox_exporter --config.file={{ blackbox_exporter_home }}/conf/blackbox-exporter.yml --web.listen-address=:{{ blackbox_exporter.port }} > {{ blackbox_exporter_home }}/logs/blackbox_exporter.log 2>&1 &"
+      when: '"blackbox_exporter" not in be_pid.stdout'
