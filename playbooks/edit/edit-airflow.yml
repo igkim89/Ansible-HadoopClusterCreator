@@ -23,3 +23,4 @@
         "broker_url": "{% for r in groups['redis'] %}{% if r != groups['redis'][0] %};{% endif %}sentinel://{{ r }}:{{ redis.sentinel_port }}{% endfor %}"
         "result_backend": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "dag_dir_list_interval": "{{ airflow.dag_dir_list_interval }}"
+        "schedule_after_task_execution": "False"
