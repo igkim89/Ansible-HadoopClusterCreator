@@ -1,0 +1,31 @@
+---
+
+- name: Check BlackboxExporter status
+  hosts: blackbox-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    blackbox_exporter_home: "{{ bigdata_home }}/blackbox_exporter"
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        be_status: "BlackboxExporter is stopped."
+      no_log: true
+    - name: Check BlackboxExporter
+      shell: "/usr/bin/ps -ef | grep -v grep | grep blackbox_exporter | grep 'address=:{{ blackbox_exporter.port }}'"
+      register: be_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        be_status: "BlackboxExporter is running."
+      when: 'blackbox_exporter_home + "/blackbox_exporter" in be_ps.stdout'
+      no_log: true
+    - name: Show BlackboxExporter status
+      debug:
+        msg:
+          - "{{ be_status }}"
+
+
