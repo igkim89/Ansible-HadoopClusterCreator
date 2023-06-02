@@ -1,7 +1,7 @@
 ---
 
 - name: Install BlackboxExporter
-  hosts:
+  hosts: blackbox-exporter
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -40,6 +40,7 @@
       copy:
         src: "{{ blackbox_exporter_home }}/blackbox_exporter"
         dest: "{{ blackbox_exporter_home }}/bin/"
+        remote_src: true
     - name: Remove starter
       file:
         path: "{{ blackbox_exporter_home }}/blackbox_exporter"
@@ -48,6 +49,7 @@
       copy:
         src: "{{ blackbox_exporter_home }}/blackbox.yml"
         dest: "{{ blackbox_exporter_home }}/conf/blackbox-exporter.yml"
+        remote_src: true
     - name: Remove config example
       file:
         path: "{{ blackbox_exporter_home }}/blackbox.yml"
