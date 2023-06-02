@@ -258,7 +258,11 @@ spark:
 ## HBase 설정
 hbase:
   master_heapsize: 8G
-  region_heapsize: 32G
+  region_heapsize: 14G
+  # (Megabyte)
+  off_heapsize: 16384
+  # region_heapsize + off_heapsize + 여유(1~2G)로 설정 권장.
+  max_direct_mem_size: 32G
 
   master_port: 60000
   master_info_port: 60010
@@ -284,7 +288,10 @@ hbase:
 
   region_handler_count: 100
   region_split_limit: 2147483647
-  region_global_memstore_size: 0.4
+
+  # off-heap 미사용시 0.4
+  # 2023. 06. 02. off-heap 적용으로 인해 0.6으로 변경
+  region_global_memstore_size: 0.6
   region_global_memstore_lower_limit: 0.38
   hregion_memstore_flush_size: 536870912
   hregion_preclose_flush_size: 5242880
@@ -301,7 +308,9 @@ hbase:
   #seconds
   hstore_blocking_wait_time: 90
 
-  hfile_block_size: 0.4
+  # off-heap 미사용시 0.4
+  # 2023. 06. 02. off-heap 적용으로 인해 0.2로 변경
+  hfile_block_size: 0.2
 
 
 

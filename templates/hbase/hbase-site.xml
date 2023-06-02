@@ -224,6 +224,18 @@
         <name>hbase.hregion.majorcompaction.jitter</name>
         <value>{{ hbase.hregion_major_compaction_jitter }}</value>
     </property>
+    <property>
+        <name>hbase.bucketcache.combinedcache.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hbase.bucketcache.ioengine</name>
+        <value>offheap</value>
+    </property>
+    <property>
+        <name>hbase.bucketcache.size</name>
+        <value>{{ hbase.off_heapsize }}</value>
+    </property>
 
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->
