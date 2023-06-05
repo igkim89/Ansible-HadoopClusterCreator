@@ -106,6 +106,7 @@ hadoop:
     permission_umask: "022"
     trash_interval: 1440
     httpfs_port: 50071
+    datanode_transfer_port: 9866
 
     # 고급 속성. 주의해서 변경하십시오. 이는 복제를 위해 DN에서 병렬로 시작할 블록 전송의 총량을 결정합니다.
     # 이러한 명령 목록은 NN에서 DN 하트비트를 통해 전송됩니다. 실제 수는 이 승수에 클러스터의 총 라이브 노드 수를 곱하여 얻습니다.
@@ -155,6 +156,7 @@ hadoop:
     nodemanager_memory_mb: 158220
     nodemanager_vcores: 32
     nodemanagers_hearbeat_interval_ms: 120
+    nodemanager_localizer_port: 8040
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
@@ -348,6 +350,10 @@ zeppelin:
 redis:
   port: 16379
   sentinel_port: 26379
+
+## RStudio 설정
+rstudio:
+  web_port: 8787
 
 ## Prometheus 설정
 prometheus:
