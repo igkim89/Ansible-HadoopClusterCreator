@@ -32,3 +32,227 @@ scrape_configs:
   - job_name: "node-exporter"
     static_configs:
       - targets: [{% for wk in groups['worker'] %}{% if wk != groups['worker'][0] %},{% endif %}'{{ wk }}:{{ node_exporter.port }}'{% endfor %}]
+
+  - job_name: "blackbox-exporter-hadoop-hdfs"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for nn in groups['namenode'] %}{% if nn != groups['namenode'][0] %},{% endif %}'{{ nn }}:{{ hadoop.hdfs.namenode_rpc_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hadoop.hdfs.datanode_transfer_port }}'{% endfor %}{% for jn in groups['journalnode'] %},'{{ jn }}:{{ hadoop.hdfs.journalnode_shared_edits_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-hadoop-yarn"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for rm in groups['resourcemanager'] %}{% if rm != groups['resourcemanager'][0] %},{% endif %}'{{ rm }}:{{ hadoop.yarn.resourcemanager_admin_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hadoop.yarn.nodemanager_localizer_port }}'{% endfor %}{% for hs in groups['jobhistoryserver'] %},'{{ hs }}:{{ hadoop.yarn.jobhistoryserver_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-zookeeper"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for zk in groups['zookeeper'] %}{% if zk != groups['zookeeper'][0] %},{% endif %}'{{ zk }}:{{ zookeeper.client_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-kafka"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for k in groups['kafka'] %}{% if k != groups['kafka'][0] %},{% endif %}'{{ k }}:{{ kafka.bootstrap_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-mysql"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for m in groups['mysql'] %}{% if m != groups['mysql'][0] %},{% endif %}'{{ m }}:{{ mysql.jdbc_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-hive"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for hs in groups['hive-server2'] %}{% if hs != groups['hive-server2'][0] %},{% endif %}'{{ hs }}:{{ hive.hive_server2_port }}'{% endfor %}{% for hm in groups['metastore'] %},'{{ hm }}:{{ hive.metastore.metastore_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-hbase"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for hm in groups['hbase-master'] %}{% if hm != groups['hbase-master'][0] %},{% endif %}'{{ hm }}:{{ hbase.master_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hbase.region_info_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-spark"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for sh in groups['spark-history'] %}{% if sh != groups['spark-history'][0] %},{% endif %}'{{ sh }}:{{ spark.history.ui_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-ufk"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for u in groups['ufk'] %}{% if u != groups['ufk'][0] %},{% endif %}'{{ u }}:{{ ufk.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-hue"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for h in groups['hue'] %}{% if h != groups['hue'][0] %},{% endif %}'{{ h }}:{{ hue.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-rstudio"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for r in groups['R'] %}{% if r != groups['R'][0] %},{% endif %}'{{ r }}:{{ rstudio.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-zeppelin"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for zp in groups['zeppelin'] %}{% if zp != groups['zeppelin'][0] %},{% endif %}'{{ zp }}:{{ zeppelin.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-redis"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for re in groups['redis'] %}{% if re != groups['redis'][0] %},{% endif %}'{{ re }}:{{ redis.port }}','{{ re }}:{{ redis.sentinel_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-airflow"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for af in groups['airflow'] %}{% if af != groups['airflow'][0] %},{% endif %}'{{ af }}:{{ airflow.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-solr"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for rg in groups['ranger'] %}{% if rg != groups['ranger'][0] %},{% endif %}'{{ rg }}:{{ ranger.solr.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "blackbox-exporter-ranger"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for rg in groups['ranger'] %}{% if rg != groups['ranger'][0] %},{% endif %}'{{ rg }}:{{ ranger.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
