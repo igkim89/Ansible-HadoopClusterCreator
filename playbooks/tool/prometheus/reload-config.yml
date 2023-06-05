@@ -1,0 +1,14 @@
+---
+
+# Configuration re-load API
+# curl -X POST http://127.0.0.1:9090/-/reload
+
+- name: Reload Prometheus configruation
+  hosts: prometheus
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    prometheus_home: "{{ bigdata_home }}/prometheus"
+  tasks:
+    - name: Reload
+      shell: "/usr/bin/sh {{ prometheus_home }}/reload.sh"
