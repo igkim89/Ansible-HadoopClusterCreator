@@ -13,10 +13,7 @@
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
       when: '"master [airflow-webserver]" not in webserver_result.stdout'
-    - name: Airflow webserver status
-      debug:
-        msg: Airflow webserver already running.
-      when: '"master [airflow-webserver]" in webserver_result.stdout'
+
 
 ## Start Scheduler
 - name: Start Airflow scheduler
@@ -31,10 +28,7 @@
     - name: Start Airflow scheduler
       command: "~/.pyenv/shims/airflow scheduler -D"
       when: '"airflow scheduler" not in scheduler_result.stdout'
-    - name: Airflow scheduler status
-      debug:
-        msg: Airflow scheduler already running.
-      when: '"airflow scheduler" in scheduler_result.stdout'
+
 
 ### Start Celery
 #- name: Start Celery flower
