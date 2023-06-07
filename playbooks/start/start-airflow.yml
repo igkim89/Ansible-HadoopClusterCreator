@@ -5,11 +5,18 @@
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Airflow webserver
       shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
       register: webserver_result
       failed_when: false
+    - name: Remove pid file
+      file:
+        path: "{{ airflow_home }}/airflow-scheduler.pid"
+        state: absent
+      when: '"master [airflow-webserver]" not in webserver_result.stdout'
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
       when: '"master [airflow-webserver]" not in webserver_result.stdout'
@@ -20,11 +27,18 @@
   hosts: airflow-scheduler
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Airflow scheduler
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
       register: scheduler_result
       failed_when: false
+    - name: Remove pid file
+      file:
+        path: "{{ airflow_home }}/airflow-scheduler.pid"
+        state: absent
+      when: '"airflow scheduler" not in scheduler_result.stdout'
     - name: Start Airflow scheduler
       command: "~/.pyenv/shims/airflow scheduler -D"
       when: '"airflow scheduler" not in scheduler_result.stdout'
