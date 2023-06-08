@@ -161,7 +161,7 @@
   become: no
   tasks:
     - name: Check Airflow scheduler
-      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'bin/airflow scheduler'"
       register: scheduler_result
       failed_when: false
     - name: Start Airflow scheduler
