@@ -34,7 +34,7 @@
         scheduler_status: "Airflow scheduler is stopped."
       no_log: true
     - name: Check Airflow scheduler
-      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow scheduler -- DagFileProcessorManager'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'bin/airflow scheduler'"
       register: scheduler_ps
       no_log: true
       failed_when: false
