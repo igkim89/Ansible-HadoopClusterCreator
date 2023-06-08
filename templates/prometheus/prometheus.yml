@@ -220,7 +220,7 @@ scrape_configs:
     params:
       module: [tcp_connect]
     static_configs:
-      - targets: [{% for af in groups['airflow'] %}{% if af != groups['airflow'][0] %},{% endif %}'{{ af }}:{{ airflow.web_port }}'{% endfor %}]
+      - targets: [{% for aw in groups['airflow-webserver'] %}{% if aw != groups['airflow-webserver'][0] %},{% endif %}'{{ aw }}:{{ airflow.web_port }}'{% endfor %}]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
