@@ -14,8 +14,11 @@
       failed_when: false
     - name: Remove pid file
       file:
-        path: "{{ airflow_home }}/airflow-scheduler.pid"
+        path: "{{ airflow_home }}/{{ item }}"
         state: absent
+      with_items:
+        - "airflow-webserver.pid"
+        - "airflow-webserver-monitor.pid"
       when: '"master [airflow-webserver]" not in webserver_result.stdout'
     - name: Start Airflow webserver
       command: "~/.pyenv/shims/airflow webserver -D"
