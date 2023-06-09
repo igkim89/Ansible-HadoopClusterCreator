@@ -58,6 +58,7 @@ installer:
   prometheus: "prometheus-2.37.6.linux-amd64.tar.gz"
   node_exporter: "node_exporter-1.5.0.linux-amd64.tar.gz"
   blackbox_exporter: "blackbox_exporter-0.24.0.linux-amd64.tar.gz"
+  check_process_exporter: "check_process_exporter-main.zip"
   grafana: "grafana-enterprise-9.4.7.linux-amd64.tar.gz"
   solr: "solr-9.2.0.tgz"
   ranger_admin: "ranger-2.4.1-SNAPSHOT-admin.tar.gz"
@@ -366,6 +367,10 @@ node_exporter:
 ## BlackboxExporter 설정
 blackbox_exporter:
   port: 9115
+
+## CheckProcessExporter 설정
+check_process_exporter:
+  port: 50078
 
 ## Grafana 설정
 grafana:
