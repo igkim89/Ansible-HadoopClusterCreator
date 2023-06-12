@@ -6,6 +6,7 @@
   become: no
   vars:
     check_process_exporter_home: "{{ bigdata_home }}/check_process_exporter"
+    pyenv_home: "/home/{{ remote_user }}/.pyenv"
   tasks:
     - name: Copy installer
       copy:
@@ -26,11 +27,11 @@
     - name: Create Prometheus symbolic link
       file:
         src: "{{ bigdata_home }}/{{ installer.check_process_exporter.replace('.zip', '') }}"
-        dest: "{{ blackbox_exporter_home }}"
+        dest: "{{ check_process_exporter_home }}"
         state: link
     - name: Create log directory
       file:
-        path: "{{ blackbox_exporter_home }}/{{ item }}"
+        path: "{{ check_process_exporter_home }}/{{ item }}"
         state: directory
       with_items:
         - "logs"
@@ -39,5 +40,5 @@
       register: cpe_ps
       failed_when: false
     - name: Start CheckProcessExporter
-      shell: "/usr/bin/nohup {{ blackbox_exporter_home }}/check_process_exporter > {{ check_process_exporter_home }}/logs/cp_exporter.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ pyenv_home }}/shims/python {{ check_process_exporter_home }}/check_process_exporter.py > {{ check_process_exporter_home }}/logs/cp_exporter.log 2>&1 &"
       when: '"check_process_exporter" not in cpe_ps.stdout'
