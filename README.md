@@ -197,82 +197,14 @@ $ run/dev/start/start-grafana.sh
 
 ## 서비스 테스트
 
-### Zookeeper 테스트
-
-Install 완료시 Server status 자동 출력
-
-### Kafka 테스트
-
-미완료
-
-### Hadoop 테스트
-
-MapReduce job 테스트
-
 ```
 $ run/dev/test/hadoop/mr-wordcount.sh
-```
-
-### MySQL 테스트
-```
 $ run/dev/test/mysql/mysql-query.sh
-```
-
-### Hive 테스트
-```
 $ run/dev/test/hive/hive-query.sh
-```
-
-### HBase 테스트
-```
 $ run/dev/test/hbase/hbase-command.sh
-```
-
-### Spark 테스트
-
-Spark Wordcount 테스트
-
-```
 $ run/dev/test/spark/pyspark-wordcount.sh
-```
-
-Spark SQL 테스트
-
-```
 $ run/dev/test/spark/pyspark-hive.sh
 ```
-
-### UI for Apache Kafka 테스트
-
-Web UI 접속 및 확인
-
-### Hue 테스트
-
-Web UI 접속 및 확인
-
-### R 테스트
-
-RStudio Web UI 접속 및 확인
-
-### Redis 테스트
-
-TBD
-
-### Airflow 테스트
-
-Web UI 접속 및 확인
-
-### Zeppelin 테스트
-
-Web UI 접속 및 확인
-
-### Prometheus 테스트
-
-Web UI 접속 및 확인
-
-### Grafana 테스트
-
-Web UI 접속 및 확인
 
 ## 서비스 중지
 
