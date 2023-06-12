@@ -100,6 +100,8 @@ Ansible을 사용한 Hadoop cluster 구축
 
 ## Installer download
 
+설치에 사용할 설치파일을 다운로드한다.
+
 [Download](https://igkim89.synology.me:5001/sharing/B38dytt87)
 
 ## 환경 구성
