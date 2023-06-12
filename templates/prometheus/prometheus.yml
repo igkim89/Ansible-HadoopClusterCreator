@@ -256,3 +256,7 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  - job_name: "check-process-exporter"
+    static_configs:
+      - targets: [{% for cpe in groups['check-process-exporter'] %}{% if cpe != groups['ranger'][0] %},{% endif %}'{{ cpe }}:{{ check_process_exporter.port }}'{% endfor %}]
