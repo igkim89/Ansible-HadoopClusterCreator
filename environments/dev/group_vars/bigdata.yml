@@ -370,7 +370,7 @@ blackbox_exporter:
 
 ## CheckProcessExporter 설정
 check_process_exporter:
-  port: 50078
+  port: 9439
 
 ## Grafana 설정
 grafana:
