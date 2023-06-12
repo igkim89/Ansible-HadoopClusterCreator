@@ -1,0 +1,24 @@
+---
+
+- name: Uninstall CheckProcessExporter
+  hosts: check-process-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    check_process_exporter_home: "{{ bigdata_home }}/check_process_exporter"
+  tasks:
+    - name: Find CheckProcessExporter process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep check_process_exporter.py | awk '{print $2}'"
+      register: cpe_pid
+      failed_when: false
+    - name: Kill CheckProcessExporter
+      command: "/usr/bin/kill -9 {{ cpe_pid.stdout }}"
+      when: cpe_pid.stdout !=""
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ bigdata_home }}/{{ installer.check_process_exporter.replace('.zip', '') }}"
+        - "{{ check_process_exporter_home }}"
+      failed_when: False
