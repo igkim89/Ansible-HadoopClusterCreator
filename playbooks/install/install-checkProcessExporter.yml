@@ -41,4 +41,5 @@
       failed_when: false
     - name: Start CheckProcessExporter
       shell: "/usr/bin/nohup {{ pyenv_home }}/shims/python {{ check_process_exporter_home }}/check_process_exporter.py > {{ check_process_exporter_home }}/logs/cp_exporter.log 2>&1 &"
+      args: "{{ check_process_exporter_home }}"
       when: '"check_process_exporter" not in cpe_ps.stdout'
