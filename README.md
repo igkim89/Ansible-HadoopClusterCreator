@@ -13,21 +13,6 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Ansible 설치](#ansible-설치)
 * **[S/W 설치](#S/W-설치)**
 * **[서비스 배포 (서비스 시작 포함)](#서비스-배포-(서비스-시작-포함))**
-  * [Zookeeper 배포](#zookeeper-배포)
-  * [Kafka 배포](#kafka-배포)
-  * [Hadoop 배포](#hadoop-배포)
-  * [MySQL 배포](#mysql-배포)
-  * [Hive 배포](#hive-배포)
-  * [HBase 배포](#hbase-배포)
-  * [Spark 배포](#spark-배포)
-  * [UI for Apache Kafka 배포](#ui-for-apache-kafka-배포)
-  * [Hue 배포](#hue-배포)
-  * [R 배포 (RStudio 포함)](#r-배포-(rstudio-포함))
-  * [Redis 배포](#redis-배포)
-  * [Airflow 배포](#airflow-배포)
-  * [Zeppelin 배포](#zeppelin-배포)
-  * [Prometheus 배포](#prometheus-배포)
-  * [Grafana 배포](#grafana-배포)
 * **[서비스 시작](#서비스-시작)**
   * [Zookeeper 시작](#zookeeper-시작)
   * [Kafka 시작](#kafka-시작)
@@ -92,7 +77,7 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Zeppelin 제거](#zeppelin-제거)
   * [Prometheus 제거](#prometheus-제거)
   * [Grafana 제거](#grafana-제거)
-* **[Scaling](#scaling)
+* **[Scaling](#scaling)**
   * [Scale-out](#scale-out)
   * [Scale-in](#scale-in)
 
@@ -172,155 +157,41 @@ $ vim environments/dev/group_vars/bigdata.yml
 - Hue (Timezone 수정)
 - UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
 
-### Zookeeper 배포
 ```
 $ run/dev/install/install-zookeeper.sh
-```
-
-### Kafka 배포
-```
 $ run/dev/install/install-kafka.sh
-```
-
-### Hadoop 배포
-```
 $ run/dev/install/install-hadoop.sh
-```
-
-### MySQL 배포
-```
 $ run/dev/install/install-mysql.sh
-```
-
-### Hive 배포
-```
 $ run/dev/install/install-hive.sh
-```
-
-### HBase 배포
-```
 $ run/dev/install/install-hbase.sh
-```
-
-### Spark 배포
-```
 $ run/dev/install/install-spark.sh
-```
-
-### UI for Apache Kafka 배포
-```
 $ run/dev/install/install-ufk.sh
-```
-
-### Hue 배포
-```
 $ run/dev/install/install-hue.sh
-```
-
-### R 배포 (RStudio 포함)
-```
 $ run/dev/install/install-R.sh
-```
-
-### Redis 배포
-```
 $ run/dev/install/install-redis.sh
-```
-
-### Airflow 배포
-```
 $ run/dev/install/install-airflow.sh
-```
-
-### Zeppelin 배포
-```
 $ run/dev/install/install-zeppelin.sh
-```
-
-### Prometheus 배포
-```
 $ run/dev/install/install-prometheus.sh
-```
-
-### Grafana 배포
-```
 $ run/dev/install/install-grafana.sh
 ```
 
 ## 서비스 시작
 
-### Zookeeper 시작
 ```
 $ run/dev/start/start-zookeeper.sh
-```
-
-### Kafka 시작
-```
 $ run/dev/start/start-kafka.sh
-```
-
-### Hadoop 시작
-```
 $ run/dev/start/start-hadoop.sh
-```
-
-### MySQL 시작
-```
 $ run/dev/start/start-mysql.sh
-```
-
-### Hive 시작
-```
 $ run/dev/start/start-hive.sh
-```
-
-### HBase 시작
-```
 $ run/dev/start/start-hbase.sh
-```
-
-### Spark 시작
-```
 $ run/dev/start/start-spark.sh
-```
-
-### UI for Apache Kafka 시작
-```
 $ run/dev/start/start-ufk.sh
-```
-
-### Hue 시작
-```
 $ run/dev/start/start-hue.sh
-```
-
-### R 시작
-```
 $ run/dev/start/start-R.sh
-```
-
-### Redis 시작
-```
 $ run/dev/start/start-redis.sh
-```
-
-### Airflow 시작
-```
 $ run/dev/start/start-airflow.sh
-```
-
-### Zeppelin 시작
-```
 $ run/dev/start/start-zeppelin.sh
-```
-
-### Prometheus 시작
-```
 $ run/dev/start/start-prometheus.sh
-```
-
-### Grafana 시작
-```
 $ run/dev/start/start-grafana.sh
 ```
 
@@ -405,155 +276,41 @@ Web UI 접속 및 확인
 
 ## 서비스 중지
 
-### Zookeeper 중지
 ```
 $ run/dev/stop/stop-zookeeper.sh
-```
-
-### Kafka 중지
-```
 $ run/dev/stop/stop-kafka.sh
-```
-
-### Hadoop 중지
-```
 $ run/dev/stop/stop-hadoop.sh
-```
-
-### MySQL 중지
-```
 $ run/dev/stop/stop-mysql.sh
-```
-
-### Hive 중지
-```
 $ run/dev/stop/stop-hive.sh
-```
-
-### HBase 중지
-```
 $ run/dev/stop/stop-hbase.sh
-```
-
-### Spark 중지
-```
 $ run/dev/stop/stop-spark.sh
-```
-
-### UI for Apache Kafka 중지
-```
 $ run/dev/stop/stop-ufk.sh
-```
-
-### Hue 중지
-```
 $ run/dev/stop/stop-hue.sh
-```
-
-### R 중지
-```
 $ run/dev/stop/stop-R.sh
-```
-
-### Redis 중지
-```
 $ run/dev/stop/stop-redis.sh
-```
-
-### Airflow 중지
-```
 $ run/dev/stop/stop-airflow.sh
-```
-
-### Zeppelin 중지
-```
 $ run/dev/stop/stop-zeppelin.sh
-```
-
-### Prometheus 중지
-```
 $ run/dev/stop/stop-prometheus.sh
-```
-
-### Grafana 중지
-```
 $ run/dev/stop/stop-grafana.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
 
-### Zookeeper 제거
 ```
 $ run/dev/uninstall/uninstall-zookeeper.sh
-```
-
-### Kafka 제거
-```
 $ run/dev/uninstall/uninstall-kafka.sh
-```
-
-### Hadoop 제거
-```
 $ run/dev/uninstall/uninstall-hadoop.sh
-```
-
-### MySQL 제거
-```
 $ run/dev/uninstall/uninstall-mysql.sh
-```
-
-### Hive 제거
-```
 $ run/dev/uninstall/uninstall-hive.sh
-```
-
-### HBase 제거
-```
 $ run/dev/uninstall/uninstall-hbase.sh
-```
-
-### Spark 제거
-```
 $ run/dev/uninstall/uninstall-spark.sh
-```
-
-### UI for Apache Kafka 제거
-```
 $ run/dev/uninstall/uninstall-ufk.sh
-```
-
-### Hue 제거
-```
 $ run/dev/uninstall/uninstall-hue.sh
-```
-
-### R 제거
-```
 $ run/dev/uninstall/uninstall-R.sh
-```
-
-### Redis 제거
-```
 $ run/dev/uninstall/uninstall-redis.sh
-```
-
-### Airflow 제거
-```
 $ run/dev/uninstall/uninstall-airflow.sh
-```
-
-### Zeppelin 제거
-```
 $ run/dev/uninstall/uninstall-zeppelin.sh
-```
-
-### Prometheus 제거
-```
 $ run/dev/uninstall/uninstall-prometheus.sh
-```
-
-### Grafana 제거
-```
 $ run/dev/uninstall/uninstall-grafana.sh
 ```
 
