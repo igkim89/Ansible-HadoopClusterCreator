@@ -15,4 +15,6 @@
       shell: "/usr/bin/nohup {{ kminion_exporter_home }}/bin/kminion > {{ kminion_exporter_home }}/logs/kminion_exporter.log 2>&1 &"
       args:
         chdir: "{{ kminion_exporter_home }}"
+      environment:
+        CONFIG_FILEPATH: "{{ kminion_exporter_home }}/conf/config.yml"
       when: '"kminion" not in km_ps.stdout'
