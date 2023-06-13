@@ -1,0 +1,18 @@
+---
+
+- name: Start KMinionExporter
+  hosts: kminion-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
+  tasks:
+    - name: Check KMinionExporter Process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion"
+      register: km_ps
+      failed_when: false
+    - name: Start KMinionExporter
+      shell: "/usr/bin/nohup {{ kminion_exporter_home }}/bin/kminion > {{ kminion_exporter_home }}/logs/kminion_exporter.log 2>&1 &"
+      args:
+        chdir: "{{ kminion_exporter_home }}"
+      when: '"kminion" not in km_ps.stdout'
