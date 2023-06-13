@@ -1,0 +1,16 @@
+---
+
+- name: Stop KMinionExporter
+  hosts: kminion-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
+  tasks:
+    - name: Find KMinionExporter process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion | awk '{print $2}'"
+      register: km_pid
+      failed_when: false
+    - name: Kill KMinionExporter
+      command: "/usr/bin/kill -9 {{ km_pid.stdout }}"
+      when: km_pid.stdout !=""
