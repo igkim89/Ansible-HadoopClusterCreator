@@ -7,7 +7,7 @@
   tasks:
     - name: Edit KMinionExporter configuration
       template:
-        src: "kminion/{{ item }}"
+        src: "prometheus/{{ item }}"
         dest: "{{ kminion_exporter_home }}/conf/"
         mode: 0644
       with_items:
