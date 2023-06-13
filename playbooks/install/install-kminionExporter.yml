@@ -1,0 +1,57 @@
+---
+
+- name: Install KMinionExporter
+  hosts: kminion-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
+  tasks:
+    - name: Copy installer
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.kminion_exporter }}"
+        dest: "{{ bigdata_home }}/{{ installer.kminion_exporter }}"
+    - name: Create home directory
+      file:
+        path: "{{ kminion_exporter }}"
+        state: directory
+    - name: Unzip installer
+      unarchive:
+        src: "{{ bigdata_home }}/{{ installer.kminion_exporter }}"
+        dest: "{{ kminion_exporter_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Delete installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.kminion_exporter }}"
+        state: absent
+    - name: Create log directory
+      file:
+        path: "{{ kminion_exporter_home }}/{{ item }}"
+        state: directory
+      with_items:
+        - "logs"
+        - "conf"
+        - "bin"
+    - name: Copy starter
+      copy:
+        src: "{{ kminion_exporter_home }}/kminion"
+        dest: "{{ kminion_exporter_home }}/bin/"
+    - name: Remove starter
+      file:
+        path: "{{ kminion_exporter_home }}/kminion"
+        state: absent
+    - name: Copy configuration file
+      template:
+        src: "kminion/config.yml"
+        dest: "{{ kminion_exporter_home }}/conf/"
+    - name: Check KMinionExporter Process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion"
+      register: km_ps
+      failed_when: false
+    - name: Start KMinionExporter
+      shell: "/usr/bin/nohup {{ kminion_exporter_home }}/bin/kminion > {{ kminion_exporter_home }}/logs/kminion_exporter.log 2>&1 &"
+      args:
+        chdir: "{{ kminion_exporter_home }}"
+      when: '"kminion" not in km_ps.stdout'
