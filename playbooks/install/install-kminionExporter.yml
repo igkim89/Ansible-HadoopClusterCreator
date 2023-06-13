@@ -39,6 +39,7 @@
         src: "{{ kminion_exporter_home }}/kminion"
         dest: "{{ kminion_exporter_home }}/bin/"
         remote_src: true
+        mode: 0755
     - name: Remove starter
       file:
         path: "{{ kminion_exporter_home }}/kminion"
