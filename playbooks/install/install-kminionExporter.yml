@@ -45,8 +45,11 @@
         state: absent
     - name: Copy configuration file
       template:
-        src: "kminion/config.yml"
+        src: "kminion/{{ item }}"
         dest: "{{ kminion_exporter_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "config.yml"
     - name: Check KMinionExporter Process
       shell: "/usr/bin/ps -ef | grep -v grep | grep kminion"
       register: km_ps
