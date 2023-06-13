@@ -1,0 +1,14 @@
+- name: Edit KMinionExporter configuration
+  hosts: kminion-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
+  tasks:
+    - name: Edit KMinionExporter configuration
+      template:
+        src: "kminion/{{ item }}"
+        dest: "{{ kminion_exporter_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "config.yml"
