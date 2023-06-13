@@ -264,4 +264,4 @@ scrape_configs:
   - job_name: "kminion-exporter"
     metrics_path: /metrics
     static_configs:
-      - targets: [{% for ke in groups['kminion-exporter'] %}{% if ke != groups['kminion-exporter'][0] %},{% endif %}'{{ ke }}:{{ kminion-exporter.port }}'{% endfor %}]
+      - targets: [{% for ke in groups['kminion-exporter'] %}{% if ke != groups['kminion-exporter'][0] %},{% endif %}'{{ ke }}:{{ kminion_exporter.port }}'{% endfor %}]
