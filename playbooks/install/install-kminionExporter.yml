@@ -13,7 +13,7 @@
         dest: "{{ bigdata_home }}/{{ installer.kminion_exporter }}"
     - name: Create home directory
       file:
-        path: "{{ kminion_exporter }}"
+        path: "{{ kminion_exporter_home }}"
         state: directory
     - name: Unzip installer
       unarchive:
@@ -38,6 +38,7 @@
       copy:
         src: "{{ kminion_exporter_home }}/kminion"
         dest: "{{ kminion_exporter_home }}/bin/"
+        remote_src: true
     - name: Remove starter
       file:
         path: "{{ kminion_exporter_home }}/kminion"
