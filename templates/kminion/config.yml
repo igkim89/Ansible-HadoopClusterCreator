@@ -163,4 +163,4 @@ exporter:
   # Host that shall be used to bind the HTTP server on
   host: ""
   # Port that shall be used to bind the HTTP server on
-  port: {{ kminion-exporter.port }}
+  port: {{ kminion_exporter.port }}
