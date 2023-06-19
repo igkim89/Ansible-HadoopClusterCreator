@@ -265,3 +265,8 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: [{% for ke in groups['kminion-exporter'] %}{% if ke != groups['kminion-exporter'][0] %},{% endif %}'{{ ke }}:{{ kminion_exporter.port }}'{% endfor %}]
+
+  - job_name: "hbase-jmx-exporter"
+    metrics_path: /metrics
+    static_configs:
+      - targets: [{% for b in groups['bigdata'] %}{% if b != groups['bigdata'][0] %},{% endif %}'{{ b }}:{{ hbase_jmx_exporter.port }}'{% endfor %}]
