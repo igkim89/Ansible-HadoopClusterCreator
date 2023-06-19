@@ -42,6 +42,24 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+    - name: Create tools directory
+      file:
+        dest: "{{ hbase_home }}/tools"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy jmx_exporter
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
+        dest: "{{ hbase_home }}/tools/"
+    - name: touch hbase-jmx.yml
+      file:
+        path: "{{ hbase_home }}/conf/hbase-jmx.yml"
+        state: touch
+        mode: 0644
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
 
 - name: Upload HBase library on Spark archive
   hosts: "{{ groups['hbase'][0] }}"
