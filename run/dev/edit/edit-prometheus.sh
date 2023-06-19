@@ -15,7 +15,7 @@ read restart
 while [ $restart != "Y" ] && [ $restart != "y" ] && [ $restart != "N" ] && [ $restart != "n" ] && [ $restart != "r" ] && [ $restart != "R" ]
 do
   echo "Invalid input."
-  echo -n -e "${RED_COLOR}Do you want to restart the Prometheus service now?${NO_COLOR} (y/n) "
+  echo -n -e "${RED_COLOR}Do you want to restart the Prometheus service now?${NO_COLOR} (y/n/r) "
   read restart
 done
 
