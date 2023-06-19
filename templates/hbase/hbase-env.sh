@@ -25,3 +25,5 @@ export HBASE_MANAGES_ZK=false
 
 export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xmx{{ hbase.master_heapsize }}"
 export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -Xmx{{ hbase.region_heapsize }} -XX:MaxDirectMemorySize={{ hbase.max_direct_mem_size }}"
+
+export HBASE_OPTS="$HBASE_OPTS -javaagent:{{ bigdata_home }}/hbase/tools/{{ installer.jmx_exporter }}={{ hbase_jmx_exporter.port }}:{{ bigdata_home }}/hbase/conf/hbase-jmx.yml"
