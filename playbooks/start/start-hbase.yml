@@ -12,14 +12,34 @@
 #      shell: "/usr/bin/nohup {{ hbase_home }}/bin/start-hbase.sh"
 
 - name: Start HBase Master
-  hosts: hbase-master
+  hosts: "{{ groups['hbase-master'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
+    - name: Check HBase Master
+      shell: "/usr/bin/jps | grep 'HMaster'"
+      register: hm_result
+      failed_when: false
     - name: Start HBase Master
       command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      when: '"HMaster" not in hm_result'
+
+- name: Start HBase Master
+  hosts: "{{ groups['hbase-master'][1] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Check HBase Master
+      shell: "/usr/bin/jps | grep 'HMaster'"
+      register: hm_result
+      failed_when: false
+    - name: Start HBase Master
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      when: '"HMaster" not in hm_result'
 
 - name: Start HBase RegionServer
   hosts: worker
@@ -28,5 +48,10 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
+    - name: Check HBase RegionServer
+      shell: "/usr/bin/jps | grep 'HRegionServer'"
+      register: rs_result
+      failed_when: false
     - name: Start HBase RegionServer
       command: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+      when: '"HRegionServer" not in rs_result'
