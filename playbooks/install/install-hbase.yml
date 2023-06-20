@@ -139,17 +139,33 @@
 #      with_items:
 #        - hdfs/hadoop-hdfs-3.3.4.jar
 
-- name: Start HBase all component
-  hosts: "{{ groups['hbase-master'][0] }}"
+## 2023. 06. 20. 스크립트 동작 이상으로 인한 개별 중지로 변경
+#- name: Start HBase all component
+#  hosts: "{{ groups['hbase-master'][0] }}"
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hbase_home: "{{ bigdata_home }}/hbase"
+#  tasks:
+#    - name: Start master process
+#      shell: "{{ hbase_home }}/bin/start-hbase.sh"
+
+- name: Start HBase Master
+  hosts: hbase-master
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-    - name: Start master process
-      shell: "{{ hbase_home }}/bin/start-hbase.sh"
-## 미사용으로 인한 임시 제거
-#    - name: Start thrift server
-#      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start thrift"
+    - name: Start HBase Master
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
 
-
+- name: Start HBase RegionServer
+  hosts: worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+    - name: Start HBase RegionServer
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
