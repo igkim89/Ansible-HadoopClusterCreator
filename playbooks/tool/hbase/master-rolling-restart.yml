@@ -7,8 +7,6 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-    - name: Stop Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
     - name: Check HBase Master pid
       shell: "/usr/bin/jps | grep 'HMaster' | awk '{print $1}'"
       register: hm_pid
@@ -16,6 +14,8 @@
     - name: Kill HBase Master
       command: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
       when: hm_pid.stdout != ""
+    - name: Stop Master
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
     - name: Pause
       pause:
         seconds: 15
@@ -32,8 +32,6 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-    - name: Stop Master-backup
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
     - name: Check HBase Master pid
       shell: "/usr/bin/jps | grep 'HMaster' | awk '{print $1}'"
       register: hm_pid
@@ -41,6 +39,8 @@
     - name: Kill HBase Master
       command: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
       when: hm_pid.stdout != ""
+    - name: Stop Master-backup
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
     - name: Pause
       pause:
         seconds: 15
