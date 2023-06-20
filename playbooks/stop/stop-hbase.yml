@@ -1,15 +1,33 @@
 ---
 
-- name: Stop HBase Service
-  hosts: "{{ groups['hbase-master'][0] }}"
+## 2023. 06. 20. 스크립트 동작 이상으로 인한 개별 중지로 변경
+#- name: Stop HBase Service
+#  hosts: "{{ groups['hbase-master'][0] }}"
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hbase_home: "{{ bigdata_home }}/hbase"
+#  tasks:
+#    - name: Stop HBase service
+#      command: "{{ hbase_home }}/bin/stop-hbase.sh"
+#      failed_when: False
+
+- name: Stop HBase RegionServer
+  hosts: worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-#    - name: Stop HBase thrift server
-#      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop thrift"
-#      failed_when: False
-    - name: Stop HBase service
-      command: "{{ hbase_home }}/bin/stop-hbase.sh"
-      failed_when: False
+    - name: Stop HBase RegionServer
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop regionserver"
+
+- name: Stop HBase Master
+  hosts: hbase-master
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+  tasks:
+      - name: Stop HBase Master
+        command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
