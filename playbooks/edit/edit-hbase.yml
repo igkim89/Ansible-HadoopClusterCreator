@@ -13,3 +13,4 @@
         - "hbase-env.sh"
         - "hbase-site.xml"
         - "regionservers"
+        - "hbase-jmx.yml"
