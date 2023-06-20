@@ -29,7 +29,7 @@
       register: hm_result
       failed_when: false
     - name: Start HBase Master
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result'
     - name: Pause
       pause:
@@ -64,5 +64,5 @@
       register: hm_result
       failed_when: false
     - name: Start HBase Master
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result'
