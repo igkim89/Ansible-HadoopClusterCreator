@@ -380,7 +380,8 @@ kminion_exporter:
 
 ## HBase JMXExporter 설정
 hbase_jmx_exporter:
-  port: 50078
+  master_port: 9431
+  region_port: 9432
 
 ## Grafana 설정
 grafana:
