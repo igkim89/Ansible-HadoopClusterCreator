@@ -5,3 +5,5 @@ rules:
       namespace: "$1"
       table: "$2"
       region: "$3"
+
+  - pattern: ".*"
