@@ -1,11 +1,11 @@
 ---
 
-- name: Start HBase all component
+- name: HBase RegionServer Rolling restart
   hosts: "{{ groups['hbase-master'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-    - name: Start master process
-      shell: "/usr/bin/nohup {{ hbase_home }}/bin/rolling-restart.sh --rs-only"
+    - name: RegionServer restart
+      shell: "{{ hbase_home }}/bin/rolling-restart.sh --config {{ hbase_home }}/conf --rs-only"
