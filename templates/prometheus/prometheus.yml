@@ -269,4 +269,4 @@ scrape_configs:
   - job_name: "hbase-jmx-exporter"
     metrics_path: /metrics
     static_configs:
-      - targets: [{% for b in groups['bigdata'] %}{% if b != groups['bigdata'][0] %},{% endif %}'{{ b }}:{{ hbase_jmx_exporter.port }}'{% endfor %}]
+      - targets: [{% for hm in groups['hbase-master'] %}{% if hm != groups['hbase-master'][0] %},{% endif %}'{{ hm }}:{{ hbase_jmx_exporter.master_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hbase_jmx_exporter.region_port }}'{% endfor %}]
