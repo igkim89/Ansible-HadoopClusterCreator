@@ -20,7 +20,7 @@
       failed_when: false
     - name: Stop Master
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
-      when: '"HMaster" in hm_result'
+      when: '"HMaster" in hm_result.stdout'
     - name: Pause
       pause:
         seconds: 15
@@ -30,7 +30,7 @@
       failed_when: false
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
-      when: '"HMaster" not in hm_result'
+      when: '"HMaster" not in hm_result.stdout'
     - name: Pause
       pause:
         minutes: 1
@@ -55,7 +55,7 @@
       failed_when: false
     - name: Stop Master
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
-      when: '"HMaster" in hm_result'
+      when: '"HMaster" in hm_result.stdout'
     - name: Pause
       pause:
         seconds: 15
@@ -65,4 +65,4 @@
       failed_when: false
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
-      when: '"HMaster" not in hm_result'
+      when: '"HMaster" not in hm_result.stdout'
