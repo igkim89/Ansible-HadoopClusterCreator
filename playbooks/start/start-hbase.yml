@@ -24,7 +24,7 @@
       failed_when: false
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
-      when: '"HMaster" not in hm_result'
+      when: '"HMaster" not in hm_result.stdout'
 
 - name: Start HBase Master
   hosts: "{{ groups['hbase-master'][1] }}"
@@ -39,7 +39,7 @@
       failed_when: false
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
-      when: '"HMaster" not in hm_result'
+      when: '"HMaster" not in hm_result.stdout'
 
 - name: Start HBase RegionServer
   hosts: worker
@@ -54,4 +54,4 @@
       failed_when: false
     - name: Start HBase RegionServer
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
-      when: '"HRegionServer" not in rs_result'
+      when: '"HRegionServer" not in rs_result.stdout'
