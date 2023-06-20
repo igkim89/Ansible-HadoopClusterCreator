@@ -37,11 +37,15 @@
         state: link
     - name: Add hbase configuration
       template:
-        src: "{{ item }}"
+        src: "hbase/{{ item }}"
         dest: "{{ bigdata_home }}/hbase/conf/"
         mode: 0644
-      with_fileglob:
-        - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+      with_items:
+        - "backup-masters"
+        - "hbase-env.sh"
+        - "hbase-site.xml"
+        - "regionservers"
+        - "hbase-jmx.yml"
     - name: Create tools directory
       file:
         dest: "{{ hbase_home }}/tools"
@@ -52,13 +56,6 @@
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
         dest: "{{ hbase_home }}/tools/"
-    - name: touch hbase-jmx.yml
-      file:
-        path: "{{ hbase_home }}/conf/hbase-jmx.yml"
-        state: touch
-        mode: 0644
-        owner: "{{ remote_user }}"
-        group: "{{ remote_user }}"
 
 
 - name: Upload HBase library on Spark archive
