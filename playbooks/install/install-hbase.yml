@@ -162,7 +162,7 @@
       register: hm_result
       failed_when: false
     - name: Start HBase Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result'
 
 - name: Start HBase RegionServer
@@ -177,5 +177,5 @@
       register: rs_result
       failed_when: false
     - name: Start HBase RegionServer
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
       when: '"HRegionServer" not in rs_result'

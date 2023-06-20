@@ -12,14 +12,14 @@
       register: hm_pid
       failed_when: false
     - name: Kill HBase Master
-      command: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
+      shell: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
       when: hm_pid.stdout != ""
     - name: Check HBase Master
       shell: "/usr/bin/jps | grep 'HMaster'"
       register: hm_result
       failed_when: false
     - name: Stop Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
       when: '"HMaster" in hm_result'
     - name: Pause
       pause:
@@ -29,7 +29,7 @@
       register: hm_result
       failed_when: false
     - name: Start HBase Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result'
     - name: Pause
       pause:
@@ -47,14 +47,14 @@
       register: hm_pid
       failed_when: false
     - name: Kill HBase Master
-      command: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
+      shell: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
       when: hm_pid.stdout != ""
     - name: Check HBase Master
       shell: "/usr/bin/jps | grep 'HMaster'"
       register: hm_result
       failed_when: false
     - name: Stop Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
       when: '"HMaster" in hm_result'
     - name: Pause
       pause:
@@ -64,5 +64,5 @@
       register: hm_result
       failed_when: false
     - name: Start HBase Master
-      command: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result'
