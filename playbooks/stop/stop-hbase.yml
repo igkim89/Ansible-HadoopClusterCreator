@@ -21,6 +21,13 @@
   tasks:
     - name: Stop HBase RegionServer
       command: "{{ hbase_home }}/bin/hbase-daemon.sh stop regionserver"
+    - name: Check HBase RegionServer pid
+      shell: "/usr/bin/jps | grep 'HRegionServer' | awk '{print $1}'"
+      register: rs_pid
+      failed_when: false
+    - name: Kill HBase RegionServer
+      command: "/usr/bin/kill -9 {{ rs_pid.stdout }}"
+      when: rs_pid.stdout != ""
 
 - name: Stop HBase Master
   hosts: hbase-master
@@ -29,5 +36,12 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
-      - name: Stop HBase Master
-        command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
+    - name: Stop HBase Master
+      command: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
+    - name: Check HBase Master pid
+      shell: "/usr/bin/jps | grep 'HMaster' | awk '{print $1}'"
+      register: hm_pid
+      failed_when: false
+    - name: Kill HBase Master
+      command: "/usr/bin/kill -9 {{ hm_pid.stdout }}"
+      when: hm_pid.stdout != ""
