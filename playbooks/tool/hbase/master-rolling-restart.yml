@@ -21,9 +21,12 @@
     - name: Stop Master
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
       when: '"HMaster" in hm_result.stdout'
-    - name: Pause
-      pause:
-        seconds: 15
+    - name: Check Active-Master
+      shell: "{{ hbase_home }}/bin/get-active-master.rb"
+      register: active_result
+      until: "{{ groups['hbase-master'][1] }} in active_result.stdout"
+      retries: 10
+      delay: 10
     - name: Check HBase Master
       shell: "/usr/bin/jps | grep 'HMaster'"
       register: hm_result
@@ -31,9 +34,6 @@
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result.stdout'
-    - name: Pause
-      pause:
-        minutes: 1
 
 - name: HBase Master-backup Rolling restart
   hosts: "{{ groups['hbase-master'][1] }}"
@@ -42,6 +42,12 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
+    - name: Check Backup-Master
+      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][0] }}:{{ master_info_port }}"
+      register: backup_result
+      until: '"HTTP/1.1 200 OK" in backup_result.stdout'
+      retries: 10
+      delay: 10
     - name: Check HBase Master pid
       shell: "/usr/bin/jps | grep 'HMaster' | awk '{print $1}'"
       register: hm_pid
@@ -56,9 +62,12 @@
     - name: Stop Master
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop master"
       when: '"HMaster" in hm_result.stdout'
-    - name: Pause
-      pause:
-        seconds: 15
+    - name: Check Active-Master
+      shell: "{{ hbase_home }}/bin/get-active-master.rb"
+      register: active_result
+      until: "{{ groups['hbase-master'][0] }} in active_result.stdout"
+      retries: 10
+      delay: 10
     - name: Check HBase Master
       shell: "/usr/bin/jps | grep 'HMaster'"
       register: hm_result
@@ -66,3 +75,9 @@
     - name: Start HBase Master
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result.stdout'
+    - name: Check Backup-Master
+      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][1] }}:{{ master_info_port }}"
+      register: backup_result
+      until: '"HTTP/1.1 200 OK" in backup_result.stdout'
+      retries: 10
+      delay: 10
