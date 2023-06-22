@@ -76,7 +76,7 @@
       shell: "/usr/bin/nohup {{ hbase_home }}/bin/hbase-daemon.sh start master"
       when: '"HMaster" not in hm_result.stdout'
     - name: Check Backup-Master
-      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][1] }}:{{ master_info_port }}"
+      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][1] }}:{{ hbase.master_info_port }}"
       register: backup_result
       until: '"HTTP/1.1 200 OK" in backup_result.stdout'
       retries: 10
