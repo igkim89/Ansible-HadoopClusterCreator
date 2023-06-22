@@ -24,7 +24,7 @@
     - name: Check Active-Master
       shell: "{{ hbase_home }}/bin/get-active-master.rb"
       register: active_result
-      until: "{{ groups['hbase-master'][1] }} in active_result.stdout"
+      until: "groups['hbase-master'][1] in active_result.stdout"
       retries: 10
       delay: 10
     - name: Check HBase Master
@@ -43,7 +43,7 @@
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
     - name: Check Backup-Master
-      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][0] }}:{{ master_info_port }}"
+      shell: "/usr/bin/curl -i http://{{ groups['hbase-master'][0] }}:{{ hbase.master_info_port }}"
       register: backup_result
       until: '"HTTP/1.1 200 OK" in backup_result.stdout'
       retries: 10
@@ -65,7 +65,7 @@
     - name: Check Active-Master
       shell: "{{ hbase_home }}/bin/get-active-master.rb"
       register: active_result
-      until: "{{ groups['hbase-master'][0] }} in active_result.stdout"
+      until: "groups['hbase-master'][0] in active_result.stdout"
       retries: 10
       delay: 10
     - name: Check HBase Master
