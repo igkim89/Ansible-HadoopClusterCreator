@@ -216,7 +216,7 @@
 
 
 ## Start Celery Worker
-- name: Start Celery Worker
+- name: Start Celery worker
   hosts: airflow-celery-worker
   remote_user: "{{ remote_user }}"
   become: no
@@ -232,6 +232,6 @@
         path: "{{ airflow_home }}/airflow-worker.pid"
         state: absent
       when: '"celery worker" not in worker_result.stdout'
-    - name: Start Celery flower
+    - name: Start Celery worker
       command: "~/.pyenv/shims/airflow celery worker -D"
       when: '"celery worker" not in worker_result.stdout'
