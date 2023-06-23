@@ -1,7 +1,7 @@
 ---
 
 - name: Install Airflow
-  hosts: airflow-webserver, airflow-scheduler, airflow-celery-worker
+  hosts: airflow
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -80,14 +80,16 @@
         line: "{{ item.key }} = {{ item.value }}"
       with_dict:
         "default_timezone": "Asia/Seoul"
-        "executor": "LocalExecutor"
+        "executor": "CeleryExecutor"
         "load_examples": "False"
         "sql_alchemy_conn": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "celery_logging_level": "INFO"
         "default_ui_timezone": "Asia/Seoul"
         "web_server_port": "{{ airflow.web_port }}"
         "broker_url": "{% for r in groups['redis'] %}{% if r != groups['redis'][0] %};{% endif %}sentinel://{{ r }}:{{ redis.sentinel_port }}{% endfor %}"
-        "result_backend": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
+        "result_backend": "db+mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
+        "flower_host": "{{ groups['airflow-celery-flower'][0] }}"
+        "flower_port": "{{ airflow.flower_port }}"
         "dag_dir_list_interval": "{{ airflow.dag_dir_list_interval }}"
         "schedule_after_task_execution": "False"
     - name: Edit Airflow configuration (Redis sentinel master_name)
