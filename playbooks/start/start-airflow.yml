@@ -52,6 +52,8 @@
   hosts: airflow-celery-flower
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Celery flower
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower'"
@@ -72,6 +74,8 @@
   hosts: airflow-celery-worker
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Celery worker
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess'"
