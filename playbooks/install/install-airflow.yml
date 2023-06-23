@@ -124,6 +124,8 @@
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Init schema
       command: "/home/{{ remote_user }}/.pyenv/shims/airflow db init"
@@ -143,6 +145,8 @@
   hosts: airflow-webserver
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Airflow webserver
       shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
@@ -169,6 +173,8 @@
   hosts: airflow-scheduler
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Airflow scheduler
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'bin/airflow scheduler'"
@@ -192,6 +198,8 @@
   hosts: airflow-celery-flower
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Celery flower
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower'"
@@ -212,6 +220,8 @@
   hosts: airflow-celery-worker
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
   tasks:
     - name: Check Celery worker
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess'"
