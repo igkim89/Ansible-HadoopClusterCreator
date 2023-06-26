@@ -138,32 +138,34 @@
 
 
 ## Connect shared directory with sshfs
-- name: Init sshfs
-  hosts: airflow-celery-worker:!airflow-webserver
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    airflow_home: "{{ bigdata_home }}/airflow"
-  tasks:
-    - name: Create directory
-      file:
-        path: "{{ airflow_home }}/{{ item }}"
-        state: directory
-      with_items:
-        - "dags"
-        - "logs"
-        - "jar"
-        - "shell"
-    - name: Connect sshfs
-      mount:
-        src: "{{ remote_user }}@{{ groups['airflow-webserver'][0] }}:{{ airflow_home }}/{{ item }}"
-        name: "{{ airflow_home }}/{{ item }}"
-        fstype: "fuse.sshfs"
-      with_items:
-        - "dags"
-        - "logs"
-        - "jar"
-        - "shell"
+#- name: Init sshfs
+#  hosts: airflow-celery-worker:!airflow-webserver
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    airflow_home: "{{ bigdata_home }}/airflow"
+#  tasks:
+#    - name: Create directory
+#      file:
+#        path: "{{ airflow_home }}/{{ item }}"
+#        state: directory
+#      with_items:
+#        - "dags"
+#        - "logs"
+#        - "jar"
+#        - "shell"
+#    - name: Connect sshfs
+#      mount:
+#        src: "{{ remote_user }}@{{ groups['airflow-webserver'][0] }}:{{ airflow_home }}/{{ item }}"
+#        name: "{{ airflow_home }}/{{ item }}"
+#        fstype: "fuse.sshfs"
+#        state: mounted
+#        opts: "ro,umask=0644"
+#      with_items:
+#        - "dags"
+#        - "logs"
+#        - "jar"
+#        - "shell"
 
 
 ## Scheduler H/A
