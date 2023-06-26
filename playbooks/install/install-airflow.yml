@@ -155,12 +155,16 @@
         - "jar"
         - "shell"
     - name: Connect sshfs
-      shell: "/usr/bin/sshfs {{ remote_user }}@{{ groups['airflow-webserver'][0] }}:{{ airflow_home }}/{{ item }} {{ airflow_home }}/{{ item }}"
-      with_items:
-        - "dags"
-        - "logs"
-        - "jar"
-        - "shell"
+      mount:
+        src: "{{ remote_user }}@{{ groups['airflow-webserver'][0] }}:{{ airflow_home }}/{{ item }}"
+        name: "{{ airflow_home }}/{{ item }}"
+        fstype: "fuse.sshfs"
+#      command: "/usr/bin/sshfs {{ remote_user }}@{{ groups['airflow-webserver'][0] }}:{{ airflow_home }}/{{ item }} {{ airflow_home }}/{{ item }}"
+#      with_items:
+#        - "dags"
+#        - "logs"
+#        - "jar"
+#        - "shell"
 
 
 ## Scheduler H/A
