@@ -26,23 +26,18 @@ search_list:
       - 'bin/airflow'
       - 'scheduler'
 
-  airflow_scheduler_null:
+  airflow_celery_flower:
     type: cmdline
     cmdlist:
       - 'bin/python'
       - 'bin/airflow'
-      - ''
-      - ''
+      - 'celery'
+      - 'flower'
       - 'D'
 
-  logi_bolt:
+  airflow_celery_worker:
     type: cmdline
     cmdlist:
-      - 'logi bolt'
-      - 'launchd'
-
-  logi_bolt_null:
-    type: cmdline
-    cmdlist:
-      - ''
-      - 'launchd'
+      - 'celeryd'
+      - 'MainProcess'
+      - 'active'
