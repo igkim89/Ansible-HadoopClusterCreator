@@ -1,0 +1,14 @@
+- name: Edit CheckProcessExporter configuration
+  hosts: check-process-exporter
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    check_process_exporter_home: "{{ bigdata_home }}/check_process_exporter"
+  tasks:
+    - name: Edit configuration file
+      template:
+        src: "exporter/check-process/{{ item }}"
+        dest: "{{ check_process_exporter_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "config.yml"
