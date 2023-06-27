@@ -1,0 +1,48 @@
+## check_process_exporter configuration
+
+search_list:
+
+  #### Example ###########
+  #
+  #  example_a:
+  #    type: process-name
+  #    psname: 'abc'
+  #  example_b:
+  #    type: cmdline
+  #    cmdlist:
+  #      - 'bin/bash'
+  #      - ''
+  #      - 'script.sh'
+
+
+  node_exporter:
+    type: process-name
+    psname: 'node_exporter'
+
+  airflow_scheduler:
+    type: cmdline
+    cmdlist:
+      - 'bin/python'
+      - 'bin/airflow'
+      - 'scheduler'
+
+  airflow_scheduler_null:
+    type: cmdline
+    cmdlist:
+      - 'bin/python'
+      - 'bin/airflow'
+      - ''
+      - ''
+      - 'D'
+
+  logi_bolt:
+    type: cmdline
+    cmdlist:
+      - 'logi bolt'
+      - 'launchd'
+
+  logi_bolt_null:
+    type: cmdline
+    cmdlist:
+      - ''
+      - 'launchd'
