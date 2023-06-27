@@ -29,6 +29,13 @@
         src: "{{ bigdata_home }}/{{ installer.check_process_exporter.replace('.zip', '') }}"
         dest: "{{ check_process_exporter_home }}"
         state: link
+    - name: Copy configuration file
+      template:
+        src: "exporter/check-process/{{ item }}"
+        dest: "{{ check_process_exporter_home }}/conf/"
+        mode: 0644
+      with_items:
+        - "config.yml"
     - name: Create log directory
       file:
         path: "{{ check_process_exporter_home }}/{{ item }}"
