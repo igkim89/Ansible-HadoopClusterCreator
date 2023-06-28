@@ -38,6 +38,4 @@ search_list:
   airflow_celery_worker:
     type: cmdline
     cmdlist:
-      - 'celeryd'
-      - 'MainProcess'
-      - 'active'
+      - 'celery worker -D'
