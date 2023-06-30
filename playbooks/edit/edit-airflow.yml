@@ -21,7 +21,7 @@
         "default_ui_timezone": "Asia/Seoul"
         "web_server_port": "{{ airflow.web_port }}"
         "broker_url": "{% for r in groups['redis'] %}{% if r != groups['redis'][0] %};{% endif %}sentinel://{{ r }}:{{ redis.sentinel_port }}{% endfor %}"
-        "result_backend": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
+        "result_backend": "db+mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "flower_host": "{{ groups['airflow-celery-flower'][0] }}"
         "flower_port": "{{ airflow.flower_port }}"
         "dag_dir_list_interval": "{{ airflow.dag_dir_list_interval }}"
