@@ -14,7 +14,7 @@
         line: "{{ item.key }} = {{ item.value }}"
       with_dict:
         "default_timezone": "Asia/Seoul"
-        "executor": "LocalExecutor"
+        "executor": "CeleryExecutor"
         "load_examples": "False"
         "sql_alchemy_conn": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
         "celery_logging_level": "INFO"
