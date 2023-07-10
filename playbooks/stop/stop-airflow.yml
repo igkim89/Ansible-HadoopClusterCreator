@@ -53,7 +53,7 @@
       failed_when: false
 
 
-## Stop Webserver
+## Stop Celery Flower
 - name: Stop Celery flower
   hosts: airflow-celery-flower
   remote_user: "{{ remote_user }}"
@@ -72,7 +72,7 @@
       failed_when: false
 
 
-## Stop Webserver
+## Stop Celery Worker
 - name: Stop Celery worker
   hosts: airflow-celery-worker
   remote_user: "{{ remote_user }}"
