@@ -98,6 +98,7 @@
         "sql_alchemy_pool_size": "{{ airflow.sql_alchemy_pool_size }}"
         "sql_alchemy_max_overflow": "{{ airflow.sql_alchemy_max_overflow }}"
         "max_db_retries": "{{ airflow.max_db_retries }}"
+        "logging_level": "{{ airflow.logging_level }}"
     - name: Edit Airflow configuration (Redis sentinel master_name)
       lineinfile:
         path: "{{ airflow_home }}/airflow.cfg"
