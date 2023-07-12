@@ -26,5 +26,6 @@
         "flower_port": "{{ airflow.flower_port }}"
         "dag_dir_list_interval": "{{ airflow.dag_dir_list_interval }}"
         "schedule_after_task_execution": "False"
+        "parallelism": "{{ airflow.parallelism }}"
         "max_active_tasks_per_dag": "{{ airflow.max_active_tasks_per_dag }}"
         "max_active_runs_per_dag": "{{ max_active_runs_per_dag }}"
