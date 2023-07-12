@@ -351,6 +351,7 @@ airflow:
   max_db_retries: 5
   logging_level: INFO
   celery_logging_level: INFO
+  celery_worker_concurrency: 32
 
 ## Zeppelin 설정
 zeppelin:
