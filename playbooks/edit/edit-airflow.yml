@@ -31,3 +31,4 @@
         "max_active_runs_per_dag": "{{ max_active_runs_per_dag }}"
         "sql_alchemy_pool_size": "{{ airflow.sql_alchemy_pool_size }}"
         "sql_alchemy_max_overflow": "{{ airflow.sql_alchemy_max_overflow }}"
+        "max_db_retries": "{{ airflow.max_db_retries }}"

@@ -348,6 +348,7 @@ airflow:
   max_active_runs_per_dag: 40
   sql_alchemy_pool_size: 20
   sql_alchemy_max_overflow: 20
+  max_db_retries: 5
 
 ## Zeppelin 설정
 zeppelin:
