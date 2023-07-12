@@ -346,6 +346,7 @@ airflow:
   parallelism: 64
   max_active_tasks_per_dag: 40
   max_active_runs_per_dag: 40
+  sql_alchemy_pool_size: 20
 
 ## Zeppelin 설정
 zeppelin:
