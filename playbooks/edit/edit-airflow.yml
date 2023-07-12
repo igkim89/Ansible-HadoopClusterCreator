@@ -17,7 +17,6 @@
         "executor": "CeleryExecutor"
         "load_examples": "False"
         "sql_alchemy_conn": "mysql://{{ airflow.db_user }}:{{ airflow.db_pw }}@{{ groups['mysql'][0] }}:{{ mysql.jdbc_port }}/{{ airflow.db_name }}"
-        "celery_logging_level": "INFO"
         "default_ui_timezone": "Asia/Seoul"
         "web_server_port": "{{ airflow.web_port }}"
         "broker_url": "{% for r in groups['redis'] %}{% if r != groups['redis'][0] %};{% endif %}sentinel://{{ r }}:{{ redis.sentinel_port }}{% endfor %}"
@@ -33,3 +32,4 @@
         "sql_alchemy_max_overflow": "{{ airflow.sql_alchemy_max_overflow }}"
         "max_db_retries": "{{ airflow.max_db_retries }}"
         "logging_level": "{{ airflow.logging_level }}"
+        "celery_logging_level": "{{ airflow.celery_logging_level }}"

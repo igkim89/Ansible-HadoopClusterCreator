@@ -350,6 +350,7 @@ airflow:
   sql_alchemy_max_overflow: 20
   max_db_retries: 5
   logging_level: INFO
+  celery_logging_level: INFO
 
 ## Zeppelin 설정
 zeppelin:
