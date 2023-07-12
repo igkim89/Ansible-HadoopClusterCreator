@@ -30,3 +30,4 @@
         "max_active_tasks_per_dag": "{{ airflow.max_active_tasks_per_dag }}"
         "max_active_runs_per_dag": "{{ max_active_runs_per_dag }}"
         "sql_alchemy_pool_size": "{{ airflow.sql_alchemy_pool_size }}"
+        "sql_alchemy_max_overflow": "{{ airflow.sql_alchemy_max_overflow }}"
