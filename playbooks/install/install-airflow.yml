@@ -76,7 +76,7 @@
     - name: Edit Airflow configuration
       lineinfile:
         path: "{{ airflow_home }}/airflow.cfg"
-        regexp: "{{ item.key | regex_escape() }} ="
+        regexp: "^{{ item.key | regex_escape() }} ="
         line: "{{ item.key }} = {{ item.value }}"
       with_dict:
         "default_timezone": "Asia/Seoul"
