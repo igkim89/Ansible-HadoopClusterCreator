@@ -93,6 +93,14 @@ ansible [core 2.14.0]
   libyaml = True
 ```
 
+### Ansible-HadoopClusterCreator 환경 구성
+
+소스 코드 다운로드
+
+```
+[igkim@igkim-docker ~]$ wget https://github.com/igkim89/Ansible-HadoopClusterCreator/archive/refs/heads/main.zip
+```
+
 ## S/W 설치
 
 ### Python 가상환경 실행
