@@ -75,10 +75,22 @@ Python 3.10.8
 
 ### Ansible 설치
 
-2.14.1
+위의 installer download 링크를 통해 2.14.1 버전 설치를 위한 ansible.tgz를 다운로드한다.
 
 ```
+[igkim@igkim-docker ~]$ tar xvfz ansible.tgz
+[igkim@igkim-docker ~]$ pip install --no-index -f ./ansible ansible
+[igkim@igkim-docker ~]$ ansible --version
 
+ansible [core 2.14.0]
+  config file = None
+  configured module search path = ['/home/cloud-user/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/cloud-user/.pyenv/versions/3.10.8/envs/ansible/lib/python3.10/site-packages/ansible
+  ansible collection location = /home/cloud-user/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/cloud-user/.pyenv/versions/ansible/bin/ansible
+  python version = 3.10.8 (main, Jul 31 2023, 03:01:55) [GCC 8.5.0 20210514 (Red Hat 8.5.0-18)] (/home/cloud-user/.pyenv/versions/3.10.8/envs/ansible/bin/python3.10)
+  jinja version = 3.1.2
+  libyaml = True
 ```
 
 ## S/W 설치
