@@ -54,19 +54,19 @@ Python 설치 및 버전 관리를 위해 pyenv를 사용한다.
 
 ### Python 가상환경 구성
 
-1. 로컬 파이썬 버전 변경
+1. Python 버전 확인
 
 ```shell script
-[igkim@igkim-docker ~]$ pyenv local 3.8.9
-[igkim@igkim-docker ~]$ python --version
+[igkim@igkim-docker ~]$ pyenv versions
 
-Python 3.8.9
+3.10.8
 ```
 
 2. 가상환경 생성
 
 ```
-[igkim@igkim-docker ~]$ pyenv virtualenv ansible
+[igkim@igkim-docker ~]$ pyenv virtualenv 3.10.8 ansible
+[igkim@igkim-docker ~]$ pyenv activate ansible
 
 (ansible) [igkim@igkim-docker ~]$ 
 ```
