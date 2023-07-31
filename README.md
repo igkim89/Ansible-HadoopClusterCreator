@@ -68,7 +68,9 @@ Python 설치 및 버전 관리를 위해 pyenv를 사용한다.
 [igkim@igkim-docker ~]$ pyenv virtualenv 3.10.8 ansible
 [igkim@igkim-docker ~]$ pyenv activate ansible
 
-(ansible) [igkim@igkim-docker ~]$ 
+(ansible) [igkim@igkim-docker ~]$ python -V
+
+Python 3.10.8
 ```
 
 ### Ansible 설치
