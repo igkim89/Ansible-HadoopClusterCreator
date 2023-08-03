@@ -11,7 +11,7 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Python 설치](#python-설치)
   * [Python 가상환경 구성](#python-가상환경-구성)
   * [Ansible 설치](#ansible-설치)
-  * [Ansible-HadoopClusterCreator 환경 구성](#Ansible\-HadoopClusterCreator-환경-구성)
+  * [HadoopClusterCreator 환경 구성](#HadoopClusterCreator-환경-구성)
 * **[S/W 설치](#S/W-설치)**
 * **[서비스 배포 (서비스 시작 포함)](#서비스-배포-(서비스-시작-포함))**
 * **[서비스 시작](#서비스-시작)**
@@ -94,7 +94,7 @@ ansible [core 2.14.0]
   libyaml = True
 ```
 
-### Ansible-HadoopClusterCreator 환경 구성
+### HadoopClusterCreator 환경 구성
 
 소스 코드 다운로드
 
