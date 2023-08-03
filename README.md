@@ -99,6 +99,7 @@ ansible [core 2.14.0]
 
 ```
 [igkim@igkim-docker ~]$ wget https://github.com/igkim89/Ansible-HadoopClusterCreator/archive/refs/heads/main.zip
+[igkim@igkim-docker ~]$ unzip main.tgz
 ```
 
 ## S/W 설치
