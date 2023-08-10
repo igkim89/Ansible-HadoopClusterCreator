@@ -1,0 +1,411 @@
+############################################
+# 2022-12-09
+# 데이터운영팀
+# Bigdata Cluster 구축용 Ansible 설정 파일
+#
+# 개발 장비용
+############################################
+
+## Ansible Home 디렉토리
+ansible_home: "/home/bigdata/ansible"
+
+## OS 사용자명
+remote_user: "bigdata"
+
+## Java Home 디렉토리
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-11.el8.x86_64"
+
+## 기본 홈 디렉토리
+bigdata_home: "/opt/bigdata"
+
+## 설치파일 디렉토리
+installer_home: "/home/bigdata/ansible-install"
+
+## 서비스별 설치파일
+installer:
+  sshfs: "fuse-sshfs-2.8-7.el8.x86_64.rpm"
+  zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
+  # Hadoop 3.3.4 Snappy dependency 이슈로 인한 버전 변경 (3.3.4 to 3.2.4)
+  hadoop: "hadoop-3.2.4.tar.gz"
+  kafka: "kafka_2.13-3.3.1.tgz"
+  pyenv: "pyenv.tgz"
+  python: "Python-3.10.8.tar.xz"
+  pexpect: "pexpect.tgz"
+  mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
+  mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
+  # Airflow MariaDB 미지원으로 인한 MetaDB 변경 (MariaDB 10.6.11 to MySQL 8.0.32)
+  mysql: "mysql-8.0.32-linux-glibc2.12-x86_64.tar.xz"
+#  mysql_jdbc: "mysql-connector-java-8.0.28.jar"
+  mysql_jdbc: "mysql-connector-j-8.0.32.jar"
+#  hive: "apache-hive-2.3.9-bin.tar.gz"
+  hive: "apache-hive-3.1.2-bin.tar.gz"
+  hive_spark: "spark-2.3.0-bin-hadoop2-without-hive.tgz"
+  spark: "spark-3.3.1-bin-hadoop3-scala2.13.tgz"
+  tez_min: "tez-0.10.1-minimal.tar.gz"
+  tez: "tez-0.10.1.tar.gz"
+#  tez_min: "tez-0.10.2-minimal-hadoop-3.2.0.tar.gz"
+#  tez: "tez-0.10.2-hadoop-3.2.0.tar.gz"
+  hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
+  sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
+  ojdbc: "ojdbc8-21.8.0.0.jar"
+  jdk11: "openjdk-11_linux-x64_bin.tar.gz"
+  hue: "hue-4.10.3.image"
+  ufk: "kafka-ui-0.5.1.amd64.image"
+  zeppelin: "zeppelin-0.11.0-SNAPSHOT.tar.gz"
+  redis: "redis-7.0.8.tar.gz"
+  R: "R-4.2.2.tar.gz"
+  RStudio: "rstudio-server-rhel-2022.12.0-353-x86_64.rpm"
+  prometheus: "prometheus-2.37.6.linux-amd64.tar.gz"
+  node_exporter: "node_exporter-1.5.0.linux-amd64.tar.gz"
+  blackbox_exporter: "blackbox_exporter-0.24.0.linux-amd64.tar.gz"
+  check_process_exporter: "check_process_exporter-main.zip"
+  kminion_exporter: "kminion_2.2.4_linux_amd64.tar.gz"
+  jmx_exporter: "jmx_prometheus_javaagent-0.18.0.jar"
+  grafana: "grafana-enterprise-9.4.7.linux-amd64.tar.gz"
+  solr: "solr-9.2.0.tgz"
+  ranger_admin: "ranger-2.4.1-SNAPSHOT-admin.tar.gz"
+
+## Zookeeper 설정
+zookeeper:
+  client_port: 2181
+  data_dir: "/opt/bigdata/zookeeper/data"
+  tick_time: 6000
+  init_limit: 10
+  sync_limit: 5
+
+  # 내부 통신용 포트
+  internal_follower_port: 2888
+  internal_leader_port: 3888
+
+## Hadoop 설정
+hadoop:
+  hdfs:
+    # Namenode HA Endpoint
+    nameservice: "kdev-hdfs"
+
+    # Namenode 저장 위치 설정 (해당 값을 변경하는 경우, Namenode format 필요, 주의)
+    # (값이 1개인 경우에도 리스트 형식으로 기재)
+    namenode_dir:
+      - "/disk01/dfs/nn"
+      - "/disk02/dfs/nn"
+    namenode_rpc_port: 8020
+    namenode_http_port: 50070
+
+    # Datanode 저장 위치 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
+    datanode_dir:
+      - "/disk01/dfs/dn"
+      - "/disk02/dfs/dn"
+      - "/disk03/dfs/dn"
+      - "/disk04/dfs/dn"
+      - "/disk05/dfs/dn"
+
+    # Journalnode 저장 위치 설정 (단일 값만 사용 가능)
+    journalnode_dir: "/disk03/dfs/jn"
+    journalnode_shared_edits_port: 8485
+
+    replication_factor: 3
+    block_size: 134217728
+    webhdfs_enabled: true
+    permission_umask: "022"
+    trash_interval: 1440
+    httpfs_port: 50071
+    datanode_transfer_port: 9866
+
+    # 고급 속성. 주의해서 변경하십시오. 이는 복제를 위해 DN에서 병렬로 시작할 블록 전송의 총량을 결정합니다.
+    # 이러한 명령 목록은 NN에서 DN 하트비트를 통해 전송됩니다. 실제 수는 이 승수에 클러스터의 총 라이브 노드 수를 곱하여 얻습니다.
+    # 결과 번호는 DN 하트비트당 전송을 즉시 시작할 블록 수입니다. 이 숫자는 0이 아닌 모든 양의 정수일 수 있습니다.
+    # Default value = 2
+    replication_work_multiplier_per_iteration: 10
+
+    # DataNode가 한 번에 수행하는 최대 병렬 스레드 네트워크 전송을 추가로 제한
+    # Default value soft=2 hard=4
+    replication_max_streams_soft: 20
+    replication_max_streams_hard: 40
+
+    # 데이터노드를 "오래됨"으로 표시하기 위한 기본 시간 간격(밀리초),
+    # 즉 네임노드가 이 시간 간격보다 더 오랫동안 데이터노드로부터 하트비트 메시지를 수신하지 않은 경우 데이터노드는 기본적으로 "오래됨"으로 표시되고 처리됩니다.
+    # 부실 간격은 너무 작을 수 없습니다. 그렇지 않으면 부실 상태가 너무 자주 변경될 수 있기 때문입니다.
+    # 따라서 최소 부실 간격 값(기본값은 하트비트 간격의 3배)을 설정하고 부실 간격이 최소값보다 작을 수 없음을 보장합니다.
+    # 임대/블록 복구 중에는 오래된 데이터 노드가 방지됩니다.
+    stale_interval: 30000
+
+    # 지정된 시간 간격 이상으로 네임노드가 하트비트 메시지를 수신하지 않은 "오래된" 데이터노드에서 읽지 않도록 할지 여부를 나타냅니다.
+    # 오래된 데이터 노드는 읽기 위해 반환된 노드 목록의 끝으로 이동됩니다.
+    # Default value read=false write=false
+    avoid_read_stale: true
+    avoid_write_stale: true
+
+    acls_enabled: true
+    datanode_failed_volumes_tolerated: 2
+    
+
+  yarn:
+    # Resourcemanager HA Endpoint
+    cluster_id: "kdev-yarn"
+
+    resourcemanager_max_completed_applications: 10000
+    resourcemanager_scheduler_port: 8030
+    resourcemanager_resource_tracker_port: 8031
+    resourcemanager_port: 8032
+    resourcemanager_admin_port: 8033
+    resourcemanager_webapp_port: 8088
+    resourcemanager_webapp_https_port: 8090
+    scheduler_min_allocation_mb: 1024
+    scheduler_max_allocation_mb: 158220
+    scheduler_increment_allocation_mb: 512
+    scheduler_min_allocation_vcores: 1
+    scheduler_max_allocation_vcores: 32
+    scheduler_increment_allocation_vcores: 1
+    nodemanager_memory_mb: 158220
+    nodemanager_vcores: 32
+    nodemanagers_hearbeat_interval_ms: 120
+    nodemanager_localizer_port: 8040
+
+    # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
+    mapreduce_framework: "yarn"
+
+    jobhistoryserver_port: 10020
+    # 사용자가 접근할 Jobhistory Webserver port
+    jobhistoryserver_http_port: 19888
+    jobhistoryserver_https_port: 19890
+    jobhistoryserver_admin_port: 10033
+
+    # Nodemanager log 저장 위치 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
+    nodemanager_log_dir:
+      - "/disk01/yarn/container-logs"
+      - "/disk02/yarn/container-logs"
+      - "/disk03/yarn/container-logs"
+      - "/disk04/yarn/container-logs"
+      - "/disk05/yarn/container-logs"
+
+## Kafka 설정
+kafka:
+  log_dir: "/data/kafka"
+  log_retention_hour: 72
+  num_partition: 1
+  topic_replication_factor: 1
+  bootstrap_port: 9092
+  controller_port: 9093
+  jmx_port: 9999
+
+## MariaDB 설정
+mariadb:
+  jdbc_port: 13306
+  home_dir: &maria_home_dir "/home/bigdata/mariadb"
+  data_dir: "/data/mariadb"
+  socket_dir: *maria_home_dir
+  max_conn: 8192
+  root_pw: "bigdata123"
+  char_set: "utf8"
+
+## MySQL 설정
+mysql:
+  jdbc_port: 3306
+  home_dir: &mysql_home_dir "/opt/bigdata/mysql"
+  data_dir: "/data/mysql"
+  socket_dir: *mysql_home_dir
+  max_conn: 8192
+  root_pw: "bigdata123"
+  char_set: "utf8"
+  wait_timeout: 900
+  interactive_timeout: 900
+
+## Hive 설정
+hive:
+  hive_server2_port: 10000
+  webui_port: 10002
+  heapsize: "8192m"
+  async_exec_threads: 10
+  async_exec_wait_queue_size: 10
+  idle_operation_timeout: 1h
+  idle_session_timeout: 1h
+  session_check_interval: 10m
+  metastore:
+    db_pw: "bigdata123"
+    metastore_port: 9083
+
+  spark:
+    driver_memory: "8g"
+    driver_cores: 1
+    executor_memory: "16g"
+    executor_cores: 3
+    executor_instances: 3
+    history:
+      update_interval: "5s"
+      ui_port: 18088
+      cleaner:
+        enabled: false
+        interval: "1d"
+        max_age: "90d"
+        max_num: "Int.MaxValue"
+
+
+## Hive on Tez 설정
+tez:
+  tez_container_size: 8192
+  lib_dir: "/apps/tez/lib"
+
+## Spark 설정
+spark:
+  driver_memory: "2g"
+  driver_cores: 1
+  executor_memory: "4g"
+  executor_cores: 3
+  hive_hbase_handler_v2: true
+  history:
+    update_interval: "5s"
+    ui_port: 18088
+    cleaner:
+      enabled: false
+      interval: "1d"
+      max_age: "90d"
+      max_num: "Int.MaxValue"
+
+## HBase 설정
+hbase:
+  master_heapsize: 8G
+  region_heapsize: 14G
+  # (Megabyte)
+  off_heapsize: 16384
+  # region_heapsize + off_heapsize + 여유(1~2G)로 설정 권장.
+  max_direct_mem_size: 32G
+
+  master_port: 60000
+  master_info_port: 60010
+  region_port: 60020
+  region_info_port: 60030
+
+  master_logcleaner_ttl: 60000
+
+  znode_parent: /hbase
+  znode_rootserver: root-region-server
+
+  session_timeout: 120000
+  rpc_timeout: 120000
+
+  client_write_buffer: 2097152
+  client_pause: 100
+  client_retries_number: 35
+  client_scanner_caching: 100
+  client_scanner_timeout: 120000
+  client_keyvalue_maxsize: 10485760
+  client_primary_call_timeout_get: 10
+  client_primary_call_timeout_multiget: 10
+
+  region_handler_count: 100
+  region_split_limit: 2147483647
+
+  # off-heap 미사용시 0.4
+  # 2023. 06. 02. off-heap 적용으로 인해 0.6으로 변경
+  region_global_memstore_size: 0.6
+  region_global_memstore_lower_limit: 0.38
+  hregion_memstore_flush_size: 536870912
+  hregion_preclose_flush_size: 5242880
+  hregion_memstore_block_multiplier: 8
+  hregion_max_filesize: 10737418240
+  #milliseconds
+  hregion_major_compaction: 604800000
+  hregion_major_compaction_jitter: 0.50
+  hregion_memstore_mslab_chunksize: 2097152
+  hregion_memstore_mslab_max_allocation: 262144
+
+  hstore_compaction_threshold: 12
+  hstore_blocking_store_files: 40
+  #seconds
+  hstore_blocking_wait_time: 90
+
+  # off-heap 미사용시 0.4
+  # 2023. 06. 02. off-heap 적용으로 인해 0.2로 변경
+  hfile_block_size: 0.2
+
+
+
+## Hue 설정
+hue:
+  web_port: 8888
+  database_name: hue
+  database_id: hue
+  database_pw: bigdata123
+
+## UI for Apache Kafka 설정
+ufk:
+  web_port: 9000
+  cluster_name: DEV_Kafka_Cluster
+
+## Airflow 설정
+airflow:
+  db_name: airflow
+  db_user: airflow
+  db_pw: airflow123
+  admin_id: admin
+  admin_pw: bigdata123
+  web_port: 50073
+  flower_port: 50078
+  # How often (in seconds) to scan the DAGs directory for new files.
+  dag_dir_list_interval: 60
+  parallelism: 64
+  max_active_tasks_per_dag: 40
+  max_active_runs_per_dag: 40
+  sql_alchemy_pool_size: 20
+  sql_alchemy_max_overflow: 20
+  max_db_retries: 5
+  logging_level: INFO
+  celery_logging_level: INFO
+  celery_worker_concurrency: 32
+
+## Zeppelin 설정
+zeppelin:
+  admin_user: bigdata
+  admin_pw: bigdata123
+  web_port: 28080
+
+## Redis 설정
+redis:
+  port: 16379
+  sentinel_port: 26379
+
+## RStudio 설정
+rstudio:
+  web_port: 8787
+
+## Prometheus 설정
+prometheus:
+  web_port: 50074
+
+## NodeExporter 설정
+node_exporter:
+  port: 9100
+
+## BlackboxExporter 설정
+blackbox_exporter:
+  port: 9115
+
+## CheckProcessExporter 설정
+check_process_exporter:
+  port: 9439
+
+## KMinionExporter 설정
+kminion_exporter:
+  port: 9438
+
+## HBase JMXExporter 설정
+hbase_jmx_exporter:
+  master_port: 9431
+  region_port: 9432
+
+## Grafana 설정
+grafana:
+  web_port: 50075
+
+
+## Ranger 설정
+ranger:
+  web_port: 50077
+  db_name: ranger
+  db_user: ranger
+  db_pw: bigdata123
+  ## Solr 설정
+  solr:
+    web_port: 50076
+    heapsize: 2g
+    data_dir: /data/solr
