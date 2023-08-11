@@ -1,5 +1,1 @@
-managed_team: "bigdata_team"
-managed_member:
-  - "igkim"
-  - "wsjeong"
-  - "sjlee"
+../../../cross_env_vars.yml
