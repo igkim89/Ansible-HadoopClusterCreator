@@ -13,7 +13,7 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Ansible 설치](#ansible-설치)
   * [HadoopClusterCreator 환경 구성](#HadoopClusterCreator-환경-구성)
 * **[S/W 설치](#S/W-설치)**
-* **[서비스 배포 (서비스 시작 포함)](#서비스-배포-(서비스-시작-포함))**
+* **[서비스 배포](#서비스-배포)**
 * **[서비스 시작](#서비스-시작)**
 * **[서비스 테스트](#서비스-테스트)**
 * **[서비스 중지](#서비스-중지)**
@@ -26,7 +26,7 @@ Ansible을 사용한 Hadoop cluster 구축
 
 ## Installer download
 
-설치에 사용할 설치파일을 다운로드한다.
+설치에 사용할 설치파일을 다운로드합니다.
 
 [Download](https://igkim89.synology.me:5001/sharing/B38dytt87)
 
@@ -39,9 +39,9 @@ Ansible을 사용한 Hadoop cluster 구축
 
 ### Pyenv 설치
 
-Python 설치 및 버전 관리를 위해 pyenv를 사용한다.
+Python 설치 및 버전 관리를 위해 pyenv를 사용합니다.
 
-아래 링크를 참고하여 설치한다.
+아래 링크를 참고하여 설치합니다.
 
 [pyenv Github](https://github.com/pyenv/pyenv-installer)
 
@@ -49,7 +49,7 @@ Python 설치 및 버전 관리를 위해 pyenv를 사용한다.
 
 ### Python 설치
 
-아래 링크를 참고하여 *3.10.8* 버전을 설치한다.
+아래 링크를 참고하여 *3.10.8* 버전을 설치합니다.
 
 [설치 가이드 블로그](https://igkim89.github.io/tech/python/2022/08/02/pyenv-offline-install/)
 
@@ -76,7 +76,7 @@ Python 3.10.8
 
 ### Ansible 설치
 
-위의 installer download 링크를 통해 2.14.1 버전 설치를 위한 ansible.tgz를 다운로드한다.
+위의 installer download 링크를 통해 2.14.1 버전 설치를 위한 ansible.tgz를 다운로드합니다.
 
 ```
 [igkim@igkim-docker ~]$ tar xvfz ansible.tgz
@@ -115,9 +115,11 @@ $ pyenv activate ansible
 $ vim environments/dev/group_vars/bigdata.yml
 ```
 
-## 서비스 배포 (서비스 시작 포함)
+## 서비스 배포
 
-아래의 서비스는 Official Image가 아닌 수정된 이미지이다.
+서비스 배포 후 실행까지 포함되어 있습니다.
+
+아래의 서비스는 Official Image가 아닌 수정된 이미지입니다.
 - Hue (Timezone 수정)
 - UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
 
