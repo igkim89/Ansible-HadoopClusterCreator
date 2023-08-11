@@ -5,7 +5,7 @@ GREEN_COLOR='\033[0;32m'
 YELLOW_COLOR='\033[0;33m'
 NO_COLOR='\033[0m'
 
-~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/edit/edit-prometheus.yml
+~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/dev/hosts.yml /home/cloud-user/ansible/playbooks/edit/edit-prometheus.yml
 
 echo -e "${YELLOW_COLOR}You can use the reload function to apply the changed settings.${NO_COLOR} \n"
 echo -e "${YELLOW_COLOR}To use the 'reload' function without restarting, enter 'r' or 'R'${NO_COLOR} \n"
@@ -21,12 +21,12 @@ done
 
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-prometheus.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/dev/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-prometheus.yml
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-prometheus.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/dev/hosts.yml /home/cloud-user/ansible/playbooks/start/start-prometheus.yml
 elif [ $restart = "r" ] || [ $restart = "R" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/tool/prometheus/reload-config.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/dev/hosts.yml /home/cloud-user/ansible/playbooks/tool/prometheus/reload-config.yml
   echo -e "${GREEN_COLOR}Prometheus configuration reload was successful.${NO_COLOR}"
 else
   echo -e "${YELLOW_COLOR}Prometheus service was not restarted.${NO_COLOR}"
