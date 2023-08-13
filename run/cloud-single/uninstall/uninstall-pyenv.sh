@@ -1,1 +1,1 @@
-~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/uninstall/uninstall-pyenv.yml
+~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud-single/hosts.yml /home/cloud-user/ansible/playbooks/uninstall/uninstall-pyenv.yml
