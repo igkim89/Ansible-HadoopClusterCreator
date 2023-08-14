@@ -7,7 +7,7 @@
 ############################################
 
 ## Ansible Home 디렉토리
-ansible_home: "/home/cloud-user/Ansible-HadoopClusterCreator-main"
+ansible_home: "/home/cloud-user/ansible"
 
 ## OS 사용자명
 remote_user: "cloud-user"
