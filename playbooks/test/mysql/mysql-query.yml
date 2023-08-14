@@ -19,10 +19,10 @@
       register: table_list
       failed_when: false
     - name: Create Table
-      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'create table {{ remote_user }}.query_test (name varchar(50), age int, primary key(name));'"
+      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'create table `{{ remote_user }}`.query_test (name varchar(50), age int, primary key(name));'"
       when: '"query_test" not in table_list.stdout'
     - name: Insert Table
-      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e \"insert into {{ remote_user }}.query_test values('myeonghwan Lee', 99),('gisung Lee', 38),('ingyeom Kim', 35);\""
+      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e \"insert into `{{ remote_user }}`.query_test values('myeonghwan Lee', 99),('gisung Lee', 38),('ingyeom Kim', 35);\""
       register: insert_result
       failed_when: >
         ("Duplicate entry" not in insert_result.stderr) and
