@@ -25,7 +25,7 @@
       command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e \"insert into ansible_test.query_test values('myeonghwan Lee', 99),('gisung Lee', 38),('ingyeom Kim', 35);\""
       register: insert_result
       failed_when: >
-        ("Duplicate entry" not in insert_result.stderr) and
+        ("Duplicate entry" in insert_result.stderr) and
         (insert_result.stderr != "")
     - name: Select Table
       command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'select * from ansible_test.query_test order by 2;'"
