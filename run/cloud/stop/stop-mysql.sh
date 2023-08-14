@@ -1,1 +1,1 @@
-~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud-single/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-mysql.yml
+~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-mysql.yml

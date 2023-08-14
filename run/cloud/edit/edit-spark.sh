@@ -5,7 +5,7 @@ GREEN_COLOR='\033[0;32m'
 YELLOW_COLOR='\033[0;33m'
 NO_COLOR='\033[0m'
 
-~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud-single/hosts.yml /home/cloud-user/ansible/playbooks/edit/edit-spark.yml
+~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/edit/edit-spark.yml
 
 echo -n -e "${RED_COLOR}Do you want to restart the Spark service now?${NO_COLOR} (y/n) "
 read restart
