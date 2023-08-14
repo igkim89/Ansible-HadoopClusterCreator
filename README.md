@@ -66,6 +66,7 @@ Python 설치 및 버전 관리를 위해 pyenv를 사용합니다.
 2. 가상환경 생성
 
 ```
+[igkim@igkim-docker ~]$ pyenv global 3.10.8
 [igkim@igkim-docker ~]$ pyenv virtualenv 3.10.8 ansible
 [igkim@igkim-docker ~]$ pyenv activate ansible
 
