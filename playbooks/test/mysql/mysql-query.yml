@@ -12,7 +12,7 @@
       register: database_list
       failed_when: false
     - name: Create Database
-      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'create database {{ remote_user }};'"
+      command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'create database `{{ remote_user }}`;'"
       when: remote_user not in database_list.stdout
     - name: Check Table
       command: "{{ mysql_home }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql_home }}/mysql.sock -e 'use {{ remote_user }}; show tables;'"
