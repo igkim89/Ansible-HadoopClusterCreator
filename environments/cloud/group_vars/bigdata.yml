@@ -13,7 +13,7 @@ ansible_home: "/home/cloud-user/ansible"
 remote_user: "cloud-user"
 
 ## Java Home 디렉토리
-java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.382.b05-2.el8.x86_64"
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.382.b05-2.el8.x86_64/jre"
 
 ## 기본 홈 디렉토리
 bigdata_home: "/opt/bigdata"

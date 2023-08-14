@@ -21,7 +21,7 @@ if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-kminionExporter.yml
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud-single/hosts.yml /home/cloud-user/ansible/playbooks/start/start-kminionExporter.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/start/start-kminionExporter.yml
 else
   echo -e "${YELLOW_COLOR}KMinionExporter service was not restarted.${NO_COLOR}"
   echo -e "${YELLOW_COLOR}KMinionExporter service restart is required to apply the changed settings.${NO_COLOR}"
