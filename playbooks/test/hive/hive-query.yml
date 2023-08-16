@@ -24,19 +24,19 @@
         path: "{{ hive_home }}/external_test.csv"
         state: absent
     - name: Check Database
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show databases;'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n ansible_test -e 'show databases;'"
       register: database_list
     - name: Create Database
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'create database {{ remote_user }};'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n ansible_test -e 'create database ansible_test;'"
       when: remote_user not in database_list.stdout
     - name: Check Table
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show tables from {{ remote_user }};'"
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n ansible_test -e 'show tables from ansible_test;'"
       register: table_list
     - name: Create Table
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e \"create external table {{ remote_user }}.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://{{ hadoop.hdfs.nameservice }}/user/{{ remote_user }}/hive/external_test';\""
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n ansible_test -e \"create external table ansible_test.external_test (id int, name string) row format delimited fields terminated by ',' location 'hdfs://{{ hadoop.hdfs.nameservice }}/user/{{ remote_user }}/hive/external_test';\""
       when: '"external_test" not in table_list.stdout'
     - name: Select Table
-      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"{{ remote_user }}\" -e \"select id, name from {{ remote_user }}.external_test order by 1;\""
+      command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n \"ansible_test\" -e \"select id, name from ansible_test.external_test order by 1;\""
       register: query_result
     - name: Hive query result
       debug:
