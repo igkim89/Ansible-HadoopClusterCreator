@@ -276,18 +276,12 @@
     hive_home: "{{ bigdata_home }}/hive"
     meta_result: "{{ hostvars['meta']['meta_result'] }}"
   tasks:
-    - name: debug
-      debug:
-        msg: "{{ meta_result.stdout }}"
-    - name: debug
-      debug:
-        msg: "{{ meta_result.stderr }}"
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
       when: >
         ("Unknown database" in meta_result.stderr)
         or
-        ("Tables_in_metastore" in meta_result.stdout)
+        ("Tables_in_metastore" not in meta_result.stdout)
       failed_when: false
 
 
