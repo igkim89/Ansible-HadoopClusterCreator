@@ -281,7 +281,7 @@
       when: >
         ("Unknown database" in meta_result.stderr)
         or
-        ("Empty set" in meta_result.stdout)
+        ("Tables_in_metastore" in meta_result.stdout)
       failed_when: false
 
 
