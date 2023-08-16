@@ -278,7 +278,10 @@
   tasks:
     - name: Init schema
       shell: "{{ hive_home }}/bin/schematool --dbType mysql -initSchema"
-      when: '"Unknown database" in meta_result.stderr'
+      when: >
+      ("Unknown database" in meta_result.stderr)
+      or
+      ("Empty set" in meta_result.stdout)
       failed_when: false
 
 
