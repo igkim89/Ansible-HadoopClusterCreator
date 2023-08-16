@@ -28,7 +28,7 @@
       register: database_list
     - name: Create Database
       command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'create database ansible_test;'"
-      when: remote_user not in database_list.stdout
+      when: '"ansible_test" not in database_list.stdout'
     - name: Check Table
       command: "{{ hive_home }}/bin/beeline -u \"jdbc:hive2://{{ zoo_quorum }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\" -n {{ remote_user }} -e 'show tables from ansible_test;'"
       register: table_list
