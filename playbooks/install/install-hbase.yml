@@ -56,6 +56,14 @@
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
         dest: "{{ hbase_home }}/tools/"
+    - name: Edit Hadoop native library path
+      lineinfile:
+        path: "{{ hbase_home }}/bin/hbase"
+        regexp: "{{ item | regex_escape() }} ="
+        line: "# {{ item }}"
+      with_items:
+        - "HADOOP_JAVA_LIBRARY_PATH=$(HADOOP_CLASSPATH=\"$CLASSPATH${temporary_cp}\" \"${HADOOP_IN_PATH}\" \\"
+        - "org.apache.hadoop.hbase.util.GetJavaProperty java.library.path)"
 
 
 - name: Upload HBase library on Spark archive
