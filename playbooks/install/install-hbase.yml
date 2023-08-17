@@ -56,7 +56,12 @@
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
         dest: "{{ hbase_home }}/tools/"
-    - name: Edit Hadoop native library path
+    - name: Edit Hadoop native library path (1/2)
+      lineinfile:
+        path: "{{ hbase_home }}/bin/hbase"
+        insertafter: "org.apache.hadoop.hbase.util.GetJavaProperty java.library.path"
+        line: "HADOOP_JAVA_LIBRARY_PATH=\"{{ bigdata_home }}/hadoop/lib/native\""
+    - name: Edit Hadoop native library path (2/2)
       lineinfile:
         path: "{{ hbase_home }}/bin/hbase"
         search_string: "{{ item }}"
