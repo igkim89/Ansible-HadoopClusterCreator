@@ -60,10 +60,10 @@
       lineinfile:
         path: "{{ hbase_home }}/bin/hbase"
         regexp: "^{{ item }}"
-        line: "# {{ item }}"
+        line: "#{{ item }}"
       with_items:
-        - 'HADOOP_JAVA_LIBRARY_PATH='
-        - 'org.apache.hadoop.hbase.util.GetJavaProperty java.library.path'
+        - '  HADOOP_JAVA_LIBRARY_PATH='
+        - '                             org.apache.hadoop.hbase.util.GetJavaProperty java.library.path'
 
 
 - name: Upload HBase library on Spark archive
