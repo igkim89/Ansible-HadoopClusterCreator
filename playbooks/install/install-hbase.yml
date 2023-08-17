@@ -62,7 +62,7 @@
         regexp: "{{ item }}"
         line: "# {{ item }}"
       with_items:
-        - 'HADOOP_JAVA_LIBRARY_PATH=$(HADOOP_CLASSPATH="$CLASSPATH${temporary_cp}" "${HADOOP_IN_PATH}" \\'
+        - 'HADOOP_JAVA_LIBRARY_PATH=$(HADOOP_CLASSPATH="$CLASSPATH${temporary_cp}" "${HADOOP_IN_PATH}" \'
         - 'org.apache.hadoop.hbase.util.GetJavaProperty java.library.path)'
 
 
