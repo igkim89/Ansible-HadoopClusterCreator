@@ -12,7 +12,7 @@
       failed_when: False
 
 - name: Remove HBase directory
-  hosts: hbase
+  hosts: hbase, worker
   become: no
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
