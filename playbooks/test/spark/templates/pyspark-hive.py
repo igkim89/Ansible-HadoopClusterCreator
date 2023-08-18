@@ -11,4 +11,4 @@ spark = SparkSession \
     .enableHiveSupport() \
     .getOrCreate()
 
-spark.sql("SELECT COUNT(*) FROM {{ remote_user }}.external_test;").show()
+spark.sql("SELECT COUNT(*) FROM ansible_test.external_test;").show()
