@@ -118,7 +118,12 @@
       command: "{{ hadoop_home }}/bin/hdfs dfs -rm /spark/archive/hive-common-2.3.9.jar"
       register: rm_result
       failed_when: >
-        ("No such file or directory" not in rm_result.stderr) and
+        (
+        "No such file or directory" not in rm_result.stderr
+        or
+        "fs.TrashPolicyDefault: Moved" not in rm_result.stderr
+        )
+        and
         (rm_result.stderr != "")
     - name: Upload hive-common
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
@@ -126,8 +131,6 @@
       failed_when: >
         (
         "File exists" not in upload_common.stderr
-        or
-        "fs.TrashPolicyDefault: Moved" not in upload_common.stderr
         )
         and
         (upload_common.stderr != "")
