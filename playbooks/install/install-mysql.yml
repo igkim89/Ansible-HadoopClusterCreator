@@ -75,6 +75,7 @@
       shell: "/usr/bin/cat /etc/os-release | grep '^PRETTY'"
       register: os_version
     - name: Create libtinfo.so.5 symlink
+      become: yes
       shell: "/usr/bin/ln -sf /usr/lib64/libncurses.so.6 /usr/lib64/libtinfo.so.5"
       when: '"Red Hat Enterprise Linux 8" in os_version.stdout'
     - name: Install MySQL
