@@ -38,8 +38,8 @@
     - name: Update docker yum repolist
       become: yes
       copy:
-        src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce.repo"
-        dest: "/etc/yum.repos.d/docker-ce.repo"
+        src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce-{{ remote_user }}.repo"
+        dest: "/etc/yum.repos.d/"
     - name: Install Docker
       become: yes
       yum:
