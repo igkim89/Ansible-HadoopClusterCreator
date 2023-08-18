@@ -75,7 +75,7 @@
       shell: "/usr/bin/cat /etc/os-release | grep '^PRETTY'"
       register: os_version
     - name: Create libtinfo.so.5 symlink
-      shell: "/usr/bin/ln -s /usr/lib64/libncurses.so.6 /usr/lib64/libtinfo.so.5"
+      shell: "/usr/bin/ln -sf /usr/lib64/libncurses.so.6 /usr/lib64/libtinfo.so.5"
       when: '"Red Hat Enterprise Linux 8" in os_version.stdout'
     - name: Install MySQL
       command: "{{ mysql.home_dir }}/bin/mysqld --defaults-file={{ mysql.home_dir }}/conf/my.cnf --initialize-insecure --user={{ remote_user }}"
