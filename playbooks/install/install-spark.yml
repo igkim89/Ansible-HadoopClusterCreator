@@ -124,7 +124,12 @@
       command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
       register: upload_common
       failed_when: >
-        ("File exists" not in upload_common.stderr) and
+        (
+        "File exists" not in upload_common.stderr
+        or
+        "fs.TrashPolicyDefault: Moved" not in upload_common.stderr
+        )
+        and
         (upload_common.stderr != "")
 
 
