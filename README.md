@@ -21,6 +21,8 @@ Ansible을 사용한 Hadoop cluster 구축
 * **[Scaling](#scaling)**
   * [Scale-out](#scale-out)
   * [Scale-in](#scale-in)
+* **[서비스 계정](#서비스-계정)**
+  * [Airflow](#airflow)
 
 ---
 
@@ -223,4 +225,16 @@ Scale-out test
 ### Scale-in
 ```
 Scale-in test
+```
+
+## 서비스 계정
+
+### Airflow
+
+```
+http://hostname:50073/
+```
+```
+ID: admin
+PW: bigdata123
 ```
