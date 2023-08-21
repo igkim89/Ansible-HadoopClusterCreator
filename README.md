@@ -131,6 +131,7 @@ $ run/dev/install/install-zookeeper.sh
 $ run/dev/install/install-kafka.sh
 $ run/dev/install/install-hadoop.sh
 $ run/dev/install/install-mysql.sh
+$ run/dev/install/install-pyenv.sh
 $ run/dev/install/install-hive.sh
 $ run/dev/install/install-hbase.sh
 $ run/dev/install/install-spark.sh
