@@ -239,3 +239,13 @@ http://hostname:50073/
 ID: admin
 PW: bigdata123
 ```
+
+### Zeppelin
+
+```
+http://hostname:28080/
+```
+```
+ID: bigdata
+PW: bigdata123
+```
