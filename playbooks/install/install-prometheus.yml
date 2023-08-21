@@ -57,6 +57,7 @@
       copy:
         src: "{{ prometheus_home }}/{{ item }}"
         dest: "{{ prometheus_home }}/bin/"
+        remote_src: true
       with_items:
         - "prometheus"
         - "promtool"
