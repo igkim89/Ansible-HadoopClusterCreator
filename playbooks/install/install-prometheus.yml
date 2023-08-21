@@ -58,6 +58,7 @@
         src: "{{ prometheus_home }}/{{ item }}"
         dest: "{{ prometheus_home }}/bin/"
         remote_src: true
+        mode: 0750
       with_items:
         - "prometheus"
         - "promtool"
