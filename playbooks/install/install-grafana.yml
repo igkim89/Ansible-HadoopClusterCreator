@@ -53,7 +53,7 @@
       with_items:
         - "bigdata-dashboard.yml"
     - name: Add Provisioning dashboard list
-      template:
+      copy:
         src: "grafana/dashboard/{{ item }}"
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640

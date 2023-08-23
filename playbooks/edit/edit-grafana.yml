@@ -16,7 +16,7 @@
         "http_port": "{{ grafana.web_port }}"
         "admin_email": "igkim@daou.co.kr"
     - name: Add Provisioning dashboard list
-      template:
+      copy:
         src: "grafana/dashboard/{{ item }}"
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
