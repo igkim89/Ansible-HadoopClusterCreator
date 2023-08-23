@@ -249,3 +249,13 @@ http://hostname:28080/
 ID: bigdata
 PW: bigdata123
 ```
+
+### Grafana
+
+```
+http://hostname:50075/
+```
+```
+ID: admin
+PW: admin
+```
