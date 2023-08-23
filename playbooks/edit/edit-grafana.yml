@@ -21,4 +21,4 @@
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
       with_items:
-        - "BigdataClusterResourceUsage-1692774978754.json"
+        - "BigdataClusterResourceUsage-1692776398380.json"
