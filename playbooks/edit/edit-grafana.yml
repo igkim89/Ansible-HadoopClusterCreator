@@ -15,3 +15,10 @@
       with_dict:
         "http_port": "{{ grafana.web_port }}"
         "admin_email": "igkim@daou.co.kr"
+    - name: Add Provisioning dashboard list
+      template:
+        src: "grafana/dashboard/{{ item }}"
+        dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
+        mode: 0640
+      with_items:
+        - "BigdataClusterResourceUsage-1692774978754.json"
