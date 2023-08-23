@@ -1,0 +1,6 @@
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: bigdata_prometheus
+    url: http://{{ groups['prometheus'][0] }}:{{ prometheus.web_port }}
