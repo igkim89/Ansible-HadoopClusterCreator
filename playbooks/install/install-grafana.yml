@@ -38,13 +38,20 @@
       file:
         path: "{{ grafana_home }}/logs"
         state: directory
-    - name: Add Provisioning configuration
+    - name: Add Provisioning datasource configuration
       template:
         src: "grafana/{{ item }}"
-        dest: "{{ grafana_home }}/conf/"
+        dest: "{{ grafana_home }}/conf/provisioning/datasources/"
         mode: 0640
       with_items:
         - "prometheus.yml"
+    - name: Add Provisioning dashboard configuration
+      template:
+        src: "grafana/{{ item }}"
+        dest: "{{ grafana_home }}/conf/provisioning/dashboards/"
+        mode: 0640
+      with_items:
+        - "BigdataClusterResourceUsage-1692752422968.json"
     - name: Edit Grafana configuration
       lineinfile:
         path: "{{ grafana_home }}/conf/defaults.ini"
