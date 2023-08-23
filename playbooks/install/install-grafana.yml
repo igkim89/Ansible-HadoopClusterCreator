@@ -38,6 +38,13 @@
       file:
         path: "{{ grafana_home }}/logs"
         state: directory
+    - name: Add Provisioning configuration
+      template:
+        src: "grafana/{{ item }}"
+        dest: "{{ grafana_home }}/conf/"
+        mode: 0640
+      with_items:
+        - "prometheus.yml"
     - name: Edit Grafana configuration
       lineinfile:
         path: "{{ grafana_home }}/conf/defaults.ini"
