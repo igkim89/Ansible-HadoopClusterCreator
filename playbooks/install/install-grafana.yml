@@ -47,8 +47,15 @@
         - "prometheus.yml"
     - name: Add Provisioning dashboard configuration
       template:
-        src: "grafana/dashboard/{{ item }}"
+        src: "grafana/{{ item }}"
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/"
+        mode: 0640
+      with_items:
+        - "bigdata-dashboard.yml"
+    - name: Add Provisioning dashboard list
+      template:
+        src: "grafana/dashboard/{{ item }}"
+        dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
       with_items:
         - "BigdataClusterResourceUsage-1692768845456.json"
