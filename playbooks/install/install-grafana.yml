@@ -58,7 +58,7 @@
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
       with_items:
-        - "BigdataClusterResourceUsage-1692768845456.json"
+        - "BigdataClusterResourceUsage-1692774978754.json"
     - name: Edit Grafana configuration
       lineinfile:
         path: "{{ grafana_home }}/conf/defaults.ini"
