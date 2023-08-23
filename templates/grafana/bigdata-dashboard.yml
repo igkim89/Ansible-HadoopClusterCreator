@@ -1,0 +1,11 @@
+# # config file version
+apiVersion: 1
+
+providers:
+ - name: 'bigdata-dashboard'
+   orgId: 1
+   folder: 'BigdataCluster'
+   folderUid: ''
+   type: file
+   options:
+     path: {{ bigdata_home }}/grafana/conf/provisioning/dashboards/json
