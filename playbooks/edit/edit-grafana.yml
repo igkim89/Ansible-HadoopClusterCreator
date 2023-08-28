@@ -29,4 +29,4 @@
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
       with_items:
-        - "{{ ansible_home }}/files/dashboard/*.json"
+        - "{{ ansible_home }}/files/grafana/dashboard/*.json"
