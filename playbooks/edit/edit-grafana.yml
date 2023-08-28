@@ -28,5 +28,5 @@
         src: "{{ item }}"
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
-      with_items:
+      with_fileglob:
         - "{{ ansible_home }}/files/grafana/dashboard/*.json"
