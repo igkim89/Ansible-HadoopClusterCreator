@@ -184,6 +184,8 @@ kafka:
   log_retention_hour: 72
   num_partition: 1
   topic_replication_factor: 1
+  message_max_bytes: 10485760
+  replica_fetch_max_bytes: 10485760
   bootstrap_port: 9092
   controller_port: 9093
   jmx_port: 9999
