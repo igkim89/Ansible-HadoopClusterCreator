@@ -57,6 +57,8 @@
         "num.partitions": "{{ kafka.num_partition }}"
         "offsets.topic.replication.factor": "{{ kafka.topic_replication_factor }}"
         "advertised.listeners": "PLAINTEXT://{{ inventory_hostname }}:{{ kafka.bootstrap_port }}"
+        "max.message.bytes": "{{ kafka.message_max_bytes }}"
+        "replica.fetch.max.bytes": "{{ kafka.replica_fetch_max_bytes }}"
     - name: Edit jmx port
       lineinfile:
         path: "{{ kafka_home }}/bin/kafka-server-start.sh"
