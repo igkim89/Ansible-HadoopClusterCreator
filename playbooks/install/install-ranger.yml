@@ -139,6 +139,12 @@
         path: "{{ solr_home }}/ranger_audit_server"
       register: solr_result
       failed_when: false
+    - name: Edit JAVA_HOME in setup.sh
+      lineinfile:
+        path: "{{ ranger_home }}/contrib/solr_for_audit_setup/setup.sh"
+        insertafter: "#This script downloads Solr (optional) and sets up Solr for Ranger Audit Server"
+        regexp: "^JAVA_HOME="
+        line: "JAVA_HOME={{ bigdata_home }}/jdk-11"
     - name: Setup Solr
       shell: "./setup.sh"
       args:
