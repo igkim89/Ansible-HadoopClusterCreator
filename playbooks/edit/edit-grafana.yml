@@ -22,7 +22,7 @@
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
       with_items:
-        - "BigdataClusterServiceStatus-1693290124124.json"
+        - "BigdataClusterServiceStatus-1693292910790.json"
         - "BigdataClusterResourceUsage-1693204517668.json"
 
      # 전체 Copy (개발용)
