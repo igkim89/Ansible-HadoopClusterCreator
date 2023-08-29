@@ -11,7 +11,7 @@
       failed_when: >
         (
           ("Check that mysqld is running" not in stopper.stderr)
-          or
+          and
           ("Using a password on the command line interface can be insecure." not in stopper.stderr)
         )
         and
