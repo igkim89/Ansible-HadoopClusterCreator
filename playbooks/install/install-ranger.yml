@@ -317,8 +317,8 @@
         regexp: "^{{ item.key }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
-#        "JAVA_HOME": "{{ java_home }}"
-        "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
+        "JAVA_HOME": "{{ java_home }}"
+#        "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
     - name: Setup Ranger
       shell: "./setup.sh"
       args:
