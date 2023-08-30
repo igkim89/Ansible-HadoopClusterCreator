@@ -209,6 +209,14 @@
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
         "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
+    - name: Edit Solr zkcli.sh file
+      lineinfile:
+        path: "{{ solr_home }}/server/scripts/cloud-scripts/zkcli.sh"
+        insertafter: 'JVM="java"'
+        regexp: "^{{ item.key }}="
+        line: "{{ item.key }}={{ item.value }}"
+      with_dict:
+        "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
     - name: Create Z-Node
       shell: "./add_ranger_audits_conf_to_zk.sh"
       args:
