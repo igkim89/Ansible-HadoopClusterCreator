@@ -314,7 +314,7 @@
     - name: Edit Ranger setup.sh file
       lineinfile:
         path: "{{ ranger_home }}/setup.sh"
-        insertafter: "^LOGFILE="
+        insertafter: "# This script"
         regexp: "^{{ item.key }}="
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
