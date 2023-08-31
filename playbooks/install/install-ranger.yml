@@ -272,7 +272,7 @@
         # ranger.service.http.port 변경
         # $RANGER_HOME/ews/stop-ranger-admin.sh
         # $RANGER_HOME/ews/start-ranger-admin.sh
-#        "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
+        "policymgr_external_url": "http://localhost:{{ ranger.web_port }}"
         "unix_user": "{{ remote_user }}"
         "unix_group": "{{ remote_user }}"
         "hadoop_conf": "{{ bigdata_home }}/hadoop/conf"
