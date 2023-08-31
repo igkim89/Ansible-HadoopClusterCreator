@@ -261,6 +261,7 @@
         "db_name": "{{ ranger.db_name }}"
         "db_user": "{{ ranger.db_user }}"
         "db_password": "{{ ranger.db_pw }}"
+        "rangerAdmin_password": "{{ ranger.admin_pw }}"
         "audit_store": "solr"
         "audit_solr_urls": "http://localhost:{{ ranger.solr.web_port }}/solr/ranger_audits"
         ## 임시 Port 변경 방법
