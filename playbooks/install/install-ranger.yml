@@ -297,6 +297,7 @@
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ ranger.db_name }}.* TO '{{ ranger.db_user }}'@'{{ item }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists 'root'@'{{ item }}' IDENTIFIED BY '{{ mysql.root_pw }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON mysql.* TO 'root'@'{{ item }}' WITH GRANT OPTION;"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ ranger.db_name }}.* TO 'root'@'{{ item }}' WITH GRANT OPTION;"
       args:
         chdir: "{{ mysql.home_dir }}"
       with_items: "{{ groups['ranger'] }}"
