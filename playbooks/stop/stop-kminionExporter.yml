@@ -8,7 +8,7 @@
     kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
   tasks:
     - name: Find KMinionExporter process ID
-      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion | awk '{print $2}'"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep {{ kminion_exporter_home }}/bin/kminion | awk '{print $2}'"
       register: km_pid
       failed_when: false
     - name: Kill KMinionExporter
