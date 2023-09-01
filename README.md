@@ -220,6 +220,7 @@ $ run/dev/uninstall/uninstall-zookeeper.sh
 $ run/dev/uninstall/uninstall-kafka.sh
 $ run/dev/uninstall/uninstall-hadoop.sh
 $ run/dev/uninstall/uninstall-mysql.sh
+$ run/dev/uninstall/uninstall-pyenv.sh
 $ run/dev/uninstall/uninstall-hive.sh
 $ run/dev/uninstall/uninstall-hbase.sh
 $ run/dev/uninstall/uninstall-spark.sh
@@ -230,7 +231,12 @@ $ run/dev/uninstall/uninstall-redis.sh
 $ run/dev/uninstall/uninstall-airflow.sh
 $ run/dev/uninstall/uninstall-zeppelin.sh
 $ run/dev/uninstall/uninstall-prometheus.sh
+$ run/dev/uninstall/uninstall-nodeExporter.sh
+$ run/dev/uninstall/uninstall-kminionExporter.sh
+$ run/dev/uninstall/uninstall-blackboxExporter.sh
+$ run/dev/uninstall/uninstall-checkProcessExporter.sh
 $ run/dev/uninstall/uninstall-grafana.sh
+$ run/dev/uninstall/uninstall-ranger.sh
 ```
 
 ## Scaling
