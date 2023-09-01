@@ -127,11 +127,11 @@ $ vim environments/dev/group_vars/bigdata.yml
 - UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
 
 ```
+$ run/dev/install/install-pyenv.sh
 $ run/dev/install/install-zookeeper.sh
 $ run/dev/install/install-kafka.sh
 $ run/dev/install/install-hadoop.sh
 $ run/dev/install/install-mysql.sh
-$ run/dev/install/install-pyenv.sh
 $ run/dev/install/install-hive.sh
 $ run/dev/install/install-hbase.sh
 $ run/dev/install/install-spark.sh
@@ -157,7 +157,6 @@ $ run/dev/start/start-zookeeper.sh
 $ run/dev/start/start-kafka.sh
 $ run/dev/start/start-hadoop.sh
 $ run/dev/start/start-mysql.sh
-$ run/dev/start/start-pyenv.sh
 $ run/dev/start/start-hive.sh
 $ run/dev/start/start-hbase.sh
 $ run/dev/start/start-spark.sh
@@ -194,7 +193,6 @@ $ run/dev/stop/stop-zookeeper.sh
 $ run/dev/stop/stop-kafka.sh
 $ run/dev/stop/stop-hadoop.sh
 $ run/dev/stop/stop-mysql.sh
-$ run/dev/stop/stop-pyenv.sh
 $ run/dev/stop/stop-hive.sh
 $ run/dev/stop/stop-hbase.sh
 $ run/dev/stop/stop-spark.sh
@@ -216,11 +214,11 @@ $ run/dev/stop/stop-ranger.sh
 ## 서비스 제거 (서비스 중지 포함)
 
 ```
+$ run/dev/uninstall/uninstall-pyenv.sh
 $ run/dev/uninstall/uninstall-zookeeper.sh
 $ run/dev/uninstall/uninstall-kafka.sh
 $ run/dev/uninstall/uninstall-hadoop.sh
 $ run/dev/uninstall/uninstall-mysql.sh
-$ run/dev/uninstall/uninstall-pyenv.sh
 $ run/dev/uninstall/uninstall-hive.sh
 $ run/dev/uninstall/uninstall-hbase.sh
 $ run/dev/uninstall/uninstall-spark.sh
