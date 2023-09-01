@@ -332,7 +332,7 @@
         line: |
 
           #
-          # ------- PolicyManager CONFIG ----------------
+          # ------- Ranger HTTP CONFIG ----------------
           #
 
           ranger_service_http_port=http://localhost:{{ ranger.web_port }}
@@ -342,14 +342,14 @@
         path: "{{ ranger_home }}/setup.sh"
         insertbefore: "propertyName=ranger.externalurl"
         line: |
-          propertyName=ranger.service.http.port
-          newPropertyValue="${ranger_service_http_port}"
-          updatePropertyToFilePy $propertyName $newPropertyValue $to_file_ranger
+                  propertyName=ranger.service.http.port
+                  newPropertyValue="${ranger_service_http_port}"
+                  updatePropertyToFilePy $propertyName $newPropertyValue $to_file_ranger
 
     - name: Edit http port property (3/3)
       lineinfile:
         path: "{{ ranger_home }}/setup.sh"
-        insertbefore: "policymgr_external_url=$(get_prop"
+        insertbefore: "policymgr_external_url="
         line: "ranger_service_http_port=$(get_prop 'ranger_service_http_port' $PROPFILE)"
     - name: Setup Ranger
       shell: "./setup.sh"
