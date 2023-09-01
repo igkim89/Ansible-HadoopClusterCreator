@@ -325,7 +325,32 @@
         line: "{{ item.key }}={{ item.value }}"
       with_dict:
         "JAVA_HOME": "{{ java_home }}"
-#        "JAVA_HOME": "{{ bigdata_home }}/jdk-11"
+    - name: Edit http port property (1/3)
+      lineinfile:
+        path: "{{ ranger_home }}/install.properties"
+        insertafter: "DB CONFIG - END"
+        line: |
+
+          #
+          # ------- PolicyManager CONFIG ----------------
+          #
+
+          ranger_service_http_port=http://localhost:{{ ranger.web_port }}
+
+    - name: Edit http port property (2/3)
+      lineinfile:
+        path: "{{ ranger_home }}/setup.sh"
+        insertbefore: "propertyName=ranger.externalurl"
+        line: |
+          propertyName=ranger.service.http.port
+          newPropertyValue="${ranger_service_http_port}"
+          updatePropertyToFilePy $propertyName $newPropertyValue $to_file_ranger
+
+    - name: Edit http port property (3/3)
+      lineinfile:
+        path: "{{ ranger_home }}/setup.sh"
+        insertbefore: "policymgr_external_url=$(get_prop"
+        line: "ranger_service_http_port=$(get_prop 'ranger_service_http_port' $PROPFILE)"
     - name: Setup Ranger
       shell: "./setup.sh"
       args:
