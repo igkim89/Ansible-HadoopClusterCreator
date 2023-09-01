@@ -128,5 +128,5 @@
     ## 설치 완료 후 임시 디렉토리 제거
     - name: Remove tmp directory
       file:
-        path: "{{ bigdata_home }}/tmp/"
+        path: "{{ bigdata_home }}/tmp"
         state: absent
