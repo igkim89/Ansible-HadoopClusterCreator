@@ -194,6 +194,7 @@ $ run/dev/stop/stop-zookeeper.sh
 $ run/dev/stop/stop-kafka.sh
 $ run/dev/stop/stop-hadoop.sh
 $ run/dev/stop/stop-mysql.sh
+$ run/dev/stop/stop-pyenv.sh
 $ run/dev/stop/stop-hive.sh
 $ run/dev/stop/stop-hbase.sh
 $ run/dev/stop/stop-spark.sh
@@ -204,7 +205,12 @@ $ run/dev/stop/stop-redis.sh
 $ run/dev/stop/stop-airflow.sh
 $ run/dev/stop/stop-zeppelin.sh
 $ run/dev/stop/stop-prometheus.sh
+$ run/dev/stop/stop-nodeExporter.sh
+$ run/dev/stop/stop-kminionExporter.sh
+$ run/dev/stop/stop-blackboxExporter.sh
+$ run/dev/stop/stop-checkProcessExporter.sh
 $ run/dev/stop/stop-grafana.sh
+$ run/dev/stop/stop-ranger.sh
 ```
 
 ## 서비스 제거 (서비스 중지 포함)
