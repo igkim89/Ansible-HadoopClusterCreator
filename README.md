@@ -142,7 +142,12 @@ $ run/dev/install/install-redis.sh
 $ run/dev/install/install-airflow.sh
 $ run/dev/install/install-zeppelin.sh
 $ run/dev/install/install-prometheus.sh
+$ run/dev/install/install-nodeExporter.sh
+$ run/dev/install/install-kminionExporter.sh
+$ run/dev/install/install-blackboxExporter.sh
+$ run/dev/install/install-checkProcessExporter.sh
 $ run/dev/install/install-grafana.sh
+$ run/dev/install/install-ranger.sh
 ```
 
 ## 서비스 시작
@@ -152,6 +157,7 @@ $ run/dev/start/start-zookeeper.sh
 $ run/dev/start/start-kafka.sh
 $ run/dev/start/start-hadoop.sh
 $ run/dev/start/start-mysql.sh
+$ run/dev/start/start-pyenv.sh
 $ run/dev/start/start-hive.sh
 $ run/dev/start/start-hbase.sh
 $ run/dev/start/start-spark.sh
@@ -162,7 +168,12 @@ $ run/dev/start/start-redis.sh
 $ run/dev/start/start-airflow.sh
 $ run/dev/start/start-zeppelin.sh
 $ run/dev/start/start-prometheus.sh
+$ run/dev/start/start-nodeExporter.sh
+$ run/dev/start/start-kminionExporter.sh
+$ run/dev/start/start-blackboxExporter.sh
+$ run/dev/start/start-checkProcessExporter.sh
 $ run/dev/start/start-grafana.sh
+$ run/dev/start/start-ranger.sh
 ```
 
 ## 서비스 테스트
