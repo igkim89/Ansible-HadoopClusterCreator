@@ -77,6 +77,7 @@
       args:
         chdir: "{{ mysql.home_dir }}"
       with_items: "{{ groups['airflow'] }}"
+      failed_when: false
 
 - name: Uninstall Airflow
   hosts: airflow-webserver, airflow-scheduler, airflow-celery-worker
