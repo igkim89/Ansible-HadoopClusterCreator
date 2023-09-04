@@ -64,6 +64,7 @@
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "DROP USER '{{ airflow.db_user }}'@'localhost';"
       args:
         chdir: "{{ mysql.home_dir }}"
+      failed_when: false
 
 - name: Remove Setting a MySQL Database
   hosts: mysql
