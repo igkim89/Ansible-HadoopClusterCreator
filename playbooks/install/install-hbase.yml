@@ -60,7 +60,7 @@
         - "hbase-hbck2-1.2.0.jar"
         - "hbase-table-reporter-1.2.0.jar"
         - "hbase-tools-1.2.0.jar"
-  - name: Edit HBase classpath
+    - name: Edit HBase classpath
       lineinfile:
         path: "/home/{{ remote_user }}/.bashrc"
         line: "{{ item }}"
