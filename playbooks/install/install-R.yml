@@ -122,6 +122,9 @@
         path: "{{ RStudio_home }}/conf/rserver.conf"
         line: "rsession-which-r={{ R_home }}/bin/R"
         insertafter: EOF
+    - name: Wait
+      pause:
+        seconds: 5
     - name: Start R
       become: yes
       command: "systemctl start rstudio-server"
