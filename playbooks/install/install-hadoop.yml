@@ -198,7 +198,7 @@
         and
         (not lock_result.stat.exists)
     - name: NameNode format
-      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format"
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs namenode -format -force"
       when: >
         (not version_result.stat.exists)
         and
