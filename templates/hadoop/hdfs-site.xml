@@ -49,7 +49,7 @@
     </property>
     <property>
         <name>dfs.ha.fencing.methods</name>
-        <value>sshfence</value>
+        <value>shell(true)admin</value>
     </property>
     <property>
         <name>dfs.ha.fencing.ssh.private-key-files</name>
