@@ -52,6 +52,22 @@
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+    - name: Copy HBase tools
+      copy:
+        src: "{{ installer_home }}/hbase/{{ installer.hbase_tools }}/{{ item }}"
+        dest: "{{ hbase_home }}/tools/"
+      with_items:
+        - "hbase-hbck2-1.2.0.jar"
+        - "hbase-table-reporter-1.2.0.jar"
+        - "hbase-tools-1.2.0.jar"
+  - name: Edit HBase classpath
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HBASE_CLASSPATH=\"{{ hbase_home }}/tools/hbase-hbck2-1.2.0.jar:{{ hbase_home }}/tools/hbase-table-reporter-1.2.0.jar:{{ hbase_home }}/tools/hbase-tools-1.2.0.jar:$HBASE_CLASSPATH\""
+    - name:
     - name: Copy jmx_exporter
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"

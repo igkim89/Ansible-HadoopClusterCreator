@@ -46,6 +46,7 @@ installer:
 #  tez_min: "tez-0.10.2-minimal-hadoop-3.2.0.tar.gz"
 #  tez: "tez-0.10.2-hadoop-3.2.0.tar.gz"
   hbase: "hbase-2.5.2-hadoop3-bin.tar.gz"
+  hbase_tools: "hbase-operator-tools"
   sqoop: "sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz"
   ojdbc: "ojdbc8-21.8.0.0.jar"
   jdk11: "openjdk-11_linux-x64_bin.tar.gz"
