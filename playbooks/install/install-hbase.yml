@@ -67,7 +67,6 @@
         insertafter: EOF
       with_items:
         - "export HBASE_CLASSPATH=\"{{ hbase_home }}/tools/hbase-hbck2-1.2.0.jar:{{ hbase_home }}/tools/hbase-table-reporter-1.2.0.jar:{{ hbase_home }}/tools/hbase-tools-1.2.0.jar:$HBASE_CLASSPATH\""
-    - name:
     - name: Copy jmx_exporter
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
