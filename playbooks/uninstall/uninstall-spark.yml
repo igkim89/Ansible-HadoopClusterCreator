@@ -1,5 +1,20 @@
 ---
 
+- name: Stop history server
+  hosts: spark-history
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    spark_home: "{{ bigdata_home }}/spark"
+  tasks:
+    - name: Find History server process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'spark.deploy.history.HistoryServer' | awk '{print $2}'"
+      register: hs_pid
+      failed_when: false
+    - name: Stop History server
+      shell: "/usr/bin/kill -9 {{ hs_pid.stdout }}"
+      when: hs_pid.stdout !=""
+
 - name: Delete HDFS directory
   hosts: "{{ groups['worker'][0] }}"
   remote_user: "{{ remote_user }}"
