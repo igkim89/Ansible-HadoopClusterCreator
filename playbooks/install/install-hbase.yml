@@ -216,6 +216,9 @@
   vars:
     hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
+    - name: Wait
+      pause:
+        seconds: 10
     - name: Check HBase Master
       shell: "/usr/bin/jps | grep 'HMaster'"
       register: hm_result
