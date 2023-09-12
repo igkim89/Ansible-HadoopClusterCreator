@@ -104,7 +104,7 @@ Python 3.10.8
 
 ### Ansible 설치
 
-위의 installer download 링크를 통해 다운로드한 Ansible 설치파일을 통해 Ansible을 설치합니다.
+위의 installer download 링크에서 다운로드한 Ansible 설치파일을 통해 Ansible을 설치합니다.
 
 ```shell script
 (ansible) [igkim@igkim-docker ~]$ tar xvfz ansible.tgz
@@ -152,7 +152,6 @@ $ vim environments/dev/group_vars/bigdata.yml
 - UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
 
 ```shell script
-$ run/dev/install/install-pyenv.sh
 $ run/dev/install/install-zookeeper.sh
 $ run/dev/install/install-kafka.sh
 $ run/dev/install/install-hadoop.sh
@@ -239,7 +238,6 @@ $ run/dev/stop/stop-ranger.sh
 ## 서비스 제거 (서비스 중지 포함)
 
 ```shell script
-$ run/dev/uninstall/uninstall-pyenv.sh
 $ run/dev/uninstall/uninstall-zookeeper.sh
 $ run/dev/uninstall/uninstall-kafka.sh
 $ run/dev/uninstall/uninstall-hadoop.sh
