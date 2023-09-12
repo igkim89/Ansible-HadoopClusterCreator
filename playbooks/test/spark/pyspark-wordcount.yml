@@ -7,7 +7,7 @@
   tasks:
     - name: Create Sample directory
       file:
-        path: "/home/{{ remote_user }}/tmp/spark-wordcount"
+        path: "/home/{{ remote_user }}/tmp/wordcount"
         state: directory
     - name: Create Sample file
       template:
@@ -21,6 +21,13 @@
       template:
         src: "pyspark-wordcount.py"
         dest: "/home/{{ remote_user }}/tmp/wordcount/"
+    - name: Create HDFS directory
+      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -mkdir -p /user/{{ remote_user }}/wordcount/input"
+    - name: Upload sample file
+      command: "{{ bigdata_home }}/hadoop/bin/hdfs dfs -put /home/{{ remote_user }}/tmp/wordcount/{{ item }} /user/{{ remote_user }}/wordcount/input/"
+      with_items:
+        - sample01.txt
+        - sample02.txt
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"
       register: job_result
