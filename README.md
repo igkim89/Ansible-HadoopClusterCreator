@@ -74,6 +74,17 @@ Python 설치 및 버전 관리를 위해 pyenv를 사용합니다.
 1. Python 버전 확인
 
 ```shell script
+[igkim@igkim-docker ~]$ python -V
+pyenv: python: command not found
+
+The `python' command exists in these Python versions:
+  3.10.8
+
+Note: See 'pyenv help global' for tips on allowing both
+      python2 and python3 to be found.
+```
+
+```shell script
 [igkim@igkim-docker ~]$ pyenv versions
 
 3.10.8
