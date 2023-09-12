@@ -129,6 +129,7 @@ ansible [core 2.14.0]
 ```
 (ansible) [igkim@igkim-docker ~]$ wget https://github.com/igkim89/Ansible-HadoopClusterCreator/archive/refs/heads/main.zip
 (ansible) [igkim@igkim-docker ~]$ unzip main.tgz
+(ansible) [igkim@igkim-docker ~]$ ln -s Ansible-HadoopClusterCreator-main ansible
 ```
 
 ## S/W 설치
@@ -140,6 +141,7 @@ $ pyenv activate ansible
 
 ### 전체 서비스 환경 설정
 ```
+$ cd ansible
 $ vim environments/dev/group_vars/bigdata.yml
 ```
 
