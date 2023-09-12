@@ -7,6 +7,29 @@
   vars:
     mysql_home_parent: "{{ mysql.home_dir.replace('/mysql','') }}"
   tasks:
+    - name: Copy pexpect tgz
+      copy:
+        src: "{{ installer_home }}/python/{{ installer.pexpect }}"
+        dest: "/home/{{ remote_user }}/"
+    - name: Unzip installer
+      unarchive:
+        src: "/home/{{ remote_user }}/pexpect.tgz"
+        dest: "/home/{{ remote_user }}/"
+        remote_src: true
+    - name: Install pexpect
+      pip:
+        name:
+          - "/home/{{ remote_user }}/pexpect/ptyprocess-0.7.0-py2.py3-none-any.whl"
+          - "/home/{{ remote_user }}/pexpect/pexpect-4.8.0-py2.py3-none-any.whl"
+        state: present
+        executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
+    - name: Remove pexpect tgz
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "/home/{{ remote_user }}/pexpect.tgz"
+        - "/home/{{ remote_user }}/pexpect"
     - name: Create home directory
       file:
         path: "{{ mysql_home_parent }}"
