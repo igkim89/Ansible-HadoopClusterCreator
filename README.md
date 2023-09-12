@@ -36,7 +36,7 @@ Ansible을 사용한 Hadoop cluster 구축
 
 e.g.
 
----
+```
 /home/igkim/ansible-install/R
 /home/igkim/ansible-install/airflow
 /home/igkim/ansible-install/ansible
@@ -44,8 +44,7 @@ e.g.
 /home/igkim/ansible-install/grafana
 
 ...
-
----
+```
 
 ## 환경 구성
 
