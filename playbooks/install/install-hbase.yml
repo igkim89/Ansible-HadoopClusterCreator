@@ -178,32 +178,33 @@
 #    - name: Start master process
 #      shell: "{{ hbase_home }}/bin/start-hbase.sh"
 
-- name: Start HBase Master
-  hosts: hbase-master
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hbase_home: "{{ bigdata_home }}/hbase"
-  tasks:
-    - name: Check HBase Master
-      shell: "/usr/bin/jps | grep 'HMaster'"
-      register: hm_result
-      failed_when: false
-    - name: Start HBase Master
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
-      when: '"HMaster" not in hm_result.stdout'
-
-- name: Start HBase RegionServer
-  hosts: worker
-  remote_user: "{{ remote_user }}"
-  become: no
-  vars:
-    hbase_home: "{{ bigdata_home }}/hbase"
-  tasks:
-    - name: Check HBase RegionServer
-      shell: "/usr/bin/jps | grep 'HRegionServer'"
-      register: rs_result
-      failed_when: false
-    - name: Start HBase RegionServer
-      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
-      when: '"HRegionServer" not in rs_result.stdout'
+## 2023. 09. 12. 설치 후 개별 실행으로 변경
+#- name: Start HBase Master
+#  hosts: hbase-master
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hbase_home: "{{ bigdata_home }}/hbase"
+#  tasks:
+#    - name: Check HBase Master
+#      shell: "/usr/bin/jps | grep 'HMaster'"
+#      register: hm_result
+#      failed_when: false
+#    - name: Start HBase Master
+#      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start master"
+#      when: '"HMaster" not in hm_result.stdout'
+#
+#- name: Start HBase RegionServer
+#  hosts: worker
+#  remote_user: "{{ remote_user }}"
+#  become: no
+#  vars:
+#    hbase_home: "{{ bigdata_home }}/hbase"
+#  tasks:
+#    - name: Check HBase RegionServer
+#      shell: "/usr/bin/jps | grep 'HRegionServer'"
+#      register: rs_result
+#      failed_when: false
+#    - name: Start HBase RegionServer
+#      shell: "{{ hbase_home }}/bin/hbase-daemon.sh start regionserver"
+#      when: '"HRegionServer" not in rs_result.stdout'
