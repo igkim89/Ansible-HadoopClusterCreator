@@ -92,7 +92,7 @@ Note: See 'pyenv help global' for tips on allowing both
 
 2. 가상환경 생성
 
-```
+```shell script
 [igkim@igkim-docker ~]$ pyenv global 3.10.8
 [igkim@igkim-docker ~]$ pyenv virtualenv 3.10.8 ansible
 [igkim@igkim-docker ~]$ pyenv activate ansible
@@ -106,7 +106,7 @@ Python 3.10.8
 
 위의 installer download 링크를 통해 다운로드한 Ansible 설치파일을 통해 Ansible을 설치합니다.
 
-```
+```shell script
 (ansible) [igkim@igkim-docker ~]$ tar xvfz ansible.tgz
 (ansible) [igkim@igkim-docker ~]$ pip install --no-index -f ./ansible ansible
 (ansible) [igkim@igkim-docker ~]$ ansible --version
@@ -151,7 +151,7 @@ $ vim environments/dev/group_vars/bigdata.yml
 - Hue (Timezone 수정)
 - UI for Apache Kafka (Offline 구성을 위해 외부 api를 소스에 추가)
 
-```
+```shell script
 $ run/dev/install/install-pyenv.sh
 $ run/dev/install/install-zookeeper.sh
 $ run/dev/install/install-kafka.sh
@@ -177,7 +177,7 @@ $ run/dev/install/install-ranger.sh
 
 ## 서비스 시작
 
-```
+```shell script
 $ run/dev/start/start-zookeeper.sh
 $ run/dev/start/start-kafka.sh
 $ run/dev/start/start-hadoop.sh
@@ -202,7 +202,7 @@ $ run/dev/start/start-ranger.sh
 
 ## 서비스 테스트
 
-```
+```shell script
 $ run/dev/test/hadoop/mr-wordcount.sh
 $ run/dev/test/mysql/mysql-query.sh
 $ run/dev/test/hive/hive-query.sh
@@ -213,7 +213,7 @@ $ run/dev/test/spark/pyspark-hive.sh
 
 ## 서비스 중지
 
-```
+```shell script
 $ run/dev/stop/stop-zookeeper.sh
 $ run/dev/stop/stop-kafka.sh
 $ run/dev/stop/stop-hadoop.sh
@@ -238,7 +238,7 @@ $ run/dev/stop/stop-ranger.sh
 
 ## 서비스 제거 (서비스 중지 포함)
 
-```
+```shell script
 $ run/dev/uninstall/uninstall-pyenv.sh
 $ run/dev/uninstall/uninstall-zookeeper.sh
 $ run/dev/uninstall/uninstall-kafka.sh
