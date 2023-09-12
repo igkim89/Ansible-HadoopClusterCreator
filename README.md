@@ -104,12 +104,12 @@ Python 3.10.8
 
 ### Ansible 설치
 
-위의 installer download 링크를 통해 2.14.1 버전 설치를 위한 ansible.tgz를 다운로드합니다.
+위의 installer download 링크를 통해 다운로드한 Ansible 설치파일을 통해 Ansible을 설치합니다.
 
 ```
-[igkim@igkim-docker ~]$ tar xvfz ansible.tgz
-[igkim@igkim-docker ~]$ pip install --no-index -f ./ansible ansible
-[igkim@igkim-docker ~]$ ansible --version
+(ansible) [igkim@igkim-docker ~]$ tar xvfz ansible.tgz
+(ansible) [igkim@igkim-docker ~]$ pip install --no-index -f ./ansible ansible
+(ansible) [igkim@igkim-docker ~]$ ansible --version
 
 ansible [core 2.14.0]
   config file = None
@@ -127,8 +127,8 @@ ansible [core 2.14.0]
 소스 코드 다운로드
 
 ```
-[igkim@igkim-docker ~]$ wget https://github.com/igkim89/Ansible-HadoopClusterCreator/archive/refs/heads/main.zip
-[igkim@igkim-docker ~]$ unzip main.tgz
+(ansible) [igkim@igkim-docker ~]$ wget https://github.com/igkim89/Ansible-HadoopClusterCreator/archive/refs/heads/main.zip
+(ansible) [igkim@igkim-docker ~]$ unzip main.tgz
 ```
 
 ## S/W 설치
