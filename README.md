@@ -32,6 +32,21 @@ Ansible을 사용한 Hadoop cluster 구축
 
 [Download](https://igkim89.synology.me:5001/sharing/B38dytt87)
 
+설치를 진행할 사용자의 홈 디렉토리에 저장합니다.
+
+e.g.
+
+---
+/home/igkim/ansible-install/R
+/home/igkim/ansible-install/airflow
+/home/igkim/ansible-install/ansible
+/home/igkim/ansible-install/conda
+/home/igkim/ansible-install/grafana
+
+...
+
+---
+
 ## 환경 구성
 
 ### 기본 환경 설정
