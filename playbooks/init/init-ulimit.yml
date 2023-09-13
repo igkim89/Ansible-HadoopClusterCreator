@@ -18,7 +18,7 @@
       lineinfile:
         path: "/etc/security/limits.conf"
         regexp: "^{{ remote_user }}*nofile"
-        line: "{{ remote_user }} {{ item }} nofile 4194304"
+        line: "{{ remote_user }} {{ item }} nofile 65535"
         insertbefore: "# End of file"
       with_items:
         - "soft"
