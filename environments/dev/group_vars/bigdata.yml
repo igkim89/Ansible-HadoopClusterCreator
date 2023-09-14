@@ -354,6 +354,7 @@ airflow:
   logging_level: INFO
   celery_logging_level: INFO
   celery_worker_concurrency: 32
+  auth_backends: airflow.api.auth.backend.basic_auth
 
 ## Zeppelin 설정
 zeppelin:
