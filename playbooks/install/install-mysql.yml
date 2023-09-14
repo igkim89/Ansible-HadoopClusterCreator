@@ -133,6 +133,23 @@
         (not sys_result.stat.exists)
         and
         (not perf_result.stat.exists)
+    - name: DB Backup - Create directory
+      file:
+        path: "/home/{{ remote_user }}/mysql_dump"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: DB Backup - Copy template
+      template:
+        src: mysql/mysql_dump.sh
+        dest: "/home/{{ remote_user }}/mysql_dump/mysql_dump.sh"
+        mode: 0644
+    - name: DB Backup - Add Crontab
+      cron:
+        name: "MySQL Backup"
+        minute: "0"
+        hour: "4"
+        job: "/bin/bash /home/{{ remote_user }}/mysql_dump/mysql_dump.sh"
     - name: Test MySQL
       command: "{{ mysql.home_dir }}/bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e 'SHOW DATABASES;'"
       register: test_result
