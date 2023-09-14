@@ -1,0 +1,26 @@
+---
+
+- name: Install MySQL
+  hosts: mysql
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    mysql_home_parent: "{{ mysql.home_dir.replace('/mysql','') }}"
+  tasks:
+    - name: DB Backup - Create directory
+      file:
+        path: "/home/{{ remote_user }}/mysql_dump"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: DB Backup - Copy template
+      template:
+        src: mysql/mysql_dump.sh
+        dest: "/home/{{ remote_user }}/mysql_dump/mysql_dump.sh"
+        mode: 0644
+    - name: DB Backup - Add Crontab
+      cron:
+        name: "MySQL Backup"
+        minute: "0"
+        hour: "4"
+        job: "/bin/bash /home/{{ remote_user }}/mysql_dump/mysql_dump.sh"
