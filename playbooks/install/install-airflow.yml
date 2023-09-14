@@ -100,6 +100,7 @@
         "logging_level": "{{ airflow.logging_level }}"
         "celery_logging_level": "{{ airflow.celery_logging_level }}"
         "celery_worker_concurrency": "{{ airflow.celery_worker_concurrency }}"
+        "auth_backends": "{{ airflow.auth_backends }}"
     - name: Edit Airflow configuration (Redis sentinel master_name)
       lineinfile:
         path: "{{ airflow_home }}/airflow.cfg"
