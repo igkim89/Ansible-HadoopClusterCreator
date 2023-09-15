@@ -293,7 +293,7 @@ scrape_configs:
     params:
       module: [tcp_connect]
     static_configs:
-      - targets: [{% for hm in groups['hbase-master'] %}{% if hm != groups['hbase-master'][0] %},{% endif %}'{{ hm }}:{{ hbase_jmx_exporter.master_port }}'{% endfor %}{% for rs in groups['region-server'] %},'{{ rs }}:{{ hbase_jmx_exporter.region_port }}'{% endfor %}]
+      - targets: [{% for hm in groups['hbase-master'] %}{% if hm != groups['hbase-master'][0] %},{% endif %}'{{ hm }}:{{ hbase_jmx_exporter.master_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hbase_jmx_exporter.region_port }}'{% endfor %}]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
