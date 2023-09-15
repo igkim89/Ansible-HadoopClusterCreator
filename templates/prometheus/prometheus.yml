@@ -257,15 +257,18 @@ scrape_configs:
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
+  ## CheckProcessExporter (process command search)
   - job_name: "check-process-exporter"
     static_configs:
       - targets: [{% for cpe in groups['check-process-exporter'] %}{% if cpe != groups['check-process-exporter'][0] %},{% endif %}'{{ cpe }}:{{ check_process_exporter.port }}'{% endfor %}]
 
+  ## KMinionExporter (Kafka)
   - job_name: "kminion-exporter"
     metrics_path: /metrics
     static_configs:
       - targets: [{% for ke in groups['kminion-exporter'] %}{% if ke != groups['kminion-exporter'][0] %},{% endif %}'{{ ke }}:{{ kminion_exporter.port }}'{% endfor %}]
 
+  ## HBaseJMXExporter (HBase)
   - job_name: "hbase-jmx-exporter"
     metrics_path: /metrics
     static_configs:
