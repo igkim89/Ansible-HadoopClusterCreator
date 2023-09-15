@@ -22,7 +22,11 @@ Ansible을 사용한 Hadoop cluster 구축
   * [Scale-out](#scale-out)
   * [Scale-in](#scale-in)
 * **[서비스 계정](#서비스-계정)**
+  * [Hue](#hue)
   * [Airflow](#airflow)
+  * [Zeppelin](#zeppelin)
+  * [Grafana](#grafana)
+  * [Ranger](#ranger)
 
 ---
 
@@ -276,6 +280,16 @@ Scale-in test
 
 ## 서비스 계정
 
+### Hue
+
+```
+http://hostname:8888/
+```
+```
+ID: admin
+PW: admin
+```
+
 ### Airflow
 
 ```
@@ -304,4 +318,14 @@ http://hostname:50075/
 ```
 ID: admin
 PW: admin
+```
+
+### Ranger
+
+```
+http://hostname:50077/
+```
+```
+ID: admin
+PW: Bigdata123!@#
 ```
