@@ -303,7 +303,7 @@ scrape_configs:
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
   ## BlackboxExporter - CheckProcessExporter port checking
-  - job_name: "blackbox-exporter-cpe"
+  - job_name: "blackbox-exporter-CPE"
     metrics_path: /probe
     params:
       module: [tcp_connect]
