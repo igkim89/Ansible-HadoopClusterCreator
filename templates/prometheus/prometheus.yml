@@ -257,6 +257,66 @@ scrape_configs:
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
+  ## BlackboxExporter - NodeExporter port checking
+  - job_name: "blackbox-exporter-NE"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for ne in groups['bigdata'] %}{% if ne != groups['bigdata'][0] %},{% endif %}'{{ ne }}:{{ node_exporter.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - KMinionExporter port checking
+  - job_name: "blackbox-exporter-KE"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for ke in groups['kminion-exporter'] %}{% if ke != groups['kminion-exporter'][0] %},{% endif %}'{{ ke }}:{{ kminion_exporter.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - HBaseJMXExporter port checking
+  - job_name: "blackbox-exporter-HE"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for hm in groups['hbase-master'] %}{% if he != groups['hbase-master'][0] %},{% endif %}'{{ he }}:{{ hbase_jmx_exporter.master_port }}'{% endfor %}]{% for rs in groups['region-server'] %},'{{ rs }}:{{ hbase_jmx_exporter.region_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - CheckProcessExporter port checking
+  - job_name: "blackbox-exporter-cpe"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for cpe in groups['check-process-exporter'] %}{% if cpe != groups['check-process-exporter'][0] %},{% endif %}'{{ cpe }}:{{ check_process_exporter.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
   ## CheckProcessExporter (process command search)
   - job_name: "check-process-exporter"
     static_configs:
