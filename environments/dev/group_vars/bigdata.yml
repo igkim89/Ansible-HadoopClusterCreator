@@ -413,3 +413,10 @@ ranger:
     web_port: 50076
     heapsize: 2g
     data_dir: /data/solr
+
+## SafeDB 설정
+safedb:
+  daemon_ip: 172.22.5.109
+  port_1: 5999
+  port_2: 6999
+  port_3: 7999
