@@ -145,6 +145,7 @@
           'Password:': "{{ airflow.admin_pw }}"
           'Repeat for confirmation:': "{{ airflow.admin_pw }}"
 
+## sshfs 라이브러리 설치 추가
 
 ## Connect shared directory with sshfs
 #- name: Init sshfs
@@ -176,8 +177,7 @@
 #        - "jar"
 #        - "shell"
 
-
-## Scheduler H/A
+## sshfs fstab 자동 설정 추가
 
 
 ## Start Webserver
