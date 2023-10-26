@@ -1,3 +1,15 @@
 ---
 
 ## SELinux off 스크립트 추가
+- name: Init SELinux
+  hosts: bigdata
+  remote_user: "{{ remote_user }}"
+  become: yes
+  tasks:
+    - name: Edit SELinux config
+      lineinfile:
+        path: "/etc/selinux/config"
+        regexp: "^SELINUX="
+        line: "SELINUX=disabled"
+    - name: Disable SELinux
+      command: "setenforce 0"
