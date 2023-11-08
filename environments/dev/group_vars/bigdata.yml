@@ -303,6 +303,7 @@ hbase:
   region_global_memstore_lower_limit: 0.38
   hregion_memstore_flush_size: 536870912
   hregion_preclose_flush_size: 5242880
+  regionserver_optionalcacheflushinterval: 1000
   hregion_memstore_block_multiplier: 8
   hregion_max_filesize: 10737418240
   #milliseconds

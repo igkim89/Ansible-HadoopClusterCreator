@@ -185,6 +185,10 @@
         <value>{{ hbase.hregion_preclose_flush_size }}</value>
     </property>
     <property>
+        <name>hbase.regionserver.optionalcacheflushinterval</name>
+        <value>{{ hbase.regionserver_optionalcacheflushinterval }}</value>
+    </property>
+    <property>
         <name>hbase.hregion.memstore.block.multiplier</name>
         <value>{{ hbase.hregion_memstore_block_multiplier }}</value>
     </property>
