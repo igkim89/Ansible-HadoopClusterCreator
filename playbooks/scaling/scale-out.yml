@@ -421,6 +421,45 @@
         mode: 0644
       with_fileglob:
         - "{{ ansible_home }}/playbooks/edit/templates/hbase/*"
+    - name: Create tools directory
+      file:
+        dest: "{{ hbase_home }}/tools"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy HBase tools
+      copy:
+        src: "{{ installer_home }}/hbase/{{ installer.hbase_tools }}/{{ item }}"
+        dest: "{{ hbase_home }}/tools/"
+      with_items:
+        - "hbase-hbck2-1.2.0.jar"
+        - "hbase-table-reporter-1.2.0.jar"
+        - "hbase-tools-1.2.0.jar"
+    - name: Edit HBase classpath
+      lineinfile:
+        path: "/home/{{ remote_user }}/.bashrc"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - "export HBASE_CLASSPATH=\"{{ hbase_home }}/tools/hbase-hbck2-1.2.0.jar:{{ hbase_home }}/tools/hbase-table-reporter-1.2.0.jar:{{ hbase_home }}/tools/hbase-tools-1.2.0.jar:$HBASE_CLASSPATH\""
+    - name: Copy jmx_exporter
+      copy:
+        src: "{{ installer_home }}/prometheus/{{ installer.jmx_exporter }}"
+        dest: "{{ hbase_home }}/tools/"
+    - name: Edit Hadoop native library path (1/2)
+      lineinfile:
+        path: "{{ hbase_home }}/bin/hbase"
+        insertafter: "org.apache.hadoop.hbase.util.GetJavaProperty java.library.path"
+        line: "HADOOP_JAVA_LIBRARY_PATH=\"{{ bigdata_home }}/hadoop/lib/native\""
+    - name: Edit Hadoop native library path (2/2)
+      lineinfile:
+        path: "{{ hbase_home }}/bin/hbase"
+        search_string: "{{ item }}"
+        line: "#{{ item }}"
+      with_items:
+        - 'HADOOP_JAVA_LIBRARY_PATH=$(HADOOP_CLASSPATH="$CLASSPATH${temporary_cp}" "${HADOOP_IN_PATH}" \'
+        - 'org.apache.hadoop.hbase.util.GetJavaProperty java.library.path)'
+
     - name: Check HBase region-server jps
       command: "/usr/bin/jps"
       register: rs_jps
