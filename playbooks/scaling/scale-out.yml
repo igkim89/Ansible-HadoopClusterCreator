@@ -522,7 +522,7 @@
     - name: Edit Prometheus configuration
       template:
         src: "prometheus/{{ item }}"
-        dest: "{{ bigdata_home }}/prometheus/"
+        dest: "{{ bigdata_home }}/prometheus/conf/"
         mode: 0644
       with_items:
         - "prometheus.yml"
