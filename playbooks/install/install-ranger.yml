@@ -224,7 +224,7 @@
       shell: "./add_ranger_audits_conf_to_zk.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"ranger_audits" not in zk_result.stdout'
+      when: '"solr" not in zk_result.stdout'
     - name: Find Solr server ps
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'"
       register: solr_ps
