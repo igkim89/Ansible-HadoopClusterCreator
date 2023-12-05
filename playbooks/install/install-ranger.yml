@@ -135,7 +135,7 @@
         "SOLR_MAX_MEM": "{{ ranger.solr.heapsize }}"
         ## Solr cloud 미적용시 아래 두줄 주석
         "SOLR_DEPLOYMENT": "solrcloud"
-        "SOLR_ZK": "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}/ranger_audits"
+        "SOLR_ZK": "{% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %}/solr"
 
     - name: Check Solr setup
       stat:
