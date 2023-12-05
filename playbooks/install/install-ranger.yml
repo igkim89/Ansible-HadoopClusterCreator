@@ -246,7 +246,7 @@
       shell: "./create_ranger_audits_collection.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"ranger_audits" not in zk_result.stdout'
+      when: '"solr" not in zk_result.stdout'
 
     - name: Edit ranger install.properties
       lineinfile:
