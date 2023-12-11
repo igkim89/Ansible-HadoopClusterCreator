@@ -100,7 +100,7 @@ hadoop:
       - "/disk05/dfs/dn"
 
     # Journalnode 저장 위치 설정 (단일 값만 사용 가능)
-    journalnode_dir: "/disk03/dfs/jn"
+    journalnode_dir: "/data/dfs/jn"
     journalnode_shared_edits_port: 8485
 
     replication_factor: 3
