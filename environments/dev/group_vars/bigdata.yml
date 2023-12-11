@@ -86,12 +86,12 @@ hadoop:
     # Namenode 저장 위치 설정 (해당 값을 변경하는 경우, Namenode format 필요, 주의)
     # (값이 1개인 경우에도 리스트 형식으로 기재)
     namenode_dir:
-      - "/disk01/dfs/nn"
-      - "/disk02/dfs/nn"
+      - "/data/dfs/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
 
-    # Datanode 저장 위치 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
+    # Datanode 저장 위치 설정
+    # (값이 1개인 경우에도 리스트 형식으로 기재)
     datanode_dir:
       - "/disk01/dfs/dn"
       - "/disk02/dfs/dn"
