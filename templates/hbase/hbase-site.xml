@@ -249,5 +249,17 @@
 <!--        <name>hbase.unsafe.stream.capability.enforce</name>-->
 <!--        <value>false</value>-->
 <!--    </property>-->
+    <property>
+        <name>hbase.security.authorization</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hbase.coprocessor.master.classes</name>
+        <value>org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor</value>
+    </property>
+    <property>
+        <name>hbase.coprocessor.region.classes</name>
+        <value>org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor</value>
+    </property>
 
 </configuration>
