@@ -95,6 +95,14 @@
         <value>*</value>
     </property>
     <property>
+        <name>hadoop.proxyuser.zeppelin.hosts</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.zeppelin.groups</name>
+        <value>*</value>
+    </property>
+    <property>
         <name>hadoop.proxyuser.{{ remote_user }}.hosts</name>
         <value>*</value>
     </property>
