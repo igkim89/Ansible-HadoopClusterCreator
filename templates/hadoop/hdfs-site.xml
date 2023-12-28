@@ -168,6 +168,10 @@
         <value>4294967296</value>
     </property>
     <property>
+        <name>dfs.datanode.du.reserved</name>
+        <value>{{ hadoop.hdfs.dfs_datanode_du_reserved }}</value>
+    </property>
+    <property>
         <name>dfs.client.block.write.replace-datanode-on-failure.enable</name>
         <value>false</value>
     </property>
