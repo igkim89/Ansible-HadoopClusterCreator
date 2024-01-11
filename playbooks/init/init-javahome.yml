@@ -7,6 +7,9 @@
   tasks:
     - name: Edit JAVA_HOME
       lineinfile:
-        path: "/home/{{ remote_user }}/.bashrc"
+        path: "{{ item }}"
         regexp: "^export JAVA_HOME="
         line: "export JAVA_HOME=\"{{ java_home }}\""
+      with_items:
+        - "/home/{{ remote_user }}/.bashrc"
+        - "/root/.bashrc"
