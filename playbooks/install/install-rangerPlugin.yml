@@ -1,0 +1,48 @@
+---
+
+- name: Install Ranger Plugins - HDFS
+  hosts: namenode
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hdfs_plugin_home: "{{ plugin_home }}/hdfs"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "{{ bigdata_home }}"
+        - "{{ plugin_home }}"
+    - name: Copy HDFS Plugin installer
+      copy:
+        src: "{{ installer_home }}/ranger/{{ installer.ranger_hdfs }}"
+        dest: "{{ plugin_home }}/{{ installer.ranger_hdfs }}"
+    - name: Unzip HDFS Plugin installer
+      unarchive:
+        src: "{{ plugin_home }}/{{ installer.ranger_hdfs }}"
+        dest: "{{ plugin_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ hdfs_plugin_home }}"
+    - name: Delete HDFS Plugin installer
+      file:
+        path: "{{ bigdata_home }}/{{ installer.ranger_hdfs }}"
+        state: absent
+    - name: Create HDFS Plugin symbolic link
+      file:
+        src: "{{ bigdata_home }}/{{ installer.ranger_hdfs.replace('.tar.gz', '') }}"
+        dest: "{{ hdfs_plugin_home }}"
+        state: link
+    - name: Add install properties
+      template:
+        src: "ranger/plugin/hdfs/{{ item }}"
+        dest: "{{ hdfs_plugin_home }}/"
+        mode: 0644
+      with_items:
+        - "install.properties"

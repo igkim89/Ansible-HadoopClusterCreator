@@ -64,6 +64,7 @@ installer:
   grafana: "grafana-enterprise-9.4.7.linux-amd64.tar.gz"
   solr: "solr-9.2.0.tgz"
   ranger_admin: "ranger-2.4.1-SNAPSHOT-admin.tar.gz"
+  ranger_hdfs: "ranger-2.4.1-SNAPSHOT-hdfs-plugin.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
@@ -416,6 +417,8 @@ ranger:
     web_port: 50076
     heapsize: 2g
     data_dir: /data/solr
+  hdfs_plugin:
+    repository_name: HDFS_DEV
 
 ## SafeDB 설정
 safedb:
