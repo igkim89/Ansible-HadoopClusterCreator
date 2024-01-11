@@ -21,22 +21,22 @@
     - name: Copy HDFS Plugin installer
       copy:
         src: "{{ installer_home }}/ranger/{{ installer.ranger_hdfs }}"
-        dest: "{{ plugin_home }}/{{ installer.ranger_hdfs }}"
+        dest: "{{ hdfs_plugin_home }}/{{ installer.ranger_hdfs }}"
     - name: Unzip HDFS Plugin installer
       unarchive:
-        src: "{{ plugin_home }}/{{ installer.ranger_hdfs }}"
-        dest: "{{ plugin_home }}/"
+        src: "{{ hdfs_plugin_home }}/{{ installer.ranger_hdfs }}"
+        dest: "{{ hdfs_plugin_home }}/"
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
         creates: "{{ hdfs_plugin_home }}"
     - name: Delete HDFS Plugin installer
       file:
-        path: "{{ bigdata_home }}/{{ installer.ranger_hdfs }}"
+        path: "{{ hdfs_plugin_home }}/{{ installer.ranger_hdfs }}"
         state: absent
     - name: Create HDFS Plugin symbolic link
       file:
-        src: "{{ bigdata_home }}/{{ installer.ranger_hdfs.replace('.tar.gz', '') }}"
+        src: "{{ hdfs_plugin_home }}/{{ installer.ranger_hdfs.replace('.tar.gz', '') }}"
         dest: "{{ hdfs_plugin_home }}"
         state: link
     - name: Add install properties
