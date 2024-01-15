@@ -6,6 +6,7 @@
   become: no
   tasks:
     - name: Edit JAVA_HOME
+      become: yes
       lineinfile:
         path: "{{ item }}"
         regexp: "^export JAVA_HOME="
