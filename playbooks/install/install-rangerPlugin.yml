@@ -47,4 +47,5 @@
       with_items:
         - "install.properties"
     - name: Enable Ranger HDFS Plugin
+      become: yes
       shell: "export JAVA_HOME=\"/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-11.el8.x86_64\" && sh {{ hdfs_plugin_home }}/enable-hdfs-plugin.sh"
