@@ -6,6 +6,7 @@
   become: no
   vars:
     plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hdfs_plugin_home: "{{ plugin_home }}/hdfs"
   tasks:
     - name: Disable Ranger HDFS Plugin
       become: yes
