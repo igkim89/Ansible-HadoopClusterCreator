@@ -168,7 +168,7 @@
                   <value>true</value>
               </property>
         insertbefore: "</configuration>"
-        when: '"ranger-security.xml" in rp_stat.stdout'
+      when: '"ranger-security.xml" in rp_stat.stdout'
     - name: Create Nodemanager log dir
       file:
         path: "{{ hadoop_home }}/{{ item }}"
