@@ -183,20 +183,4 @@
         <name>dfs.hosts.exclude</name>
         <value>{{ bigdata_home }}/hadoop/conf/excludes</value>
     </property>
-    <property>
-        <name>dfs.permissions.enabled</name>
-        <value>true</value>
-    </property>
-    <property>
-        <name>dfs.permissions</name>
-        <value>true</value>
-    </property>
-    <property>
-        <name>dfs.namenode.inode.attributes.provider.class</name>
-        <value>org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer</value>
-    </property>
-    <property>
-        <name>dfs.permissions.ContentSummary.subAccess</name>
-        <value>true</value>
-    </property>
 </configuration>
