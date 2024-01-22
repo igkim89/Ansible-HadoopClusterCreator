@@ -20,6 +20,9 @@
       shell: "ls -l {{ hadoop_home }}/conf | grep ranger-security.xml"
       register: rp_stat
       failed_when: false
+    - name: Debugging
+      debug:
+        var: rp_stat
     - name: Add Ranger plugin configuration
       lineinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"
