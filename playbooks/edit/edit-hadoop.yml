@@ -2,6 +2,8 @@
   hosts: hadoop, worker
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
     - name: Edit Hadoop configuration files
       template:
