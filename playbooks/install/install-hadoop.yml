@@ -150,7 +150,7 @@
     - name: Add Ranger plugin configuration
       blockinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"
-        block: |
+        block: |4
               <property>
                   <name>dfs.permissions.enabled</name>
                   <value>true</value>
