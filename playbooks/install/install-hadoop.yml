@@ -143,6 +143,32 @@
         - "httpfs-site.xml"
         - "hdfs-site.xml"
         - "core-site.xml"
+    - name: Check Ranger plugin status
+      shell: "ll | grep ranger-security.xml"
+      register: rp_stat
+      failed_when: false
+    - name: Add Ranger plugin configuration
+      lineinfile:
+        path: "{{ hadoop_home }}/conf/hdfs-site.xml"
+        line: |
+              <property>
+                  <name>dfs.permissions.enabled</name>
+                  <value>true</value>
+              </property>
+              <property>
+                  <name>dfs.permissions</name>
+                  <value>true</value>
+              </property>
+              <property>
+                  <name>dfs.namenode.inode.attributes.provider.class</name>
+                  <value>org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer</value>
+              </property>
+              <property>
+                  <name>dfs.permissions.ContentSummary.subAccess</name>
+                  <value>true</value>
+              </property>
+        insertbefore: "</configuration>"
+        when: '"ranger-security.xml" in rp_stat.stdout'
     - name: Create Nodemanager log dir
       file:
         path: "{{ hadoop_home }}/{{ item }}"
