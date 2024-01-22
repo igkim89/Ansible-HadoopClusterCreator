@@ -17,7 +17,7 @@
         - "mapred-site.xml"
         - "httpfs-site.xml"
     - name: Check Ranger plugin status
-      shell: "ls -l {{ hadoop_home }}/conf | grep ranger-security.xml"
+      shell: "ls -l {{ hadoop_home }}/conf/ | grep ranger-security.xml"
       register: rp_stat
       failed_when: false
     - name: Debugging
