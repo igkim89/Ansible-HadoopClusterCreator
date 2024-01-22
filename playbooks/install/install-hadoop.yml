@@ -167,7 +167,7 @@
               <name>dfs.permissions.ContentSummary.subAccess</name>
               <value>true</value>
           </property>
-        ins before: "</configuration>"
+        insertbefore: "</configuration>"
       when: '"ranger-security.xml" in rp_stat.stdout'
     - name: Create Nodemanager log dir
       file:
