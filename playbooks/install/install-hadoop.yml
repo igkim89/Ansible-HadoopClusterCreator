@@ -144,7 +144,7 @@
         - "hdfs-site.xml"
         - "core-site.xml"
     - name: Check Ranger plugin status
-      shell: "ll | grep ranger-security.xml"
+      shell: "ll {{ hadoop_home }}/conf | grep ranger-security.xml"
       register: rp_stat
       failed_when: false
     - name: Add Ranger plugin configuration

@@ -22,7 +22,7 @@
       failed_when: false
     - name: Add Ranger plugin configuration
       lineinfile:
-        path: "{{ hadoop_home }}/conf/hdfs-site.xml"
+        path: "ll {{ hadoop_home }}/conf | grep ranger-security.xml"
         line: |
             <property>
                 <name>dfs.permissions.enabled</name>
