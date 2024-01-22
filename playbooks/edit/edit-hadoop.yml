@@ -24,24 +24,24 @@
       debug:
         var: rp_stat
     - name: Add Ranger plugin configuration
-      lineinfile:
+      blockinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"
-        line: |
-            <property>
-                <name>dfs.permissions.enabled</name>
-                <value>true</value>
-            </property>
-            <property>
-                <name>dfs.permissions</name>
-                <value>true</value>
-            </property>
-            <property>
-                <name>dfs.namenode.inode.attributes.provider.class</name>
-                <value>org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer</value>
-            </property>
-            <property>
-                <name>dfs.permissions.ContentSummary.subAccess</name>
-                <value>true</value>
-            </property>
-        insertbefore: "</configuration>"
+        block: |2
+          <property>
+              <name>dfs.permissions.enabled</name>
+              <value>true</value>
+          </property>
+          <property>
+              <name>dfs.permissions</name>
+              <value>true</value>
+          </property>
+          <property>
+              <name>dfs.namenode.inode.attributes.provider.class</name>
+              <value>org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer</value>
+          </property>
+          <property>
+              <name>dfs.permissions.ContentSummary.subAccess</name>
+              <value>true</value>
+          </property>
+        ins before: "</configuration>"
       when: '"ranger-security.xml" in rp_stat.stdout'
