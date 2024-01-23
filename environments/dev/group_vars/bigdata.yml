@@ -418,8 +418,11 @@ ranger:
     web_port: 50076
     heapsize: 2g
     data_dir: /data/solr
-  hdfs_plugin:
+  plugin:
     repository_name: HDFS_DEV
+    hdfs:
+    yarn:
+
 
 ## SafeDB 설정
 safedb:
