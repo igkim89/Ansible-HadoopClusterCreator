@@ -16,14 +16,11 @@
         - "yarn-site.xml"
         - "mapred-site.xml"
         - "httpfs-site.xml"
-    - name: Check Ranger plugin status
-      shell: "ls -l {{ hadoop_home }}/conf/ | grep ranger-security.xml"
-      register: rp_stat
+    - name: Check Ranger-HDFS plugin status
+      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
+      register: hdfs_stat
       failed_when: false
-    - name: Debugging
-      debug:
-        var: rp_stat
-    - name: Add Ranger plugin configuration
+    - name: Add Ranger-HDFS plugin configuration
       blockinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"
         block: |4
@@ -44,4 +41,18 @@
                     <value>true</value>
                 </property>
         insertbefore: "</configuration>"
-      when: '"ranger-security.xml" in rp_stat.stdout'
+      when: '"igkim.xml" in hdfs_stat.stdout'
+    - name: Check Ranger-YARN plugin status
+      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
+      register: yarn_stat
+      failed_when: false
+    - name: Add Ranger-YARN plugin configuration
+      blockinfile:
+        path: "{{ hadoop_home }}/conf/yarn-site.xml"
+        block: |4
+                <property>
+                    <name>yarn.authorization-provider</name>
+                    <value>org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer</value>
+                </property>
+        insertbefore: "</configuration>"
+      when: '"igkim.xml" in yarn_stat.stdout'
