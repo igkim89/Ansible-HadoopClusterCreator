@@ -144,7 +144,7 @@
         - "hdfs-site.xml"
         - "core-site.xml"
     - name: Check Ranger-HDFS plugin status
-      shell: "ls -l {{ hadoop_home }}/conf/ | grep ranger-security.xml"
+      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
       register: hdfs_stat
       failed_when: false
     - name: Add Ranger-HDFS plugin configuration
@@ -168,9 +168,9 @@
                     <value>true</value>
                 </property>
         insertbefore: "</configuration>"
-      when: '"ranger-security.xml" in hdfs_stat.stdout'
+      when: '"igkim.xml" in hdfs_stat.stdout'
     - name: Check Ranger-YARN plugin status
-      shell: "ls -l {{ hadoop_home }}/conf/ | grep ranger-security.xml"
+      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
       register: yarn_stat
       failed_when: false
     - name: Add Ranger-YARN plugin configuration
@@ -182,7 +182,7 @@
                     <value>org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer</value>
                 </property>
         insertbefore: "</configuration>"
-      when: '"ranger-security.xml" in yarn_stat.stdout'
+      when: '"igkim.xml" in yarn_stat.stdout'
     - name: Create Nodemanager log dir
       file:
         path: "{{ hadoop_home }}/{{ item }}"
