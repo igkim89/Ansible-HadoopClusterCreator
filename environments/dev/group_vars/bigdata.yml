@@ -65,6 +65,7 @@ installer:
   solr: "solr-9.2.0.tgz"
   ranger_admin: "ranger-2.4.1-SNAPSHOT-admin.tar.gz"
   ranger_hdfs: "ranger-2.4.1-SNAPSHOT-hdfs-plugin.tar.gz"
+  ranger_yarn: "ranger-2.4.1-SNAPSHOT-yarn-plugin.tar.gz"
 
 ## Zookeeper 설정
 zookeeper:
