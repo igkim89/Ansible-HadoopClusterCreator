@@ -5,6 +5,15 @@
   vars:
     hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
+    - name: Check Ranger-HDFS plugin status
+      shell: "cat {{ hadoop_home }}/conf/hdfs-site.xml | grep org.apache.ranger.authorization.hadoop.R
+              angerHdfsAuthorizer"
+      register: hdfs_stat
+      failed_when: false
+    - name: Check Ranger-YARN plugin status
+      shell: "cat /opt/bigdata/hadoop/conf/yarn-site.xml | grep org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer"
+      register: yarn_stat
+      failed_when: false
     - name: Edit Hadoop configuration files
       template:
         src: hadoop/{{ item }}
@@ -16,10 +25,6 @@
         - "yarn-site.xml"
         - "mapred-site.xml"
         - "httpfs-site.xml"
-    - name: Check Ranger-HDFS plugin status
-      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
-      register: hdfs_stat
-      failed_when: false
     - name: Add Ranger-HDFS plugin configuration
       blockinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"
@@ -41,11 +46,7 @@
                     <value>true</value>
                 </property>
         insertbefore: "</configuration>"
-      when: '"igkim.xml" in hdfs_stat.stdout'
-    - name: Check Ranger-YARN plugin status
-      shell: "ls -l {{ hadoop_home }}/conf/ | grep igkim.xml"
-      register: yarn_stat
-      failed_when: false
+      when: '"org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer" in hdfs_stat.stdout'
     - name: Add Ranger-YARN plugin configuration
       blockinfile:
         path: "{{ hadoop_home }}/conf/yarn-site.xml"
@@ -55,4 +56,4 @@
                     <value>org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer</value>
                 </property>
         insertbefore: "</configuration>"
-      when: '"igkim.xml" in yarn_stat.stdout'
+      when: '"org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer" in yarn_stat.stdout'
