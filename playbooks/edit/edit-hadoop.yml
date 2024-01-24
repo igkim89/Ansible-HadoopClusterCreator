@@ -6,8 +6,7 @@
     hadoop_home: "{{ bigdata_home }}/hadoop"
   tasks:
     - name: Check Ranger-HDFS plugin status
-      shell: "cat {{ hadoop_home }}/conf/hdfs-site.xml | grep org.apache.ranger.authorization.hadoop.R
-              angerHdfsAuthorizer"
+      shell: "cat {{ hadoop_home }}/conf/hdfs-site.xml | grep org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer"
       register: hdfs_stat
       failed_when: false
     - name: Check Ranger-YARN plugin status
