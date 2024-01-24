@@ -419,6 +419,7 @@ ranger:
     heapsize: 2g
     data_dir: /data/solr
   plugin:
-    repository_name: HDFS_DEV
     hdfs:
+      repository_name: HDFS_DEV
     yarn:
+      repository_name: YARN_DEV
