@@ -1,6 +1,6 @@
 ---
 
-- name: Uninstall Ranger Plugins
+- name: Uninstall Ranger-HDFS Plugins
   hosts: namenode
   remote_user: "{{ remote_user }}"
   become: no
@@ -18,5 +18,25 @@
       with_items:
         - "{{ plugin_home }}/{{ installer.ranger_hdfs.replace('.tar.gz', '') }}"
         - "{{ plugin_home }}/hdfs"
+      failed_when: False
+
+- name: Uninstall Ranger-YARN Plugins
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    yarn_plugin_home: "{{ plugin_home }}/yarn"
+  tasks:
+    - name: Disable Ranger YARN Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/disable-yarn-plugin.sh"
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ plugin_home }}/{{ installer.ranger_yarn.replace('.tar.gz', '') }}"
+        - "{{ plugin_home }}/yarn"
       failed_when: False
 
