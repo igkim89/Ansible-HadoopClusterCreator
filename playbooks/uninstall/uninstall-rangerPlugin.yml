@@ -40,3 +40,23 @@
         - "{{ plugin_home }}/yarn"
       failed_when: False
 
+- name: Uninstall Ranger-Hive Plugins
+  hosts: hive-server2
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hive_plugin_home: "{{ plugin_home }}/hive"
+  tasks:
+    - name: Disable Ranger Hive Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/disable-hive-plugin.sh"
+    - name: Remove directory
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ plugin_home }}/{{ installer.ranger_hive.replace('.tar.gz', '') }}"
+        - "{{ plugin_home }}/hive"
+      failed_when: False
+
