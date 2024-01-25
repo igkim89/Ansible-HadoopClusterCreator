@@ -160,4 +160,4 @@
         - "install.properties"
     - name: Enable Ranger Hive Plugin
       become: yes
-      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-yarn-plugin.sh"
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-hive-plugin.sh"
