@@ -424,3 +424,5 @@ ranger:
       repository_name: HDFS_DEV
     yarn:
       repository_name: YARN_DEV
+    hive:
+      repository_name: HIVE_DEV
