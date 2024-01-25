@@ -110,3 +110,64 @@
     - name: Enable Ranger YARN Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/enable-yarn-plugin.sh"
+
+- name: Install Ranger Plugins - Hive
+  hosts: hive-server2
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hive_plugin_home: "{{ plugin_home }}/hive"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "{{ bigdata_home }}"
+        - "{{ plugin_home }}"
+    - name: Copy Hive Plugin installer
+      copy:
+        src: "{{ installer_home }}/ranger/{{ installer.ranger_hive }}"
+        dest: "{{ plugin_home }}/{{ installer.ranger_hive }}"
+    - name: Unzip Hive Plugin installer
+      unarchive:
+        src: "{{ plugin_home }}/{{ installer.ranger_yarn }}"
+        dest: "{{ plugin_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ plugin_home }}/{{ installer.ranger_yarn.replace('.tar.gz', '') }}"
+    - name: Delete YARN Plugin installer
+      file:
+        path: "{{ plugin_home }}/{{ installer.ranger_yarn }}"
+        state: absent
+    - name: Create YARN Plugin symbolic link
+      file:
+        src: "{{ plugin_home }}/{{ installer.ranger_yarn.replace('.tar.gz', '') }}"
+        dest: "{{ yarn_plugin_home }}"
+        state: link
+    - name: Add install properties
+      template:
+        src: "ranger/plugin/yarn/{{ item }}"
+        dest: "{{ yarn_plugin_home }}/"
+        mode: 0644
+      with_items:
+        - "install.properties"
+    - name: Create library symbolic link
+      file:
+        src: "{{ hadoop_home }}/share/hadoop/hdfs/lib/{{ item }}"
+        dest: "{{ yarn_plugin_home }}/install/lib/{{ item }}"
+        state: link
+      with_items:
+        - "commons-logging-1.1.3.jar"
+        - "commons-lang3-3.7.jar"
+        - "htrace-core4-4.1.0-incubating.jar"
+        - "commons-compress-1.21.jar"
+    - name: Enable Ranger YARN Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/enable-yarn-plugin.sh"
