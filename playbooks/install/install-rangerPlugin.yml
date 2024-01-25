@@ -136,38 +136,28 @@
         dest: "{{ plugin_home }}/{{ installer.ranger_hive }}"
     - name: Unzip Hive Plugin installer
       unarchive:
-        src: "{{ plugin_home }}/{{ installer.ranger_yarn }}"
+        src: "{{ plugin_home }}/{{ installer.ranger_hive }}"
         dest: "{{ plugin_home }}/"
         remote_src: true
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
-        creates: "{{ plugin_home }}/{{ installer.ranger_yarn.replace('.tar.gz', '') }}"
-    - name: Delete YARN Plugin installer
+        creates: "{{ plugin_home }}/{{ installer.ranger_hive.replace('.tar.gz', '') }}"
+    - name: Delete Hive Plugin installer
       file:
-        path: "{{ plugin_home }}/{{ installer.ranger_yarn }}"
+        path: "{{ plugin_home }}/{{ installer.ranger_hive }}"
         state: absent
-    - name: Create YARN Plugin symbolic link
+    - name: Create Hive Plugin symbolic link
       file:
-        src: "{{ plugin_home }}/{{ installer.ranger_yarn.replace('.tar.gz', '') }}"
-        dest: "{{ yarn_plugin_home }}"
+        src: "{{ plugin_home }}/{{ installer.ranger_hive.replace('.tar.gz', '') }}"
+        dest: "{{ hive_plugin_home }}"
         state: link
     - name: Add install properties
       template:
-        src: "ranger/plugin/yarn/{{ item }}"
-        dest: "{{ yarn_plugin_home }}/"
+        src: "ranger/plugin/hive/{{ item }}"
+        dest: "{{ hive_plugin_home }}/"
         mode: 0644
       with_items:
         - "install.properties"
-    - name: Create library symbolic link
-      file:
-        src: "{{ hadoop_home }}/share/hadoop/hdfs/lib/{{ item }}"
-        dest: "{{ yarn_plugin_home }}/install/lib/{{ item }}"
-        state: link
-      with_items:
-        - "commons-logging-1.1.3.jar"
-        - "commons-lang3-3.7.jar"
-        - "htrace-core4-4.1.0-incubating.jar"
-        - "commons-compress-1.21.jar"
-    - name: Enable Ranger YARN Plugin
+    - name: Enable Ranger Hive Plugin
       become: yes
-      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/enable-yarn-plugin.sh"
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-yarn-plugin.sh"
