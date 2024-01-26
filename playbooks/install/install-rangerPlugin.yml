@@ -158,6 +158,13 @@
         mode: 0644
       with_items:
         - "install.properties"
+    - name: Modify disable configuration file
+      template:
+        src: "ranger/plugin/hive/{{ item }}"
+        dest: "{{ hive_plugin_home }}/install/conf.templates/disable/"
+        mode: 0700
+      with_items:
+        - "hiveserver2-site-changes.cfg"
     - name: Enable Ranger Hive Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-hive-plugin.sh"
