@@ -73,7 +73,7 @@
   tasks:
     - name: Disable Ranger HBase Plugin
       become: yes
-      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/disable-hbase-plugin.sh"
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hbase_plugin_home }}/disable-hbase-plugin.sh"
       failed_when: False
     - name: Remove directory
       file:
