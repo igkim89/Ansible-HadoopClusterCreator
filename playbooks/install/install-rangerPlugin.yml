@@ -174,7 +174,7 @@
 
 ## Ranger Plugin - HBase 설치
 - name: Install Ranger Plugins - HBase
-  hosts: hbase
+  hosts: hbase, worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:
