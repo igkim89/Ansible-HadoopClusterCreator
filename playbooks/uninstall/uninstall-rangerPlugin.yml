@@ -11,6 +11,7 @@
     - name: Disable Ranger HDFS Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hdfs_plugin_home }}/disable-hdfs-plugin.sh"
+      failed_when: False
     - name: Remove directory
       file:
         path: "{{ item }}"
@@ -31,6 +32,7 @@
     - name: Disable Ranger YARN Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/disable-yarn-plugin.sh"
+      failed_when: False
     - name: Remove directory
       file:
         path: "{{ item }}"
@@ -51,6 +53,7 @@
     - name: Disable Ranger Hive Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/disable-hive-plugin.sh"
+      failed_when: False
     - name: Remove directory
       file:
         path: "{{ item }}"
@@ -71,6 +74,7 @@
     - name: Disable Ranger HBase Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/disable-hbase-plugin.sh"
+      failed_when: False
     - name: Remove directory
       file:
         path: "{{ item }}"
