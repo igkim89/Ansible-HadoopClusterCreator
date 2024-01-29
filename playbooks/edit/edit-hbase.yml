@@ -2,7 +2,13 @@
   hosts: hbase, worker
   remote_user: "{{ remote_user }}"
   become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
   tasks:
+    - name: Check Ranger-HBase plugin status
+      shell: "cat {{ hbase_home }}/conf/hbase-site.xml | grep org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor"
+      register: hbase_stat
+      failed_when: false
     - name: Edit HBase configuration files
       template:
         src: "hbase/{{ item }}"
@@ -14,3 +20,21 @@
         - "hbase-site.xml"
         - "regionservers"
         - "hbase-jmx.yml"
+    - name: Add Ranger-HBase plugin configuration
+      blockinfile:
+        path: "{{ hbase_home }}/conf/hbase-site.xml"
+        block: |4
+                <property>
+                    <name>hbase.security.authorization</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>hbase.coprocessor.master.classes</name>
+                    <value>org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor</value>
+                </property>
+                <property>
+                    <name>hbase.coprocessor.region.classes</name>
+                    <value>org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor</value>
+                </property>
+        insertbefore: "</configuration>"
+      when: '"org.apache.ranger.authorization.hbase.RangerAuthorizationCoprocessor" in hbase_stat.stdout'
