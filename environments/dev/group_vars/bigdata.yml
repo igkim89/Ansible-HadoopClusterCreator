@@ -420,6 +420,7 @@ ranger:
     web_port: 50076
     heapsize: 2g
     data_dir: /data/solr
+  ## Ranger Plugin 설정
   plugin:
     hdfs:
       repository_name: HDFS_DEV
