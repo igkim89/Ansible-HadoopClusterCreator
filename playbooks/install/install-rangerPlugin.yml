@@ -1,5 +1,6 @@
 ---
 
+## Ranger Plugin - HDFS 설치
 - name: Install Ranger Plugins - HDFS
   hosts: namenode
   remote_user: "{{ remote_user }}"
@@ -50,6 +51,7 @@
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hdfs_plugin_home }}/enable-hdfs-plugin.sh"
 
+## Ranger Plugin - YARN 설치
 - name: Install Ranger Plugins - YARN
   hosts: resourcemanager
   remote_user: "{{ remote_user }}"
@@ -111,6 +113,7 @@
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/enable-yarn-plugin.sh"
 
+## Ranger Plugin - Hive 설치
 - name: Install Ranger Plugins - Hive
   hosts: hive-server2
   remote_user: "{{ remote_user }}"
@@ -168,3 +171,69 @@
     - name: Enable Ranger Hive Plugin
       become: yes
       shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-hive-plugin.sh"
+
+## Ranger Plugin - HBase 설치
+- name: Install Ranger Plugins - HBase
+  hosts: hbase
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hbase_plugin_home: "{{ plugin_home }}/hbase"
+  tasks:
+    - name: Create Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      with_items:
+        - "{{ bigdata_home }}"
+        - "{{ plugin_home }}"
+    - name: Copy HBase Plugin installer
+      copy:
+        src: "{{ installer_home }}/ranger/{{ installer.ranger_hbase }}"
+        dest: "{{ plugin_home }}/{{ installer.ranger_hbase }}"
+    - name: Unzip HBase Plugin installer
+      unarchive:
+        src: "{{ plugin_home }}/{{ installer.ranger_hbase }}"
+        dest: "{{ plugin_home }}/"
+        remote_src: true
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+        creates: "{{ plugin_home }}/{{ installer.ranger_hbase.replace('.tar.gz', '') }}"
+    - name: Delete HBase Plugin installer
+      file:
+        path: "{{ plugin_home }}/{{ installer.ranger_hbase }}"
+        state: absent
+    - name: Create HBase Plugin symbolic link
+      file:
+        src: "{{ plugin_home }}/{{ installer.ranger_hbase.replace('.tar.gz', '') }}"
+        dest: "{{ hbase_plugin_home }}"
+        state: link
+    - name: Add install properties
+      template:
+        src: "ranger/plugin/hbase/{{ item }}"
+        dest: "{{ hbase_plugin_home }}/"
+        mode: 0644
+      with_items:
+        - "install.properties"
+    - name: Create library symbolic link
+      file:
+        src: "{{ hbase_plugin_home }}/install/lib/{{ item }}"
+        dest: "{{ hbase_home }}/lib/{{ item }}"
+        state: link
+      with_items:
+        - "commons-lang-2.6.jar"
+    - name: Move library
+      command: "mv {{ item.key }} {{ item.value }}"
+      args:
+        removes: "{{ item.key }}"
+        creates: "{{ item.value }}"
+      with_dict:
+        "{{ hbase_plugin_home }}/lib/ranger-hbase-plugin-impl/jersey-core-1.19.3.jar": "{{ hbase_home }}/jersey-core-1.19.3.jar"
+    - name: Enable Ranger HBase Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hbase_plugin_home }}/enable-hbase-plugin.sh"
