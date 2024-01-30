@@ -230,7 +230,7 @@
     - name: Move library
       command: "mv {{ hbase_plugin_home }}/lib/ranger-hbase-plugin-impl/jersey-core-1.19.3.jar {{ hbase_plugin_home }}/jersey-core-1.19.3.jar"
       args:
-        removes: "{{ hbase_plugin_home }}/lib/ranger-hbase-plugin-impl/jersey-core-1.19.3.jar{{ hbase_plugin_home }}/jersey-core-1.19.3.jar"
+        removes: "{{ hbase_plugin_home }}/lib/ranger-hbase-plugin-impl/jersey-core-1.19.3.jar"
         creates: "{{ hbase_plugin_home }}/jersey-core-1.19.3.jar"
     - name: Enable Ranger HBase Plugin
       become: yes
