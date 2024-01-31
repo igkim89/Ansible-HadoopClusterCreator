@@ -28,6 +28,7 @@
       with_items:
         - sample01.txt
         - sample02.txt
+      failed_when: false
     - name: Start Job
       command: "{{ bigdata_home }}/spark/bin/spark-submit /home/{{ remote_user }}/tmp/wordcount/pyspark-wordcount.py"
       register: job_result
