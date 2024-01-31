@@ -22,7 +22,7 @@ done
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-hbase.yml
-  sleep 5s
+  sleep 10s
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-hbase.yml
 elif [ $restart = "R" ] || [ $restart = "r" ]
 then
