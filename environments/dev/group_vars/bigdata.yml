@@ -381,6 +381,7 @@ rstudio:
 ## Prometheus 설정
 prometheus:
   web_port: 50074
+  tsdb_path: /data/prometheus
 
 ## NodeExporter 설정
 node_exporter:
