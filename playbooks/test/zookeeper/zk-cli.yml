@@ -8,7 +8,7 @@
     zookeeper_home: "{{ bigdata_home }}/zookeeper"
   tasks:
     - name: Start Test
-      command: "{{ bigdata_home }}/bin/zkCli.sh -server {% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %} ls /"
+      command: "{{ zookeeper_home }}/bin/zkCli.sh -server {% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %} ls /"
       register: test_result
     - name: Show result
       debug:
