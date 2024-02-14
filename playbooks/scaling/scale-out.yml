@@ -471,7 +471,7 @@
 
 ## NodeExporter
 - name: Install NodeExporter
-  hosts: worker
+  hosts: bigdata
   remote_user: "{{ remote_user }}"
   become: no
   vars:
