@@ -1,4 +1,5 @@
-- hosts: bigdata
+- name: Uninstall ZooKeeper
+- hosts: zookeeper
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
