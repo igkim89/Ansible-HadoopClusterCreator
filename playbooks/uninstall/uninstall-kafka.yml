@@ -35,6 +35,7 @@
       pause:
         seconds: 5
     - name: Remove directory
+      become: yes
       file:
         path: "{{ item }}"
         state: absent
