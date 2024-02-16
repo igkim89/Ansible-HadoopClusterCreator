@@ -97,7 +97,7 @@
       loop: "{{ hadoop.hdfs.datanode_dir }}"
 
 - name: Create NodeManager log directory
-  hosts: nodemanager
+  hosts: nodemanager, worker
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
@@ -126,7 +126,7 @@
         group: "{{ remote_user }}"
 
 - name: Add configuration files
-  hosts: hadoop
+  hosts: hadoop, worker
   remote_user: "{{ remote_user }}"
   become: no
   vars:

@@ -63,7 +63,7 @@
 
 # 전체 삭제는 좀 아닌듯
 - name: Remove directory
-  hosts: hadoop
+  hosts: hadoop, worker
   become: no
   tasks:
     - name: Wait
