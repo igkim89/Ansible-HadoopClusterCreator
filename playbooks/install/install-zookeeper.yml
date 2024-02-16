@@ -51,6 +51,7 @@
       copy:
         src: "{{ zookeeper_home }}/conf/zoo_sample.cfg"
         dest: "{{ zookeeper_home }}/conf/zoo.cfg"
+        remote_src: true
     - name: Edit configuration
       lineinfile:
         path: "{{ zookeeper_home }}/conf/zoo.cfg"
