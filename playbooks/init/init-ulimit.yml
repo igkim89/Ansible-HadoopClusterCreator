@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: yes
   tasks:
-    - name: Edit max locked memory
+    - name: Edit max locked memory (file)
       lineinfile:
         path: "/etc/security/limits.conf"
         regexp: "^{{ remote_user }}*memlock"
@@ -14,13 +14,17 @@
       with_items:
         - "soft"
         - "hard"
-    - name: Edit max open files
+    - name: Edit max open files (file)
       lineinfile:
         path: "/etc/security/limits.conf"
         regexp: "^{{ remote_user }}*nofile"
-        line: "{{ remote_user }} {{ item }} nofile 65535"
+        line: "{{ remote_user }} {{ item }} nofile 65536"
         insertbefore: "# End of file"
       with_items:
         - "soft"
         - "hard"
     ## 즉시 적용 command 추가 예정
+    - name: Edit max locked memory (command)
+      shell: "ulimit -l 4194304"
+    - name: Edit max open files (command)
+      shell: "ulimit -n 65536"
