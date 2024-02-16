@@ -14,6 +14,7 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop httpfs"
+      failed_when: False
 
 
 - name: Uninstall JobHistory Server
@@ -22,6 +23,7 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon stop historyserver"
+      failed_when: False
 
 - name: Uninstall NodeManager
   hosts: nodemanager, worker
@@ -29,6 +31,7 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop nodemanager"
+      failed_when: False
 
 - name: Uninstall ResourceManager
   hosts: resourcemanager
@@ -36,6 +39,7 @@
   become: no
   tasks:
     - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop resourcemanager"
+      failed_when: False
 
 - name: Uninstall DataNode
   hosts: datanode, worker
