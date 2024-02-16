@@ -178,6 +178,7 @@ $ run/dev/install/install-blackboxExporter.sh
 $ run/dev/install/install-checkProcessExporter.sh
 $ run/dev/install/install-grafana.sh
 $ run/dev/install/install-ranger.sh
+$ run/dev/install/install-rangerPlugin.sh
 ```
 
 ## 서비스 시작
@@ -264,6 +265,7 @@ $ run/dev/uninstall/uninstall-blackboxExporter.sh
 $ run/dev/uninstall/uninstall-checkProcessExporter.sh
 $ run/dev/uninstall/uninstall-grafana.sh
 $ run/dev/uninstall/uninstall-ranger.sh
+$ run/dev/uninstall/uninstall-rangerPlugin.sh
 ```
 
 ## Scaling
