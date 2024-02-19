@@ -180,7 +180,7 @@
         "SOLR_JETTY_HOST": "0.0.0.0"
 
 - name: Check Solr installed
-  hosts: zookeeper
+  hosts: "{{ groups['zookeeper'][0] }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -203,7 +203,7 @@
   vars:
     solr_home: "{{ bigdata_home }}/solr"
     ranger_home: "{{ bigdata_home }}/ranger"
-    zk_result: "{{ hostvars['zk']['zk_result'] }}"
+    zk_var: "{{ hostvars['zk']['zk_result'] }}"
   tasks:
     - name: Edit add_ranger_audits_conf_to_zk.sh file
       lineinfile:
@@ -224,7 +224,7 @@
       shell: "./add_ranger_audits_conf_to_zk.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"solr" not in zk_result.stdout'
+      when: '"solr" not in zk_var.stdout'
     - name: Find Solr server ps
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'solr' | grep 'start.jar' | grep 'jetty.port={{ ranger.solr.web_port }}'"
       register: solr_ps
@@ -246,7 +246,7 @@
       shell: "./create_ranger_audits_collection.sh"
       args:
         chdir: "{{ solr_home }}/ranger_audit_server/scripts"
-      when: '"solr" not in zk_result.stdout'
+      when: '"solr" not in zk_var.stdout'
 
     - name: Edit ranger install.properties
       lineinfile:
