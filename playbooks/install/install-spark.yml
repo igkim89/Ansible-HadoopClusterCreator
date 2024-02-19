@@ -81,6 +81,21 @@
     hadoop_home: "{{ bigdata_home }}/hadoop"
     spark_home: "{{ bigdata_home }}/spark"
   tasks:
+    - name: Create jar tmp directory
+      file:
+        dest: "{{ spark_home }}/jar_tmp"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+    - name: Copy jars
+      copy:
+        src: "{{ installer_home }}/{{ item }}"
+        dest: "{{ spark_home }}/jar_tmp/"
+      with_items:
+        - "jdbc/{{ installer.ojdbc }}"
+        - "jdbc/{{ installer.mysql_jdbc }}"
+        - "hive/hive-hbase-handler-3.1.2-v2.jar"
+        - "hive/hive-common-2.3.9-v2.jar"
     - name: Create Spark log directory
       command: "{{ hadoop_home }}/bin/hdfs dfs -mkdir -p /spark-logs"
       register: slog_result
@@ -99,8 +114,17 @@
       failed_when: >
         ("File exists" not in upload_spark_jars.stderr) and
         (upload_spark_jars.stderr != "")
+#    - name: Upload JDBC
+#      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/jdbc/{{ item }} /spark/archive/"
+#      with_items:
+#        - "{{ installer.ojdbc }}"
+#        - "{{ installer.mysql_jdbc }}"
+#      register: upload_jdbc
+#      failed_when: >
+#        ("File exists" not in upload_jdbc.stderr) and
+#        (upload_jdbc.stderr != "")
     - name: Upload JDBC
-      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/jdbc/{{ item }} /spark/archive/"
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jar_tmp/{{ item }} /spark/archive/"
       with_items:
         - "{{ installer.ojdbc }}"
         - "{{ installer.mysql_jdbc }}"
@@ -108,8 +132,14 @@
       failed_when: >
         ("File exists" not in upload_jdbc.stderr) and
         (upload_jdbc.stderr != "")
+#    - name: Upload hive-hbase-handler
+#      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar /spark/archive/"
+#      register: upload_handler
+#      failed_when: >
+#        ("File exists" not in upload_handler.stderr) and
+#        (upload_handler.stderr != "")
     - name: Upload hive-hbase-handler
-      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-hbase-handler-3.1.2-v2.jar /spark/archive/"
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jar_tmp/hive-hbase-handler-3.1.2-v2.jar /spark/archive/"
       register: upload_handler
       failed_when: >
         ("File exists" not in upload_handler.stderr) and
@@ -125,8 +155,17 @@
         )
         and
         (rm_result.stderr != "")
+#    - name: Upload hive-common
+#      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
+#      register: upload_common
+#      failed_when: >
+#        (
+#        "File exists" not in upload_common.stderr
+#        )
+#        and
+#        (upload_common.stderr != "")
     - name: Upload hive-common
-      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ installer_home }}/hive/hive-common-2.3.9-v2.jar /spark/archive/"
+      command: "{{ hadoop_home }}/bin/hdfs dfs -put {{ spark_home }}/jar_tmp/hive-common-2.3.9-v2.jar /spark/archive/"
       register: upload_common
       failed_when: >
         (
@@ -134,6 +173,10 @@
         )
         and
         (upload_common.stderr != "")
+    - name: Delete installer
+      file:
+        path: "{{ spark_home }}/jar_tmp"
+        state: absent
 
 
 - name: Start History server
