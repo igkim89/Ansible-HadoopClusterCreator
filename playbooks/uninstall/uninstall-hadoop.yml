@@ -76,6 +76,7 @@
       with_items:
         - "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
         - "{{ bigdata_home }}/hadoop"
+        # To-do 설치 후 아래 3줄 주석
         - "{{ hadoop.hdfs.namenode_dir }}"
         - "{{ hadoop.hdfs.datanode_dir}}"
         - "{{ hadoop.hdfs.journalnode_dir }}"
