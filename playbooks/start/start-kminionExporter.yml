@@ -8,7 +8,7 @@
     kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
   tasks:
     - name: Check KMinionExporter Process
-      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion"
+      shell: "/usr/bin/ps -ef | grep -v grep | grep kminion_exporter/bin/kminion"
       register: km_ps
       failed_when: false
     - name: Start KMinionExporter

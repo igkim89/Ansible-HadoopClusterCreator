@@ -5,7 +5,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   vars:
-    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter"
+    kminion_exporter_home: "{{ bigdata_home }}/kminion_exporter/bin/kminion"
   tasks:
     - name: Find KMinionExporter process ID
       shell: "/usr/bin/ps -ef | grep -v grep | grep {{ kminion_exporter_home }}/bin/kminion | awk '{print $2}'"
