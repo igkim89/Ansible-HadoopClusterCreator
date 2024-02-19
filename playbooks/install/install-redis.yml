@@ -68,6 +68,7 @@
       copy:
         src: "/home/{{ remote_user }}/redis-tmp/{{ installer.redis.replace('.tar.gz', '') }}/{{ item }}"
         dest: "{{ redis_home }}/conf/"
+        remote_src: true
       with_items:
         - "redis.conf"
         - "sentinel.conf"
