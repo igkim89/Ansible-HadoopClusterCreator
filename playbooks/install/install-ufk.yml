@@ -37,7 +37,7 @@
         "docker-compose.yml": "{{ ufk_home }}"
     - name: Update docker yum repolist
       become: yes
-      copy:
+      template:
         src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce-{{ remote_user }}.repo"
         dest: "/etc/yum.repos.d/"
     - name: Install Docker
