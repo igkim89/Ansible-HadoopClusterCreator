@@ -20,6 +20,9 @@ bigdata_home: "/opt/bigdata"
 ## 설치파일 디렉토리
 installer_home: "/home/bigdata/ansible-install"
 
+## Yum repository
+yum_repo: "172.22.5.108:12380"
+
 ## 서비스별 설치파일
 installer:
   sshfs: "fuse-sshfs-2.8-7.el8.x86_64.rpm"
