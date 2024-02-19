@@ -76,7 +76,7 @@
       with_items:
         - "{{ bigdata_home }}/{{ installer.hadoop.replace('.tar.gz', '') }}"
         - "{{ bigdata_home }}/hadoop"
-#        - "{{ hadoop.hdfs.namenode_dir }}"
-#        - "{{ hadoop.hdfs.datanode_dir}}"
-#        - "{{ hadoop.hdfs.journalnode_dir }}"
+        - "{{ hadoop.hdfs.namenode_dir }}"
+        - "{{ hadoop.hdfs.datanode_dir}}"
+        - "{{ hadoop.hdfs.journalnode_dir }}"
       failed_when: False
