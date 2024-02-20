@@ -48,17 +48,23 @@
         state: directory
     - name: Copy installer
       copy:
-        src: "{{ installer_home }}/pip/{ installer.psutil }}"
+        src: "{{ installer_home }}/pip/{{ installer.cpe }}"
         dest: "/home/{{ remote_user }}/cpe-tmp/"
     - name: Unzip installer
       unarchive:
-        src: "/home/{{ remote_user }}/cpe-tmp/{{ installer.psutil }}"
+        src: "/home/{{ remote_user }}/cpe-tmp/{{ installer.cpe }}"
         dest: "/home/{{ remote_user }}/cpe-tmp/"
         remote_src: true
     - name: Install psutil
       pip:
         name: "psutil"
-        extra_args: "--no-index -f /home/{{ remote_user }}/cpe-tmp/psutil/psutil-5.9.4-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+        extra_args: "--no-index -f /home/{{ remote_user }}/cpe-tmp/cpe/psutil-5.9.4-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+        state: present
+        executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
+    - name: Install pyyaml
+      pip:
+        name: "pyyaml"
+        extra_args: "--no-index -f /home/{{ remote_user }}/cpe-tmp/cpe/PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl"
         state: present
         executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
     - name: Remove tmp directory
