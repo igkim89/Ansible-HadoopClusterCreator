@@ -33,7 +33,7 @@ installer:
   pyenv: "pyenv.tgz"
   python: "Python-3.10.8.tar.xz"
   pexpect: "pexpect.tgz"
-  psutil: "psutil.tgz"
+  cpe: "cpe.tgz"
   mariadb: "mariadb-10.6.11-linux-systemd-x86_64.tar.gz"
   mariadb_jdbc: "mariadb-java-client-2.7.7.jar"
   # Airflow MariaDB 미지원으로 인한 MetaDB 변경 (MariaDB 10.6.11 to MySQL 8.0.32)
