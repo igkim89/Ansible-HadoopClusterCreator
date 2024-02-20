@@ -42,6 +42,21 @@
         state: directory
       with_items:
         - "logs"
+    - name: Copy psutil tgz
+      copy:
+        src: "{{ installer_home }}/pip/{{ installer.psutil }}"
+        dest: "/home/{{ remote_user }}/"
+    - name: Unzip installer
+      unarchive:
+        src: "/home/{{ remote_user }}/{{ installer.psutil }}"
+        dest: "/home/{{ remote_user }}/"
+        remote_src: true
+    - name: Install psutil
+      pip:
+        name:
+          - "psutil-5.9.4-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+        state: present
+        executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
     - name: Check CheckProcessExporter Process
       shell: "/usr/bin/ps -ef | grep -v grep | grep check_process_exporter.py"
       register: cpe_ps
