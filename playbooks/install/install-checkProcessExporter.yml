@@ -67,6 +67,12 @@
         extra_args: "--no-index -f /home/{{ remote_user }}/cpe-tmp/cpe/PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl"
         state: present
         executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
+    - name: Install prometheus-client
+      pip:
+        name: "prometheus-client"
+        extra_args: "--no-index -f /home/{{ remote_user }}/cpe-tmp/cpe/prometheus_client-0.15.0-py3-none-any.whl"
+        state: present
+        executable: "/home/{{ remote_user }}/.pyenv/shims/pip"
     - name: Remove tmp directory
       file:
         dest: "/home/{{ remote_user }}/cpe-tmp"
