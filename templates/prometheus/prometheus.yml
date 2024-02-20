@@ -308,7 +308,7 @@ scrape_configs:
     params:
       module: [tcp_connect]
     static_configs:
-      - targets: [{% for cpe in groups['check-process-exporter'] %}{% if cpe != groups['check-process-exporter'][0] %},{% endif %}'{{ cpe }}:{{ check_process_exporter.port }}'{% endfor %}]
+      - targets: [{% for cpe in groups['bigdata'] %}{% if cpe != groups['bigdata'][0] %},{% endif %}'{{ cpe }}:{{ check_process_exporter.port }}'{% endfor %}]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
