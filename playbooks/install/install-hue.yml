@@ -56,7 +56,7 @@
         "hue.ini": "{{ hue_home }}/conf"
     - name: Update docker yum repolist
       become: yes
-      copy:
+      template:
         src: "{{ ansible_home }}/playbooks/edit/templates/docker/docker-ce-{{ remote_user }}.repo"
         dest: "/etc/yum.repos.d/"
     - name: Install Docker
@@ -67,6 +67,7 @@
           - "docker-ce-cli"
           - "containerd.io"
           - "docker-compose-plugin"
+        nobest: true
     - name: Start Docker
       become: yes
       systemd:
