@@ -352,7 +352,7 @@
         insertbefore: "policymgr_external_url="
         line: "ranger_service_http_port=$(get_prop 'ranger_service_http_port' $PROPFILE)"
     - name: Setup Ranger
-      shell: "./setup.sh"
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && ./setup.sh"
       args:
         chdir: "{{ ranger_home }}"
       when: not ranger_result.stat.exists
