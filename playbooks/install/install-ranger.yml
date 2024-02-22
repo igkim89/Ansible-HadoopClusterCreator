@@ -293,12 +293,12 @@
         chdir: "{{ mysql.home_dir }}"
     - name: Create DB, User
       shell: |
-        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists '{{ ranger.db_user }}'@'{{ item }}' IDENTIFIED BY '{{ ranger.db_pw }}';"
-        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ ranger.db_name }}.* TO '{{ ranger.db_user }}'@'{{ item }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists 'root'@'{{ item }}' IDENTIFIED BY '{{ mysql.root_pw }}';"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON mysql.* TO 'root'@'{{ item }}' WITH GRANT OPTION;"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ ranger.db_name }}.* TO 'root'@'{{ item }}' WITH GRANT OPTION;"
         bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT RELOAD ON *.* TO 'root'@'{{ item }}';"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "CREATE USER if not exists '{{ ranger.db_user }}'@'{{ item }}' IDENTIFIED BY '{{ ranger.db_pw }}';"
+        bin/mysql -uroot -p{{ mysql.root_pw }} --socket={{ mysql.socket_dir }}/mysql.sock -e "GRANT ALL PRIVILEGES ON {{ ranger.db_name }}.* TO '{{ ranger.db_user }}'@'{{ item }}';"
       args:
         chdir: "{{ mysql.home_dir }}"
       with_items: "{{ groups['ranger'] }}"
