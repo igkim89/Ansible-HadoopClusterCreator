@@ -1,6 +1,4 @@
 {% for hm in groups['hbase-master'] %}
-{% if hm != groups['hbase-master'][1] %}
-{% endif %}
 {% if hm != groups['hbase-master'][0] %}
 {{ hm }}
 {% endif %}
