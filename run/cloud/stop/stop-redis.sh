@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-redis.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-redis.sh"
-  echo "  stop-redis.sh datanode01.dev.bigdata"
-  echo "  stop-redis.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-redis.sh"
+  echo "  Single node: stop-redis.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-redis.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-redis.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

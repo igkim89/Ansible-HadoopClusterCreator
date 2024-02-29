@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-ufk.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-ufk.sh"
-  echo "  stop-ufk.sh datanode01.dev.bigdata"
-  echo "  stop-ufk.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-ufk.sh"
+  echo "  Single node: stop-ufk.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-ufk.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-ufk.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

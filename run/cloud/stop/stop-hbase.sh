@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-hbase.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-hbase.sh"
-  echo "  stop-hbase.sh datanode01.dev.bigdata"
-  echo "  stop-hbase.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-hbase.sh"
+  echo "  Single node: stop-hbase.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-hbase.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-hbase.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

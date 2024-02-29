@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-spark.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-spark.sh"
-  echo "  stop-spark.sh datanode01.dev.bigdata"
-  echo "  stop-spark.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-spark.sh"
+  echo "  Single node: stop-spark.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-spark.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-spark.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

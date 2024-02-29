@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-hive.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-hive.sh"
-  echo "  stop-hive.sh datanode01.dev.bigdata"
-  echo "  stop-hive.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-hive.sh"
+  echo "  Single node: stop-hive.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-hive.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-hive.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

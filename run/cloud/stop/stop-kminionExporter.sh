@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-kminionExporter.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-kminionExporter.sh"
-  echo "  stop-kminionExporter.sh datanode01.dev.bigdata"
-  echo "  stop-kminionExporter.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-kminionExporter.sh"
+  echo "  Single node: stop-kminionExporter.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-kminionExporter.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-kminionExporter.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

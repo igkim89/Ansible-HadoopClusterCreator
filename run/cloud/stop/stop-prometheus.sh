@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-prometheus.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-prometheus.sh"
-  echo "  stop-prometheus.sh datanode01.dev.bigdata"
-  echo "  stop-prometheus.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-prometheus.sh"
+  echo "  Single node: stop-prometheus.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-prometheus.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-prometheus.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-checkProcessExporter.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-checkProcessExporter.sh"
-  echo "  stop-checkProcessExporter.sh datanode01.dev.bigdata"
-  echo "  stop-checkProcessExporter.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-checkProcessExporter.sh"
+  echo "  Single node: stop-checkProcessExporter.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-checkProcessExporter.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-checkProcessExporter.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

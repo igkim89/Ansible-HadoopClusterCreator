@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-zeppelin.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-zeppelin.sh"
-  echo "  stop-zeppelin.sh datanode01.dev.bigdata"
-  echo "  stop-zeppelin.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-zeppelin.sh"
+  echo "  Single node: stop-zeppelin.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-zeppelin.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-zeppelin.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-ranger.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  stop-ranger.sh"
-  echo "  stop-ranger.sh datanode01.dev.bigdata"
-  echo "  stop-ranger.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     stop-ranger.sh"
+  echo "  Single node: stop-ranger.sh datanode01.dev.bigdata"
+  echo "  Multi node:  stop-ranger.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  stop-ranger.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi
