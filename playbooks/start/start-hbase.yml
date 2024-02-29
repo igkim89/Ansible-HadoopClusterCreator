@@ -27,7 +27,7 @@
       when: '"HMaster" not in hm_result.stdout'
 
 - name: Start HBase Master
-  hosts: "{{ groups['hbase-master'][1:] }}:&{{ variable_host }}"
+  hosts: "{{ groups['hbase-master'][1] }}:&{{ variable_host }}"
   remote_user: "{{ remote_user }}"
   become: no
   vars:
