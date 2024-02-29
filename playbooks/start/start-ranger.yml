@@ -1,7 +1,7 @@
 ---
 
 - name: Start Ranger
-  hosts: ranger
+  hosts: ranger:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

@@ -1,5 +1,5 @@
 - name: Create NameNode directory
-  hosts: namenode
+  hosts: namenode:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
@@ -14,7 +14,7 @@
       loop: "{{ hadoop.hdfs.namenode_dir }}"
 
 - name: Create DataNode directory
-  hosts: datanode, worker
+  hosts: datanode:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
@@ -29,7 +29,7 @@
       loop: "{{ hadoop.hdfs.datanode_dir }}"
 
 - name: Create JournalNode directory
-  hosts: journalnode
+  hosts: journalnode:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: yes
   become_method: sudo
@@ -43,7 +43,7 @@
         group: "{{ remote_user }}"
 
 - name: Start JournalNode
-  hosts: journalnode
+  hosts: journalnode:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -60,7 +60,7 @@
       when: '"JournalNode" in journalnode_jps.stdout'
 
 - name: Start NameNode, JournalNode, ZKFC
-  hosts: "{{ groups['namenode'][0] }}"
+  hosts: "{{ groups['namenode'][0] }}:&{{ variable_host }}"
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -68,7 +68,7 @@
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
 - name: Start DataNode
-  hosts: datanode, worker
+  hosts: datanode:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -81,7 +81,7 @@
       when: '"DataNode" not in datanode_jps.stdout'
 
 - name: Start ResourceManager
-  hosts: resourcemanager
+  hosts: resourcemanager:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -93,7 +93,7 @@
       when: '"ResourceManager" not in rm_jps.stdout'
 
 - name: Start NodeManager
-  hosts: nodemanager, worker
+  hosts: nodemanager:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -105,7 +105,7 @@
       when: '"NodeManager" not in nm_jps.stdout'
 
 - name: Start JobHistory Server
-  hosts: jobhistoryserver
+  hosts: jobhistoryserver:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -117,7 +117,7 @@
       when: '"JobHistoryServer" not in hs_jps.stdout'
 
 - name: Start httpfs
-  hosts: httpfs
+  hosts: httpfs:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

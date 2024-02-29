@@ -1,7 +1,7 @@
 ---
 
 - name: Start Grafana
-  hosts: grafana
+  hosts: grafana:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

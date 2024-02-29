@@ -2,7 +2,7 @@
 
 ## Start Webserver
 - name: Start Airflow webserver
-  hosts: airflow-webserver
+  hosts: airflow-webserver:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -27,7 +27,7 @@
 
 ## Start Scheduler
 - name: Start Airflow scheduler
-  hosts: airflow-scheduler
+  hosts: airflow-scheduler:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -49,7 +49,7 @@
 
 ## Start Celery Flower
 - name: Start Celery flower
-  hosts: airflow-celery-flower
+  hosts: airflow-celery-flower:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -71,7 +71,7 @@
 
 ## Start Celery Worker
 - name: Start Celery worker
-  hosts: airflow-celery-worker
+  hosts: airflow-celery-worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

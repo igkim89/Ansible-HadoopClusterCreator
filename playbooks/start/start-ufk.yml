@@ -1,7 +1,7 @@
 ---
 
 - name: Start UFK server
-  hosts: ufk
+  hosts: ufk:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: yes
   vars:

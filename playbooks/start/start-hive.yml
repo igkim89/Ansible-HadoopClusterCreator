@@ -1,7 +1,7 @@
 ---
 
 - name: Start HCatalog server
-  hosts: metastore
+  hosts: metastore:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -21,7 +21,7 @@
       when: '"hive.metastore.HiveMetaStore" not in meta_ps.stdout'
 
 - name: Start HiveServer2
-  hosts: hive-server2
+  hosts: hive-server2:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

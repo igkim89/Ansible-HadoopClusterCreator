@@ -1,7 +1,7 @@
 ---
 
 - name: Start KMinionExporter
-  hosts: kminion-exporter
+  hosts: kminion-exporter:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
