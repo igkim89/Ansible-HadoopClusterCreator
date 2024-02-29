@@ -1,11 +1,13 @@
 #!/bin/bash
 
 if [ $# -gt 1 ]; then
+  echo ""
   echo "Usage: stop-spark.sh [<SERVER_FQDN>]"
   echo "Example:"
   echo "  stop-spark.sh"
   echo "  stop-spark.sh datanode01.dev.bigdata"
   echo "  stop-spark.sh datanode[01:05].dev.bigdata"
+  echo ""
   exit
 fi
 
