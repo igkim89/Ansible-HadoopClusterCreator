@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-kafka.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-kafka.sh"
-  echo "  start-kafka.sh datanode01.dev.bigdata"
-  echo "  start-kafka.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-kafka.sh"
+  echo "  Single node: start-kafka.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-kafka.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-kafka.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

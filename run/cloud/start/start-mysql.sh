@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-mysql.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-mysql.sh"
-  echo "  start-mysql.sh datanode01.dev.bigdata"
-  echo "  start-mysql.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-mysql.sh"
+  echo "  Single node: start-mysql.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-mysql.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-mysql.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

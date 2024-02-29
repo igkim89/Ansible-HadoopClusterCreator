@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-redis.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-redis.sh"
-  echo "  start-redis.sh datanode01.dev.bigdata"
-  echo "  start-redis.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-redis.sh"
+  echo "  Single node: start-redis.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-redis.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-redis.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

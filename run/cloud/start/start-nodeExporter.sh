@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-nodeExporter.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-nodeExporter.sh"
-  echo "  start-nodeExporter.sh datanode01.dev.bigdata"
-  echo "  start-nodeExporter.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-nodeExporter.sh"
+  echo "  Single node: start-nodeExporter.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-nodeExporter.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-nodeExporter.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

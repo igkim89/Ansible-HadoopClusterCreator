@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-hive.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-hive.sh"
-  echo "  start-hive.sh datanode01.dev.bigdata"
-  echo "  start-hive.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-hive.sh"
+  echo "  Single node: start-hive.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-hive.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-hive.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

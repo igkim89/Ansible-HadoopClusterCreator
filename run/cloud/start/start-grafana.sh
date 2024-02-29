@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-grafana.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-grafana.sh"
-  echo "  start-grafana.sh datanode01.dev.bigdata"
-  echo "  start-grafana.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-grafana.sh"
+  echo "  Single node: start-grafana.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-grafana.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-grafana.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

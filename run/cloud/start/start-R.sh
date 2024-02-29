@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-R.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-R.sh"
-  echo "  start-R.sh datanode01.dev.bigdata"
-  echo "  start-R.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-R.sh"
+  echo "  Single node: start-R.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-R.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-R.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

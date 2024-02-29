@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-blackboxExporter.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-blackboxExporter.sh"
-  echo "  start-blackboxExporter.sh datanode01.dev.bigdata"
-  echo "  start-blackboxExporter.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-blackboxExporter.sh"
+  echo "  Single node: start-blackboxExporter.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-blackboxExporter.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-blackboxExporter.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

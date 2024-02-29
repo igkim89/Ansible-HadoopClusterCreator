@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-airflow.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-airflow.sh"
-  echo "  start-airflow.sh datanode01.dev.bigdata"
-  echo "  start-airflow.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-airflow.sh"
+  echo "  Single node: start-airflow.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-airflow.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-airflow.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

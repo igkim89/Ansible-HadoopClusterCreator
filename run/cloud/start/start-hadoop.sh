@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-hadoop.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-hadoop.sh"
-  echo "  start-hadoop.sh datanode01.dev.bigdata"
-  echo "  start-hadoop.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-hadoop.sh"
+  echo "  Single node: start-hadoop.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-hadoop.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-hadoop.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

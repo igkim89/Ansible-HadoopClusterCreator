@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-mariadb.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-mariadb.sh"
-  echo "  start-mariadb.sh datanode01.dev.bigdata"
-  echo "  start-mariadb.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-mariadb.sh"
+  echo "  Single node: start-mariadb.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-mariadb.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-mariadb.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

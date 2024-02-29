@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-hue.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-hue.sh"
-  echo "  start-hue.sh datanode01.dev.bigdata"
-  echo "  start-hue.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-hue.sh"
+  echo "  Single node: start-hue.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-hue.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-hue.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

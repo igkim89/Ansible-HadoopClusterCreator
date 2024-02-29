@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-spark.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-spark.sh"
-  echo "  start-spark.sh datanode01.dev.bigdata"
-  echo "  start-spark.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-spark.sh"
+  echo "  Single node: start-spark.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-spark.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-spark.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi

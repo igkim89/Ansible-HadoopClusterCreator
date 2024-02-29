@@ -4,9 +4,10 @@ if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: start-ranger.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  start-ranger.sh"
-  echo "  start-ranger.sh datanode01.dev.bigdata"
-  echo "  start-ranger.sh datanode[01:05].dev.bigdata"
+  echo "  Default:     start-ranger.sh"
+  echo "  Single node: start-ranger.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-ranger.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-ranger.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi
