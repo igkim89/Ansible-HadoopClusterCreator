@@ -1,5 +1,5 @@
 - name: Stop history server
-  hosts: spark-history
+  hosts: spark-history:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
