@@ -14,5 +14,5 @@ fi
 if [ $# -eq 0 ]; then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-spark.yml
 else
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-spark.yml --extra-vars "variable_host=server-3.novalocal"
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-spark.yml --extra-vars "variable_host=$1"
 fi
