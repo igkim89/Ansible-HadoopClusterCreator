@@ -1,5 +1,3 @@
-~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-mysql.yml
-
 #!/bin/bash
 
 if [ $# -gt 1 ]; then
