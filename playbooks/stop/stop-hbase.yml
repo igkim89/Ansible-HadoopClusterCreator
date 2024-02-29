@@ -13,7 +13,7 @@
 #      failed_when: False
 
 - name: Stop HBase RegionServer
-  hosts: worker
+  hosts: worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -30,7 +30,7 @@
       shell: "{{ hbase_home }}/bin/hbase-daemon.sh stop regionserver"
 
 - name: Stop HBase Master
-  hosts: hbase-master
+  hosts: hbase-master:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

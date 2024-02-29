@@ -1,7 +1,7 @@
 ---
 
 - name: Stop Ranger
-  hosts: ranger
+  hosts: ranger:&{{ variable_host }}
   become: no
   vars:
     solr_home: "{{ bigdata_home }}/solr"

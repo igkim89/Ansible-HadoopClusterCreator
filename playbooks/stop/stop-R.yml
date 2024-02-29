@@ -1,7 +1,7 @@
 ---
 
 - name: Stop RStudio
-  hosts: R
+  hosts: R:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: yes
   tasks:

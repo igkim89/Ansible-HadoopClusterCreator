@@ -11,7 +11,7 @@
 
 ## Stop Webserver
 - name: Stop Airflow webserver
-  hosts: airflow-webserver
+  hosts: airflow-webserver:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -30,7 +30,7 @@
 
 ## Stop Scheduler
 - name: Stop Airflow scheduler
-  hosts: airflow-scheduler
+  hosts: airflow-scheduler:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -55,7 +55,7 @@
 
 ## Stop Celery Flower
 - name: Stop Celery flower
-  hosts: airflow-celery-flower
+  hosts: airflow-celery-flower:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -74,7 +74,7 @@
 
 ## Stop Celery Worker
 - name: Stop Celery worker
-  hosts: airflow-celery-worker
+  hosts: airflow-celery-worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

@@ -1,7 +1,7 @@
 ---
 
 - name: Stop httpfs
-  hosts: httpfs
+  hosts: httpfs:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -15,7 +15,7 @@
       when: httpfs_pid.stdout != ""
 
 - name: Stop JobHistory Server
-  hosts: jobhistoryserver
+  hosts: jobhistoryserver:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -29,7 +29,7 @@
       when: hs_pid.stdout != ""
 
 - name: Stop NodeManager
-  hosts: nodemanager, worker
+  hosts: nodemanager:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -43,7 +43,7 @@
       when: nm_pid.stdout != ""
 
 - name: Stop ResourceManager
-  hosts: resourcemanager
+  hosts: resourcemanager:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -57,7 +57,7 @@
       when: rm_pid.stdout != ""
 
 - name: Stop DataNode
-  hosts: datanode, worker
+  hosts: datanode:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -73,7 +73,7 @@
       when: dn_pid.stdout != ""
 
 - name: Stop Active NameNode
-  hosts: "{{ groups['namenode'][0] }}"
+  hosts: "{{ groups['namenode'][0] }}:&{{ variable_host }}"
   become: no
   tasks:
     - name: Stop NameNode, JournalNode, ZKFC
@@ -81,7 +81,7 @@
       failed_when: False
 
 - name: Stop NameNode
-  hosts: namenode
+  hosts: namenode:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
@@ -101,7 +101,7 @@
       when: zkfc_pid.stdout != ""
 
 - name: Stop JournalNode
-  hosts: journalnode
+  hosts: journalnode:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

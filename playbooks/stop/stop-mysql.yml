@@ -1,7 +1,7 @@
 ---
 
 - name: Stop MySQL
-  hosts: mysql
+  hosts: mysql:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   tasks:

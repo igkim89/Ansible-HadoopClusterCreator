@@ -1,7 +1,7 @@
 ---
 
 - name: Stop NodeExporter
-  hosts: node-exporter, worker
+  hosts: node-exporter:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:

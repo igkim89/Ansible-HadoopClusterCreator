@@ -1,7 +1,7 @@
 ---
 
 - name: Stop HiveServer2
-  hosts: hive-server2
+  hosts: hive-server2:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
@@ -16,7 +16,7 @@
       when: hive_server2_pid.stdout !=""
 
 - name: Stop Metastore
-  hosts: metastore
+  hosts: metastore:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
   become: no
   vars:
