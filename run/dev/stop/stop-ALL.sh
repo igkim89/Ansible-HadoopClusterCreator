@@ -40,27 +40,26 @@ SCRIPT_LIST="
   stop-zookeeper.yml
 "
 
+if [ $# -eq 0 ]; then
+  echo -n -e "${RED_COLOR}Do you want to stop all services in the cluster now?${NO_COLOR} (y/n) "
+  read restart
+else
+  echo -n -e "${RED_COLOR}Do you want to stop all services on host $1 now?${NO_COLOR} (y/n) "
+  read restart
+fi
+
+if [ $restart = "Y" ] || [ $restart = "y" ]; then
+  echo "Stop all services..."
+else
+  exit
+fi
+
 for SCR in $SCRIPT_LIST ; do
   if [ $# -eq 0 ]; then
-    echo -n -e "${RED_COLOR}Do you want to stop all services in the cluster now?${NO_COLOR} (y/n) "
-    read restart
-    if [ $restart = "Y" ] || [ $restart = "y" ]
-    then
-      ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=all"
-    else
-      exit
-    fi
+    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=all"
   else
-    echo -n -e "${RED_COLOR}Do you want to stop all services on host $1 now?${NO_COLOR} (y/n) "
-    read restart
-    if [ $restart = "Y" ] || [ $restart = "y" ]
-    then
-      ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=$1"
-    else
-      exit
-    fi
+    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=$1"
   fi
-
   ret_val=$?
   if [ $ret_val -ne 0 ]; then
     exit
