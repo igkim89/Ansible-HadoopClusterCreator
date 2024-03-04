@@ -15,24 +15,24 @@ fi
 SCRIPT_LIST="
   stop-ranger.yml
   stop-grafana.yml
-  stop-checkProcessExporter.sh
-  stop-blackboxExporter.sh
-  stop-kminionExporter.sh
-  stop-nodeExporter.sh
-  stop-prometheus.sh
-  stop-zeppelin.sh
-  stop-airflow.sh
-  stop-redis.sh
-  stop-R.sh
-  stop-hue.sh
-  stop-ufk.sh
-  stop-spark.sh
-  stop-hbase.sh
-  stop-hive.sh
-  stop-mysql.sh
-  stop-hadoop.sh
-  stop-kafka.sh
-  stop-zookeeper.sh
+  stop-checkProcessExporter.yml
+  stop-blackboxExporter.yml
+  stop-kminionExporter.yml
+  stop-nodeExporter.yml
+  stop-prometheus.yml
+  stop-zeppelin.yml
+  stop-airflow.yml
+  stop-redis.yml
+  stop-R.yml
+  stop-hue.yml
+  stop-ufk.yml
+  stop-spark.yml
+  stop-hbase.yml
+  stop-hive.yml
+  stop-mysql.yml
+  stop-hadoop.yml
+  stop-kafka.yml
+  stop-zookeeper.yml
 "
 
 for SCR in $SCRIPT_LIST ; do
