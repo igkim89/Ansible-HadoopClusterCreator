@@ -1,5 +1,10 @@
 #!/bin/bash
 
+RED_COLOR='\033[0;31m'
+GREEN_COLOR='\033[0;32m'
+YELLOW_COLOR='\033[0;33m'
+NO_COLOR='\033[0m'
+
 if [ $# -gt 1 ]; then
   echo ""
   echo "Usage: stop-ALL.sh [<SERVER_FQDN>]"
@@ -37,9 +42,23 @@ SCRIPT_LIST="
 
 for SCR in $SCRIPT_LIST ; do
   if [ $# -eq 0 ]; then
-    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=all"
+    echo -n -e "${RED_COLOR}Do you want to stop all services in the cluster now?${NO_COLOR} (y/n) "
+    read restart
+    if [ $restart = "Y" ] || [ $restart = "y" ]
+    then
+      ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=all"
+    else
+      exit
+    fi
   else
-    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=$1"
+    echo -n -e "${RED_COLOR}Do you want to stop all services on host $1 now?${NO_COLOR} (y/n) "
+    read restart
+    if [ $restart = "Y" ] || [ $restart = "y" ]
+    then
+      ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/stop/$SCR --extra-vars "variable_host=$1"
+    else
+      exit
+    fi
   fi
 
   ret_val=$?
