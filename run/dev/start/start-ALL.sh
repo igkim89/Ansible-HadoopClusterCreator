@@ -37,9 +37,9 @@ SCRIPT_LIST="
 
 for SCR in $SCRIPT_LIST ; do
   if [ $# -eq 0 ]; then
-    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/start/$SCR --extra-vars "variable_host=all"
+    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/$SCR --extra-vars "variable_host=all"
   else
-    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/cloud/hosts.yml /home/bigdata/ansible/playbooks/start/$SCR --extra-vars "variable_host=$1"
+    ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/$SCR --extra-vars "variable_host=$1"
   fi
 
   ret_val=$?
