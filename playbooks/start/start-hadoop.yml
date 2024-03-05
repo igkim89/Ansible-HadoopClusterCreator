@@ -67,6 +67,14 @@
     - name: Start NameNode, JournalNode, ZKFC
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
+- name: Start Standby NameNode
+  hosts: "namenode:&{{ variable_host }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start NameNode, JournalNode, ZKFC
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+
 - name: Start DataNode
   hosts: datanode:worker:&{{ variable_host }}
   remote_user: "{{ remote_user }}"
