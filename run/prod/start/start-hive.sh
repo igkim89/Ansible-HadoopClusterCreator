@@ -1,1 +1,19 @@
-~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/start/start-hive.yml
+#!/bin/bash
+
+if [ $# -gt 1 ]; then
+  echo ""
+  echo "Usage: start-hive.sh [<SERVER_FQDN>]"
+  echo "Example:"
+  echo "  Default:     start-hive.sh"
+  echo "  Single node: start-hive.sh datanode01.dev.bigdata"
+  echo "  Multi node:  start-hive.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:  start-hive.sh datanode[01-05].dev.bigdata"
+  echo ""
+  exit
+fi
+
+if [ $# -eq 0 ]; then
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/start/start-hive.yml --extra-vars "variable_host=all"
+else
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/start/start-hive.yml --extra-vars "variable_host=$1"
+fi
