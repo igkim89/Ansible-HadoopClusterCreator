@@ -72,7 +72,7 @@
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
-    - name: Start NameNode, JournalNode, ZKFC
+    - name: Start Standby NameNode
       command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
 
 - name: Start DataNode
