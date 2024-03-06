@@ -1,0 +1,15 @@
+---
+
+- name: Stop ResourceManager
+  hosts: resourcemanager:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon stop resourcemanager"
+    - name: Check ResourceManager pid
+      shell: "/usr/bin/jps | grep 'ResourceManager' | awk '{print $1}'"
+      register: rm_pid
+      failed_when: false
+    - name: Kill ResourceManager
+      command: "/usr/bin/kill -9 {{ rm_pid.stdout }}"
+      when: rm_pid.stdout != ""
