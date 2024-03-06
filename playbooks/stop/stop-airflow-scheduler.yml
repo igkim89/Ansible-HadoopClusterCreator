@@ -1,0 +1,25 @@
+---
+
+## Stop Scheduler
+- name: Stop Airflow scheduler
+  hosts: airflow-scheduler:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Stop Airflow scheduler
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-scheduler.pid`"
+      failed_when: false
+    - name: Remove pid file
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-scheduler.pid"
+      failed_when: false
+    - name: Kill airflow scheduler process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow scheduler' | grep -v grep | awk '{print $2}')"
+      failed_when: false
+    - name: Kill airflow worker process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow worker' | grep -v grep | awk '{print $2}')"
+      failed_when: false
+    - name: Kill airflow executor process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow executor' | grep -v grep | awk '{print $2}')"
+      failed_when: false
