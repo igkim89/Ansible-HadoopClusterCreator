@@ -1,0 +1,22 @@
+---
+
+- name: Stop NameNode
+  hosts: namenode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check NameNode pid
+      shell: "/usr/bin/jps | grep 'NameNode' | awk '{print $1}'"
+      register: nn_pid
+      failed_when: false
+    - name: Kill NameNode
+      command: "/usr/bin/kill -9 {{ nn_pid.stdout }}"
+      when: nn_pid.stdout != ""
+    - name: Check ZKFC pid
+      shell: "/usr/bin/jps | grep 'DFSZKFailoverController' | awk '{print $1}'"
+      register: zkfc_pid
+      failed_when: false
+    - name: Kill ZFKC
+      command: "/usr/bin/kill -9 {{ zkfc_pid.stdout }}"
+      when: zkfc_pid.stdout != ""
+
