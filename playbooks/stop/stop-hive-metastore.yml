@@ -1,0 +1,25 @@
+---
+
+- name: Stop Metastore
+  hosts: metastore:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Find HCtalog process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore' | awk '{print $2}'"
+      register: hive_meta_pid
+      failed_when: false
+    - name: Stop HCatalog process
+      command: "/usr/bin/kill -9 {{ hive_meta_pid.stdout }}"
+      when: hive_meta_pid.stdout !=""
+    - name: Find HCtalog process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore' | awk '{print $2}'"
+      register: hive_meta_pid
+      failed_when: false
+    - name: Remove hcat.pid
+      file:
+        path: "{{ hive_home }}/logs/hcat.pid"
+        state: absent
+      when: hive_meta_pid.stdout ==""
