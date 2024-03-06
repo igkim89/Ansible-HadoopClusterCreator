@@ -1,0 +1,16 @@
+---
+
+- name: Stop HiveServer2
+  hosts: hive-server2:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    - hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Find HiveServer2 process ID
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2' | awk '{print $2}'"
+      register: hive_server2_pid
+      failed_when: false
+    - name: Kill HiveServer2 process
+      command: "/usr/bin/kill -9 {{ hive_server2_pid.stdout }}"
+      when: hive_server2_pid.stdout !=""
