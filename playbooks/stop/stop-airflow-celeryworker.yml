@@ -1,0 +1,19 @@
+---
+
+## Stop Celery Worker
+- name: Stop Celery worker
+  hosts: airflow-celery-worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Stop Celery worker
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-worker.pid`"
+      failed_when: false
+    - name: Remove pid file
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-worker.pid"
+      failed_when: false
+    - name: Kill Celery worker process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess' | awk '{print $2}')"
+      failed_when: false
