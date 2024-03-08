@@ -19,9 +19,9 @@ done
 
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-spark.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-spark.yml "variable_host=all"
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/start/start-spark.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/start/start-spark.yml "variable_host=all"
 else
   echo -e "${YELLOW_COLOR}Spark service was not restarted.${NO_COLOR}"
   echo -e "${YELLOW_COLOR}Spark service restart is required to apply the changed settings.${NO_COLOR}"

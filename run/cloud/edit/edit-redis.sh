@@ -19,9 +19,9 @@ done
 
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-redis.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/stop/stop-redis.yml "variable_host=all"
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/start/start-redis.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/cloud-user/ansible/environments/cloud/hosts.yml /home/cloud-user/ansible/playbooks/start/start-redis.yml "variable_host=all"
 else
   echo -e "${YELLOW_COLOR}Redis service was not restarted.${NO_COLOR}"
   echo -e "${YELLOW_COLOR}Redis service restart is required to apply the changed settings.${NO_COLOR}"
