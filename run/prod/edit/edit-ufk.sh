@@ -19,9 +19,9 @@ done
 
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-ufk.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-ufk.yml "variable_host=all"
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/start/start-ufk.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/prod/hosts.yml /home/bigdata/ansible/playbooks/start/start-ufk.yml "variable_host=all"
 else
   echo -e "${YELLOW_COLOR}UI for Apache Kafka service was not restarted.${NO_COLOR}"
   echo -e "${YELLOW_COLOR}UI for Apache Kafka service restart is required to apply the changed settings.${NO_COLOR}"
