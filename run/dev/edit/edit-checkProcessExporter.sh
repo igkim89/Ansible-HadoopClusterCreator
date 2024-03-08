@@ -19,9 +19,9 @@ done
 
 if [ $restart = "Y" ] || [ $restart = "y" ]
 then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-checkProcessExporter.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-checkProcessExporter.yml "variable_host=all"
   sleep 5s
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-checkProcessExporter.yml
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-checkProcessExporter.yml "variable_host=all"
 else
   echo -e "${YELLOW_COLOR}CheckProcessExporter service was not restarted.${NO_COLOR}"
   echo -e "${YELLOW_COLOR}CheckProcessExporter service restart is required to apply the changed settings.${NO_COLOR}"
