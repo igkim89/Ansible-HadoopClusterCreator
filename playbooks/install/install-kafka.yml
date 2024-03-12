@@ -65,6 +65,12 @@
         insertafter: "# limitations under the License."
         regexp: "export JMX_PORT="
         line: "export JMX_PORT={{ kafka.jmx_port }}"
+    - name: Edit Kafka JMX heap size
+      lineinfile:
+        path: "{{ kafka_home }}/bin/kafka-server-start.sh"
+        insertafter: "# limitations under the License."
+        regexp: "export KAFKA_HEAP_OPTS="
+        line: "export KAFKA_HEAP_OPTS=\"-Xmx{{ kafka.max_heap_size }} -Xms{{ kafka.min_heap_size }}\""
 - name: Create Cluster ID
   hosts: "{{ groups['kafka'][0] }}"
   remote_user: "{{ remote_user }}"
