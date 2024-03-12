@@ -33,5 +33,5 @@
       lineinfile:
         path: "{{ kafka_home }}/bin/kafka-server-start.sh"
         insertafter: "# limitations under the License."
-        regexp: "export KAFKA_HEAP_OPTS="
+        regexp: "^export KAFKA_HEAP_OPTS="
         line: "export KAFKA_HEAP_OPTS=\"-Xmx{{ kafka.max_heap_size }} -Xms{{ kafka.min_heap_size }}\""
