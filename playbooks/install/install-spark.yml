@@ -59,6 +59,13 @@
       with_items:
         - spark-env.sh
         - spark-defaults.conf
+    - name: Add HBase-site.xml
+      template:
+        src: "{{ hbase_home }}/conf/{{ item }}"
+        dest: "{{ spark_home }}/conf/"
+        mode: 0644
+      with_items:
+        - hbase-site.xml
     - name: Hive configuration symbolic link
       file:
         src: "{{ bigdata_home }}/hive/conf/hive-site.xml"
