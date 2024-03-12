@@ -192,6 +192,8 @@ hadoop:
 kafka:
   log_dir: "/disk01/kafka,/disk02/kafka,/disk03/kafka,/disk04/kafka,/disk05/kafka"
   log_retention_hour: 72
+  min_heap_size: 6G
+  max_heap_size: 6G
   num_partition: 1
   topic_replication_factor: 1
   message_max_bytes: 10485760
