@@ -1,0 +1,17 @@
+---
+
+- name: Add HBase-site.xml
+  hosts: bigdata
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Add HBase-site.xml
+      template:
+        src: "{{ hbase_home }}/conf/{{ item }}"
+        dest: "{{ hive_home }}/conf/"
+        mode: 0644
+      with_items:
+        - hbase-site.xml
