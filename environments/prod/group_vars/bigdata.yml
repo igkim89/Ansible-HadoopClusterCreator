@@ -382,6 +382,7 @@ rstudio:
 prometheus:
   web_port: 50074
   tsdb_path: /data/prometheus
+  scrape_interval: 5s
 
 ## NodeExporter 설정
 node_exporter:
