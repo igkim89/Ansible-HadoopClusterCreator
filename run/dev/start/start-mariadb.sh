@@ -16,4 +16,4 @@ if [ $# -eq 0 ]; then
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-mariadb.yml --extra-vars "variable_host=all"
 else
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-mariadb.yml --extra-vars "variable_host=$1"
-fi~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/start/start-mariadb.yml
+fi
