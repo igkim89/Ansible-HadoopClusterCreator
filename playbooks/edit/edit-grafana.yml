@@ -18,12 +18,9 @@
     # 개발 완료시 적용
     - name: Add Provisioning dashboard list
       copy:
-        src: "grafana/dashboard/{{ item }}"
+        src: "{{ ansible_home }}/templates/grafana/dashboard/*.json"
         dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
         mode: 0640
-      with_items:
-        - "BigdataClusterServiceStatus-1694762925794.json"
-        - "BigdataClusterResourceUsage-1693204517668.json"
 
      # 전체 Copy (개발용)
 #    - name: Add Provisioning dashboard list
