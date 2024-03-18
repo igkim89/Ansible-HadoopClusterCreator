@@ -15,14 +15,15 @@
       with_dict:
         "http_port": "{{ grafana.web_port }}"
         "admin_email": "igkim@daou.co.kr"
-    # 개발 완료시 적용
-    - name: Add Provisioning dashboard list
-      copy:
-        src: "{{ item }}"
-        dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
-        mode: 0640
-      with_fileglob:
-        - "{{ ansible_home }}/templates/grafana/dashboard/*.json"
+
+     # 개발 완료시 적용
+#    - name: Add Provisioning dashboard list
+#      copy:
+#        src: "{{ item }}"
+#        dest: "{{ grafana_home }}/conf/provisioning/dashboards/json/"
+#        mode: 0640
+#      with_fileglob:
+#        - "{{ ansible_home }}/templates/grafana/dashboard/*.json"
 
      # 전체 Copy (개발용)
 #    - name: Add Provisioning dashboard list
