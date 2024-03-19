@@ -87,7 +87,7 @@
         <value>0.0.0.0</value>
     </property>
     <property>
-        <name>hive.server2.webui.host</name>
+        <name>hive.server2.webui.port</name>
         <value>{{ hive.webui_port }}</value>
     </property>
     <property>
