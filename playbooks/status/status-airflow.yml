@@ -45,6 +45,50 @@
       when: '"airflow scheduler" in scheduler_ps.stdout'
       no_log: true
 
+- name: Airflow Celery-Flower status
+  hosts: airflow-celery-flower
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        flower_ps: "Airflow Celery-Flower is stopped."
+      no_log: true
+    - name: Check Celery flower
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower'"
+      register: flower_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        flower_status: "Airflow Celery-Flower is running."
+      when: '"airflow celery flower" in flower_ps.stdout'
+      no_log: true
+
+- name: Airflow Celery-Worker status
+  hosts: airflow-celery-worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Set default status
+      set_fact:
+        cacheable: yes
+        worker_ps: "Airflow Celery-Worker is stopped."
+      no_log: true
+    - name: Check Celery worker
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess'"
+      register: worker_ps
+      no_log: true
+      failed_when: false
+    - name: Set status
+      set_fact:
+        cacheable: yes
+        worker_status: "Airflow Celery-Worker is running."
+      when: '"MainProcess" in worker_ps.stdout'
+      no_log: true
+
 
 - name: Show Airflow status
   hosts: airflow-webserver
@@ -61,3 +105,19 @@
       debug:
         msg:
           - "{{ scheduler_status }}"
+
+- name: Show Airflow status
+  hosts: airflow-celery-flower
+  tasks:
+    - name: Airflow status
+      debug:
+        msg:
+          - "{{ flower_status }}"
+
+- name: Show Airflow status
+  hosts: airflow-celery-worker
+  tasks:
+    - name: Airflow status
+      debug:
+        msg:
+          - "{{ worker_status }}"
