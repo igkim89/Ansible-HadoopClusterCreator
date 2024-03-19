@@ -53,7 +53,7 @@
     - name: Set default status
       set_fact:
         cacheable: yes
-        flower_ps: "Airflow Celery-Flower is stopped."
+        flower_status: "Airflow Celery-Flower is stopped."
       no_log: true
     - name: Check Celery flower
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower'"
@@ -75,7 +75,7 @@
     - name: Set default status
       set_fact:
         cacheable: yes
-        worker_ps: "Airflow Celery-Worker is stopped."
+        worker_status: "Airflow Celery-Worker is stopped."
       no_log: true
     - name: Check Celery worker
       shell: "/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess'"
