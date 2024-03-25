@@ -1,14 +1,5 @@
 ---
 
-### Stop Celery
-#- name: Stop Celery flower
-#  hosts: airflow-webserver
-#  remote_user: "{{ remote_user }}"
-#  become: no
-#  tasks:
-#    - name: Stop Celery flower
-#      command: "~/.pyenv/shims/airflow celery flower -D"
-
 ## Stop Webserver
 - name: Stop Airflow webserver
   hosts: airflow-webserver:&{{ variable_host }}
