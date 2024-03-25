@@ -124,6 +124,7 @@
     </property>
 
     <!-- ActivePassiveHA configs -->
+    <!-- Ranger 적용시 사용 불가
     <property>
         <name>hive.server2.active.passive.ha.enable</name>
         <value>true</value>
@@ -132,4 +133,5 @@
         <name>hive.server2.active.passive.ha.registry.namespace</name>
         <value>hs2ActivePassiveHA</value>
     </property>
+    -->
 </configuration>
