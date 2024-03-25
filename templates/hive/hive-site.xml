@@ -122,4 +122,14 @@
         <name>hive.stats.autogather</name>
         <value>false</value>
     </property>
+
+    <!-- ActivePassiveHA configs -->
+    <property>
+        <name>hive.server2.active.passive.ha.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.server2.active.passive.ha.registry.namespace</name>
+        <value>hs2ActivePassiveHA</value>
+    </property>
 </configuration>
