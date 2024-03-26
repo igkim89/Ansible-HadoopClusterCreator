@@ -44,7 +44,7 @@
   tasks:
     - name: Wait
       pause:
-        seconds: 10
+        seconds: 80
     - name: Remove hive leader znode
       shell: "{{ zk_home }}/bin/zkCli.sh -server {% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %} deleteall /hiveserver2/leader"
       failed_when: false
