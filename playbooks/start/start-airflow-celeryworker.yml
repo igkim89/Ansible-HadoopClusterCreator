@@ -1,0 +1,22 @@
+---
+
+## Start Celery Worker
+- name: Start Celery worker
+  hosts: airflow-celery-worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Check Celery worker
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'celery worker' | grep 'MainProcess'"
+      register: worker_result
+      failed_when: false
+    - name: Remove pid file
+      file:
+        path: "{{ airflow_home }}/airflow-worker.pid"
+        state: absent
+      when: '"celery worker" not in worker_result.stdout'
+    - name: Start Celery worker
+      command: "~/.pyenv/shims/airflow celery worker -D"
+      when: '"celery worker" not in worker_result.stdout'
