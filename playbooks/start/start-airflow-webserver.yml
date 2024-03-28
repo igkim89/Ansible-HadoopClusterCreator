@@ -1,0 +1,25 @@
+---
+
+## Start Webserver
+- name: Start Airflow webserver
+  hosts: airflow-webserver:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Check Airflow webserver
+      shell: "/usr/bin/ps -ef | grep 'master \\[airflow-webserver\\]'"
+      register: webserver_result
+      failed_when: false
+    - name: Remove pid file
+      file:
+        path: "{{ airflow_home }}/{{ item }}"
+        state: absent
+      with_items:
+        - "airflow-webserver.pid"
+        - "airflow-webserver-monitor.pid"
+      when: '"master [airflow-webserver]" not in webserver_result.stdout'
+    - name: Start Airflow webserver
+      command: "~/.pyenv/shims/airflow webserver -D"
+      when: '"master [airflow-webserver]" not in webserver_result.stdout'
