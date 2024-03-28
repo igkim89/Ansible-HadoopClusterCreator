@@ -1,0 +1,19 @@
+---
+
+## Stop Celery Flower
+- name: Stop Celery flower
+  hosts: airflow-celery-flower:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Stop Celery flower
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-flower.pid`"
+      failed_when: false
+    - name: Remove pid file
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-flower.pid"
+      failed_when: false
+    - name: Kill Celery flower process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower' | awk '{print $2}')"
+      failed_when: false
