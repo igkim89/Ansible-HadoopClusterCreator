@@ -1,0 +1,12 @@
+
+- name: Start JobHistory Server
+  hosts: jobhistoryserver:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check JobHistory Server jps
+      command: "/usr/bin/jps"
+      register: hs_jps
+      failed_when: False
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/mapred --daemon start historyserver"
+      when: '"JobHistoryServer" not in hs_jps.stdout'
