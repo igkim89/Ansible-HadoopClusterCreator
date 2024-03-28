@@ -1,0 +1,12 @@
+
+- name: Start httpfs
+  hosts: httpfs:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check HttpFSServer jps
+      command: "/usr/bin/jps"
+      register: httpfs_jps
+      failed_when: False
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start httpfs"
+      when: '"HttpFSServerWebServer" not in httpfs_jps.stdout'
