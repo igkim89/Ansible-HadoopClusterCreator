@@ -1,0 +1,30 @@
+---
+
+- name: Start HiveServer2
+  hosts: hive-server2:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Check HiveServer2 process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.service.server.HiveServer2'"
+      register: hs_ps
+      failed_when: false
+    - name: Start HiveServer2
+      shell: "/usr/bin/nohup {{ hive_home }}/bin/hiveserver2 > /dev/null 2>&1 &"
+      when: '"hive.service.server.HiveServer2" not in hs_ps.stdout'
+
+- name: Remove hive leader znode
+  hosts: "{{ groups['zookeeper'][0] }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    zk_home: "{{ bigdata_home }}/zookeeper"
+  tasks:
+    - name: Wait
+      pause:
+        seconds: 80
+    - name: Remove hive leader znode
+      shell: "{{ zk_home }}/bin/zkCli.sh -server {% for zoo in groups['zookeeper'] %}{% if zoo != groups['zookeeper'][0] %},{% endif %}{{ zoo }}:{{ zookeeper.client_port }}{% endfor %} deleteall /hiveserver2/leader"
+      failed_when: false
