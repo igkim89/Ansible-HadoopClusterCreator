@@ -1,0 +1,22 @@
+---
+
+## Start Celery Flower
+- name: Start Celery flower
+  hosts: airflow-celery-flower:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Check Celery flower
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'airflow celery flower'"
+      register: flower_result
+      failed_when: false
+    - name: Remove pid file
+      file:
+        path: "{{ airflow_home }}/airflow-flower.pid"
+        state: absent
+      when: '"airflow celery flower" not in flower_result.stdout'
+    - name: Start Celery flower
+      command: "~/.pyenv/shims/airflow celery flower -D"
+      when: '"airflow celery flower" not in flower_result.stdout'
