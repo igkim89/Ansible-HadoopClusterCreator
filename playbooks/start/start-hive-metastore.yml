@@ -1,0 +1,21 @@
+---
+
+- name: Start HCatalog server
+  hosts: metastore:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+  tasks:
+    - name: Check HCatalog process
+      shell: "/usr/bin/ps -ef | grep -v grep | grep 'hive.metastore.HiveMetaStore'"
+      register: meta_ps
+      failed_when: false
+    - name: Delete pid file
+      file:
+        path: "{{ hive_home }}/logs/hcat.pid"
+        state: absent
+      when: '"hive.metastore.HiveMetaStore" not in meta_ps.stdout'
+    - name: Start HCatalog server
+      command: "{{ hive_home }}/hcatalog/sbin/hcat_server.sh start"
+      when: '"hive.metastore.HiveMetaStore" not in meta_ps.stdout'
