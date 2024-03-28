@@ -20,3 +20,16 @@
       command: "/usr/bin/kill -9 {{ zkfc_pid.stdout }}"
       when: zkfc_pid.stdout != ""
 
+- name: Stop JournalNode
+  hosts: journalnode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check JournalNode pid
+      shell: "/usr/bin/jps | grep 'JournalNode' | awk '{print $1}'"
+      register: jn_pid
+      failed_when: false
+    - name: Kill JournalNode
+      command: "/usr/bin/kill -9 {{ jn_pid.stdout }}"
+      when: jn_pid.stdout != ""
+
