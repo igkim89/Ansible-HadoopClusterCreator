@@ -1,0 +1,28 @@
+
+- name: Create DataNode directory
+  hosts: datanode:worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create DataNode directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.datanode_dir }}"
+
+- name: Start DataNode
+  hosts: datanode:worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check DataNode jps
+      command: "/usr/bin/jps"
+      register: datanode_jps
+      failed_when: False
+    - name: Start DataNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start datanode"
+      when: '"DataNode" not in datanode_jps.stdout'
