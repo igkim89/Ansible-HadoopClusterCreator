@@ -1,0 +1,61 @@
+- name: Create NameNode directory
+  hosts: namenode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create NameNode directory
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+      loop: "{{ hadoop.hdfs.namenode_dir }}"
+
+- name: Create JournalNode directory
+  hosts: journalnode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Create JournalNode directory
+      file:
+        path: "{{ hadoop.hdfs.journalnode_dir }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
+
+- name: Start JournalNode
+  hosts: journalnode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check journalnode jps
+      command: "/usr/bin/jps"
+      register: journalnode_jps
+      failed_when: False
+    - name: Start Journalnode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon start journalnode &"
+      when: '"JournalNode" not in journalnode_jps.stdout'
+    - name: Journalnode status
+      debug:
+        msg: Journalnode already running.
+      when: '"JournalNode" in journalnode_jps.stdout'
+
+- name: Start NameNode, JournalNode, ZKFC
+  hosts: "{{ groups['namenode'][0] }}:&{{ variable_host }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start NameNode, JournalNode, ZKFC
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
+
+- name: Start Standby NameNode
+  hosts: "namenode:&{{ variable_host }}"
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Start Standby NameNode
+      command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/sbin/start-dfs.sh"
