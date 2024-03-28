@@ -1,0 +1,19 @@
+---
+
+## Stop Webserver
+- name: Stop Airflow webserver
+  hosts: airflow-webserver:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    airflow_home: "{{ bigdata_home }}/airflow"
+  tasks:
+    - name: Stop Airflow webserver
+      shell: "/usr/bin/kill -9 `cat {{ airflow_home }}/airflow-webserver.pid`"
+      failed_when: false
+    - name: Remove pid file
+      shell: "/usr/bin/rm {{ airflow_home }}/airflow-webserver.pid"
+      failed_when: false
+    - name: Kill airflow worker process
+      shell: "/usr/bin/kill -9 $(/usr/bin/ps -ef | grep 'airflow-webserver' | grep -v grep | awk '{print $2}')"
+      failed_when: false
