@@ -1,0 +1,15 @@
+---
+
+- name: Stop httpfs
+  hosts: httpfs:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/hdfs --daemon stop httpfs"
+    - name: Check httpfs pid
+      shell: "/usr/bin/jps | grep 'HttpFSServerWebServer' | awk '{print $1}'"
+      register: httpfs_pid
+      failed_when: false
+    - name: Kill httpfs
+      command: "/usr/bin/kill -9 {{ httpfs_pid.stdout }}"
+      when: httpfs_pid.stdout != ""
