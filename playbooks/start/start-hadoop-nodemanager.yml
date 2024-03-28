@@ -1,0 +1,12 @@
+
+- name: Start NodeManager
+  hosts: nodemanager:worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  tasks:
+    - name: Check NodeManager jps
+      command: "/usr/bin/jps"
+      register: nm_jps
+      failed_when: False
+    - command: "/usr/bin/nohup {{ bigdata_home }}/hadoop/bin/yarn --daemon start nodemanager"
+      when: '"NodeManager" not in nm_jps.stdout'
