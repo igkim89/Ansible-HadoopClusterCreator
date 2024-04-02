@@ -7,39 +7,33 @@ NO_COLOR='\033[0m'
 
 if [ $# -gt 1 ]; then
   echo ""
-  echo "Usage: stop-ALL-exclude-anl.sh [<SERVER_FQDN>]"
+  echo "Usage: stop-ALL-excludeKafkaAnl.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  Default(All node): stop-ALL-exclude-anl.sh"
-  echo "  Single node:       stop-ALL-exclude-anl.sh datanode01.dev.bigdata"
-  echo "  Multi node:        stop-ALL-exclude-anl.sh datanode[01:05:09].dev.bigdata"
-  echo "  Range node:        stop-ALL-exclude-anl.sh datanode[01-05].dev.bigdata"
+  echo "  Default(All node): stop-ALL-excludeKafkaAnl.sh"
+  echo "  Single node:       stop-ALL-excludeKafkaAnl.sh datanode01.dev.bigdata"
+  echo "  Multi node:        stop-ALL-excludeKafkaAnl.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:        stop-ALL-excludeKafkaAnl.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi
 
 SCRIPT_LIST="
-  stop-airflow-celeryworker.yml
-  stop-airflow-celeryflower.yml
-  stop-airflow-scheduler.yml
   stop-redis.yml
   stop-spark.yml
   stop-hbase.yml
   stop-hive.yml
   stop-hadoop.yml
-  stop-kafka.yml
   stop-zookeeper.yml
 "
 
 echo ""
 echo -e "${RED_COLOR}[List of services to be stopped] ${NO_COLOR}"
 echo -e "  - ZooKeeper"
-echo -e "  - Kafka"
 echo -e "  - Hadoop"
 echo -e "  - Hive"
 echo -e "  - HBase"
 echo -e "  - Spark"
 echo -e "  - Redis"
-echo -e "  - Airflow Scheduler/Celery-Flower/Celery-Worker"
 echo ""
 
 if [ $# -eq 0 ]; then

@@ -2,12 +2,12 @@
 
 if [ $# -gt 1 ]; then
   echo ""
-  echo "Usage: start-ALL-exclude-anl.sh [<SERVER_FQDN>]"
+  echo "Usage: start-ALL-excludeAnl.sh [<SERVER_FQDN>]"
   echo "Example:"
-  echo "  Default(All node): start-ALL-exclude-anl.sh"
-  echo "  Single node:       start-ALL-exclude-anl.sh datanode01.dev.bigdata"
-  echo "  Multi node:        start-ALL-exclude-anl.sh datanode[01:05:09].dev.bigdata"
-  echo "  Range node:        start-ALL-exclude-anl.sh datanode[01-05].dev.bigdata"
+  echo "  Default(All node): start-ALL-excludeAnl.sh"
+  echo "  Single node:       start-ALL-excludeAnl.sh datanode01.dev.bigdata"
+  echo "  Multi node:        start-ALL-excludeAnl.sh datanode[01:05:09].dev.bigdata"
+  echo "  Range node:        start-ALL-excludeAnl.sh datanode[01-05].dev.bigdata"
   echo ""
   exit
 fi
