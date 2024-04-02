@@ -32,7 +32,6 @@ echo -e "  - Hadoop"
 echo -e "  - Hive"
 echo -e "  - HBase"
 echo -e "  - Spark"
-echo -e "  - Redis"
 echo ""
 
 if [ $# -eq 0 ]; then
