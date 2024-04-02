@@ -38,7 +38,7 @@ scrape_configs:
     params:
       module: [tcp_connect]
     static_configs:
-      - targets: [{% for nn in groups['namenode'] %}{% if nn != groups['namenode'][0] %},{% endif %}'{{ nn }}:{{ hadoop.hdfs.namenode_rpc_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hadoop.hdfs.datanode_transfer_port }}'{% endfor %}{% for jn in groups['journalnode'] %},'{{ jn }}:{{ hadoop.hdfs.journalnode_shared_edits_port }}'{% endfor %}]
+      - targets: [{% for nn in groups['namenode'] %}{% if nn != groups['namenode'][0] %},{% endif %}'{{ nn }}:{{ hadoop.hdfs.namenode_rpc_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hadoop.hdfs.datanode_transfer_port }}'{% endfor %}{% for jn in groups['journalnode'] %},'{{ jn }}:{{ hadoop.hdfs.journalnode_shared_edits_port }}'{% endfor %}{% for hf in groups['httpfs'] %},'{{ hf }}:{{ hadoop.hdfs.httpfs_port }}'{% endfor %}]
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
