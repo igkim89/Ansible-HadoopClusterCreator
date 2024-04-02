@@ -18,7 +18,6 @@ SCRIPT_LIST="
   start-hive.yml
   start-hbase.yml
   start-spark.yml
-  start-redis.yml
 "
 
 for SCR in $SCRIPT_LIST ; do

@@ -18,7 +18,6 @@ if [ $# -gt 1 ]; then
 fi
 
 SCRIPT_LIST="
-  stop-redis.yml
   stop-spark.yml
   stop-hbase.yml
   stop-hive.yml
