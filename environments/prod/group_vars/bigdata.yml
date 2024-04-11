@@ -183,6 +183,7 @@ hadoop:
       - "/disk03/yarn/container-logs"
       - "/disk04/yarn/container-logs"
       - "/disk05/yarn/container-logs"
+    nodemanager_remote_app_log_dir: /yarn/logs
 
 ## Kafka 설정
 kafka:
