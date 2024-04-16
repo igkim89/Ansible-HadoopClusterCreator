@@ -43,15 +43,24 @@
         path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
         regexp: "# export JAVA_HOME="
         line: "export JAVA_HOME={{ java_home }}"
-    - name: Edit HDFS_NAMENODE_OPTS
+    - name: Edit HDFS_OPTS
       lineinfile:
         path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
         line: "{{ item }}"
         insertafter: EOF
       with_items:
         - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }}"'
+        - 'export HDFS_DATANODE_OPTS="-Xms{{ hadoop.hdfs.datanode_min_heap_size }} -Xmx{{ hadoop.hdfs.datanode_max_heap_size }}"'
         - 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native'
         - 'export HADOOP_OPTS="$HADOOP_OPTS -Djava.library.path=$HADOOP_HOME/lib/native"'
+    - name: Edit YARN_OPTS
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/yarn-env.sh"
+        line: "{{ item }}"
+        insertafter: EOF
+      with_items:
+        - 'export YARN_RESOURCEMANAGER_OPTS="-Xms{{ hadoop.yarn.resourcemanager_min_heap_size }} -Xmx{{ hadoop.yarn.resourcemanager_max_heap_size }}"'
+        - 'export YARN_NODEMANAGER_OPTS="-Xms{{ hadoop.yarn.nodemanager_min_heap_size }} -Xmx{{ hadoop.yarn.nodemanager_max_heap_size }}"'
     - name: Edit Hadoop home
       lineinfile:
         path: "/home/{{ remote_user }}/.bashrc"

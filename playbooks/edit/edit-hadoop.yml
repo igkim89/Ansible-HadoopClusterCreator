@@ -24,20 +24,21 @@
         - "yarn-site.xml"
         - "mapred-site.xml"
         - "httpfs-site.xml"
-#    - name: Edit HDFS_NAMENODE_OPTS (old)
-#      lineinfile:
-#        path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
-#        line: "{{ item }}"
-#        insertafter: EOF
-#      with_items:
-#        - 'export HDFS_NAMENODE_OPTS="-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }}"'
-    - name: Edit HDFS_NAMENODE_OPTS (new)
+    - name: Edit HDFS_OPTS
       lineinfile:
         path: "{{ bigdata_home }}/hadoop/conf/hadoop-env.sh"
         regexp: "^export {{ item.key | regex_escape() }}="
         line: "export {{ item.key }}=\"{{ item.value }}\""
       with_dict:
         "HDFS_NAMENODE_OPTS": "-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }}"
+    - name: Edit YARN_OPTS
+      lineinfile:
+        path: "{{ bigdata_home }}/hadoop/conf/yarn-env.sh"
+        regexp: "^export {{ item.key | regex_escape() }}="
+        line: "export {{ item.key }}=\"{{ item.value }}\""
+      with_dict:
+        "YARN_RESOURCEMANAGER_OPTS": "-Xms{{ hadoop.yarn.resourcemanager_min_heap_size }} -Xmx{{ hadoop.yarn.resourcemanager_max_heap_size }}"
+        "YARN_NODEMANAGER_OPTS": "-Xms{{ hadoop.yarn.nodemanager_min_heap_size }} -Xmx{{ hadoop.yarn.nodemanager_max_heap_size }}"
     - name: Add Ranger-HDFS plugin configuration
       blockinfile:
         path: "{{ hadoop_home }}/conf/hdfs-site.xml"

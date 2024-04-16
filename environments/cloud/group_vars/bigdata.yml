@@ -102,6 +102,9 @@ hadoop:
     namenode_min_heap_size: 4g
     namenode_max_heap_size: 4g
 
+    datanode_min_heap_size: 8g
+    datanode_max_heap_size: 8g
+
     # Datanode 저장 위치 설정 (값이 1개인 경우에도 리스트 형식으로 기재)
     datanode_dir:
       - "/disk01/dfs/dn"
@@ -173,6 +176,12 @@ hadoop:
     nodemanager_vcores: 32
     nodemanagers_hearbeat_interval_ms: 120
     nodemanager_localizer_port: 8040
+
+    resourcemanager_min_heap_size: 4g
+    resourcemanager_max_heap_size: 4g
+
+    nodemanager_min_heap_size: 4g
+    nodemanager_max_heap_size: 4g
 
     # Mapreduce에서 사용할 Framework (e.g. yarn, classic, local)
     mapreduce_framework: "yarn"
