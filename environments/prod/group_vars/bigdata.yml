@@ -94,6 +94,9 @@ hadoop:
     namenode_rpc_port: 8020
     namenode_http_port: 50070
 
+    namenode_min_heap_size: 26g
+    namenode_max_heap_size: 26g
+
     # Datanode 저장 위치 설정
     # (값이 1개인 경우에도 리스트 형식으로 기재)
     datanode_dir:
