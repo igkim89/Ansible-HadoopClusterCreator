@@ -31,6 +31,7 @@
         line: "export {{ item.key }}=\"{{ item.value }}\""
       with_dict:
         "HDFS_NAMENODE_OPTS": "-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }}"
+        "HDFS_DATANODE_OPTS": "-Xms{{ hadoop.hdfs.datanode_min_heap_size }} -Xmx{{ hadoop.hdfs.datanode_max_heap_size }}"
     - name: Edit YARN_OPTS
       lineinfile:
         path: "{{ bigdata_home }}/hadoop/conf/yarn-env.sh"
