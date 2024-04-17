@@ -290,8 +290,10 @@ spark:
 
 ## HBase 설정
 hbase:
-  master_heapsize: 8G
-  region_heapsize: 14G
+  master_min_heapsize: 8G
+  master_max_heapsize: 8G
+  region_min_heapsize: 14G
+  region_max_heapsize: 14G
   # (Megabyte)
   off_heapsize: 16384
   # region_heapsize + off_heapsize + 여유(1~2G)로 설정 권장.

@@ -23,5 +23,5 @@ export HBASE_CLASSPATH=${HBASE_CLASSPATH}:$HADOOP_HOME/conf
 export HBASE_LOG_DIR={{ bigdata_home }}/hbase/logs
 export HBASE_MANAGES_ZK=false
 
-export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -javaagent:{{ bigdata_home }}/hbase/tools/{{ installer.jmx_exporter }}={{ hbase_jmx_exporter.master_port }}:{{ bigdata_home }}/hbase/conf/hbase-jmx.yml -Xmx{{ hbase.master_heapsize }}"
-export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -javaagent:{{ bigdata_home }}/hbase/tools/{{ installer.jmx_exporter }}={{ hbase_jmx_exporter.region_port }}:{{ bigdata_home }}/hbase/conf/hbase-jmx.yml -Xmx{{ hbase.region_heapsize }} -XX:MaxDirectMemorySize={{ hbase.max_direct_mem_size }}"
+export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -javaagent:{{ bigdata_home }}/hbase/tools/{{ installer.jmx_exporter }}={{ hbase_jmx_exporter.master_port }}:{{ bigdata_home }}/hbase/conf/hbase-jmx.yml -Xms{{ hbase.master_min_heapsize }} -Xmx{{ hbase.master_max_heapsize }}"
+export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS -javaagent:{{ bigdata_home }}/hbase/tools/{{ installer.jmx_exporter }}={{ hbase_jmx_exporter.region_port }}:{{ bigdata_home }}/hbase/conf/hbase-jmx.yml -Xms{{ hbase.region_min_heapsize }} -Xmx{{ hbase.region_max_heapsize }} -XX:MaxDirectMemorySize={{ hbase.max_direct_mem_size }}"

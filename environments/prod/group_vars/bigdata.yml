@@ -201,6 +201,8 @@ hadoop:
 kafka:
   log_dir: "/data/kafka"
   log_retention_hour: 72
+  min_heap_size: 6G
+  max_heap_size: 6G
   num_partition: 1
   topic_replication_factor: 1
   message_max_bytes: 10485760
@@ -284,8 +286,10 @@ spark:
 
 ## HBase 설정
 hbase:
-  master_heapsize: 8G
-  region_heapsize: 14G
+  master_min_heapsize: 8G
+  master_max_heapsize: 8G
+  region_min_heapsize: 32G
+  region_max_heapsize: 32G
   # (Megabyte)
   off_heapsize: 16384
   # region_heapsize + off_heapsize + 여유(1~2G)로 설정 권장.
