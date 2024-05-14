@@ -7,6 +7,13 @@
   vars:
     node_exporter_home: "{{ bigdata_home }}/node_exporter"
   tasks:
+    - name: Create bigdata home directory
+      become: yes
+      file:
+        dest: "{{ bigdata_home }}"
+        state: directory
+        owner: "{{ remote_user }}"
+        group: "{{ remote_user }}"
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.node_exporter }}"
