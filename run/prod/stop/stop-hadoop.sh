@@ -18,9 +18,9 @@ if [ $# -gt 1 ]; then
 fi
 
 SCRIPT_LIST="
-  stop-hbase.xml
-  stop-hive.xml
-  stop-hadoop.xml
+  stop-hbase.yml
+  stop-hive.yml
+  stop-hadoop.yml
 "
 
 if [ $# -eq 0 ]; then
