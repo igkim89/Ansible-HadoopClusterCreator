@@ -50,3 +50,4 @@ if [ $# -eq 0 ]; then
   fi
 else
   ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-zookeeper.yml --extra-vars "variable_host=$1"
+fi
