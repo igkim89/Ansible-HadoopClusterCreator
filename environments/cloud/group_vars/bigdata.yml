@@ -29,6 +29,7 @@ installer:
   zookeeper: "apache-zookeeper-3.6.3-bin.tar.gz"
   # Hadoop 3.3.4 Snappy dependency 이슈로 인한 버전 변경 (3.3.4 to 3.2.4)
   hadoop: "hadoop-3.2.4.tar.gz"
+  hadoop_jmx: "jmx_prometheus_javaagent-1.0.1.jar"
   kafka: "kafka_2.13-3.3.1.tgz"
   pyenv: "pyenv.tgz"
   python: "Python-3.10.8.tar.xz"
@@ -98,6 +99,8 @@ hadoop:
       - "/disk02/dfs/nn"
     namenode_rpc_port: 8020
     namenode_http_port: 50070
+    namenode_jmx_port: 50080
+    namenode_jmx_agent_port: 50081
 
     namenode_min_heap_size: 4g
     namenode_max_heap_size: 4g
@@ -158,6 +161,9 @@ hadoop:
   yarn:
     # Resourcemanager HA Endpoint
     cluster_id: "kdev-yarn"
+
+    resourcemanager_jmx_port: 50082
+    resourcemanager_jmx_agent_port: 50083
 
     resourcemanager_max_completed_applications: 10000
     resourcemanager_scheduler_port: 8030
