@@ -30,7 +30,7 @@
         regexp: "^export {{ item.key | regex_escape() }}="
         line: "export {{ item.key }}=\"{{ item.value }}\""
       with_dict:
-        "HDFS_NAMENODE_OPTS": "-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }} -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port={{ namenode.jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -javaagent:{{ bigdata_home }}/hadoop/prometheus/{{ hadoop_jmx }}={{ namenode.jmx_agent_port }}:{{ bigdata_home }}/hadoop/prometheus/nn.yml"
+        "HDFS_NAMENODE_OPTS": "-XX:+UseParallelGC -Xms{{ hadoop.hdfs.namenode_min_heap_size }} -Xmx{{ hadoop.hdfs.namenode_max_heap_size }} -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port={{ hadoop.hdfs.namenode_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -javaagent:{{ bigdata_home }}/hadoop/prometheus/{{ hadoop_jmx }}={{ hadoop.hdfs.namenode_jmx_agent_port }}:{{ bigdata_home }}/hadoop/prometheus/nn.yml"
         "HDFS_DATANODE_OPTS": "-Xms{{ hadoop.hdfs.datanode_min_heap_size }} -Xmx{{ hadoop.hdfs.datanode_max_heap_size }}"
     - name: Edit YARN_OPTS
       lineinfile:
@@ -38,7 +38,7 @@
         regexp: "^export {{ item.key | regex_escape() }}="
         line: "export {{ item.key }}=\"{{ item.value }}\""
       with_dict:
-        "YARN_RESOURCEMANAGER_OPTS": "-Xms{{ hadoop.yarn.resourcemanager_min_heap_size }} -Xmx{{ hadoop.yarn.resourcemanager_max_heap_size }} -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port={{ resourcemanager.jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -javaagent:{{ bigdata_home }}/hadoop/prometheus/{{ hadoop_jmx }}={{ resourcemanager.jmx_agent_port }}:{{ bigdata_home }}/hadoop/prometheus/rm.yml"
+        "YARN_RESOURCEMANAGER_OPTS": "-Xms{{ hadoop.yarn.resourcemanager_min_heap_size }} -Xmx{{ hadoop.yarn.resourcemanager_max_heap_size }} -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.port={{ hadoop.yarn.resourcemanager_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -javaagent:{{ bigdata_home }}/hadoop/prometheus/{{ hadoop_jmx }}={{ hadoop.yarn.resourcemanager_jmx_agent_port }}:{{ bigdata_home }}/hadoop/prometheus/rm.yml"
         "YARN_NODEMANAGER_OPTS": "-Xms{{ hadoop.yarn.nodemanager_min_heap_size }} -Xmx{{ hadoop.yarn.nodemanager_max_heap_size }}"
     - name: Add Ranger-HDFS plugin configuration
       blockinfile:
