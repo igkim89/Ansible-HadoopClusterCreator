@@ -333,3 +333,15 @@ scrape_configs:
     metrics_path: /metrics
     static_configs:
       - targets: [{% for hm in groups['hbase-master'] %}{% if hm != groups['hbase-master'][0] %},{% endif %}'{{ hm }}:{{ hbase_jmx_exporter.master_port }}'{% endfor %}{% for wk in groups['worker'] %},'{{ wk }}:{{ hbase_jmx_exporter.region_port }}'{% endfor %}]
+
+  ## HadoopJMXExporter (NameNode)
+  - job_name: "namenode-jmx-exporter"
+    metrics_path: /metrics
+    static_configs:
+      - targets: [{% for nn in groups['namenode'] %}{% if nn != groups['namenode'][0] %},{% endif %}'{{ nn }}:{{ hadoop.hdfs.namenode_jmx_agent_port }}'{% endfor %}]
+
+  ## HadoopJMXExporter (ResourceManager)
+  - job_name: "resourcemanager-jmx-exporter"
+    metrics_path: /metrics
+    static_configs:
+      - targets: [{% for rn in groups['resourcemanager'] %}{% if rm != groups['resourcemanager'][0] %},{% endif %}'{{ rm }}:{{ hadoop.yarn.resourcemanager_jmx_agent_port }}'{% endfor %}]
