@@ -344,4 +344,4 @@ scrape_configs:
   - job_name: "resourcemanager-jmx-exporter"
     metrics_path: /metrics
     static_configs:
-      - targets: [{% for rn in groups['resourcemanager'] %}{% if rm != groups['resourcemanager'][0] %},{% endif %}'{{ rm }}:{{ hadoop.yarn.resourcemanager_jmx_agent_port }}'{% endfor %}]
+      - targets: [{% for rm in groups['resourcemanager'] %}{% if rm != groups['resourcemanager'][0] %},{% endif %}'{{ rm }}:{{ hadoop.yarn.resourcemanager_jmx_agent_port }}'{% endfor %}]
