@@ -435,6 +435,13 @@ hbase_jmx_exporter:
 ## Grafana 설정
 grafana:
   web_port: 50075
+  admin_email: admin@localhost
+  smtp:
+    enabled: false
+    host:
+    from_address: admin@grafana.localhost
+    from_name: Grafana
+    startTLS_policy:
 
 
 ## Ranger 설정
