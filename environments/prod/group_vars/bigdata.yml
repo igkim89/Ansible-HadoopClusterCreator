@@ -345,6 +345,8 @@ hbase:
   hstore_blocking_store_files: 40
   #seconds
   hstore_blocking_wait_time: 90
+  #해당 값 이하 size의 store file은 minor compaction 대상에서 제외
+  hstore_compaction_min_size: 20971520
 
   # off-heap 미사용시 0.4
   # 2023. 06. 02. off-heap 적용으로 인해 0.2로 변경

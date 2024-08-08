@@ -240,6 +240,10 @@
         <name>hbase.bucketcache.size</name>
         <value>{{ hbase.off_heapsize }}</value>
     </property>
+    <property>
+        <name>hbase.hstore.compaction.min.size</name>
+        <value>{{ hbase.hstore_compaction_min_size }}</value>
+    </property>
 
 <!--    <property>-->
 <!--        <name>hbase.tmp.dir</name>-->
