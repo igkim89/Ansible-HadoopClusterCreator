@@ -1,0 +1,56 @@
+---
+
+## Ranger Plugin - HDFS Enable
+- name: Install Ranger Plugins - HDFS
+  hosts: namenode
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hdfs_plugin_home: "{{ plugin_home }}/hdfs"
+  tasks:
+    - name: Enable Ranger HDFS Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hdfs_plugin_home }}/enable-hdfs-plugin.sh"
+
+## Ranger Plugin - YARN Enable
+- name: Install Ranger Plugins - YARN
+  hosts: resourcemanager
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hadoop_home: "{{ bigdata_home }}/hadoop"
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    yarn_plugin_home: "{{ plugin_home }}/yarn"
+  tasks:
+    - name: Enable Ranger YARN Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/enable-yarn-plugin.sh"
+
+## Ranger Plugin - Hive Enable
+- name: Install Ranger Plugins - Hive
+  hosts: hive-server2
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hive_home: "{{ bigdata_home }}/hive"
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hive_plugin_home: "{{ plugin_home }}/hive"
+  tasks:
+    - name: Enable Ranger Hive Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/enable-hive-plugin.sh"
+
+## Ranger Plugin - HBase Enable
+- name: Install Ranger Plugins - HBase
+  hosts: hbase, worker
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    hbase_home: "{{ bigdata_home }}/hbase"
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hbase_plugin_home: "{{ plugin_home }}/hbase"
+  tasks:
+    - name: Enable Ranger HBase Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hbase_plugin_home }}/enable-hbase-plugin.sh"
