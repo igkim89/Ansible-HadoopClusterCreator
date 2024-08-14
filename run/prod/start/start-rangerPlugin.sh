@@ -5,13 +5,13 @@ GREEN_COLOR='\033[0;32m'
 YELLOW_COLOR='\033[0;33m'
 NO_COLOR='\033[0m'
 
-echo -n -e "${RED_COLOR}Do you want enable Ranger plugins(HDFS, YARN, Hive, HBase)? ${NO_COLOR} (y/n) "
+echo -n -e "${RED_COLOR}Do you want enable Ranger plugins(HDFS, YARN, Hive, HBase)?${NO_COLOR} (y/n) "
 read check_enable
 
 while [ check_enable != "Y" ] && [ check_enable != "y" ] && [ check_enable != "N" ] && [ check_enable != "n" ]
 do
   echo "Invalid input."
-  echo -n -e "${RED_COLOR}Do you want enable Ranger plugin?${NO_COLOR} (y/n) "
+  echo -n -e "${RED_COLOR}Do you want enable Ranger plugin(HDFS, YARN, Hive, HBase)?${NO_COLOR} (y/n) "
   read check_enable
 done
 
