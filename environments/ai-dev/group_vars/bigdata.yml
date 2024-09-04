@@ -1,0 +1,48 @@
+############################################
+# 2024-09-04
+# AI Cluster 구축용 Ansible 설정 파일
+#
+# 개발 장비용
+############################################
+
+## Ansible Home 디렉토리
+ansible_home: "/home/bigdata/ansible"
+
+## OS 사용자명
+remote_user: "ailab"
+
+## Java Home 디렉토리
+java_home: "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.402.b06-2.el8.x86_64"
+
+## 기본 홈 디렉토리
+bigdata_home: "/ailab/bigdata"
+
+## 설치파일 디렉토리
+installer_home: "/home/bigdata/ansible-install"
+
+## Yum repository
+yum_repo:
+
+## 서비스별 설치파일
+installer:
+  sshfs: "fuse-sshfs-2.8-7.el8.x86_64.rpm"
+  pyenv: "pyenv.tgz"
+  python: "Python-3.10.8.tar.xz"
+  pexpect: "pexpect.tgz"
+  cpe: "cpe.tgz"
+  jdk11: "openjdk-11_linux-x64_bin.tar.gz"
+  node_exporter: "node_exporter-1.5.0.linux-amd64.tar.gz"
+  blackbox_exporter: "blackbox_exporter-0.24.0.linux-amd64.tar.gz"
+  check_process_exporter: "check_process_exporter-main.zip"
+
+## NodeExporter 설정
+node_exporter:
+  port: 9100
+
+## BlackboxExporter 설정
+blackbox_exporter:
+  port: 9115
+
+## CheckProcessExporter 설정
+check_process_exporter:
+  port: 9439
