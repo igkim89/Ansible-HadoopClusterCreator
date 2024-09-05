@@ -477,3 +477,15 @@ safedb:
   port_1: 5999
   port_2: 6999
   port_3: 7999
+
+ai:
+  code_assistant:
+    port: 8000
+  news_filter_admin:
+    port: 8080
+  news_ad:
+    port: 4149
+  market_report:
+    port: 4148
+  airflow:
+    web_port: 5050
