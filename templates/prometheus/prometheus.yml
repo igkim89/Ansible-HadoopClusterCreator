@@ -215,7 +215,7 @@ scrape_configs:
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
-  - job_name: "blackbox-exporter-airflow"
+  - job_name: "blackbox-exporter-airflow-webserver"
     metrics_path: /probe
     params:
       module: [tcp_connect]
@@ -350,3 +350,82 @@ scrape_configs:
   - job_name: "ai-node-exporter"
     static_configs:
       - targets: [{% for ane in groups['ai-node-exporter'] %}{% if ane != groups['ai-node-exporter'][0] %},{% endif %}'{{ ane }}:{{ node_exporter.port }}'{% endfor %}]
+
+  ## BlackboxExporter - AI Cluster Code Assistant
+  - job_name: "blackbox-exporter-ai-code-assistant"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for acs in groups['ai-code-assistant'] %}{% if acs != groups['ai-code-assistant'][0] %},{% endif %}'{{ acs }}:{{ ai.code_assistant.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - AI Cluster News Filtering Admin Page
+  - job_name: "blackbox-exporter-ai-news-filter-admin"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for anfa in groups['ai-news-filter-admin'] %}{% if anfa != groups['ai-news-filter-admin'][0] %},{% endif %}'{{ anfa }}:{{ ai.news_filter_admin.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - AI Cluster News Ad Status
+  - job_name: "blackbox-exporter-ai-news-ad"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for ana in groups['ai-news-ad'] %}{% if ana != groups['ai-news-ad'][0] %},{% endif %}'{{ ana }}:{{ ai.news_ad.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - AI Cluster AI Market Conditions Report
+  - job_name: "blackbox-exporter-ai-market-report"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for amr in groups['ai-market-report'] %}{% if amr != groups['ai-market-report'][0] %},{% endif %}'{{ amr }}:{{ ai.market_report.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+  ## BlackboxExporter - AI Cluster Airflow Webserver
+  - job_name: "blackbox-exporter-ai-airflow-webserver"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for aa in groups['ai-airflow'] %}{% if aa != groups['ai-airflow'][0] %},{% endif %}'{{ aa }}:{{ ai.airflow.web_port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+
+
+
