@@ -396,7 +396,7 @@ scrape_configs:
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
-  ## BlackboxExporter - AI Cluster AI Market Conditions Report
+  ## BlackboxExporter - AI Cluster Market Conditions Report
   - job_name: "blackbox-exporter-ai-market-report"
     metrics_path: /probe
     params:
@@ -426,6 +426,34 @@ scrape_configs:
       - target_label: __address__
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
+  ## BlackboxExporter - AI Cluster MilvusDB Monitoring
+  - job_name: "blackbox-exporter-ai-milvusdb-monitoring"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for amm in groups['ai-milvusdb-monitoring'] %}{% if amm != groups['ai-milvusdb-monitoring'][0] %},{% endif %}'{{ amm }}:{{ ai.milvusdb_monitoring.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
+  ## BlackboxExporter - AI Cluster MilvusDB Connection
+  - job_name: "blackbox-exporter-ai-milvusdb-connection"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for amc in groups['ai-milvusdb-connection'] %}{% if amc != groups['ai-milvusdb-connection'][0] %},{% endif %}'{{ amc }}:{{ ai.milvusdb_connection.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
 

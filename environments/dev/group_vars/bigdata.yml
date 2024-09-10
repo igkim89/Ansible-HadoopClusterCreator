@@ -489,3 +489,7 @@ ai:
     port: 4148
   airflow:
     web_port: 5050
+  milvusdb_monitoring:
+    port: 19530
+  milvusdb_connection:
+    port: 10000
