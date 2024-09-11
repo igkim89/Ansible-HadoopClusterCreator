@@ -349,7 +349,7 @@ scrape_configs:
   ## AI Cluster NodeExporter
   - job_name: "ai-node-exporter"
     static_configs:
-      - targets: [{% for ane in groups['ai-node-exporter'] %}{% if ane != groups['ai-node-exporter'][0] %},{% endif %}'{{ ane }}:{{ node_exporter.port }}'{% endfor %}]
+      - targets: [{% for ane in groups['ai-node-exporter'] %}{% if ane != groups['ai-node-exporter'][0] %},{% endif %}'{{ ane }}:{{ ai.node_exporter.port }}'{% endfor %}]
 
   ## BlackboxExporter - AI Cluster Code Assistant
   - job_name: "blackbox-exporter-ai-code-assistant"

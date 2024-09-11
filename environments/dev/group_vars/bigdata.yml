@@ -479,6 +479,8 @@ safedb:
   port_3: 7999
 
 ai:
+  node_exporter:
+    port: 9100
   code_assistant:
     port: 8000
   news_filter_admin:
