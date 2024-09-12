@@ -5,6 +5,10 @@ global:
   # scrape_timeout is set to the global default (10s).
   query_log_file: {{ bigdata_home }}/prometheus/logs/query.log
 
+storage:
+  tsdb:
+    retention.time: {{ prometheus.tsdb_retention_time }}
+
 # Alertmanager configuration
 alerting:
   alertmanagers:
