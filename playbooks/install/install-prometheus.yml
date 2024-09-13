@@ -79,5 +79,5 @@
       register: prometheus_ps
       failed_when: false
     - name: Start Prometheus
-      shell: "/usr/bin/nohup {{ prometheus_home }}/bin/prometheus --config.file={{ prometheus_home }}/conf/prometheus.yml --storage.tsdb.path={{ prometheus.tsdb_path }} --web.listen-address=0.0.0.0:{{ prometheus.web_port }} --web.enable-lifecycle --web.enable-admin-api > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ prometheus_home }}/bin/prometheus --config.file={{ prometheus_home }}/conf/prometheus.yml --storage.tsdb.path={{ prometheus.tsdb_path }} --storage.tsdb.retention.time={{ prometheus.tsdb_retention_time }} --web.listen-address=0.0.0.0:{{ prometheus.web_port }} --web.enable-lifecycle --web.enable-admin-api > {{ prometheus_home }}/logs/prometheus.log 2>&1 &"
       when: '"prometheus" not in prometheus_ps.stdout'
