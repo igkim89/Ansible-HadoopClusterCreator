@@ -208,6 +208,10 @@ hadoop:
       - "/disk05/yarn/container-logs"
     nodemanager_remote_app_log_dir: /yarn/logs
 
+    resourcemanager_am_liveness_monitor_expiry_interval_ms: 30000
+    resourcemanager_container_liveness_monitor_interval_ms: 30000
+    nm_liveness_monitor_expiry_interval_ms: 30000
+
 ## Kafka 설정
 kafka:
   log_dir: "/disk01/kafka,/disk02/kafka,/disk03/kafka,/disk04/kafka,/disk05/kafka"
