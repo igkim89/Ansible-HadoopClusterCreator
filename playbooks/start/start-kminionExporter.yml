@@ -12,7 +12,7 @@
       register: km_ps
       failed_when: false
     - name: Start KMinionExporter
-      shell: "/usr/bin/nohup {{ kminion_exporter_home }}/bin/kminion > {{ kminion_exporter_home }}/logs/kminion_exporter.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ kminion_exporter_home }}/bin/kminion >> {{ kminion_exporter_home }}/logs/kminion_exporter.log 2>&1 &"
       args:
         chdir: "{{ kminion_exporter_home }}"
       environment:

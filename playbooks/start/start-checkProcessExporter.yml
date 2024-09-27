@@ -13,7 +13,7 @@
       register: cpe_ps
       failed_when: false
     - name: Start CheckProcessExporter
-      shell: "/usr/bin/nohup {{ pyenv_home }}/shims/python {{ check_process_exporter_home }}/check_process_exporter.py -p {{ check_process_exporter.port }} > {{ check_process_exporter_home }}/logs/cp_exporter.log 2>&1 &"
+      shell: "/usr/bin/nohup {{ pyenv_home }}/shims/python {{ check_process_exporter_home }}/check_process_exporter.py -p {{ check_process_exporter.port }} >> {{ check_process_exporter_home }}/logs/cp_exporter.log 2>&1 &"
       args:
         chdir: "{{ check_process_exporter_home }}"
       when: '"check_process_exporter" not in cpe_ps.stdout'
