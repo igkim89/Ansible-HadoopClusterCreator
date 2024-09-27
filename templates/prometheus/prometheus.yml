@@ -457,3 +457,19 @@ scrape_configs:
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
 
+  ## BlackboxExporter - AI NodeExporter port checking
+  - job_name: "blackbox-exporter-ai-NE"
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets: [{% for ane in groups['ai-node-exporter'] %}{% if ane != groups['ai-node-exporter'][0] %},{% endif %}'{{ ane }}:{{ ai.node_exporter.port }}'{% endfor %}]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
+
+
