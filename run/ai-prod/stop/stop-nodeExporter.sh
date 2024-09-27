@@ -13,7 +13,7 @@ if [ $# -gt 1 ]; then
 fi
 
 if [ $# -eq 0 ]; then
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/ai-dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-nodeExporter.yml --extra-vars "variable_host=all"
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/ai-prod/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-nodeExporter.yml --extra-vars "variable_host=all"
 else
-  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/ai-dev/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-nodeExporter.yml --extra-vars "variable_host=$1"
+  ~/.pyenv/shims/ansible-playbook -vv -i /home/bigdata/ansible/environments/ai-prod/hosts.yml /home/bigdata/ansible/playbooks/stop/stop-nodeExporter.yml --extra-vars "variable_host=$1"
 fi
