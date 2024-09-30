@@ -1,5 +1,5 @@
 - name: Edit Spark configuration files
-  hosts: bigdata
+  hosts: hadoop, worker
   remote_user: "{{ remote_user }}"
   become: no
   tasks:
