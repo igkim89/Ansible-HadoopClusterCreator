@@ -215,7 +215,7 @@
     </property>
     <property>
         <name>yarn.am.liveness-monitor.expiry-interval-ms</name>
-        <value>{{ hadoop.yarn.resourcemanager_am_liveness_monitor_expiry_interval_ms }}</value>
+        <value>{{ hadoop.yarn.am_liveness_monitor_expiry_interval_ms }}</value>
     </property>
     <property>
         <name>yarn.resourcemanager.container.liveness-monitor.interval-ms</name>
