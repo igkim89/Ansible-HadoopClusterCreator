@@ -14,7 +14,11 @@
         line: "{{ item.value }}"
       with_dict:
         - "^bind": "bind {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-        - "^port [0-9]{1,5}$": "port {{ redis.port }}"
+        - "^protected-mode": "protected-mode no"
+        - "^port": "port {{ redis.port }}"
+        - "^daemonize": "daemonize yes"
+        - "^pidfile*": "pidfile {{ redis_home }}/redis.pid"
+        - "^logfile*": "logfile {{ redis_home }}/logs/redis.log"
 #    - name: Edit Redis Sentinel monitor configuration
 #      lineinfile:
 #        path: "{{ redis_home }}/conf/sentinel.conf"
