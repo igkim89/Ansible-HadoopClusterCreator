@@ -13,10 +13,11 @@
         regexp: "{{ item.key }}"
         line: "{{ item.value }}"
       with_dict:
+        - "^bind": "bind {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         - "^port [0-9]{1,5}$": "port {{ redis.port }}"
-    - name: Edit Redis Sentinel monitor configuration
-      lineinfile:
-        path: "{{ redis_home }}/conf/sentinel.conf"
-        regexp: "^sentinel monitor"
-        line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
+#    - name: Edit Redis Sentinel monitor configuration
+#      lineinfile:
+#        path: "{{ redis_home }}/conf/sentinel.conf"
+#        regexp: "^sentinel monitor"
+#        line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
 
