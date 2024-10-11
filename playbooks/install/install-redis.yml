@@ -93,8 +93,8 @@
         - "^protected-mode [a-z]{2,3}$": "protected-mode no"
         - "^port [0-9]{1,5}$": "port {{ redis.sentinel_port }}"
         - "^daemonize [a-z]{2,3}$": "daemonize yes"
-        - "^pidfile*": "pidfile {{ redis_home }}/redis-sentinel.pid"
-        - "^logfile*": "logfile {{ redis_home }}/logs/redis-sentinel.log"
+        - "^pidfile*": "pidfile \"{{ redis_home }}/redis-sentinel.pid\""
+        - "^logfile*": "logfile \"{{ redis_home }}/logs/redis-sentinel.log\""
         - "^masterauth": "masterauth \"{{ redis.requirepass }}\""
         - "^requirepass": "requirepass \"{{ redis.requirepass }}\""
     - name: Edit Redis Sentinel monitor configuration

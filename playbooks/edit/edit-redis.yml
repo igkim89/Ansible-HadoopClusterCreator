@@ -17,8 +17,8 @@
         - "^protected-mode": "protected-mode no"
         - "^port": "port {{ redis.port }}"
         - "^daemonize": "daemonize yes"
-        - "^pidfile*": "\"pidfile {{ redis_home }}/redis.pid\""
-        - "^logfile*": "\"logfile {{ redis_home }}/logs/redis.log\""
+        - "^pidfile*": "pidfile \"{{ redis_home }}/redis.pid\""
+        - "^logfile*": "logfile \"{{ redis_home }}/logs/redis.log\""
         - "^masterauth": "masterauth \"{{ redis.requirepass }}\""
         - "^requirepass": "requirepass \"{{ redis.requirepass }}\""
 
