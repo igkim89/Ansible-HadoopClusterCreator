@@ -19,6 +19,9 @@
         - "^daemonize": "daemonize yes"
         - "^pidfile*": "\"pidfile {{ redis_home }}/redis.pid\""
         - "^logfile*": "\"logfile {{ redis_home }}/logs/redis.log\""
+        - "^masterauth": "masterauth \"{{ redis.requirepass }}\""
+        - "^requirepass": "requirepass \"{{ redis.requirepass }}\""
+
 #    - name: Edit Redis Sentinel monitor configuration
 #      lineinfile:
 #        path: "{{ redis_home }}/conf/sentinel.conf"

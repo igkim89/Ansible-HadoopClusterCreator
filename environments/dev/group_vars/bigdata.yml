@@ -409,6 +409,7 @@ zeppelin:
 redis:
   port: 16379
   sentinel_port: 26379
+  requirepass: bigdata123
 
 ## RStudio 설정
 rstudio:
