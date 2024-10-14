@@ -410,6 +410,9 @@ redis:
   port: 16379
   sentinel_port: 26379
   requirepass: bigdata123!
+  sentinel_down_after_ms: 5000
+  sentinel_resolve_hostname: yes
+  sentinel_announce_hostname: yes
 
 ## RStudio 설정
 rstudio:

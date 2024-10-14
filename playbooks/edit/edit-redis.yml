@@ -22,9 +22,14 @@
         - "^masterauth": "masterauth \"{{ redis.requirepass }}\""
         - "^requirepass": "requirepass \"{{ redis.requirepass }}\""
 
-#    - name: Edit Redis Sentinel monitor configuration
-#      lineinfile:
-#        path: "{{ redis_home }}/conf/sentinel.conf"
-#        regexp: "^sentinel monitor"
-#        line: "sentinel monitor mymaster {{ hostvars[groups['redis'][0]]['ansible_default_ipv4']['address'] }} {{ redis.port }} 2"
-
+    - name: Edit Redis Sentinel monitor configuration
+      lineinfile:
+        path: "{{ redis_home }}/conf/sentinel.conf"
+        regexp: "{{ item.key }}"
+        line: "{{ item.value }}"
+      with_dict:
+        - "^sentinel auth-pass": "sentinel auth-pass mymaster {{ redis.requirepass }}"
+        - "^requirepass": "requirepass \"{{ redis.requirepass }}\""
+        - "^sentinel down-after-milliseconds": "sentinel down-after-milliseconds mymaster {{ redis.sentinel_down_after_ms }}"
+        - "^sentinel resolve-hostnames": "sentinel resolve-hostnames {{ redis.sentinel_resolve_hostname }}"
+        - "^sentinel announce-hostnames": "sentinel announce-hostnames {{ redis.sentinel_announce_hostname }}"
