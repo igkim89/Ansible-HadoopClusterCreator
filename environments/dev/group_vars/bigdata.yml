@@ -506,3 +506,5 @@ ai:
     port: 19530
   milvusdb_connection:
     port: 10000
+  news_filter_service_monitor:
+    port: 9243

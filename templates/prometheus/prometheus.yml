@@ -473,3 +473,9 @@ scrape_configs:
         replacement: {{ groups['blackbox-exporter'][0] }}:{{ blackbox_exporter.port }}
 
 
+  ## AI news filtering service monitoring
+  - job_name: "ai-news-filter-service-monitor"
+    static_configs:
+      - targets: [{% for anf in groups['ai-news-filter-service-monitor'] %}{% if anf != groups['ai-news-filter-service-monitor'][0] %},{% endif %}'{{ anf }}:{{ ai.news_filter_service_monitor.port }}'{% endfor %}]
+
+
