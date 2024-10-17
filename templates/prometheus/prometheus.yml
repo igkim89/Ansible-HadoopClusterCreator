@@ -1,6 +1,6 @@
 # my global config
 global:
-  scrape_interval: {{ prometheus.scrape_interval }} # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  scrape_interval: {{ prometheus.scrape_interval.global }} # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
   query_log_file: {{ bigdata_home }}/prometheus/logs/query.log
@@ -30,6 +30,7 @@ scrape_configs:
       - targets: ['localhost:{{ prometheus.web_port }}']
 
   - job_name: "node-exporter"
+    scrape_interval: {{ prometheus.scrape_interval.nodeexporter }}
     static_configs:
       - targets: [{% for ne in groups['node-exporter'] %}{% if ne != groups['node-exporter'][0] %},{% endif %}'{{ ne }}:{{ node_exporter.port }}'{% endfor %}]
 
@@ -348,6 +349,7 @@ scrape_configs:
 
   ## AI Cluster NodeExporter
   - job_name: "ai-node-exporter"
+    scrape_interval: {{ prometheus.scrape_interval.ai_nodeexporter }}
     static_configs:
       - targets: [{% for ane in groups['ai-node-exporter'] %}{% if ane != groups['ai-node-exporter'][0] %},{% endif %}'{{ ane }}:{{ ai.node_exporter.port }}'{% endfor %}]
 
@@ -475,6 +477,7 @@ scrape_configs:
 
   ## AI news filtering service monitoring
   - job_name: "ai-news-filter-service-monitor"
+    scrape_interval: {{ prometheus.scrape_interval.ai_news_filter_service_monitor }}
     static_configs:
       - targets: [{% for anf in groups['ai-news-filter-service-monitor'] %}{% if anf != groups['ai-news-filter-service-monitor'][0] %},{% endif %}'{{ anf }}:{{ ai.news_filter_service_monitor.port }}'{% endfor %}]
 

@@ -423,7 +423,11 @@ prometheus:
   web_port: 50074
   tsdb_path: /data/prometheus
   tsdb_retention_time: 90d
-  scrape_interval: 5s
+  scrape_interval:
+    global: 5s
+    nodeexporter: 1m
+    ai_nodeexporter: 1m
+    ai_news_filter_service_monitor: 1m
 
 ## NodeExporter 설정
 node_exporter:
