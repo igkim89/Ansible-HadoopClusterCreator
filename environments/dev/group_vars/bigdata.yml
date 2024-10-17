@@ -425,8 +425,8 @@ prometheus:
   tsdb_retention_time: 90d
   scrape_interval:
     global: 5s
-    nodeexporter: 1m
-    ai_nodeexporter: 1m
+    nodeexporter: 30s
+    ai_nodeexporter: 30s
     ai_news_filter_service_monitor: 1m
 
 ## NodeExporter 설정
