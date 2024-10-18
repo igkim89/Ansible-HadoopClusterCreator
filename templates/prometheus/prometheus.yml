@@ -477,6 +477,7 @@ scrape_configs:
 
   ## AI news filtering service monitoring
   - job_name: "ai-news-filter-service-monitor"
+    metrics_path: /metrics
     scrape_interval: {{ prometheus.scrape_interval.ai_news_filter_service_monitor }}
     static_configs:
       - targets: [{% for anf in groups['ai-news-filter-service-monitor'] %}{% if anf != groups['ai-news-filter-service-monitor'][0] %},{% endif %}'{{ anf }}:{{ ai.news_filter_service_monitor.port }}'{% endfor %}]
