@@ -1,0 +1,53 @@
+---
+
+- name: Disable Ranger-HDFS Plugins
+  hosts: namenode:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hdfs_plugin_home: "{{ plugin_home }}/hdfs"
+  tasks:
+    - name: Disable Ranger HDFS Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hdfs_plugin_home }}/disable-hdfs-plugin.sh"
+      failed_when: False
+
+- name: Disable Ranger-YARN Plugins
+  hosts: resourcemanager:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    yarn_plugin_home: "{{ plugin_home }}/yarn"
+  tasks:
+    - name: Disable Ranger YARN Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ yarn_plugin_home }}/disable-yarn-plugin.sh"
+      failed_when: False
+
+- name: Disable Ranger-Hive Plugins
+  hosts: hive-server2:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hive_plugin_home: "{{ plugin_home }}/hive"
+  tasks:
+    - name: Disable Ranger Hive Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hive_plugin_home }}/disable-hive-plugin.sh"
+      failed_when: False
+
+- name: Disable Ranger-HBase Plugins
+  hosts: hbase:worker:&{{ variable_host }}
+  remote_user: "{{ remote_user }}"
+  become: no
+  vars:
+    plugin_home: "{{ bigdata_home }}/ranger_plugin"
+    hbase_plugin_home: "{{ plugin_home }}/hive"
+  tasks:
+    - name: Disable Ranger HBase Plugin
+      become: yes
+      shell: "export JAVA_HOME=\"{{ java_home }}\" && sh {{ hbase_plugin_home }}/disable-hbase-plugin.sh"
+      failed_when: False
