@@ -423,6 +423,7 @@ prometheus:
   web_port: 50074
   tsdb_path: /data/prometheus
   tsdb_retention_time: 90d
+  query_max_samples: 100000000
   scrape_interval:
     global: 5s
     nodeexporter: 30s
