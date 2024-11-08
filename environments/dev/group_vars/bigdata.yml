@@ -429,6 +429,7 @@ prometheus:
     nodeexporter: 30s
     ai_nodeexporter: 30s
     ai_news_filter_service_monitor: 1m
+    ai_dcgmexporter: 30s
 
 ## NodeExporter 설정
 node_exporter:
