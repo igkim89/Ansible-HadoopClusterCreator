@@ -483,3 +483,10 @@ scrape_configs:
       - targets: [{% for anf in groups['ai-news-filter-service-monitor'] %}{% if anf != groups['ai-news-filter-service-monitor'][0] %},{% endif %}'{{ anf }}:{{ ai.news_filter_service_monitor.port }}'{% endfor %}]
 
 
+  ## AI Platform GPU Resource (dcgm-exporter)
+  - job_name: "ai-dcgm-exporter"
+    metrics_path: /metrics
+    scrape_interval: {{ prometheus.scrape_interval.ai_news_filter_service_monitor }}
+    static_configs:
+      - targets: [{% for ade in groups['ai-dcgm-exporter'] %}{% if ade != groups['ai-dcgm-exporter'][0] %},{% endif %}'{{ ade }}:{{ ai.dcgm_exporter }}'{% endfor %}]
+

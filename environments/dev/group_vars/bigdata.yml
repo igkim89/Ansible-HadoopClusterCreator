@@ -513,3 +513,5 @@ ai:
     port: 10000
   news_filter_service_monitor:
     port: 9243
+  dcgm_exporter:
+    port: 9400
