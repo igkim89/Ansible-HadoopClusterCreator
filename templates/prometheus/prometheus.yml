@@ -488,5 +488,5 @@ scrape_configs:
     metrics_path: /metrics
     scrape_interval: {{ prometheus.scrape_interval.ai_dcgmexporter }}
     static_configs:
-      - targets: [{% for ade in groups['ai-dcgm-exporter'] %}{% if ade != groups['ai-dcgm-exporter'][0] %},{% endif %}'{{ ade }}:{{ ai.dcgm_exporter }}'{% endfor %}]
+      - targets: [{% for ade in groups['ai-dcgm-exporter'] %}{% if ade != groups['ai-dcgm-exporter'][0] %},{% endif %}'{{ ade }}:{{ ai.dcgm_exporter.port }}'{% endfor %}]
 
