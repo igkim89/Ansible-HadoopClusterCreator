@@ -14,6 +14,7 @@
         state: directory
         owner: "{{ remote_user }}"
         group: "{{ remote_user }}"
+      failed_when: false
     - name: Copy installer
       copy:
         src: "{{ installer_home }}/prometheus/{{ installer.node_exporter }}"
