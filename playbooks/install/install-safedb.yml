@@ -15,4 +15,12 @@
         group: "{{ remote_user }}"
       with_items:
         - "SafeDBAccess.properties"
+        - "SafeDBAccess.properties_01"
+        - "SafeDBAccess.properties_01_1"
+        - "SafeDBAccess.properties_01_2"
+        - "SafeDBAccess.properties_01_3"
+        - "SafeDBAccess.properties_02"
+        - "SafeDBAccess.properties_02_1"
+        - "SafeDBAccess.properties_02_2"
+        - "SafeDBAccess.properties_02_3"
 
