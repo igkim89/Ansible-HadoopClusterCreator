@@ -40,4 +40,4 @@ safedb.daemon.num=1
 
 safedb.daemon.ip.1={{ safedb.daemon_ip_2 }}
 safedb.daemon.port.1={{ safedb.port_2 }}
-safedb.socket.timeout.2=30000
+safedb.socket.timeout.1=30000
