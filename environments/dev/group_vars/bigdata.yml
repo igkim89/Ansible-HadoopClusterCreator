@@ -492,6 +492,7 @@ ranger:
 safedb:
   daemon_ip: 172.22.5.109
   daemon_ip_2:
+  daemon_ip_3:
   port_1: 5999
   port_2: 6999
   port_3: 7999

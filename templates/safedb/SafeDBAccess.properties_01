@@ -38,14 +38,14 @@ safedb.use.nonproven=y
 #safedb.daemon.num=10
 safedb.daemon.num=3
 
-safedb.daemon.ip.1={{ safedb.daemon_ip }}
+safedb.daemon.ip.1={{ safedb.daemon_ip_2 }}
 safedb.daemon.port.1={{ safedb.port_1 }}
 safedb.socket.timeout.1=30000
 
-safedb.daemon.ip.2={{ safedb.daemon_ip }}
+safedb.daemon.ip.2={{ safedb.daemon_ip_2 }}
 safedb.daemon.port.2={{ safedb.port_2 }}
 safedb.socket.timeout.2=30000
 
-safedb.daemon.ip.3={{ safedb.daemon_ip }}
+safedb.daemon.ip.3={{ safedb.daemon_ip_2 }}
 safedb.daemon.port.3={{ safedb.port_3 }}
 safedb.socket.timeout.3=30000
