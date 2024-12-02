@@ -292,6 +292,7 @@ spark:
   hive_hbase_handler_v2: true
   yarn_am_waittime: 30s
   yarn_am_attempt_failures_validity_interval: 600s
+  network_timeout: 300s
   history:
     update_interval: "5s"
     ui_port: 18088
