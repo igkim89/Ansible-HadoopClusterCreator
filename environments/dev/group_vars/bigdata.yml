@@ -519,3 +519,5 @@ ai:
     port: 9243
   dcgm_exporter:
     port: 9400
+  summary3:
+    port: 18889
